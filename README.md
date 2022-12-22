@@ -1,9 +1,9 @@
-# Your Project's Title...
-Your project's description...
+# Keysight Blog
 
 ## Environments
-- Preview: https://main--{repo}--{owner}.hlx.page/
-- Live: https://main--{repo}--{owner}.hlx.live/
+- Preview: https://main--blogs-keysight--hlxsites.hlx.page/
+- Live: https://main--blogs-keysight--hlxsites.hlx.live/
+- Prod: https://blogs.keysight.com
 
 ## Installation
 
