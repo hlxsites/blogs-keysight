@@ -1,14 +1,21 @@
 footer {
-  padding: 2rem;
-  background-color: var(--overlay-background-color);
-  font-size: var(--body-font-size-s);
+  --footer-background-color: var(--color-gray-100);
+  --footer-text-color: var(--color-gray-300);
+
+  background-color: var(--footer-background-color);
 }
 
 footer .footer {
-  max-width: 1200px;
+  color: var(--footer-text-color);
+  max-width: var(--section-max-width);
   margin: auto;
+  min-height: 12rem;
+  display: flex;
+  align-items: center;
 }
 
-footer .footer p {
-  margin: 0;
+footer .footer ul {
+  font-size: var(--body-font-size-s);
+  list-style: none;
+  margin: 0 1rem;
 }

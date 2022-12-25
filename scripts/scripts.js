@@ -13,17 +13,71 @@ import {
   loadCSS,
 } from './lib-franklin.js';
 
-const LCP_BLOCKS = []; // add your LCP blocks to the list
+const LCP_BLOCKS = ['hero']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
+window.keysight = window.keysight || {};
+window.keysight.pages = window.keysight.pages || [];
+window.keysight.delayed = window.keysight.delayed || [];
+
+export function createElement(tagName, id, classes) {
+  const elem = document.createElement(tagName);
+  if (id) {
+    elem.id = id;
+  }
+  if (classes) {
+    const classesArr = (typeof classes === 'string') ? [classes] : classes;
+    elem.classList.add(...classesArr);
+  }
+
+  return elem;
+}
+
+/**
+ * Wraps images followed by links within a matching <a> tag.
+ * @param {Element} container The container element
+ */
+export function wrapImgsInLinks(container) {
+  const pictures = container.querySelectorAll('p picture');
+  pictures.forEach((pic) => {
+    const parent = pic.parentNode;
+    const link = parent.nextElementSibling.querySelector('a');
+    if (link && link.textContent.includes(link.getAttribute('href'))) {
+      link.parentElement.remove();
+      link.innerHTML = pic.outerHTML;
+      parent.replaceWith(link);
+    }
+  });
+}
+
+export async function getPages() {
+  if (window.keysight.pages === undefined || window.keysight.pages.length === 0) {
+    const resp = await fetch('/query-index.json');
+    window.keysight.pages = await resp.json();
+  }
+  return window.keysight.pages;
+}
 
 function buildHeroBlock(main) {
   const h1 = main.querySelector('h1');
   const picture = main.querySelector('picture');
   // eslint-disable-next-line no-bitwise
   if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
-    const section = document.createElement('div');
-    section.append(buildBlock('hero', { elems: [picture, h1] }));
-    main.prepend(section);
+    const section = h1.closest('div');
+    const elems = [picture, h1];
+    const desc = h1.parentElement.querySelector('h1 + p');
+    if (desc) {
+      elems.push(desc);
+      const buttons = h1.parentElement.querySelector('h1 + p + .button-container');
+      if (buttons) {
+        elems.push(buttons);
+      }
+    } else {
+      const buttons = h1.parentElement.querySelector('h1 + .button-container');
+      if (buttons) {
+        elems.push(buttons);
+      }
+    }
+    section.append(buildBlock('hero', { elems }));
   }
 }
 
@@ -72,7 +126,7 @@ async function loadEager(doc) {
  * @param {string} href The favicon URL
  */
 export function addFavIcon(href) {
-  const link = document.createElement('link');
+  const link = createElement('link');
   link.rel = 'icon';
   link.type = 'image/svg+xml';
   link.href = href;
@@ -99,7 +153,7 @@ async function loadLazy(doc) {
   loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
-  addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.svg`);
+  addFavIcon(`${window.hlx.codeBasePath}/icons/favicon.ico`);
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
   sampleRUM.observe(main.querySelectorAll('picture > img'));
