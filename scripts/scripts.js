@@ -19,6 +19,13 @@ window.keysight = window.keysight || {};
 window.keysight.pages = window.keysight.pages || [];
 window.keysight.delayed = window.keysight.delayed || [];
 
+/**
+ * Create an element with the given id and classes.
+ * @param {string} tagName the tag
+ * @param {string} id the id
+ * @param {string[]|string} classes the class or classes to add
+ * @returns the element
+ */
 export function createElement(tagName, id, classes) {
   const elem = document.createElement(tagName);
   if (id) {
@@ -49,6 +56,9 @@ export function wrapImgsInLinks(container) {
   });
 }
 
+/**
+ * Get the list of pages from the query index
+ */
 export async function getPages() {
   if (window.keysight.pages === undefined || window.keysight.pages.length === 0) {
     const resp = await fetch('/query-index.json');
@@ -60,6 +70,7 @@ export async function getPages() {
 function buildHeroBlock(main) {
   const h1 = main.querySelector('h1');
   const picture = main.querySelector('picture');
+  const pictureParent = picture.parentElement;
   // eslint-disable-next-line no-bitwise
   if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
     const section = h1.closest('div');
@@ -78,6 +89,10 @@ function buildHeroBlock(main) {
       }
     }
     section.append(buildBlock('hero', { elems }));
+    // picture was likely wrapped in a p that is now empty, so remove that
+    if (pictureParent.innerText.trim() === '') {
+      pictureParent.remove();
+    }
   }
 }
 
