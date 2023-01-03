@@ -74,7 +74,6 @@ function createMetadataBlock(post, document) {
   // helper to create the metadata block
   const block = WebImporter.Blocks.getMetadataBlock(document, meta);
 
-  // returning the meta object might be usefull to other rules
   return block;
 }
 
@@ -106,9 +105,11 @@ function generateBlogPost(document) {
 
   post.append(document.querySelector('div.rte-body-blog-post'));
 
-  post.append(sectionBreak.cloneNode(true));
-
-  post.append(document.querySelector('div.related-content'));
+  const related = document.querySelector('div.related-content');
+  if (related) {
+    post.append(sectionBreak.cloneNode(true));
+    post.append(related);
+  }
 
   const metaBlock = createMetadataBlock(post, document);
   post.append(metaBlock);
