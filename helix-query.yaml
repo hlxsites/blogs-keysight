@@ -34,7 +34,7 @@ indices:
         select: head > meta[name="robots"]
         value: attribute(el, "content")
       date:
-        select: head > meta[name="date"]
+        select: head > meta[name="publication-date"]
         value: parseTimestamp(attribute(el, "content"), "YYYY-MM-DD")
       readtime:
         select: head > meta[name="readtime"]
