@@ -64,7 +64,7 @@ function createMetadataBlock(post, document) {
       const dateRegex = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
       const timeRegex = /^[0-9]{1,2} min read$/;
       if (dateRegex.test(partContent)) {
-        meta.date = partContent;
+        meta['publication date'] = partContent;
       } else if (timeRegex.test(partContent)) {
         meta.readTime = partContent;
       }
