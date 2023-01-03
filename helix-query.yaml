@@ -35,7 +35,7 @@ indices:
         value: attribute(el, "content")
       date:
         select: head > meta[name="date"]
-        value: parseTimestamp(attribute(el, "content"), "YYYY--MM-DD")
+        value: parseTimestamp(attribute(el, "content"), "YYYY-MM-DD")
       readtime:
         select: head > meta[name="readtime"]
         value: attribute(el, "content")
