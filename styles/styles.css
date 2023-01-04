@@ -66,7 +66,7 @@ html {
 
 *,
 *::after,
-*::backdrop {
+*::before {
   box-sizing: border-box;
 }
 
