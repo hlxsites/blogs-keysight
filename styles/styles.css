@@ -88,9 +88,9 @@ header {
   height: var(--nav-height);
 }
 
-header .header:not(.appear)
-footer .footer:not(.appear) {
-  display: none;
+footer .footer:not(.appear)
+header .header:not(.appear) {
+  visibility: hidden;
 }
 
 /* progressive section appearance */
