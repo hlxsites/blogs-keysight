@@ -11,7 +11,18 @@
  */
 /* global WebImporter */
 /* eslint-disable no-console, class-methods-use-this */
-function createMetadataBlock(post, document) {
+function titleToName(title) {
+  let name = title.toLowerCase();
+  name = name.trim().replaceAll(' ', '-');
+  name = name.replace(/[^a-zA-Z0-9-]/g, '');
+  while (name.indexOf('--') > -1) {
+    name = name.replace('--', '-');
+  }
+
+  return name;
+}
+
+function createBlogPostMetadataBlock(post, document) {
   const meta = {};
 
   // find the <title> element
@@ -54,7 +65,9 @@ function createMetadataBlock(post, document) {
     tags.forEach((tag) => {
       metaTags.push(tag.textContent);
     });
-    meta.tags = metaTags;
+    if (metaTags.length > 0) {
+      meta.tags = metaTags;
+    }
   }
 
   const blogDate = document.querySelector('.blog-date');
@@ -75,6 +88,102 @@ function createMetadataBlock(post, document) {
   const block = WebImporter.Blocks.getMetadataBlock(document, meta);
 
   return block;
+}
+
+function generateBlogPostPath(blogPostElement, url) {
+  const path = new URL(url).pathname.replace(/\.html$/, '').replace(/\/$/, '');
+  const pathSegments = path.split('/');
+  if (pathSegments.length === 8) {
+    const blogs = pathSegments[1];
+    const topicCode = pathSegments[2];
+    const subTopicPath = pathSegments[3];
+    const subTopicCode = subTopicPath.split('.')[0];
+    const year = pathSegments[4];
+    const month = pathSegments[5];
+    const day = pathSegments[6];
+    const name = titleToName(blogPostElement.querySelector('h1.blog-title').textContent);
+
+    const finalPath = `/${blogs}/${topicCode}/${subTopicCode}/${year}/${month}/${day}/${name}`;
+    return finalPath;
+  }
+  if (pathSegments.length === 7) {
+    const blogs = pathSegments[1];
+    const topicPath = pathSegments[2];
+    const topicCode = topicPath.split('.')[0];
+    const year = pathSegments[3];
+    const month = pathSegments[4];
+    const day = pathSegments[5];
+    const name = titleToName(blogPostElement.querySelector('h1.blog-title').textContent);
+
+    const finalPath = `/${blogs}/${topicCode}/${year}/${month}/${day}/${name}`;
+    return finalPath;
+  }
+
+  return path;
+}
+
+function generateAuthorPath(authorContent, url) {
+  const path = new URL(url).pathname.replace(/\.html$/, '').replace(/\/$/, '');
+  const pathSegments = path.split('/');
+  const blogs = pathSegments[1];
+  const name = titleToName(authorContent.querySelector('h1#bio-name').textContent);
+
+  const finalPath = `/${blogs}/authors/${name}`;
+  return finalPath;
+}
+
+function generateAuthor(document, url) {
+  const author = document.createElement('div');
+  const meta = {
+    template: 'author',
+  };
+
+  const name = document.querySelector('#bio-name');
+  if (name) {
+    meta.title = name.textContent;
+    author.append(name);
+  }
+
+  const title = document.querySelector('#bio-title');
+  if (title) {
+    meta.authorTitle = title.textContent;
+    author.append(title);
+  }
+
+  const img = document.createElement('img');
+  const profileUrlStart = url.indexOf('/home');
+  const profileUrlEnd = url.indexOf('?host');
+  const profileUrl = url.substr(profileUrlStart, profileUrlEnd - profileUrlStart);
+  img.src = `${profileUrl}/photos/primary/image.prof.48.png`;
+  meta.image = img.cloneNode(true);
+  author.append(img);
+
+  const social = document.querySelector('#bio-social');
+  if (social) {
+    const socialList = document.createElement('ul');
+    social.querySelectorAll('a').forEach((link) => {
+      const li = document.createElement('li');
+      li.append(link);
+      if (!link.href.startsWith('http')) {
+        link.href = `https://${link.href}`;
+      }
+      link.textContent = link.href;
+      socialList.append(li);
+    });
+    author.append(socialList);
+  }
+  author.append(document.querySelector('#bio-desc'));
+
+  const cells = [
+    ['Post Cards'],
+  ];
+  const postCardsBlock = WebImporter.DOMUtils.createTable(cells, document);
+  author.append(postCardsBlock);
+
+  const metaBlock = WebImporter.Blocks.getMetadataBlock(document, meta);
+  author.append(metaBlock);
+
+  return author;
 }
 
 function generateBlogPost(document) {
@@ -111,7 +220,7 @@ function generateBlogPost(document) {
     post.append(related);
   }
 
-  const metaBlock = createMetadataBlock(post, document);
+  const metaBlock = createBlogPostMetadataBlock(post, document);
   post.append(metaBlock);
 
   return post;
@@ -119,63 +228,41 @@ function generateBlogPost(document) {
 
 export default {
   /**
-   * Apply DOM operations to the provided document and return
-   * the root element to be then transformed to Markdown.
+   * Apply DOM operations to the provided document and return an array of
+   * objects ({ element: HTMLElement, path: string }) to be transformed to Markdown.
    * @param {HTMLDocument} document The document
    * @param {string} url The url of the page imported
    * @param {string} html The raw html (the document is cleaned up during preprocessing)
    * @param {object} params Object containing some parameters given by the import process.
-   * @returns {HTMLElement} The root element to be transformed
+   * @returns {Array} The { element, path } pairs to be transformed
    */
-  transformDOM: ({
+  transform: ({
     // eslint-disable-next-line no-unused-vars
     document, url, html, params,
   }) => {
-    const blogPostContent = generateBlogPost(document);
-    return blogPostContent;
-  },
-
-  /**
-   * Return a path that describes the document being transformed (file name, nesting...).
-   * The path is then used to create the corresponding Word document.
-   * @param {HTMLDocument} document The document
-   * @param {string} url The url of the page imported
-   * @param {string} html The raw html (the document is cleaned up during preprocessing)
-   * @param {object} params Object containing some parameters given by the import process.
-   * @return {string} The path
-   */
-  generateDocumentPath: ({
-    // eslint-disable-next-line no-unused-vars
-    document, url, html, params,
-  }) => {
-    const path = new URL(url).pathname.replace(/\.html$/, '').replace(/\/$/, '');
-    const pathSegments = path.split('/');
-    if (pathSegments.length === 8) {
-      const blogs = pathSegments[1];
-      const topicCode = pathSegments[2];
-      const subTopicPath = pathSegments[3];
-      const subTopicCode = subTopicPath.split('.')[0];
-      const year = pathSegments[4];
-      const month = pathSegments[5];
-      const day = pathSegments[6];
-      const name = pathSegments[7];
-
-      const finalPath = `/${blogs}/${topicCode}/${subTopicCode}/${year}/${month}/${day}/${name}`;
-      return finalPath;
-    }
-    if (pathSegments.length === 7) {
-      const blogs = pathSegments[1];
-      const topicPath = pathSegments[2];
-      const topicCode = topicPath.split('.')[0];
-      const year = pathSegments[3];
-      const month = pathSegments[4];
-      const day = pathSegments[5];
-      const name = pathSegments[6];
-
-      const finalPath = `/${blogs}/${topicCode}/${year}/${month}/${day}/${name}`;
-      return finalPath;
+    const blogRte = document.querySelector('div.rte-body-blog-post');
+    if (blogRte) {
+      const blogPostElement = generateBlogPost(document);
+      const blogPostPath = generateBlogPostPath(blogPostElement, url);
+      return [{
+        element: blogPostElement,
+        path: blogPostPath,
+      }];
     }
 
-    return path;
+    // not a blog post, todo handle other page types
+    const authorBio = document.querySelector('.authorbio');
+    if (authorBio) {
+      const authorContent = generateAuthor(document, url);
+      return [{
+        element: authorContent,
+        path: generateAuthorPath(authorContent, url),
+      }];
+    }
+
+    return [{
+      element: document.querySelector('#mainsection'),
+      path: new URL(url).pathname.replace(/\.html$/, '').replace(/\/$/, ''),
+    }];
   },
 };
