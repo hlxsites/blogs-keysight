@@ -22,74 +22,6 @@ function titleToName(title) {
   return name;
 }
 
-function createBlogPostMetadataBlock(post, document) {
-  const meta = {};
-
-  // find the <title> element
-  const title = document.querySelector('title');
-  if (title) {
-    meta.Title = title.innerHTML.replace(/[\n\t]/gm, '');
-  }
-
-  // find the <meta property="og:description"> element
-  const desc = document.querySelector('meta[name="description"]');
-  if (desc) {
-    meta.Description = desc.content;
-  }
-
-  // find the <meta property="og:image"> element or blog hero
-  const blogHeroImg = post.querySelector('img.hero-img');
-  if (blogHeroImg) {
-    meta.Image = blogHeroImg.cloneNode(true);
-  } else {
-    const img = document.querySelector('[property="og:image"]');
-    if (img) {
-      // create an <img> element
-      const el = document.createElement('img');
-      el.src = img.content;
-      meta.Image = el;
-    }
-  }
-
-  const author = document.querySelector('.author-name');
-  if (author) {
-    const authorName = author.textContent;
-    if (authorName) {
-      meta.author = authorName;
-    }
-  }
-
-  const tags = document.querySelectorAll('.blog-post-tags ul > li');
-  const metaTags = [];
-  if (tags) {
-    tags.forEach((tag) => {
-      metaTags.push(tag.textContent);
-    });
-    if (metaTags.length > 0) {
-      meta.tags = metaTags;
-    }
-  }
-
-  const blogDate = document.querySelector('.blog-date');
-  if (blogDate) {
-    blogDate.textContent.trim().split('|').forEach((part) => {
-      const partContent = part.trim();
-      const dateRegex = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
-      const timeRegex = /^[0-9]{1,2} min read$/;
-      if (dateRegex.test(partContent)) {
-        meta['publication date'] = partContent;
-      } else if (timeRegex.test(partContent)) {
-        meta.readTime = partContent;
-      }
-    });
-  }
-
-  // helper to create the metadata block
-  const block = WebImporter.Blocks.getMetadataBlock(document, meta);
-
-  return block;
-}
-
 function generateBlogPostPath(blogPostElement, url) {
   const path = new URL(url).pathname.replace(/\.html$/, '').replace(/\/$/, '');
   const pathSegments = path.split('/');
@@ -174,8 +106,13 @@ function generateAuthor(document, url) {
   }
   author.append(document.querySelector('#bio-desc'));
 
+  const sectionBreak = document.createElement('p');
+  sectionBreak.innerHTML = '---';
+  author.append(sectionBreak);
+
   const cells = [
     ['Post Cards'],
+    ['filter', 'author'],
   ];
   const postCardsBlock = WebImporter.DOMUtils.createTable(cells, document);
   author.append(postCardsBlock);
@@ -188,6 +125,7 @@ function generateAuthor(document, url) {
 
 function generateBlogPost(document) {
   const post = document.createElement('div');
+  const meta = {};
 
   // get the hero image and append it
   const heroBlog = document.querySelector('.hero-blog');
@@ -202,15 +140,19 @@ function generateBlogPost(document) {
     const img = WebImporter.DOMUtils.replaceBackgroundByImg(heroBlog, document);
     img.classList.add('hero-img');
     post.append(img);
+    meta.Image = img.cloneNode(true);
   }
-
-  const title = document.querySelector('h1.blog-title');
-  post.append(title);
 
   const sectionBreak = document.createElement('p');
   sectionBreak.innerHTML = '---';
 
   post.append(sectionBreak);
+
+  const title = document.querySelector('h1.blog-title');
+  meta.Title = title.textContent;
+  post.append(title);
+
+  post.append(sectionBreak.cloneNode(true));
 
   post.append(document.querySelector('div.rte-body-blog-post'));
 
@@ -220,7 +162,59 @@ function generateBlogPost(document) {
     post.append(related);
   }
 
-  const metaBlock = createBlogPostMetadataBlock(post, document);
+  post.append(sectionBreak.cloneNode(true));
+
+  const h3 = document.createElement('h3');
+  h3.textContent = 'Related Posts';
+  post.append(h3);
+
+  const cells = [
+    ['Post Cards'],
+    ['filter', 'tags'],
+    ['limit', '3'],
+  ];
+  const postCardsBlock = WebImporter.DOMUtils.createTable(cells, document);
+  post.append(postCardsBlock);
+
+  const desc = document.querySelector('meta[name="description"]');
+  if (desc) {
+    meta.Description = desc.content;
+  }
+
+  const author = document.querySelector('.author-name');
+  if (author) {
+    const authorName = author.textContent;
+    if (authorName) {
+      meta.author = authorName;
+    }
+  }
+
+  const tags = document.querySelectorAll('.blog-post-tags ul > li');
+  const metaTags = [];
+  if (tags) {
+    tags.forEach((tag) => {
+      metaTags.push(tag.textContent);
+    });
+    if (metaTags.length > 0) {
+      meta.tags = metaTags;
+    }
+  }
+
+  const blogDate = document.querySelector('.blog-date');
+  if (blogDate) {
+    blogDate.textContent.trim().split('|').forEach((part) => {
+      const partContent = part.trim();
+      const dateRegex = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
+      const timeRegex = /^[0-9]{1,2} min read$/;
+      if (dateRegex.test(partContent)) {
+        meta['publication date'] = partContent;
+      } else if (timeRegex.test(partContent)) {
+        meta.readTime = partContent;
+      }
+    });
+  }
+
+  const metaBlock = WebImporter.Blocks.getMetadataBlock(document, meta);
   post.append(metaBlock);
 
   return post;
@@ -250,7 +244,6 @@ export default {
       }];
     }
 
-    // not a blog post, todo handle other page types
     const authorBio = document.querySelector('.authorbio');
     if (authorBio) {
       const authorContent = generateAuthor(document, url);
