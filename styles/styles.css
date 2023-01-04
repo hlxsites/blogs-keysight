@@ -85,7 +85,7 @@ body.appear {
 }
 
 header {
-  min-height: var(--nav-height);
+  height: var(--nav-height);
 }
 
 header .header:not(.appear)
