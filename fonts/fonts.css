@@ -9,7 +9,10 @@
         Copyright (C) 2021 Schwartzco Inc.
         License: 2104-ISPIUW     
 */
-@font-face {
+
+/* commetned out declarations because they aren't actually used */
+
+/* @font-face {
   font-family: 'Graphik Cond Web';
   src: url('GraphikCondensed-SuperItalic-Web.woff2') format('woff2'),
        url('GraphikCondensed-SuperItalic-Web.woff') format('woff');
@@ -188,9 +191,9 @@
   font-style:   normal;
   font-stretch: normal;
   font-display: swap;
-}
+} */
 
-@font-face {
+/* @font-face {
   font-family: 'Graphik LC Web';
   src: url('Graphik-SuperItalic-Cy-Web.woff2') format('woff2'),
        url('Graphik-SuperItalic-Cy-Web.woff') format('woff');
@@ -237,7 +240,7 @@
   font-style:   italic;
   font-stretch: normal;
   font-display: swap;
-}
+} */
 
 @font-face {
   font-family: 'Graphik LC Web';
@@ -249,7 +252,7 @@
   font-display: swap;
 }
 
-@font-face {
+/* @font-face {
   font-family: 'Graphik LC Web';
   src: url('Graphik-SemiboldItalic-Cy-Web.woff2') format('woff2'),
        url('Graphik-SemiboldItalic-Cy-Web.woff') format('woff');
@@ -257,7 +260,7 @@
   font-style:   italic;
   font-stretch: normal;
   font-display: swap;
-}
+} */
 
 @font-face {
   font-family: 'Graphik LC Web';
@@ -309,7 +312,7 @@
   font-display: swap;
 }
 
-@font-face {
+/* @font-face {
   font-family: 'Graphik LC Web';
   src: url('Graphik-LightItalic-Cy-Web.woff2') format('woff2'),
        url('Graphik-LightItalic-Cy-Web.woff') format('woff');
@@ -317,7 +320,7 @@
   font-style:   italic;
   font-stretch: normal;
   font-display: swap;
-}
+} */
 
 @font-face {
   font-family: 'Graphik LC Web';
@@ -329,7 +332,7 @@
   font-display: swap;
 }
 
-@font-face {
+/* @font-face {
   font-family: 'Graphik LC Web';
   src: url('Graphik-ExtralightItalic-Cy-Web.woff2') format('woff2'),
        url('Graphik-ExtralightItalic-Cy-Web.woff') format('woff');
@@ -367,4 +370,4 @@
   font-style:   normal;
   font-stretch: normal;
   font-display: swap;
-}
+} */
