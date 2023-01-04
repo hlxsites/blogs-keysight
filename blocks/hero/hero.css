@@ -1,0 +1,4 @@
+main .section > div.hero-wrapper {
+  max-width: unset;
+  padding: 0;
+}

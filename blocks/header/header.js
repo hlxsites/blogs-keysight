@@ -38,15 +38,30 @@ export default async function decorate(block) {
       if (section) section.classList.add(`nav-${e}`);
     });
 
-    const navSections = [...nav.children][1];
+    const navSections = [...nav.children][2];
     if (navSections) {
       navSections.querySelectorAll(':scope > ul > li').forEach((navSection) => {
-        if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
-        navSection.addEventListener('click', () => {
-          const expanded = navSection.getAttribute('aria-expanded') === 'true';
-          collapseAllNavSections(navSections);
-          navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-        });
+        if (navSection.querySelector('ul')) {
+          const navSectionLink = navSection.querySelector('a');
+
+          const navSectionLinkClone = navSectionLink.cloneNode(true);
+          const navSectionLi = document.createElement('li');
+          navSectionLinkClone.insertAdjacentHTML('beforeend', '<span class="icon icon-chevron-right"></span>');
+          navSectionLi.append(navSectionLinkClone);
+          navSection.querySelector('ul').prepend(navSectionLi);
+
+          navSectionLink.insertAdjacentHTML('beforeend', '<span class="icon icon-chevron-down"></span>');
+
+          navSection.classList.add('nav-drop');
+          navSection.setAttribute('aria-expanded', 'false');
+
+          navSectionLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const expanded = navSection.getAttribute('aria-expanded') === 'true';
+            collapseAllNavSections(navSections);
+            navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+          });
+        }
       });
     }
 

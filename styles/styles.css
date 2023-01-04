@@ -18,8 +18,8 @@
   --color-gray-200: #dbd9dd;
   --color-gray-300: #524f56;
   --color-gray-400: #595959;
+  --color-gray-500: #262626;
   --color-red: #e90029;
-
   --background-color: var(--color-off-white);
   --text-color: var(--color-gray-400);
 
@@ -40,8 +40,14 @@
   --heading-font-size-xs: 2rem;
   
   /* misc */
-  --nav-height: 64px;
+  --nav-height: 5rem;
   --section-max-width: 1200px;
+}
+
+@media (min-width: 600px) {
+  :root {
+    --nav-height: 12rem;
+  }
 }
 
 @font-face {
@@ -79,11 +85,17 @@ body.appear {
 }
 
 header {
-  height: var(--nav-height);
+  min-height: var(--nav-height);
 }
 
 /* progressive section appearance */
 main .section[data-section-status='loading'],
 main .section[data-section-status='initialized'] {
   display: none;
+}
+
+main .section > div {
+  max-width: var(--section-max-width);
+  margin: auto;
+  padding: 0 2rem;
 }

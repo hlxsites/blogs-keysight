@@ -167,6 +167,7 @@ async function loadLazy(doc) {
   loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
 
+  loadCSS(`${window.hlx.codeBasePath}/fonts/fonts.css`);
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   addFavIcon(`${window.hlx.codeBasePath}/icons/favicon.ico`);
   sampleRUM('lazy');
