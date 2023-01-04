@@ -77,5 +77,6 @@ export default async function decorate(block) {
     decorateIcons(nav);
     wrapImgsInLinks(nav);
     block.append(nav);
+    block.classList.add('appear');
   }
 }
