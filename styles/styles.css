@@ -24,7 +24,7 @@
   --text-color: var(--color-gray-400);
 
   /* fonts */
-  --heading-font-family: "Graphik Cond Web", "Graphik Cond Web-fallback", sans-serif;
+  --heading-font-family: "Graphik LC Web", "Graphik LC Web-fallback", sans-serif;
   --body-font-family: var(--heading-font-family);
 
   /* body sizes */
@@ -51,7 +51,7 @@
 }
 
 @font-face {
-  font-family: 'Graphik Cond Web-fallback';
+  font-family: 'Graphik LC Web-fallback';
   src: local(arial);
   size-adjust: 106%;
   ascent-override: normal;
