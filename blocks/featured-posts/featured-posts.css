@@ -1,0 +1,59 @@
+main .featured-posts-container {
+  background-color: white;
+}
+
+main .featured-posts {
+  margin: 0;
+  padding: 2rem 0;
+}
+
+main .featured-posts .featured-posts-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  main .featured-posts .featured-posts-grid {
+    grid-auto-flow: column;
+    gap: 2rem;
+  }
+}
+
+main .featured-posts .featured-posts-grid .post {
+  display: flex;
+  gap: 1rem;
+  height: 75px;
+  overflow: hidden;
+}
+
+main .featured-posts .featured-posts-grid .post img {
+  width: 100px;
+  height: 70px;
+}
+
+main .featured-posts .featured-posts-grid .post .category {
+  margin: 0;
+  text-transform: uppercase;
+  font-size: var(--body-font-size-s);
+  color: var(--color-gray-600);
+  letter-spacing: .05em;
+  line-height: 1.3;
+}
+
+main .featured-posts .featured-posts-grid .post > div a {
+  /* stylelint-disable-next-line value-no-vendor-prefix */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--color-gray-300);
+  font-weight: 500;
+  font-size: var(--heading-font-size-xs);
+  line-height: 1.3;
+}
+
+main .featured-posts .featured-posts-grid .post > div a:hover {
+  text-decoration: underline;
+}
+
