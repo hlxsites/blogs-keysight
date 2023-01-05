@@ -16,4 +16,5 @@ export default async function decorate(block) {
   footer.innerHTML = html;
   await decorateIcons(footer);
   block.append(footer);
+  block.classList.add('appear');
 }

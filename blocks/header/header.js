@@ -12,11 +12,24 @@ function collapseAllNavSections(sections) {
   });
 }
 
+function buildSeachNav() {
+  const searchNav = createElement('div', '', 'search-nav');
+  searchNav.setAttribute('aria-expanded', false);
+
+  const searchForm = createElement('div', '', 'search-form');
+  searchForm.innerHTML = `
+    <input type="text" placeholder="Search Blogs" name="term" value="" autocomplete="off" />
+    <button id="header-search-submit">Search Blogs</button>
+  `;
+  searchNav.append(searchForm);
+
+  return searchNav;
+}
+
 /**
  * decorates the header, mainly the nav
  * @param {Element} block The header block element
  */
-
 export default async function decorate(block) {
   const cfg = readBlockConfig(block);
   block.textContent = '';
@@ -30,7 +43,6 @@ export default async function decorate(block) {
     // decorate nav DOM
     const nav = createElement('nav');
     nav.innerHTML = html;
-    decorateIcons(nav);
 
     const classes = ['brand', 'blog-home', 'sections', 'tools'];
     classes.forEach((e, j) => {
@@ -38,17 +50,49 @@ export default async function decorate(block) {
       if (section) section.classList.add(`nav-${e}`);
     });
 
-    const navSections = [...nav.children][1];
+    const navSections = [...nav.children][2];
     if (navSections) {
       navSections.querySelectorAll(':scope > ul > li').forEach((navSection) => {
-        if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
-        navSection.addEventListener('click', () => {
-          const expanded = navSection.getAttribute('aria-expanded') === 'true';
-          collapseAllNavSections(navSections);
-          navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-        });
+        if (navSection.querySelector('ul')) {
+          const navSectionLink = navSection.querySelector('a');
+
+          const navSectionLinkClone = navSectionLink.cloneNode(true);
+          const navSectionLi = createElement('li');
+          navSectionLinkClone.insertAdjacentHTML('beforeend', '<span class="icon icon-chevron-right"></span>');
+          navSectionLi.append(navSectionLinkClone);
+          navSection.querySelector('ul').prepend(navSectionLi);
+
+          navSectionLink.insertAdjacentHTML('beforeend', '<span class="icon icon-chevron-down"></span>');
+
+          navSection.classList.add('nav-drop');
+          navSection.setAttribute('aria-expanded', 'false');
+
+          navSectionLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const expanded = navSection.getAttribute('aria-expanded') === 'true';
+            collapseAllNavSections(navSections);
+            navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+          });
+        }
       });
     }
+
+    // wire up search
+    const tools = [...nav.children][3];
+    const search = tools.querySelector('.icon-search');
+    const searchNav = buildSeachNav();
+    block.prepend(searchNav);
+    search.parentElement.insertAdjacentHTML('beforeend', '<span class="icon icon-search-close"></span>');
+    tools.addEventListener('click', () => {
+      const open = searchNav.getAttribute('aria-expanded') === 'true';
+      if (open) {
+        tools.classList.remove('search-open');
+        searchNav.setAttribute('aria-expanded', 'false');
+      } else {
+        tools.classList.add('search-open');
+        searchNav.setAttribute('aria-expanded', 'true');
+      }
+    });
 
     // hamburger for mobile
     const hamburger = createElement('div', '', 'nav-hamburger');
@@ -62,5 +106,6 @@ export default async function decorate(block) {
     decorateIcons(nav);
     wrapImgsInLinks(nav);
     block.append(nav);
+    block.classList.add('appear');
   }
 }
