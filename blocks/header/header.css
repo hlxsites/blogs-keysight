@@ -369,14 +369,6 @@ header .search-nav .search-form input {
 }
 
 header .search-nav button {
-  border: none;
-  background: var(--color-gray-400);
-  color: var(--color-white);
-  outline: none;
-  cursor: pointer;
-  font-size: inherit;
-  font-family: inherit;
-  padding: .6rem 1.2rem;
   height: 5rem;
 }
 
@@ -388,9 +380,5 @@ header .search-nav button {
 
   header .search-nav .search-form input {
     max-width: calc(100% - 20rem);
-  }
-
-  header .search-nav button {
-    padding: 1.2rem 1.8rem;
   }
 }

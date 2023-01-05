@@ -19,7 +19,7 @@ function buildSeachNav() {
   const searchForm = createElement('div', '', 'search-form');
   searchForm.innerHTML = `
     <input type="text" placeholder="Search Blogs" name="term" value="" autocomplete="off" />
-    <button id="header-search-submit">Search Blogs</button>
+    <button class="button secondary" id="header-search-submit">Search Blogs</button>
   `;
   searchNav.append(searchForm);
 

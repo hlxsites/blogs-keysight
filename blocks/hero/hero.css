@@ -1,18 +1,27 @@
 main .section > div.hero-wrapper {
+  margin: 2rem auto;
+}
+
+main .section > div.hero-wrapper.hero-full {
   max-width: unset;
   padding: 0;
+  margin: auto;
 }
 
 main .hero {
   position: relative;
   padding: 32px;
+  min-height: 525px;
+}
+
+main .hero-full .hero {
   min-height: 300px;
 }
 
 main .hero > div > div {
   max-width: var(--section-max-width);
   margin: auto;
-  color: var(--color-white);
+  color: var(--color-off-white);
 }
 
 main .hero :is(h1, p) {

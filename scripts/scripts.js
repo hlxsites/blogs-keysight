@@ -17,7 +17,6 @@ const LCP_BLOCKS = ['hero']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
 window.keysight = window.keysight || {};
 window.keysight.pages = window.keysight.pages || [];
-window.keysight.delayed = window.keysight.delayed || [];
 
 /**
  * Create an element with the given id and classes.
@@ -73,24 +72,28 @@ function buildHeroBlock(main) {
   const pictureParent = picture?.parentElement;
   // eslint-disable-next-line no-bitwise
   if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
-    const section = h1.closest('div');
-    const elems = [picture, h1];
-    const desc = h1.parentElement.querySelector('h1 + p');
-    if (desc) {
-      elems.push(desc);
-      const buttons = h1.parentElement.querySelector('h1 + p + .button-container');
-      if (buttons) {
-        elems.push(buttons);
-      }
-    } else {
-      const buttons = h1.parentElement.querySelector('h1 + .button-container');
-      if (buttons) {
-        elems.push(buttons);
+    const section = picture.closest('div');
+    const elems = [picture];
+    const h1Section = h1.closest('div');
+    if (h1Section === section) {
+      elems.push(h1);
+      const desc = h1.parentElement.querySelector('h1 + p');
+      if (desc) {
+        elems.push(desc);
+        const buttons = h1.parentElement.querySelector('h1 + p + .button-container');
+        if (buttons) {
+          elems.push(buttons);
+        }
+      } else {
+        const buttons = h1.parentElement.querySelector('h1 + .button-container');
+        if (buttons) {
+          elems.push(buttons);
+        }
       }
     }
     section.append(buildBlock('hero', { elems }));
     // picture was likely wrapped in a p that is now empty, so remove that
-    if (pictureParent && pictureParent.innerText.trim() === '') {
+    if (pictureParent && pictureParent.tagName === 'p' && pictureParent.innerText.trim() === '') {
       pictureParent.remove();
     }
   }

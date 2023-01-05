@@ -20,6 +20,7 @@
   --color-gray-400: #595959;
   --color-gray-500: #262626;
   --color-red: #e90029;
+  --color-dark-red: #740014;
   --background-color: var(--color-off-white);
   --text-color: var(--color-gray-400);
 
@@ -103,4 +104,29 @@ main .section > div {
   max-width: var(--section-max-width);
   margin: auto;
   padding: 0 2rem;
+}
+
+/* buttons */
+a.button:any-link, button {
+  border: none;
+  background: var(--color-red);
+  color: var(--color-white);
+  padding: .8rem 1.6rem;
+  text-decoration: none;
+  outline: none;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+a.button:hover, a.button:focus, button:hover, button:focus  {
+  background-color: var(--color-dark-red);
+  cursor: pointer;
+}
+
+a.button.secondary, button.secondary {
+  background: var(--color-gray-400);
+} 
+
+a.button.secondary:hover, a.button.secondary:focus, button.secondary:hover, button.secondary:focus  {
+  background-color: var(--color-gray-300);
 }
