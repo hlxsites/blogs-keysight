@@ -41,6 +41,7 @@ main .featured-posts .featured-posts-grid .post .category {
 }
 
 main .featured-posts .featured-posts-grid .post > div a {
+  /* stylelint-disable-next-line value-no-vendor-prefix */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;  
