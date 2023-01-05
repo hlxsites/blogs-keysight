@@ -37,9 +37,10 @@ describe('Header block', () => {
   it('Section title shows and hides section', async () => {
     const sections = document.querySelector('.header .nav-sections');
     const title = sections.querySelector(':scope li');
-    title.click();
+    const link = title.querySelector('a');
+    link.click();
     expect(title.getAttribute('aria-expanded')).to.equal('true');
-    title.click();
+    link.click();
     expect(title.getAttribute('aria-expanded')).to.equal('false');
   });
 });

@@ -70,7 +70,7 @@ export async function getPages() {
 function buildHeroBlock(main) {
   const h1 = main.querySelector('h1');
   const picture = main.querySelector('picture');
-  const pictureParent = picture.parentElement;
+  const pictureParent = picture?.parentElement;
   // eslint-disable-next-line no-bitwise
   if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
     const section = h1.closest('div');
@@ -90,7 +90,7 @@ function buildHeroBlock(main) {
     }
     section.append(buildBlock('hero', { elems }));
     // picture was likely wrapped in a p that is now empty, so remove that
-    if (pictureParent.innerText.trim() === '') {
+    if (pictureParent && pictureParent.innerText.trim() === '') {
       pictureParent.remove();
     }
   }
