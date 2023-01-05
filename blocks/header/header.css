@@ -83,6 +83,19 @@ header nav .nav-tools {
   grid-row: 2;
   border: 2px solid var(--header-nav-border-color);
   border-inline: 1px solid var(--header-nav-border-color);
+  cursor: pointer;
+}
+
+header nav .nav-tools .icon img {
+  width: 25px;
+}
+
+header nav .nav-tools:not(.search-open) .icon-search-close {
+  display: none;
+}
+
+header nav .nav-tools.search-open .icon-search {
+  display: none;
 }
 
 header nav[aria-expanded='true'] .nav-tools {
@@ -105,6 +118,7 @@ header nav .nav-brand {
   align-items: center;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 header nav .nav-brand img {
   height: 4.5rem;
   width: auto;
@@ -318,5 +332,65 @@ header nav .nav-sections ul > li.nav-drop[aria-expanded='true'] > a::before {
   header nav .nav-sections ul > li.nav-drop > a::before,
   header nav .nav-sections ul > li.nav-drop > a::after { 
     content: none;
+  }
+}
+
+header .search-nav {
+  display: none;
+  padding: 1.6rem;
+  background-color: var(--header-nav-hover-color);
+}
+
+header .search-nav[aria-expanded='true'] {
+  display: block;
+}
+
+header .search-nav .search-form {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 700px;
+  margin: auto;
+}
+
+header .search-nav .search-form input {
+  width: 100%;
+  background-color: var(--header-background-color);
+  padding: 1.2rem 1.6rem;
+  border: none !important;
+  outline: none;
+  line-height: 1.5;
+  font-size: var(--body-font-size-m);
+  font-size: inherit;
+  font-family: inherit;
+  height: 5rem;;
+}
+
+header .search-nav button {
+  border: none;
+  background: var(--color-gray-400);
+  color: var(--color-white);
+  outline: none;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  padding: .6rem 1.2rem;
+  height: 5rem;
+}
+
+
+@media (min-width: 600px) {
+  header .search-nav .search-form {
+    gap: 0;
+  }
+
+  header .search-nav .search-form input {
+    max-width: calc(100% - 20rem);
+  }
+
+  header .search-nav button {
+    padding: 1.2rem 1.8rem;
   }
 }
