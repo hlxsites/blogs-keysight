@@ -8,8 +8,10 @@ export default async function decorate(block) {
   const postsGrid = block.querySelector('div');
   postsGrid.classList.add('featured-posts-grid');
 
-  const pages = await getPosts();
+  const pages = await getPosts('none', -1);
+  const filteredPages = await getPosts('auto', -1);
 
+  let notFoundCounter = 0;
   [...postsGrid.children].forEach((post) => {
     post.classList.add('post');
 
@@ -17,12 +19,17 @@ export default async function decorate(block) {
     const link = post.querySelector('p > a');
     let pageForLink = pages.find((page) => page.path === new URL(link.href).pathname);
     if (!pageForLink) {
-      const sortedPages = pages.sort((a, b) => {
-        const aDate = Number(a.date);
-        const bDate = Number(b.date);
-        return bDate - aDate;
-      });
-      [pageForLink] = sortedPages;
+      /*
+         in most normal cases this should only happen for the "most recent" section
+        so we are just getting the first post
+        in the scenarion that a different post isn't linked properly or is somehow not found
+        the counter guarantees that different posts get highlighted
+        instead of showing the most recent post multiple times
+        we also use the filtered pages here
+        to ensure the link comes from the right section of the site
+      */
+      pageForLink = filteredPages[notFoundCounter];
+      notFoundCounter += 1;
     }
 
     if (pageForLink) {
