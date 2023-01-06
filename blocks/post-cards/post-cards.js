@@ -106,7 +106,7 @@ function buildPostCard(post, index) {
     }
   }
 
-  const pic = createOptimizedPicture(post.image);
+  const pic = createOptimizedPicture(post.image, '', false, [{ media: '(min-width: 900px)', width: '1000' }, { width: '600' }]);
   postCard.innerHTML = `
     <a class="post-card-image" href="${post.path}">${pic.outerHTML}</a>
     <div class="post-card-text">
