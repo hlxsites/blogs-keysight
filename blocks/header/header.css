@@ -237,6 +237,10 @@ header nav .nav-sections ul > li.nav-drop {
   position: relative;
 }
 
+header nav .nav-sections ul > li.nav-drop > a > span.icon {
+  display: none;
+}
+
 header nav .nav-sections > ul > li[aria-expanded='true'] > ul {
   max-height: auto;
   visibility: visible;
