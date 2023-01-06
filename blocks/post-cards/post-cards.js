@@ -63,12 +63,21 @@ async function getAuthorLink(post) {
 
 async function getTagsLinks(post) {
   if (post.tags) {
-    try {
-      // TODO
-    } finally {
-      // no op
-    }
+    const list = createElement('ul', '', 'card-tags');
+    post.tags.split(',').forEach((tag) => {
+      const item = createElement('li');
+      const link = createElement('a');
+      link.innerText = tag;
+      link.href = `/tag-matches?tag=${encodeURIComponent(tag)}`;
+
+      item.append(link);
+      list.append(item);
+    });
+
+    return list;
   }
+
+  return undefined;
 }
 
 function buildPostCard(post, index) {
@@ -106,7 +115,6 @@ function buildPostCard(post, index) {
       <p class="card-author"><span class="card-date">${postDateStr}</span></p>
       <p class="card-description">${post.description}</p>
       <p class="card-read"><span class="icon icon-clock"></span>${post.readtime}</p>
-      <div class="card-tags"><div>
     </div>
   `;
   getTopicLink(post).then((link) => {
@@ -117,7 +125,7 @@ function buildPostCard(post, index) {
   });
   getTagsLinks(post).then((links) => {
     if (links) {
-      postCard.querySelector('.card-tags').append(links);
+      postCard.querySelector('.post-card-text').append(links);
     }
   });
 
@@ -133,7 +141,8 @@ export default async function decorate(block) {
   const conf = readBlockConfig(block);
   const { limit, filter } = conf;
   const limitNumber = limit || -1;
-  const posts = await getPosts(filter, limit);
+  const applicableFilter = filter || 'auto';
+  const posts = await getPosts(applicableFilter, limit);
   const grid = createElement('div', '', 'post-cards-grid');
   let primaryPosts;
   let deferredPosts;

@@ -136,7 +136,9 @@ function generateAuthor(document, url) {
 
 function generateBlogPost(document) {
   const post = document.createElement('div');
-  const meta = {};
+  const meta = {
+    templat: 'post',
+  };
 
   // get the hero image and append it
   const heroBlog = document.querySelector('.hero-blog');
@@ -181,7 +183,7 @@ function generateBlogPost(document) {
 
   const cells = [
     ['Post Cards'],
-    ['filter', 'tags'],
+    ['filter', 'post'],
     ['limit', '3'],
   ];
   const postCardsBlock = WebImporter.DOMUtils.createTable(cells, document);

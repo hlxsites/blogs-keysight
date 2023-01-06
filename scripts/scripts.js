@@ -70,48 +70,118 @@ export async function getPages() {
   return window.keysight.pages;
 }
 
+function sortRelatedPosts(postA, postB) {
+  let postAScore = 0;
+  let postBScore = 0;
+
+  // score based on match for tags/topic/subtopic
+  // 1 point for each match on topic/subtopic/tag
+  const topic = getMetadata('topic');
+  const postATopic = postA.topic;
+  const postBTopic = postB.topic;
+  postAScore += (topic === postATopic) ? 1 : 0;
+  postBScore += (topic === postBTopic) ? 1 : 0;
+
+  const subtopic = getMetadata('subtopic');
+  const postASubtopic = postA.subtopic;
+  const postBSubtopic = postB.subtopic;
+  postAScore += (topic === postATopic && subtopic === postASubtopic) ? 1 : 0;
+  postBScore += (topic === postBTopic && subtopic === postBSubtopic) ? 1 : 0;
+
+  const tags = getMetadata('tags');
+  if (tags) {
+    const postATags = postA.tags;
+    if (postATags) {
+      const commonTags = tags.split(',').filter((tag) => postATags.split(',').includes(tag));
+      postAScore += commonTags.length;
+    }
+
+    const postBTags = postB.tags;
+    if (postBTags) {
+      const commonTags = tags.split(',').filter((tag) => postBTags.split(',').includes(tag));
+      postBScore += commonTags.length;
+    }
+  }
+
+  // calc result
+  const result = postBScore - postAScore;
+  if (result === 0) {
+    // if they have the same score, sort by date
+    const aDate = Number(postA.date);
+    const bDate = Number(postB.date);
+    return bDate - aDate;
+  }
+
+  return result;
+}
+
 /**
  * Get the list of blog posts from the query index. Posts are auto-filtered based on page context
  * e.g topic, sub-topic, tags, etc. and sorted by date
  *
  * @param {string} filter the name of the filter to apply
- * one of: topic, subtopic, author, tag, post
+ * one of: topic, subtopic, author, tag, post, auto, none
  * @param {number} limit the number of posts to return, or -1 for no limit
  * @returns the posts as an array
  */
 export async function getPosts(filter, limit) {
   const pages = await getPages();
-  const posts = pages.filter((page) => {
-    const isPost = page.author !== undefined && page.author !== '';
-    if (isPost) {
+  // filter out anything that isn't a blog post (eg. must have an author)
+  let finalPosts;
+  const allPosts = pages.filter((page) => page.author !== undefined && page.author !== '');
+  const topic = getMetadata('topic');
+  const subTopic = getMetadata('subtopic');
+  const url = new URL(window.location);
+  const params = url.searchParams;
+  const tag = params.get('tag');
+  const template = getMetadata('template');
+  let applicableFilter = filter ? filter.toLowerCase() : 'none';
+  if (applicableFilter === 'auto') {
+    if (tag) {
+      applicableFilter = 'tag';
+    } else if (template === 'author') {
+      applicableFilter = 'author';
+    } else if (topic && subTopic) {
+      applicableFilter = 'subtopic';
+    } else if (topic) {
+      applicableFilter = 'topic';
+    } else {
+      applicableFilter = 'none';
+    }
+  }
+
+  if (applicableFilter === 'post') {
+    finalPosts = allPosts.sort(sortRelatedPosts);
+  } else {
+    finalPosts = allPosts.filter((post) => {
       let matches = true;
-      if (filter && filter.toLowerCase() !== 'none') {
-        if (filter.toLowerCase() === 'topic' || filter.toLowerCase() === 'subtopic') {
-          const topic = getMetadata('topic');
-          matches = topic === page.topic;
-        }
-
-        if (filter.toLowerCase() === 'subtopic') {
-          const subTopic = getMetadata('sub-topic');
-          matches = matches && subTopic === page.subtopic;
-        }
-
-        if (filter.toLowerCase() === 'author') {
-          // on author pages the author name is the title
-          const author = getMetadata('title');
-          matches = author === page.author;
+      if (applicableFilter === 'topic') {
+        matches = topic === post.topic;
+      }
+      if (applicableFilter === 'subtopic') {
+        matches = topic === post.topic && subTopic === post.subtopic;
+      }
+      if (applicableFilter === 'author') {
+        // on author pages the author name is the title
+        const author = getMetadata('title');
+        matches = author === post.author;
+      }
+      if (applicableFilter === 'tag') {
+        // used for the tag-matches page, where tag is passed in a query param
+        const postTags = post.tags;
+        if (tag && postTags) {
+          matches = postTags.split(',').includes(tag);
         }
       }
       return matches;
-    }
-    return false;
-  }).sort((a, b) => {
-    const aDate = Number(a.date);
-    const bDate = Number(b.date);
-    return bDate - aDate;
-  });
+    }).sort((a, b) => {
+      const aDate = Number(a.date);
+      const bDate = Number(b.date);
+      return bDate - aDate;
+    });
+  }
 
-  return limit < 0 ? posts : posts.slice(0, limit);
+  return limit < 0 ? finalPosts : finalPosts.slice(0, limit);
 }
 
 function buildHeroBlock(main) {
