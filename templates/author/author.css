@@ -1,0 +1,96 @@
+
+/* AUTHOR PAGE STYLES */
+
+.author main{
+    font-family: "Graphik LC Web", sans-serif;
+    font-size: 1em;
+    line-height: 1.5;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1240px;
+    padding-bottom: 1.5em;
+    padding-top: 1.5em;
+    position: relative;
+  }
+  
+  @media (min-width: 650px) {
+    .author .hero {
+      float: left;
+    }
+  }
+  
+  .author .hero {
+    height: 275px;
+    margin:auto auto;
+    min-height:275px;
+    padding: 0;
+    width: 275px;
+  }
+  
+  .author .hero img{
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    border: 0;
+    height: 275px;
+    text-align: center;
+    vertical-align: top;
+    width: 275px;
+  }
+  
+  @media (min-width: 650px) {
+    .author .author-bio {
+      margin-left: 315px;
+    }
+  }
+  
+  .author .author-bio{
+    position:relative;
+  }
+  
+  /* author name */
+  .author .author-bio h1{
+    font-size: 2.25rem;
+    font-weight: 400;
+    letter-spacing: normal;
+    margin-bottom: 0;
+  }
+  
+  /* author title */
+  .author .author-bio h2{
+    float: left;
+    font-size: 1.3rem;
+    margin: 0 0 10px;
+    text-transform: uppercase;
+  }
+  
+  /* author links */
+  .author .author-bio ul:nth-of-type(1){
+    border-bottom:solid #d8d8d8 1px;
+    height:50px;
+    list-style-type: none;
+    margin:5px 0px;
+    padding:0;
+  }
+  
+  /* author icon list */
+  .author .author-bio ul:nth-of-type(1) li{
+    float:right;
+    margin: 10px 10px;
+    position:relative;
+  }
+  
+  /* Icon styling */
+  .author-bio .icon svg {
+    display: block;
+    height:22px;
+    margin:auto;
+    text-align:center;
+    width: 22px;
+  }
+
+  .author-bio .icon svg:hover {
+    fill: #e90029;
+  }
+  

@@ -503,30 +503,6 @@ export function decorateButtons(element) {
   });
 }
 
-export function decorateSocial(element) {
-  element.querySelectorAll('a').forEach((a) => {
-    a.innerHTML='';
-    const icon = document.createElement('i');
-    const social = (new URL(a)).hostname.replace('www.','').replace('.com','');  //get social domain name
-    switch(social) {
-      case 'facebook':
-        icon.classList.add('fab','fa-facebook-f');
-        icon.innerHTML="F";//stub
-        break;
-      case 'twitter':
-        icon.classList.add('fab','fa-twitter');
-        icon.innerHTML="T";//stub
-        break;
-      case 'linkedin':
-        icon.classList.add('fab','fa-linkedin-in');
-        icon.innerHTML="Li";//stub
-        break;
-    }
-      icon.title=social;
-      a.append(icon);
-  });
-}
-
 /**
  * load LCP block and/or wait for LCP in default content.
  */

@@ -4,11 +4,11 @@ import {
   loadHeader,
   loadFooter,
   decorateButtons,
-  decorateSocial,
   decorateIcons,
   decorateSections,
   decorateBlocks,
   decorateTemplateAndTheme,
+  getMetadata,
   waitForLCP,
   loadBlocks,
   loadCSS,
@@ -131,7 +131,6 @@ function buildAutoBlocks(main) {
 export function decorateMain(main) {
   // hopefully forward compatible button decoration
   decorateButtons(main);
-  decorateSocial(main);
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
@@ -144,10 +143,38 @@ export function decorateMain(main) {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
+  const templateName = getMetadata('template');
+  loadTemplate(doc,templateName);
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
     await waitForLCP(LCP_BLOCKS);
+  }
+}
+
+ async function loadTemplate(doc,templateName) {
+  try {
+    const cssLoaded = new Promise((resolve) => {
+      loadCSS(`${window.hlx.codeBasePath}/templates/${templateName}/${templateName}.css`, resolve);
+    });
+    const decorationComplete = new Promise((resolve) => {
+      (async () => {
+        try {
+          const mod = await import(`../templates/${templateName}/${templateName}.js`);
+          if (mod.default) {
+            await mod.default(doc);
+          }
+        } catch (error) {
+          // eslint-disable-next-line no-console
+          console.log(`failed to load module for ${templateName}`, error);
+        }
+        resolve();
+      })();
+    });
+    await Promise.all([cssLoaded, decorationComplete]);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(`failed to load block ${templateName}`, error);
   }
 }
 
