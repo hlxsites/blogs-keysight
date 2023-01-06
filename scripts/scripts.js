@@ -11,12 +11,15 @@ import {
   waitForLCP,
   loadBlocks,
   loadCSS,
+  getMetadata,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = ['hero']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
 window.keysight = window.keysight || {};
 window.keysight.pages = window.keysight.pages || [];
+window.keysight.delayed = window.keysight.delayed || [];
+window.keysight.delayedReached = false;
 
 /**
  * Create an element with the given id and classes.
@@ -68,12 +71,33 @@ export async function getPages() {
 }
 
 /**
- * Get the list of blog posts from the query index.
- * Post is any page with an author.
+ * Get the list of blog posts from the query index. Posts are auto-filtered based on page context
+ * e.g topic, sub-topic, tags, etc. and sorted by date
  */
 export async function getPosts() {
   const pages = await getPages();
-  return pages.filter((page) => page.author !== undefined && page.author !== '');
+  const posts = pages.filter((page) => {
+    const isPost = page.author !== undefined && page.author !== '';
+    if (isPost) {
+      const topic = getMetadata('topic');
+      const subTopic = getMetadata('sub-topic');
+      let matches = true;
+      if (topic) {
+        matches = topic === page.topic;
+      }
+      if (matches && subTopic) {
+        matches = subTopic === page.subtopic;
+      }
+      return matches;
+    }
+    return false;
+  }).sort((a, b) => {
+    const aDate = Number(a.date);
+    const bDate = Number(b.date);
+    return bDate - aDate;
+  });
+
+  return posts;
 }
 
 function buildHeroBlock(main) {
@@ -194,8 +218,25 @@ async function loadLazy(doc) {
  */
 function loadDelayed() {
   // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./delayed.js'), 3000);
+  window.setTimeout(() => {
+    import('./delayed.js');
+    // execute any delayed functions
+    window.keysight.delayedReached = true;
+    window.keysight.delayed.forEach((func) => func());
+  }, 3000);
   // load anything that can be postponed to the latest here
+}
+
+/**
+ * Execute a function of a delayed basis.
+ * @param {function} func the function to execute
+ */
+export function execDeferred(func) {
+  if (window.keysight.delayedReached) {
+    func();
+  } else {
+    window.keysight.delayed.push(func);
+  }
 }
 
 async function loadPage() {

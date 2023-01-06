@@ -1,0 +1,188 @@
+import {
+  getPosts,
+  createElement,
+  execDeferred,
+  getPages,
+} from '../../scripts/scripts.js';
+import { createOptimizedPicture, readBlockConfig, decorateIcons } from '../../scripts/lib-franklin.js';
+
+const pageSize = 7;
+const initLoad = pageSize * 4;
+
+async function getTopicLink(post) {
+  const { topic, subtopic } = post;
+  const topicText = subtopic || topic;
+
+  const notLink = createElement('span');
+  notLink.innerText = topicText;
+
+  try {
+    const pages = await getPages();
+
+    const topicPage = pages.find((page) => {
+      const isPost = page.author !== undefined && page.author !== '';
+      if (!isPost) {
+        return page.topic === topic && page.subtopic === subtopic;
+      }
+      return false;
+    });
+    if (topicPage) {
+      const link = createElement('a');
+      link.href = topicPage.path;
+      link.innerText = topicText;
+      return link;
+    }
+  } finally {
+    // no op, just fall through to retunr default
+  }
+
+  return notLink;
+}
+
+async function getAuthorLink(post) {
+  const { author } = post;
+  const notLink = createElement('span');
+  notLink.innerText = `${author}`;
+
+  try {
+    const pages = await getPages();
+
+    const authorPage = pages.find((page) => page.title === author);
+    if (authorPage) {
+      const link = createElement('a');
+      link.href = authorPage.path;
+      link.innerText = `${author}`;
+      return link;
+    }
+  } finally {
+    // no op, just fall through to return default value
+  }
+
+  return notLink;
+}
+
+async function getTagsLinks(post) {
+  if (post.tags) {
+    try {
+      // TODO
+    } finally {
+      // no op
+    }
+  }
+}
+
+function buildPostCard(post, index) {
+  const classes = ['post-card'];
+  if (index > pageSize) {
+    classes.push('hidden');
+  }
+  if (index % 7 === 3) {
+    classes.push('featured');
+  }
+  const postCard = createElement('div', '', classes);
+
+  let postDateStr = '';
+  if (post.date) {
+    try {
+      const postDate = new Date(Number(post.date) * 1000);
+      const year = postDate.getFullYear();
+      let month = postDate.getMonth() + 1;
+      if (month < 10) {
+        month = `0${month}`;
+      }
+      const date = postDate.getDate();
+      postDateStr = ` | ${year}.${month}.${date}`;
+    } finally {
+      // no op
+    }
+  }
+
+  const pic = createOptimizedPicture(post.image);
+  postCard.innerHTML = `
+    <a class="post-card-image" href="${post.path}">${pic.outerHTML}</a>
+    <div class="post-card-text">
+      <p class="card-topic"></p>
+      <p class="card-title"><a href="${post.path}">${post.title}</a></p>
+      <p class="card-author"><span class="card-date">${postDateStr}</span></p>
+      <p class="card-description">${post.description}</p>
+      <p class="card-read"><span class="icon icon-clock"></span>${post.readtime}</p>
+      <div class="card-tags"><div>
+    </div>
+  `;
+  getTopicLink(post).then((link) => {
+    postCard.querySelector('.card-topic').append(link);
+  });
+  getAuthorLink(post).then((link) => {
+    postCard.querySelector('.card-author').prepend(link);
+  });
+  getTagsLinks(post).then((links) => {
+    if (links) {
+      postCard.querySelector('.card-tags').append(links);
+    }
+  });
+
+  decorateIcons(postCard);
+  return postCard;
+}
+
+/**
+ * decorates the block
+ * @param {Element} block The featured posts block element
+ */
+export default async function decorate(block) {
+  const conf = readBlockConfig(block);
+  const limit = conf.limit ? conf.limit : -1;
+  const posts = await getPosts();
+  const grid = createElement('div', '', 'post-cards-grid');
+  let primaryPosts;
+  let deferredPosts;
+  if (posts.length > initLoad) {
+    primaryPosts = posts.slice(0, initLoad);
+    deferredPosts = posts.slice(initLoad);
+  } else {
+    primaryPosts = posts;
+    deferredPosts = [];
+  }
+
+  let counter = 0;
+  for (let i = 0; i < primaryPosts.length && (limit < 0 || i < limit); i += 1) {
+    const postCard = buildPostCard(primaryPosts[i], counter);
+    grid.append(postCard);
+    counter += 1;
+  }
+
+  execDeferred(async () => {
+    for (let i = 0; i < deferredPosts.length && (limit < 0 || i < limit); i += 1) {
+      const postCard = buildPostCard(deferredPosts[i], counter);
+      grid.append(postCard);
+      counter += 1;
+    }
+  });
+
+  block.innerHTML = '';
+  block.append(grid);
+
+  let hasHidden = grid.querySelector('.post-card.hidden');
+  if (hasHidden) {
+    const moreButton = createElement('button', '', 'show-more-cards');
+    moreButton.innerText = 'Show More';
+    moreButton.addEventListener('click', () => {
+      for (let i = 0; i < pageSize; i += 1) {
+        const nextPost = grid.querySelector('.post-card.hidden');
+        if (nextPost) {
+          nextPost.classList.remove('hidden');
+        }
+      }
+      hasHidden = grid.querySelector('.post-card.hidden');
+      if (!hasHidden) {
+        // no more hidden, so hide show more button
+        moreButton.style.display = 'none';
+      }
+    });
+
+    const moreContainer = createElement('div', '', 'show-more-cards-container');
+    moreContainer.append(moreButton);
+
+    block.append(moreContainer);
+  }
+}

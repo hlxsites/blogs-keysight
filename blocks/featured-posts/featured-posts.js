@@ -17,12 +17,7 @@ export default async function decorate(block) {
     const link = post.querySelector('p > a');
     let pageForLink = pages.find((page) => page.path === new URL(link.href).pathname);
     if (!pageForLink) {
-      const sortedPages = pages.sort((a, b) => {
-        const aDate = Number(a.date);
-        const bDate = Number(b.date);
-        return bDate - aDate;
-      });
-      [pageForLink] = sortedPages;
+      [pageForLink] = pages;
     }
 
     if (pageForLink) {
