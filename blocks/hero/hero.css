@@ -1,18 +1,27 @@
 main .section > div.hero-wrapper {
+  margin: 2rem auto;
+}
+
+main .section > div.hero-wrapper.hero-full {
   max-width: unset;
   padding: 0;
+  margin: auto;
 }
 
 main .hero {
   position: relative;
   padding: 32px;
+  min-height: 525px;
+}
+
+main .hero-full .hero {
   min-height: 300px;
 }
 
 main .hero > div > div {
   max-width: var(--section-max-width);
   margin: auto;
-  color: var(--color-white);
+  color: var(--color-off-white);
 }
 
 main .hero :is(h1, p) {
@@ -34,4 +43,18 @@ main .hero img {
   object-fit: cover;
   width: 100%;
   height: 100%;
+}
+
+main .hero h1 {
+  font-size: var(--heading-font-size-xl);
+  letter-spacing: 0.04em;
+  font-weight: 300;
+  line-height: 1.1;
+  margin: 0.5em 0;
+}
+
+main .hero p {
+  margin-block-end: 3rem;
+  font-size: var(--body-font-size-l);
+  line-height: 1.5;
 }
