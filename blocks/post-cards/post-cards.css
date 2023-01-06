@@ -70,6 +70,10 @@ main .post-cards .post-cards-grid .post-card .post-card-text > p {
   }
 }
 
+main .post-cards .post-cards-grid .post-card.hidden {
+  display: none;
+}
+
 main .post-cards .post-cards-grid .post-card a {
   text-decoration: none;
 }

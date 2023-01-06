@@ -73,20 +73,34 @@ export async function getPages() {
 /**
  * Get the list of blog posts from the query index. Posts are auto-filtered based on page context
  * e.g topic, sub-topic, tags, etc. and sorted by date
+ *
+ * @param {string} filter the name of the filter to apply
+ * one of: topic, subtopic, author, tag, post
+ * @param {number} limit the number of posts to return, or -1 for no limit
+ * @returns the posts as an array
  */
-export async function getPosts() {
+export async function getPosts(filter, limit) {
   const pages = await getPages();
   const posts = pages.filter((page) => {
     const isPost = page.author !== undefined && page.author !== '';
     if (isPost) {
-      const topic = getMetadata('topic');
-      const subTopic = getMetadata('sub-topic');
       let matches = true;
-      if (topic) {
-        matches = topic === page.topic;
-      }
-      if (matches && subTopic) {
-        matches = subTopic === page.subtopic;
+      if (filter && filter.toLowerCase() !== 'none') {
+        if (filter.toLowerCase() === 'topic' || filter.toLowerCase() === 'subtopic') {
+          const topic = getMetadata('topic');
+          matches = topic === page.topic;
+        }
+
+        if (filter.toLowerCase() === 'subtopic') {
+          const subTopic = getMetadata('sub-topic');
+          matches = matches && subTopic === page.subtopic;
+        }
+
+        if (filter.toLowerCase() === 'author') {
+          // on author pages the author name is the title
+          const author = getMetadata('title');
+          matches = author === page.author;
+        }
       }
       return matches;
     }
@@ -97,7 +111,7 @@ export async function getPosts() {
     return bDate - aDate;
   });
 
-  return posts;
+  return limit < 0 ? posts : posts.slice(0, limit);
 }
 
 function buildHeroBlock(main) {

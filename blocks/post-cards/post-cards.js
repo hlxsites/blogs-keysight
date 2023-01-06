@@ -7,7 +7,7 @@ import {
 import { createOptimizedPicture, readBlockConfig, decorateIcons } from '../../scripts/lib-franklin.js';
 
 const pageSize = 7;
-const initLoad = pageSize * 4;
+const initLoad = pageSize * 10;
 
 async function getTopicLink(post) {
   const { topic, subtopic } = post;
@@ -131,8 +131,9 @@ function buildPostCard(post, index) {
  */
 export default async function decorate(block) {
   const conf = readBlockConfig(block);
-  const limit = conf.limit ? conf.limit : -1;
-  const posts = await getPosts();
+  const { limit, filter } = conf;
+  const limitNumber = limit || -1;
+  const posts = await getPosts(filter, limit);
   const grid = createElement('div', '', 'post-cards-grid');
   let primaryPosts;
   let deferredPosts;
@@ -145,14 +146,16 @@ export default async function decorate(block) {
   }
 
   let counter = 0;
-  for (let i = 0; i < primaryPosts.length && (limit < 0 || i < limit); i += 1) {
+  for (let i = 0; i < primaryPosts.length && (limitNumber < 0 || i < limitNumber); i += 1) {
     const postCard = buildPostCard(primaryPosts[i], counter);
     grid.append(postCard);
     counter += 1;
   }
 
-  execDeferred(async () => {
-    for (let i = 0; i < deferredPosts.length && (limit < 0 || i < limit); i += 1) {
+  // there are potentially hundreds of posts, so to make this load faster in those scenarios
+  // we defer building the dom for posts after the first few pages
+  execDeferred(() => {
+    for (let i = 0; i < deferredPosts.length && (limitNumber < 0 || i < limitNumber); i += 1) {
       const postCard = buildPostCard(deferredPosts[i], counter);
       grid.append(postCard);
       counter += 1;

@@ -70,6 +70,18 @@ function generateAuthor(document, url) {
     template: 'author',
   };
 
+  const img = document.createElement('img');
+  const profileUrlStart = url.indexOf('/home');
+  const profileUrlEnd = url.indexOf('?host');
+  const profileUrl = url.substr(profileUrlStart, profileUrlEnd - profileUrlStart);
+  img.src = `${profileUrl}/photos/primary/image.prof.48.png`;
+  meta.image = img.cloneNode(true);
+  author.append(img);
+
+  const sectionBreak = document.createElement('p');
+  sectionBreak.innerHTML = '---';
+  author.append(sectionBreak);
+
   const name = document.querySelector('#bio-name');
   if (name) {
     meta.title = name.textContent;
@@ -79,16 +91,10 @@ function generateAuthor(document, url) {
   const title = document.querySelector('#bio-title');
   if (title) {
     meta.authorTitle = title.textContent;
-    author.append(title);
+    const titleH2 = document.createElement('h2');
+    titleH2.textContent = title.textContent;
+    author.append(titleH2);
   }
-
-  const img = document.createElement('img');
-  const profileUrlStart = url.indexOf('/home');
-  const profileUrlEnd = url.indexOf('?host');
-  const profileUrl = url.substr(profileUrlStart, profileUrlEnd - profileUrlStart);
-  img.src = `${profileUrl}/photos/primary/image.prof.48.png`;
-  meta.image = img.cloneNode(true);
-  author.append(img);
 
   const social = document.querySelector('#bio-social');
   if (social) {
@@ -106,9 +112,14 @@ function generateAuthor(document, url) {
   }
   author.append(document.querySelector('#bio-desc'));
 
-  const sectionBreak = document.createElement('p');
-  sectionBreak.innerHTML = '---';
-  author.append(sectionBreak);
+  const metdataCells = [
+    ['Section Metadata'],
+    ['style', 'author-bio'],
+  ];
+  const sectionMetadataBlock = WebImporter.DOMUtils.createTable(metdataCells, document);
+  author.append(sectionMetadataBlock);
+
+  author.append(sectionBreak.cloneNode(true));
 
   const cells = [
     ['Post Cards'],
