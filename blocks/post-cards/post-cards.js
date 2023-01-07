@@ -106,9 +106,9 @@ function buildPostCard(post, index) {
     }
   }
 
-  let picMedia = [{ width: '600' }];
+  let picMedia = [{ media: '(min-width: 600px)', width: '450' }, { media: '(min-width: 900px)', width: '400' }, { width: '600' }];
   if (classes.includes('featured')) {
-    picMedia = [{ media: '(min-width: 900px)', width: '800' }, { width: '600' }];
+    picMedia = [{ media: '(min-width: 600px)', width: '450' }, { media: '(min-width: 900px)', width: '800' }, { width: '600' }];
   }
   const pic = createOptimizedPicture(post.image, '', false, picMedia);
   postCard.innerHTML = `
