@@ -1,11 +1,7 @@
-main .post-cards {
-  padding: 2rem 1rem;
-  margin: 0;
-}
-
 main .post-cards .post-cards-grid {
   display: grid;
-  grid-template-columns: 1fr ;
+  --num-cols: 1;
+  grid-template-columns: repeat(var(--num-cols), minmax(0, 1fr));
   gap: 3.5rem;
 }
 
@@ -19,13 +15,13 @@ main .post-cards .post-cards-grid .post-card {
 
 @media (min-width: 600px) {
   main .post-cards .post-cards-grid {
-    grid-template-columns: 1fr 1fr;
+    --num-cols: 2;
   }
 }
 
 @media (min-width: 900px) {
   main .post-cards .post-cards-grid {
-    grid-template-columns: 1fr 1fr 1fr;
+    --num-cols: 3;
   }
 }
 
@@ -55,21 +51,20 @@ main .post-cards .post-cards-grid .post-card .post-card-text > p {
   main .post-cards .post-cards-grid .post-card.featured {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   }
 
   main .post-cards .post-cards-grid .post-card.featured .post-card-image {
     position: relative;
   }
 
-  main .post-cards .post-cards-grid .post-card.featured .post-card-text {
-    height: calc(min(var(--section-max-width), 100vw) * .35);
-    margin: 1rem 1rem 1rem 4rem;
+  main .post-cards .post-cards-grid .post-card .post-card-text > * {
+    padding: 0 3rem 0 4rem;
   }
 
   main .post-cards .post-cards-grid .post-card.featured .post-card-image picture img {
     position: absolute;
-    width: auto;
+    width: 100%;
     height: 100%;
   }
 }

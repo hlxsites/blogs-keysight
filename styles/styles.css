@@ -104,7 +104,7 @@ main .section[data-section-status='initialized'] {
 main .section > div {
   max-width: var(--section-max-width);
   margin: auto;
-  padding: 0;
+  padding: 2rem;
 }
 
 /* buttons */
