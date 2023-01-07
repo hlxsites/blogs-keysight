@@ -33,7 +33,7 @@ export default async function decorate(block) {
     }
 
     if (pageForLink) {
-      const pic = createOptimizedPicture(pageForLink.image);
+      const pic = createOptimizedPicture(pageForLink.image, '', false, [{ width: '300' }]);
       post.innerHTML = `
         <a href="${pageForLink.path}">${pic.outerHTML}</a>
         <div>
