@@ -125,7 +125,6 @@ main .post-cards .post-cards-grid .post-card .card-description {
 main .post-cards .post-cards-grid .post-card .card-tags {
   border-top: 1px solid var(--color-gray-200);
   list-style: none;
-  flex-wrap: wrap;
   padding-block-start: 1rem;
   margin: 0;
   max-height: 6rem;

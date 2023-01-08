@@ -61,7 +61,7 @@ async function getAuthorLink(post) {
   return notLink;
 }
 
-async function getTagsLinks(post) {
+function getTagsLinks(post) {
   if (post.tags) {
     const list = createElement('ul', '', 'card-tags');
     post.tags.split(',').forEach((tag) => {
@@ -127,11 +127,10 @@ function buildPostCard(post, index) {
   getAuthorLink(post).then((link) => {
     postCard.querySelector('.card-author').prepend(link);
   });
-  getTagsLinks(post).then((links) => {
-    if (links) {
-      postCard.querySelector('.post-card-text').append(links);
-    }
-  });
+  const tagsLinks = getTagsLinks(post);
+  if (tagsLinks) {
+    postCard.querySelector('.post-card-text').append(tagsLinks);
+  }
 
   decorateIcons(postCard);
   return postCard;

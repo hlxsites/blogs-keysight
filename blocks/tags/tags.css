@@ -1,0 +1,39 @@
+main .section.tags-container > div {
+  padding-block: 0;
+}
+
+main .tags-container h2 {
+  margin-block-end: .5em;
+  font-size: var(--heading-font-size-s);
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+main .tags .tags-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-height: 8rem;
+  overflow: hidden;
+}
+
+main .tags .tags-list li {
+  border: 1px solid var(--color-gray-200);
+  border-radius: 1000px;
+}
+
+main .tags .tags-list li a {
+  display: inline-block;
+  padding: .5rem 2rem;
+  font-size: var(--body-font-size-s);
+  text-decoration: none;
+  color: var(--color-gray-300);
+}
+
+main .tags .tags-list li:hover {
+  background: rgba(82, 79, 86, 0.1);
+}
