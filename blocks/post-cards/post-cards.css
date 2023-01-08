@@ -74,20 +74,11 @@ main .post-cards .post-cards-grid .post-card.hidden {
   display: none;
 }
 
-main .post-cards .post-cards-grid .post-card a {
-  text-decoration: none;
-}
-
-main .post-cards .post-cards-grid .post-card a:hover {
-  text-decoration: underline;
-}
-
 main .post-cards .post-cards-grid .post-card .card-topic,
 main .post-cards .post-cards-grid .post-card .card-topic a {
   color: var(--color-red);
   text-transform: uppercase;
   font-size: var(--body-font-size-s);
-  line-height: 1.5;
 }
 
 main .post-cards .post-cards-grid .post-card .card-title a {
@@ -105,13 +96,13 @@ main .post-cards .post-cards-grid .post-card .card-author a {
   color: var(--color-gray-600);
 }
 
-main .post-cards .post-cards-grid .post-card .card-read .icon svg {
-  fill: currentcolor;
-  width: 15px;
+ main .post-cards .post-cards-grid .post-card .card-read .icon {
+  --icon-width: 15px;
+
   position: relative;
   top: 2px;
-  margin-right: .5rem;
-}
+  margin-right: 1rem;
+} 
 
 main .post-cards .post-cards-grid .post-card .card-description {
   /* stylelint-disable-next-line value-no-vendor-prefix */
@@ -119,8 +110,6 @@ main .post-cards .post-cards-grid .post-card .card-description {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;  
   overflow: hidden;
-  font-size: var(--body-font-size-m);
-  line-height: 1.5;
 }
 
 main .post-cards .post-cards-grid .post-card .card-tags {
@@ -128,7 +117,7 @@ main .post-cards .post-cards-grid .post-card .card-tags {
   list-style: none;
   padding-block-start: 1rem;
   margin: 0;
-  max-height: 6rem;
+  max-height: 7rem;
   overflow: hidden;
 }
 
@@ -139,9 +128,7 @@ main .post-cards .post-cards-grid .post-card .card-tags li {
 }
 
 main .post-cards .post-cards-grid .post-card .card-tags a {
-  color: var(--color-red);
   word-wrap: break-word;
-  line-height: 1.5;
   font-size: var(--body-font-size-s);
 }
 

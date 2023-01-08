@@ -5,8 +5,6 @@ main .section.tags-container > div {
 main .tags-container h2 {
   margin-block-end: .5em;
   font-size: var(--heading-font-size-s);
-  font-weight: 500;
-  line-height: 1.1;
 }
 
 main .tags .tags-list {
@@ -29,8 +27,11 @@ main .tags .tags-list li a {
   display: inline-block;
   padding: .5rem 2rem;
   font-size: var(--body-font-size-s);
-  text-decoration: none;
   color: var(--color-gray-300);
+}
+
+main .tags .tags-list li a:hover {
+  text-decoration: none;
 }
 
 main .tags .tags-list li:hover {

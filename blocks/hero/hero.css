@@ -24,10 +24,6 @@ main .hero > div > div {
   color: var(--color-off-white);
 }
 
-main .hero :is(h1, p) {
-  max-width: 50%;
-}
-
 main .hero picture {
   position: absolute;
   z-index: -1;
@@ -45,18 +41,20 @@ main .hero img {
   height: 100%;
 }
 
+main .hero :is(h1, p) {
+  max-width: 75%;
+}
+
 main .hero h1 {
   font-size: var(--heading-font-size-l);
   letter-spacing: 0.04em;
   font-weight: 300;
-  line-height: 1.1;
   margin: 0.5em 0;
 }
 
 main .hero p {
   margin-block-end: 3rem;
   font-size: var(--body-font-size-m);
-  line-height: 1.5;
 }
 
 @media(min-width: 600px) {
@@ -66,5 +64,11 @@ main .hero p {
   
   main .hero p {
     font-size: var(--body-font-size-l);
+  }
+}
+
+@media(min-width: 900px) {
+  main .hero :is(h1, p) {
+    max-width: 50%;
   }
 }
