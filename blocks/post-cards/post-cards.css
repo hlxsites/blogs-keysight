@@ -1,6 +1,7 @@
 main .post-cards .post-cards-grid {
-  display: grid;
   --num-cols: 1;
+  
+  display: grid;
   grid-template-columns: repeat(var(--num-cols), minmax(0, 1fr));
   gap: 3.5rem;
 }
