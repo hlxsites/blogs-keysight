@@ -275,6 +275,31 @@ export function addFavIcon(href) {
 }
 
 /**
+ * replaces the __tag__ placeholder with the actual tag from the url query param
+ */
+function replaceTagText(element) {
+  const url = new URL(window.location);
+  const params = url.searchParams;
+  const tag = params.get('tag');
+  if (tag) {
+    const recurse = (el) => {
+      if (el.nodeType === 3) {
+        // text node
+        const text = el.textContent;
+        const newText = text.replaceAll('__tag__', tag);
+        el.textContent = newText;
+      } else {
+        el.childNodes.forEach((child) => {
+          recurse(child);
+        });
+      }
+    };
+
+    recurse(element);
+  }
+}
+
+/**
  * loads everything that doesn't need to be delayed.
  */
 async function loadLazy(doc) {
@@ -287,6 +312,8 @@ async function loadLazy(doc) {
 
   loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
+
+  replaceTagText(document.body);
 
   loadCSS(`${window.hlx.codeBasePath}/fonts/fonts.css`);
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);

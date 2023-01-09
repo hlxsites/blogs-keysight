@@ -37,3 +37,7 @@ main .tags .tags-list li a:hover {
 main .tags .tags-list li:hover {
   background: rgb(82 79 86 / 10%);
 }
+
+main .tags .all-tags {
+  margin-block: 2rem;
+}
