@@ -5,7 +5,7 @@ header {
   --header-nav-background-color: var(--color-off-white);
   --header-text-color: var(--color-gray-500);
   --header-nav-text-color: var(--color-gray-400);
-  --header-nav-height: calc(var(--nav-height)  - 1px);
+  --header-nav-height: calc(var(--nav-height) - 1px);
 
   background-color: var(--header-background-color);
   color: var(--header-text-color);
