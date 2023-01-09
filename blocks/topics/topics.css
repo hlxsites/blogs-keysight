@@ -11,7 +11,7 @@ main .topics .nav-title {
   text-transform: uppercase;
 }
 
-main .topics .nav-title:hover {
+main .topics .nav-title:is(:hover, :focus) {
   text-decoration: none;
 }
 
@@ -35,6 +35,6 @@ main .topics .topics-list a {
   color: var(--color-gray-500);
 }
 
-main .topics .topics-list a:hover {
+main .topics .topics-list a:is(:hover, :focus) {
   color: var(--color-red);
 }

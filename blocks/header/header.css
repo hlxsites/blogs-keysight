@@ -64,7 +64,7 @@ header nav .nav-blog-home a {
   color: var(--header-text-color);
 }
 
-header nav .nav-blog-home a:hover {
+header nav .nav-blog-home a:is(:hover, :focus) {
   color: var(--color-red);
   text-decoration: none;
 }
@@ -200,7 +200,7 @@ header nav .nav-sections a {
   font-size: var(--body-font-size-s);
 }
 
-header nav .nav-sections a:hover {
+header nav .nav-sections a:is(:hover, :focus) {
   text-decoration: none;
 }
 
@@ -228,7 +228,7 @@ header nav .nav-sections > ul > li[aria-expanded='true'] > a {
   background-color: var(--header-nav-border-color);
 }
 
-header nav .nav-sections > ul > li > a:hover {
+header nav .nav-sections > ul > li > a:is(:hover, :focus) {
   background-color: var(--header-nav-hover-color);
 }
 
@@ -260,7 +260,7 @@ header nav .nav-sections > ul > li.nav-drop > ul > li > a {
   color: var(--header-nav-text-color);
 }
 
-header nav .nav-sections > ul > li.nav-drop > ul > li > a:hover {
+header nav .nav-sections > ul > li.nav-drop > ul > li > a:is(:hover, :focus) {
   text-decoration: underline;
 }
 

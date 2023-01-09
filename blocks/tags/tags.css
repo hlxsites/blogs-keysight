@@ -30,7 +30,7 @@ main .tags .tags-list li a {
   color: var(--color-gray-300);
 }
 
-main .tags .tags-list li a:hover {
+main .tags .tags-list li a:is(:hover, :focus) {
   text-decoration: none;
 }
 
