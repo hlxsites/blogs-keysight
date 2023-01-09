@@ -24,21 +24,43 @@ window.keysight.delayedReached = false;
 /**
  * Create an element with the given id and classes.
  * @param {string} tagName the tag
- * @param {string} id the id
  * @param {string[]|string} classes the class or classes to add
+ * @param {object} props any other attributes to add to the element
  * @returns the element
  */
-export function createElement(tagName, id, classes) {
+export function createElement(tagName, classes, props) {
   const elem = document.createElement(tagName);
-  if (id) {
-    elem.id = id;
-  }
   if (classes) {
     const classesArr = (typeof classes === 'string') ? [classes] : classes;
     elem.classList.add(...classesArr);
   }
+  if (props) {
+    Object.keys(props).forEach((propName) => {
+      elem.setAttribute(propName, props[propName]);
+    });
+  }
 
   return elem;
+}
+
+/**
+ * Add a listener for clicks outside an element, and execute the callback when they happen.
+ * useful for closing menus when they are clicked outside of.
+ * @param {Element} elem the element
+ * @param {function} callback the callback function
+ */
+export function addOutsideClickListener(elem, callback) {
+  let outsideClickListener;
+  const removeClickListener = (() => {
+    document.removeEventListener('click', outsideClickListener);
+  });
+  outsideClickListener = ((event) => {
+    if (!elem.contains(event.target)) {
+      callback();
+      removeClickListener();
+    }
+  });
+  document.addEventListener('click', outsideClickListener);
 }
 
 /**

@@ -2,7 +2,7 @@ import { getPosts, createElement } from '../../scripts/scripts.js';
 import { decorateIcons, readBlockConfig } from '../../scripts/lib-franklin.js';
 
 function getTagsLinks(tags) {
-  const list = createElement('ul', '', 'tags-list');
+  const list = createElement('ul', 'tags-list');
   tags.forEach((tag) => {
     const item = createElement('li');
     const link = createElement('a');

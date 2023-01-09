@@ -1,5 +1,5 @@
 import { readBlockConfig, decorateIcons } from '../../scripts/lib-franklin.js';
-import { wrapImgsInLinks, createElement } from '../../scripts/scripts.js';
+import { wrapImgsInLinks, createElement, addOutsideClickListener } from '../../scripts/scripts.js';
 
 /**
  * collapses all open nav sections
@@ -13,10 +13,10 @@ function collapseAllNavSections(sections) {
 }
 
 function buildSeachNav() {
-  const searchNav = createElement('div', '', 'search-nav');
+  const searchNav = createElement('div', 'search-nav');
   searchNav.setAttribute('aria-expanded', false);
 
-  const searchForm = createElement('div', '', 'search-form');
+  const searchForm = createElement('div', 'search-form');
   searchForm.innerHTML = `
     <input type="text" placeholder="Search Blogs" name="term" value="" autocomplete="off" />
     <button class="button secondary" id="header-search-submit">Search Blogs</button>
@@ -72,6 +72,11 @@ export default async function decorate(block) {
             const expanded = navSection.getAttribute('aria-expanded') === 'true';
             collapseAllNavSections(navSections);
             navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+            if (!expanded) {
+              addOutsideClickListener(navSection, () => {
+                navSection.setAttribute('aria-expanded', 'false');
+              });
+            }
           });
         }
       });
@@ -95,11 +100,16 @@ export default async function decorate(block) {
     });
 
     // hamburger for mobile
-    const hamburger = createElement('div', '', 'nav-hamburger');
+    const hamburger = createElement('div', 'nav-hamburger');
     hamburger.innerHTML = '<div class="nav-hamburger-icon"></div>';
     hamburger.addEventListener('click', () => {
       const expanded = nav.getAttribute('aria-expanded') === 'true';
       nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      if (!expanded) {
+        addOutsideClickListener(nav, () => {
+          nav.setAttribute('aria-expanded', 'false');
+        });
+      }
     });
     nav.prepend(hamburger);
     nav.setAttribute('aria-expanded', 'false');

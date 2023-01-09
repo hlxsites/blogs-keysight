@@ -63,7 +63,7 @@ async function getAuthorLink(post) {
 
 function getTagsLinks(post) {
   if (post.tags) {
-    const list = createElement('ul', '', 'card-tags');
+    const list = createElement('ul', 'card-tags');
     post.tags.split(',').forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
@@ -88,7 +88,7 @@ function buildPostCard(post, index) {
   if (index % 7 === 3) {
     classes.push('featured');
   }
-  const postCard = createElement('div', '', classes);
+  const postCard = createElement('div', classes);
 
   let postDateStr = '';
   if (post.date) {
@@ -146,7 +146,7 @@ export default async function decorate(block) {
   const limitNumber = limit || -1;
   const applicableFilter = filter || 'auto';
   const posts = await getPosts(applicableFilter, limit);
-  const grid = createElement('div', '', 'post-cards-grid');
+  const grid = createElement('div', 'post-cards-grid');
   let primaryPosts;
   let deferredPosts;
   if (posts.length > initLoad) {
@@ -179,7 +179,7 @@ export default async function decorate(block) {
 
   let hasHidden = grid.querySelector('.post-card.hidden');
   if (hasHidden) {
-    const moreButton = createElement('button', '', 'show-more-cards');
+    const moreButton = createElement('button', 'show-more-cards');
     moreButton.innerText = 'Show More';
     moreButton.addEventListener('click', () => {
       for (let i = 0; i < pageSize; i += 1) {
@@ -195,7 +195,7 @@ export default async function decorate(block) {
       }
     });
 
-    const moreContainer = createElement('div', '', 'show-more-cards-container');
+    const moreContainer = createElement('div', 'show-more-cards-container');
     moreContainer.append(moreButton);
 
     block.append(moreContainer);
