@@ -337,7 +337,7 @@ async function loadLazy(doc) {
 
   replaceTagText(document.body);
 
-  loadCSS(`${window.hlx.codeBasePath}/fonts/fonts.css`);
+  // loadCSS(`${window.hlx.codeBasePath}/fonts/fonts.css`);
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   addFavIcon(`${window.hlx.codeBasePath}/icons/favicon.ico`);
   sampleRUM('lazy');
