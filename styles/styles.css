@@ -102,7 +102,7 @@ h5, .heading-h5 { font-size: var(--body-font-size-m); }
 h6, .heading-h6 { font-size: var(--body-font-size-s); }
 
 header {
-  height: var(--nav-height);
+  min-height: var(--nav-height);
 }
 
 footer .footer:not(.appear)

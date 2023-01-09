@@ -5,6 +5,7 @@ header {
   --header-nav-background-color: var(--color-off-white);
   --header-text-color: var(--color-gray-500);
   --header-nav-text-color: var(--color-gray-400);
+  --header-nav-height: calc(var(--nav-height)  - 1px);
 
   background-color: var(--header-background-color);
   color: var(--header-text-color);
@@ -14,7 +15,7 @@ header {
 header nav {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 1fr;
+  grid-template-rows: var(--header-nav-height);
   max-width: var(--section-max-width);
   margin: auto;
   z-index: 4;
@@ -23,7 +24,7 @@ header nav {
 }
 
 header nav[aria-expanded='true'] {
-  grid-template-rows: var(--nav-height)
+  grid-template-rows: var(--header-nav-height)
     4rem
     1fr;
 }
@@ -52,6 +53,10 @@ header nav .nav-blog-home {
   grid-row: 2;
   border: 2px solid var(--header-nav-border-color);
   border-inline: 1px solid var(--header-nav-border-color);
+}
+
+header nav .nav-blog-home p {
+  margin: 0;
 }
 
 header nav .nav-blog-home a {
