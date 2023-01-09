@@ -2,11 +2,6 @@ main .featured-posts-container {
   background-color: white;
 }
 
-main .featured-posts {
-  margin: 0;
-  padding: 2rem 0;
-}
-
 main .featured-posts .featured-posts-grid {
   display: grid;
   gap: 1rem;
@@ -46,14 +41,9 @@ main .featured-posts .featured-posts-grid .post > div a {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;  
   overflow: hidden;
-  text-decoration: none;
   color: var(--color-gray-300);
   font-weight: 500;
   font-size: var(--heading-font-size-xs);
   line-height: 1.3;
-}
-
-main .featured-posts .featured-posts-grid .post > div a:hover {
-  text-decoration: underline;
 }
 

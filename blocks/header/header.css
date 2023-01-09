@@ -55,12 +55,12 @@ header nav .nav-blog-home {
 }
 
 header nav .nav-blog-home a {
-  text-decoration: none;
   color: var(--header-text-color);
 }
 
 header nav .nav-blog-home a:hover {
   color: var(--color-red);
+  text-decoration: none;
 }
 
 header nav[aria-expanded='true'] .nav-blog-home {
@@ -86,8 +86,8 @@ header nav .nav-tools {
   cursor: pointer;
 }
 
-header nav .nav-tools .icon img {
-  width: 25px;
+header nav .nav-tools .icon {
+  --icon-width: 25px;
 }
 
 header nav .nav-tools:not(.search-open) .icon-search-close {
@@ -190,9 +190,12 @@ header nav[aria-expanded='true'] .nav-sections {
 
 /* stylelint-disable-next-line no-descending-specificity */
 header nav .nav-sections a {
-  text-decoration: none;
   color: var(--header-text-color);
   font-size: var(--body-font-size-s);
+}
+
+header nav .nav-sections a:hover {
+  text-decoration: none;
 }
 
 header nav .nav-sections ul {
@@ -232,7 +235,7 @@ header nav .nav-sections ul > li.nav-drop {
   position: relative;
 }
 
-header nav .nav-sections ul > li.nav-drop > a > span.icon {
+header nav .nav-sections ul > li.nav-drop > a > .icon {
   display: none;
 }
 
@@ -313,19 +316,16 @@ header nav .nav-sections ul > li.nav-drop[aria-expanded='true'] > a::before {
     right: 0;
   }
 
-  header nav .nav-sections ul > li.nav-drop > a > span.icon {
-    display: inline;
+  header nav .nav-sections ul > li.nav-drop > a > .icon {
     padding-inline: .5rem;
+    display: inline-block;
   }
 
-  header nav .nav-sections ul > li.nav-drop > a > span.icon > svg {
-    width: 10px;
-    height: auto;
+  header nav .nav-sections ul > li.nav-drop > a > .icon > svg {
     transition: rotate .1s;
-    fill: currentcolor;
   }
 
-  header nav .nav-sections ul > li.nav-drop[aria-expanded='true'] > a > span.icon > svg {
+  header nav .nav-sections ul > li.nav-drop[aria-expanded='true'] > a > .icon > svg {
     rotate: 180deg;
   }
 
@@ -361,8 +361,6 @@ header .search-nav .search-form input {
   padding: 1.2rem 1.6rem;
   border: none !important;
   outline: none;
-  line-height: 1.5;
-  font-size: var(--body-font-size-m);
   font-size: inherit;
   font-family: inherit;
   height: 5rem;;

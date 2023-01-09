@@ -39,3 +39,9 @@ indices:
       readtime:
         select: head > meta[name="readtime"]
         value: attribute(el, "content")
+      authortitle:
+        select: head > meta[name="authortitle"]
+        value: attribute(el, "content")
+      template:
+        select: head > meta[name="template"]
+        value: attribute(el, "content")

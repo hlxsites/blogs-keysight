@@ -38,7 +38,7 @@
   --heading-font-size-xl: 5.4rem;
   --heading-font-size-l: 3.6rem;
   --heading-font-size-m: 2.6rem;
-  --heading-font-size-s: 22rem;
+  --heading-font-size-s: 2.2rem;
   --heading-font-size-xs: 2rem;
   
   /* misc */
@@ -73,11 +73,13 @@ html {
 }
 
 body {
+  background-color: var(--background-color);
   display: none;
   font-family: var(--body-font-family);
   color: var(--text-color);
-  background-color: var(--background-color);
   font-size: var(--body-font-size-m);
+  font-weight: 400;
+  line-height: 1.5;
   margin: 0;
   overflow-x: hidden;
 }
@@ -85,6 +87,19 @@ body {
 body.appear {
   display: block;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+  line-height: 1.1;
+  font-family: var(--heading-font-family);
+}
+
+h1 { font-size: var(--heading-font-size-l); }
+h2 { font-size: var(--heading-font-size-m); }
+h3 { font-size: var(--heading-font-size-s); }
+h4 { font-size: var(--heading-font-size-xs); }
+h5 { font-size: var(--body-font-size-m); }
+h6 { font-size: var(--body-font-size-s); }
 
 header {
   min-height: var(--nav-height);
@@ -104,10 +119,25 @@ main .section[data-section-status='initialized'] {
 main .section > div {
   max-width: var(--section-max-width);
   margin: auto;
-  padding: 0 2rem;
+  padding: 2rem;
 }
 
-/* buttons */
+main {
+  padding-bottom: 4rem;
+}
+
+/* links and buttons */
+a {
+  color: var(--color-red);
+  text-decoration: none;
+  text-underline-offset: .3rem;
+}
+
+a:is(:hover, :focus) {
+  color: var(--color-dark-red);
+  text-decoration: underline;
+}
+
 a.button:any-link, button {
   border: none;
   background: var(--color-red);
@@ -119,7 +149,7 @@ a.button:any-link, button {
   font-family: inherit;
 }
 
-a.button:hover, a.button:focus, button:hover, button:focus  {
+a.button:is(:hover, :focus), button:is(:hover, :focus)  {
   background-color: var(--color-dark-red);
   cursor: pointer;
 }
@@ -128,6 +158,23 @@ a.button.secondary, button.secondary {
   background: var(--color-gray-400);
 } 
 
-a.button.secondary:hover, a.button.secondary:focus, button.secondary:hover, button.secondary:focus  {
+a.button.secondary:is(:hover, :focus), button.secondary:is(:hover, :focus) {
   background-color: var(--color-gray-300);
+}
+
+.icon {
+  --icon-width: 10px;
+
+  display: inline-block;
+  width: var(--icon-width);
+  padding-inline: .5rem;
+}
+
+.icon :is(svg, img) {
+  width: var(--icon-width);
+  height: auto;
+}
+
+.icon svg {
+  fill: currentcolor;
 }
