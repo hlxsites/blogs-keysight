@@ -89,18 +89,18 @@ body.appear {
   display: block;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, .heading {
   font-weight: 500;
   line-height: 1.1;
   font-family: var(--heading-font-family);
 }
 
-h1 { font-size: var(--heading-font-size-l); }
-h2 { font-size: var(--heading-font-size-m); }
-h3 { font-size: var(--heading-font-size-s); }
-h4 { font-size: var(--heading-font-size-xs); }
-h5 { font-size: var(--body-font-size-m); }
-h6 { font-size: var(--body-font-size-s); }
+h1, .heading-h1 { font-size: var(--heading-font-size-l); }
+h2, .heading-h2 { font-size: var(--heading-font-size-m); }
+h3, .heading-h3 { font-size: var(--heading-font-size-s); }
+h4, .heading-h4 { font-size: var(--heading-font-size-xs); }
+h5, .heading-h5 { font-size: var(--body-font-size-m); }
+h6, .heading-h6 { font-size: var(--body-font-size-s); }
 
 header {
   min-height: var(--nav-height);

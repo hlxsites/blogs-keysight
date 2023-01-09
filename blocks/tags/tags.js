@@ -1,8 +1,8 @@
 import { getPosts, createElement } from '../../scripts/scripts.js';
-import { readBlockConfig } from '../../scripts/lib-franklin.js';
+import { decorateIcons, readBlockConfig } from '../../scripts/lib-franklin.js';
 
 function getTagsLinks(tags) {
-  const list = createElement('ul', '', 'tags-list');
+  const list = createElement('ul', 'tags-list');
   tags.forEach((tag) => {
     const item = createElement('li');
     const link = createElement('a');
@@ -46,4 +46,6 @@ export default async function decorate(block) {
   tagsAsArray.sort((a, b) => b.count - a.count);
   block.innerHTML = '';
   block.append(getTagsLinks(tagsAsArray));
+  block.insertAdjacentHTML('beforeend', '<p class="all-tags"><a href="/all-tags">See All Tags <span class="icon icon-chevron-right"></span></a></p>');
+  decorateIcons(block);
 }

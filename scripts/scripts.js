@@ -24,21 +24,43 @@ window.keysight.delayedReached = false;
 /**
  * Create an element with the given id and classes.
  * @param {string} tagName the tag
- * @param {string} id the id
  * @param {string[]|string} classes the class or classes to add
+ * @param {object} props any other attributes to add to the element
  * @returns the element
  */
-export function createElement(tagName, id, classes) {
+export function createElement(tagName, classes, props) {
   const elem = document.createElement(tagName);
-  if (id) {
-    elem.id = id;
-  }
   if (classes) {
     const classesArr = (typeof classes === 'string') ? [classes] : classes;
     elem.classList.add(...classesArr);
   }
+  if (props) {
+    Object.keys(props).forEach((propName) => {
+      elem.setAttribute(propName, props[propName]);
+    });
+  }
 
   return elem;
+}
+
+/**
+ * Add a listener for clicks outside an element, and execute the callback when they happen.
+ * useful for closing menus when they are clicked outside of.
+ * @param {Element} elem the element
+ * @param {function} callback the callback function
+ */
+export function addOutsideClickListener(elem, callback) {
+  let outsideClickListener;
+  const removeClickListener = (() => {
+    document.removeEventListener('click', outsideClickListener);
+  });
+  outsideClickListener = ((event) => {
+    if (!elem.contains(event.target)) {
+      callback();
+      removeClickListener();
+    }
+  });
+  document.addEventListener('click', outsideClickListener);
 }
 
 /**
@@ -303,6 +325,31 @@ export function addFavIcon(href) {
 }
 
 /**
+ * replaces the __tag__ placeholder with the actual tag from the url query param
+ */
+function replaceTagText(element) {
+  const url = new URL(window.location);
+  const params = url.searchParams;
+  const tag = params.get('tag');
+  if (tag) {
+    const recurse = (el) => {
+      if (el.nodeType === 3) {
+        // text node
+        const text = el.textContent;
+        const newText = text.replaceAll('__tag__', tag);
+        el.textContent = newText;
+      } else {
+        el.childNodes.forEach((child) => {
+          recurse(child);
+        });
+      }
+    };
+
+    recurse(element);
+  }
+}
+
+/**
  * loads everything that doesn't need to be delayed.
  */
 async function loadLazy(doc) {
@@ -315,6 +362,8 @@ async function loadLazy(doc) {
 
   loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
+
+  replaceTagText(document.body);
 
   loadCSS(`${window.hlx.codeBasePath}/fonts/fonts.css`);
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
