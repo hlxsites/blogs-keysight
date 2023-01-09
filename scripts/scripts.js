@@ -170,7 +170,7 @@ async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
   const templateName = getMetadata('template');
-  loadTemplate(doc,templateName);
+  loadTemplate(doc, templateName);
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
