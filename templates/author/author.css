@@ -1,6 +1,4 @@
-
 /* AUTHOR PAGE STYLES */
-
 .author main{
     font-family: "Graphik LC Web", sans-serif;
     font-size: 1em;
@@ -18,7 +16,7 @@
       float: left;
     }
   }
-  
+
   .author .hero {
     height: 275px;
     margin:auto auto;
