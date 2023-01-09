@@ -137,22 +137,7 @@ export function decorateMain(main) {
   decorateBlocks(main);
 }
 
-/**
- * loads everything needed to get to LCP.
- */
-async function loadEager(doc) {
-  document.documentElement.lang = 'en';
-  decorateTemplateAndTheme();
-  const templateName = getMetadata('template');
-  loadTemplate(doc,templateName);
-  const main = doc.querySelector('main');
-  if (main) {
-    decorateMain(main);
-    await waitForLCP(LCP_BLOCKS);
-  }
-}
-
- async function loadTemplate(doc,templateName) {
+async function loadTemplate(doc, templateName) {
   try {
     const cssLoaded = new Promise((resolve) => {
       loadCSS(`${window.hlx.codeBasePath}/templates/${templateName}/${templateName}.css`, resolve);
@@ -175,6 +160,21 @@ async function loadEager(doc) {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(`failed to load block ${templateName}`, error);
+  }
+}
+
+/**
+ * loads everything needed to get to LCP.
+ */
+async function loadEager(doc) {
+  document.documentElement.lang = 'en';
+  decorateTemplateAndTheme();
+  const templateName = getMetadata('template');
+  loadTemplate(doc,templateName);
+  const main = doc.querySelector('main');
+  if (main) {
+    decorateMain(main);
+    await waitForLCP(LCP_BLOCKS);
   }
 }
 
