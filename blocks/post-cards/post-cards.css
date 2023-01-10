@@ -106,12 +106,15 @@ main .post-cards .post-cards-grid .post-card .card-author a {
 } 
 
 main .post-cards .post-cards-grid .post-card .card-description {
+  flex-grow: 1;
+}
+
+main .post-cards .post-cards-grid .post-card .card-description p {
   /* stylelint-disable-next-line value-no-vendor-prefix */
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;  
   overflow: hidden;
-  flex-grow: 1;
 }
 
 main .post-cards .post-cards-grid .post-card .card-tags {

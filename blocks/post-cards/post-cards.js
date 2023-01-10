@@ -3,6 +3,7 @@ import {
   createElement,
   execDeferred,
   getPages,
+  splitTags,
 } from '../../scripts/scripts.js';
 import { createOptimizedPicture, readBlockConfig, decorateIcons } from '../../scripts/lib-franklin.js';
 
@@ -62,9 +63,10 @@ async function getAuthorLink(post) {
 }
 
 function getTagsLinks(post) {
-  if (post.tags) {
+  const tags = splitTags(post.tags);
+  if (tags.length > 0) {
     const list = createElement('ul', 'card-tags');
-    post.tags.split(',').forEach((tag) => {
+    tags.forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
       link.innerText = tag;
@@ -117,7 +119,7 @@ function buildPostCard(post, index) {
       <p class="card-topic"></p>
       <p class="card-title"><a href="${post.path}">${post.title}</a></p>
       <p class="card-author"><span class="card-date">${postDateStr}</span></p>
-      <p class="card-description">${post.description}</p>
+      <div class="card-description"><p class="card-description-text">${post.description}</p></div>
       <p class="card-read"><span class="icon icon-clock"></span>${post.readtime}</p>
     </div>
   `;

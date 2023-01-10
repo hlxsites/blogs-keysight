@@ -92,6 +92,20 @@ export async function getPages() {
   return window.keysight.pages;
 }
 
+/**
+ * split the tags string into a string array
+ * @param {string} tags the tags string from query index
+ */
+export function splitTags(tags) {
+  if (tags) {
+    return tags.split(',').map((tag) => {
+      const returnTag = tag.replace(/[[\]"]/g, '');
+      return returnTag;
+    }).filter((tag) => tag.trim() !== '');
+  }
+  return [];
+}
+
 function sortRelatedPosts(postA, postB) {
   let postAScore = 0;
   let postBScore = 0;
@@ -110,17 +124,17 @@ function sortRelatedPosts(postA, postB) {
   postAScore += (topic === postATopic && subtopic === postASubtopic) ? 1 : 0;
   postBScore += (topic === postBTopic && subtopic === postBSubtopic) ? 1 : 0;
 
-  const tags = getMetadata('tags');
+  const tags = getMetadata('article:tag');
   if (tags) {
-    const postATags = postA.tags;
-    if (postATags) {
-      const commonTags = tags.split(',').filter((tag) => postATags.split(',').includes(tag));
+    const postATags = splitTags(postA.tags);
+    if (postATags.length > 0) {
+      const commonTags = tags.split(',').filter((tag) => postATags.includes(tag));
       postAScore += commonTags.length;
     }
 
-    const postBTags = postB.tags;
-    if (postBTags) {
-      const commonTags = tags.split(',').filter((tag) => postBTags.split(',').includes(tag));
+    const postBTags = splitTags(postB.tags);
+    if (postBTags.length > 0) {
+      const commonTags = tags.split(',').filter((tag) => postBTags.includes(tag));
       postBScore += commonTags.length;
     }
   }
@@ -190,9 +204,9 @@ export async function getPosts(filter, limit) {
       }
       if (applicableFilter === 'tag') {
         // used for the tag-matches page, where tag is passed in a query param
-        const postTags = post.tags;
-        if (tag && postTags) {
-          matches = postTags.split(',').includes(tag);
+        const postTags = splitTags(post.tags);
+        if (tag) {
+          matches = postTags.includes(tag);
         }
       }
       return matches;

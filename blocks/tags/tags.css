@@ -1,7 +1,3 @@
-main .section.tags-container > div {
-  padding-block: 0;
-}
-
 main .tags-container h2 {
   margin-block-end: .5em;
   font-size: var(--heading-font-size-s);
@@ -38,16 +34,6 @@ main .tags .tags-list li a:is(:hover, :focus) {
 main .tags .tags-list .tag-count {
   width: 0;
   visibility: hidden;
-}
-
-main .tags.all .tags-list .tag-count {
-  width: auto;
-  visibility: visible;
-  display: inline-block;
-  border-radius: 1000px;
-  background: var(--color-gray-200);
-  min-width: 2.2rem;
-  text-align: center;
 }
 
 main .tags .tags-list li:hover {
@@ -88,4 +74,19 @@ main .tags .find-tag .found-tags {
 
 main .tags .find-tag .found-tags:empty {
   display: none;
+}
+
+/* All tags block variant */
+main .tags.all .tags-list {
+  max-height: unset;
+}
+
+main .tags.all .tags-list .tag-count {
+  width: auto;
+  visibility: visible;
+  display: inline-block;
+  border-radius: 1000px;
+  background: var(--color-gray-200);
+  min-width: 2.2rem;
+  text-align: center;
 }
