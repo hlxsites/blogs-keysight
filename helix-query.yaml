@@ -37,10 +37,10 @@ indices:
         select: head > meta[name="publication-date"]
         value: parseTimestamp(attribute(el, "content"), "YYYY-MM-DD")
       readtime:
-        select: head > meta[name="readtime"]
+        select: head > meta[name="read-time"]
         value: attribute(el, "content")
       authortitle:
-        select: head > meta[name="authortitle"]
+        select: head > meta[name="author-title"]
         value: attribute(el, "content")
       template:
         select: head > meta[name="template"]

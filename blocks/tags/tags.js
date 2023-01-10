@@ -57,7 +57,7 @@ function getTagsLinks(tags) {
  */
 export default async function decorate(block) {
   const conf = readBlockConfig(block);
-  const { filter, showSearch } = conf;
+  const { filter } = conf;
   const applicableFilter = filter || 'auto';
   const posts = await getPosts(applicableFilter, -1);
   const tags = {};
@@ -80,9 +80,9 @@ export default async function decorate(block) {
   const tagsAsArray = Object.values(tags).map((tagObj) => tagObj);
   tagsAsArray.sort((a, b) => b.count - a.count);
   block.innerHTML = '';
-  if (showSearch) {
-    block.append(buildSearch(block));
-  }
   block.append(getTagsLinks(tagsAsArray));
+  if (block.classList.includes('all')) {
+    block.prepend(buildSearch(block));
+  }
   decorateIcons(block);
 }

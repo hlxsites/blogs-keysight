@@ -40,7 +40,7 @@ main .tags .tags-list .tag-count {
   visibility: hidden;
 }
 
-main .tags.counts .tags-list .tag-count {
+main .tags.all .tags-list .tag-count {
   width: auto;
   visibility: visible;
   display: inline-block;
