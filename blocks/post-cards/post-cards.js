@@ -8,7 +8,7 @@ import {
 import { createOptimizedPicture, readBlockConfig, decorateIcons } from '../../scripts/lib-franklin.js';
 
 const pageSize = 7;
-const initLoad = pageSize * 10;
+const initLoad = pageSize * 2;
 
 async function getTopicLink(post) {
   const { topic, subtopic } = post;
@@ -168,13 +168,18 @@ export default async function decorate(block) {
 
   // there are potentially hundreds of posts, so to make this load faster in those scenarios
   // we defer building the dom for posts after the first few pages
-  execDeferred(() => {
-    for (let i = 0; i < deferredPosts.length && (limitNumber < 0 || i < limitNumber); i += 1) {
-      const postCard = buildPostCard(deferredPosts[i], counter);
-      grid.append(postCard);
-      counter += 1;
+  let deferredLoaded = false;
+  const loadDeferred = () => {
+    if (!deferredLoaded) {
+      deferredLoaded = true;
+      for (let i = 0; i < deferredPosts.length && (limitNumber < 0 || i < limitNumber); i += 1) {
+        const postCard = buildPostCard(deferredPosts[i], counter);
+        grid.append(postCard);
+        counter += 1;
+      }
     }
-  });
+  };
+  execDeferred(loadDeferred);
 
   block.innerHTML = '';
   block.append(grid);
@@ -184,6 +189,10 @@ export default async function decorate(block) {
     const moreButton = createElement('button', 'show-more-cards');
     moreButton.innerText = 'Show More';
     moreButton.addEventListener('click', () => {
+      if (!deferredLoaded) {
+        loadDeferred();
+      }
+
       for (let i = 0; i < pageSize; i += 1) {
         const nextPost = grid.querySelector('.post-card.hidden');
         if (nextPost) {
