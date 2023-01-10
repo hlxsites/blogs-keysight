@@ -67,7 +67,7 @@ function generateAuthorPath(authorContent, url) {
 function generateAuthor(document, url) {
   const author = document.createElement('div');
   const meta = {
-    template: 'author',
+    Template: 'author',
   };
 
   const img = document.createElement('img');
@@ -75,7 +75,7 @@ function generateAuthor(document, url) {
   const profileUrlEnd = url.indexOf('?host');
   const profileUrl = url.substr(profileUrlStart, profileUrlEnd - profileUrlStart);
   img.src = `${profileUrl}/photos/primary/image.prof.48.png`;
-  meta.image = img.cloneNode(true);
+  meta.Image = img.cloneNode(true);
   author.append(img);
 
   const sectionBreak = document.createElement('p');
@@ -84,13 +84,13 @@ function generateAuthor(document, url) {
 
   const name = document.querySelector('#bio-name');
   if (name) {
-    meta.title = name.textContent;
+    meta.Title = name.textContent;
     author.append(name);
   }
 
   const title = document.querySelector('#bio-title');
   if (title) {
-    meta.authorTitle = title.textContent;
+    meta['Author Title'] = title.textContent;
     const titleH2 = document.createElement('h2');
     titleH2.textContent = title.textContent;
     author.append(titleH2);
@@ -137,7 +137,7 @@ function generateAuthor(document, url) {
 function generateBlogPost(document) {
   const post = document.createElement('div');
   const meta = {
-    template: 'post',
+    Template: 'post',
   };
 
   // get the hero image and append it
@@ -231,7 +231,7 @@ function generateBlogPost(document) {
   if (author) {
     const authorName = author.textContent;
     if (authorName) {
-      meta.author = authorName;
+      meta.Author = authorName;
     }
   }
 
@@ -242,7 +242,7 @@ function generateBlogPost(document) {
       metaTags.push(tag.textContent.replace('#', '').trim());
     });
     if (metaTags.length > 0) {
-      meta.tags = metaTags.join(', ');
+      meta.Tags = metaTags.join(', ');
     }
   }
 
@@ -253,9 +253,9 @@ function generateBlogPost(document) {
       const dateRegex = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
       const timeRegex = /^[0-9]{1,2} min read$/;
       if (dateRegex.test(partContent)) {
-        meta['publication date'] = partContent;
+        meta['Publication Date'] = partContent;
       } else if (timeRegex.test(partContent)) {
-        meta.readTime = partContent;
+        meta['Read Time'] = partContent;
       }
     });
   }
