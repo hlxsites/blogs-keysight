@@ -137,7 +137,7 @@ function generateAuthor(document, url) {
 function generateBlogPost(document) {
   const post = document.createElement('div');
   const meta = {
-    templat: 'post',
+    template: 'post',
   };
 
   // get the hero image and append it
@@ -165,14 +165,31 @@ function generateBlogPost(document) {
   meta.Title = title.textContent;
   post.append(title);
 
-  post.append(sectionBreak.cloneNode(true));
+  const postContent = document.querySelector('div.rte-body-blog-post');
+  postContent.querySelectorAll('img').forEach((img) => {
+    const parent = img.parentElement;
+    if (parent.childNodes.length === 1 && parent.tagName === 'A') {
+      // link is to an image, remove link entirely, can be re-wried on front end if we need to
+      parent.replaceWith(img);
+    }
+  });
+  post.append(postContent);
 
-  post.append(document.querySelector('div.rte-body-blog-post'));
-
-  const related = document.querySelector('div.related-content');
+  const related = document.querySelector('#blogs_related_content');
   if (related) {
     post.append(sectionBreak.cloneNode(true));
-    post.append(related);
+    const relContentHead = document.createElement('h3');
+    relContentHead.textContent = 'Related Content';
+    post.append(relContentHead);
+    const colsLayout = related.querySelector('.layout-multicolumn');
+    const cols = colsLayout.querySelectorAll(':scope > div');
+
+    const colsCells = [
+      ['Columns'],
+      [...cols],
+    ];
+    const relatedCols = WebImporter.DOMUtils.createTable(colsCells, document);
+    post.append(relatedCols);
   }
 
   post.append(sectionBreak.cloneNode(true));
@@ -189,9 +206,11 @@ function generateBlogPost(document) {
   const postCardsBlock = WebImporter.DOMUtils.createTable(cells, document);
   post.append(postCardsBlock);
 
-  const desc = document.querySelector('meta[name="description"]');
+  const desc = document.querySelector('.wrapper meta[name="description"]');
   if (desc) {
     meta.Description = desc.content;
+  } else {
+    meta.Description = document.querySelector('div.rte-body-blog-post > p').textContent;
   }
 
   const author = document.querySelector('.author-name');
@@ -206,10 +225,10 @@ function generateBlogPost(document) {
   const metaTags = [];
   if (tags) {
     tags.forEach((tag) => {
-      metaTags.push(tag.textContent);
+      metaTags.push(tag.textContent.replace('#', '').trim());
     });
     if (metaTags.length > 0) {
-      meta.tags = metaTags;
+      meta.tags = metaTags.join(', ');
     }
   }
 
