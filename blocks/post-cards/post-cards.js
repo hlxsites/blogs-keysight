@@ -21,7 +21,7 @@ async function getTopicLink(post) {
     const pages = await getPages();
 
     const topicPage = pages.find((page) => {
-      const isPost = page.author !== undefined && page.author !== '';
+      const isPost = page.template === 'post';
       if (!isPost) {
         return page.topic === topic && page.subtopic === subtopic;
       }
