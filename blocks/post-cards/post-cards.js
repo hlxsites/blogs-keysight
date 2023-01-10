@@ -1,7 +1,6 @@
 import {
   getPosts,
   createElement,
-  execDeferred,
   getPages,
   splitTags,
 } from '../../scripts/scripts.js';
