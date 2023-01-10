@@ -6,27 +6,30 @@
   padding: 0 2rem;
 }
 
+.author main {
+  display: grid;
+  gap: 40px;
+  grid-template-columns: 1fr;
+  margin: 0 auto;
+  max-width: var(--section-max-width);
+}
+
+.author main > div {
+  grid-column: 1 / -1;
+}
+
 /* Author Hero  */
 @media (min-width: 600px) {
   .author main {
-    display: grid;
-    grid-gap: 40px;
     grid-template-columns: 275px auto;
-    margin: 0 auto;
-    max-width: var(--section-max-width);
   }
 
   .author main .section > div {
     padding: 2rem;
   }
 
-  .author main .hero,
-  .author main .hero picture {
+  .author main > div.hero-container {
     grid-column: 1;
-    height: 275px;
-    margin: 0 auto;
-    padding: 0;
-    width: 275px;
   }
 }
 
@@ -50,6 +53,7 @@
 @media (min-width: 600px) {
   .author .author-bio {
     padding-top: 2rem;
+    grid-column: 2;
   }
 
   .author .author-bio > div {
