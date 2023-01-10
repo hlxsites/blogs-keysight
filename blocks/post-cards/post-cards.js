@@ -1,13 +1,13 @@
 import {
   getPosts,
   createElement,
-  execDeferred,
   getPages,
+  splitTags,
 } from '../../scripts/scripts.js';
 import { createOptimizedPicture, readBlockConfig, decorateIcons } from '../../scripts/lib-franklin.js';
 
 const pageSize = 7;
-const initLoad = pageSize * 10;
+const initLoad = pageSize * 2;
 
 async function getTopicLink(post) {
   const { topic, subtopic } = post;
@@ -20,7 +20,7 @@ async function getTopicLink(post) {
     const pages = await getPages();
 
     const topicPage = pages.find((page) => {
-      const isPost = page.author !== undefined && page.author !== '';
+      const isPost = page.template === 'post';
       if (!isPost) {
         return page.topic === topic && page.subtopic === subtopic;
       }
@@ -62,9 +62,10 @@ async function getAuthorLink(post) {
 }
 
 function getTagsLinks(post) {
-  if (post.tags) {
+  const tags = splitTags(post.tags);
+  if (tags.length > 0) {
     const list = createElement('ul', 'card-tags');
-    post.tags.split(',').forEach((tag) => {
+    tags.forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
       link.innerText = tag;
@@ -82,7 +83,7 @@ function getTagsLinks(post) {
 
 function buildPostCard(post, index) {
   const classes = ['post-card'];
-  if (index > pageSize) {
+  if (index >= pageSize) {
     classes.push('hidden');
   }
   if (index % 7 === 3) {
@@ -117,7 +118,7 @@ function buildPostCard(post, index) {
       <p class="card-topic"></p>
       <p class="card-title"><a href="${post.path}">${post.title}</a></p>
       <p class="card-author"><span class="card-date">${postDateStr}</span></p>
-      <p class="card-description">${post.description}</p>
+      <div class="card-description"><p class="card-description-text">${post.description}</p></div>
       <p class="card-read"><span class="icon icon-clock"></span>${post.readtime}</p>
     </div>
   `;
@@ -166,13 +167,18 @@ export default async function decorate(block) {
 
   // there are potentially hundreds of posts, so to make this load faster in those scenarios
   // we defer building the dom for posts after the first few pages
-  execDeferred(() => {
-    for (let i = 0; i < deferredPosts.length && (limitNumber < 0 || i < limitNumber); i += 1) {
-      const postCard = buildPostCard(deferredPosts[i], counter);
-      grid.append(postCard);
-      counter += 1;
+  let deferredLoaded = false;
+  const loadDeferred = () => {
+    if (!deferredLoaded) {
+      deferredLoaded = true;
+      for (let i = 0; i < deferredPosts.length && (limitNumber < 0 || i < limitNumber); i += 1) {
+        const postCard = buildPostCard(deferredPosts[i], counter);
+        grid.append(postCard);
+        counter += 1;
+      }
     }
-  });
+  };
+  // execDeferred(loadDeferred);
 
   block.innerHTML = '';
   block.append(grid);
@@ -182,6 +188,10 @@ export default async function decorate(block) {
     const moreButton = createElement('button', 'show-more-cards');
     moreButton.innerText = 'Show More';
     moreButton.addEventListener('click', () => {
+      if (!deferredLoaded) {
+        loadDeferred();
+      }
+
       for (let i = 0; i < pageSize; i += 1) {
         const nextPost = grid.querySelector('.post-card.hidden');
         if (nextPost) {

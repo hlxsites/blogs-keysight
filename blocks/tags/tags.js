@@ -1,4 +1,9 @@
-import { getPosts, createElement, addOutsideClickListener } from '../../scripts/scripts.js';
+import {
+  getPosts,
+  createElement,
+  addOutsideClickListener,
+  splitTags,
+} from '../../scripts/scripts.js';
 import { decorateIcons, readBlockConfig } from '../../scripts/lib-franklin.js';
 
 function buildSearch(block) {
@@ -42,7 +47,7 @@ function getTagsLinks(tags) {
     const item = createElement('li');
     const link = createElement('a');
     link.innerHTML = `<span class="tag-name">#${tag.tag}</span><span class="tag-count">${tag.count}</span>`;
-    link.href = `/tag-matches?tag=${encodeURIComponent(tag)}`;
+    link.href = `/tag-matches?tag=${encodeURIComponent(tag.tag)}`;
 
     item.append(link);
     list.append(item);
@@ -57,14 +62,14 @@ function getTagsLinks(tags) {
  */
 export default async function decorate(block) {
   const conf = readBlockConfig(block);
-  const { filter, showSearch } = conf;
+  const { filter } = conf;
   const applicableFilter = filter || 'auto';
   const posts = await getPosts(applicableFilter, -1);
   const tags = {};
   posts.forEach((post) => {
-    const postTags = post.tags;
-    if (postTags) {
-      postTags.split(',').forEach((tag) => {
+    const postTags = splitTags(post.tags);
+    if (postTags.length > 0) {
+      postTags.forEach((tag) => {
         let tagObj = tags[tag];
         if (!tagObj) {
           tagObj = {
@@ -80,9 +85,9 @@ export default async function decorate(block) {
   const tagsAsArray = Object.values(tags).map((tagObj) => tagObj);
   tagsAsArray.sort((a, b) => b.count - a.count);
   block.innerHTML = '';
-  if (showSearch) {
-    block.append(buildSearch(block));
-  }
   block.append(getTagsLinks(tagsAsArray));
+  if (block.classList.contains('all')) {
+    block.prepend(buildSearch(block));
+  }
   decorateIcons(block);
 }
