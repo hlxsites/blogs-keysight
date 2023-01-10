@@ -1,12 +1,47 @@
-import { getPosts, createElement } from '../../scripts/scripts.js';
+import { getPosts, createElement, addOutsideClickListener } from '../../scripts/scripts.js';
 import { decorateIcons, readBlockConfig } from '../../scripts/lib-franklin.js';
+
+function buildSearch(block) {
+  const wrapper = createElement('div', 'find-tag');
+  const input = createElement('input', 'find-tag-text', {
+    type: 'text',
+    placeholder: 'Find a Tag',
+    autocomplete: 'off',
+  });
+  const ul = createElement('ul', 'found-tags');
+
+  input.addEventListener('keyup', () => {
+    ul.innerHTML = '';
+    const val = input.value;
+    if (val.length > 2) {
+      const matchedTags = [...block.querySelectorAll('.tags-list .tag-name')].filter((tagSpan) => {
+        const tag = tagSpan.innerText.replace('#', '');
+        return tag.toLowerCase().includes(val.toLowerCase());
+      });
+      ul.append(...matchedTags.map((tagSpan) => {
+        const li = createElement('li');
+        const tagText = tagSpan.innerText.replace('#', '');
+        li.innerHTML = `<a href="/tag-matches?tag=${encodeURIComponent(tagText)}">${tagText}</a>`;
+        return li;
+      }));
+      addOutsideClickListener(ul, () => {
+        ul.innerHTML = '';
+      });
+    }
+  });
+
+  wrapper.append(input);
+  wrapper.append(ul);
+
+  return wrapper;
+}
 
 function getTagsLinks(tags) {
   const list = createElement('ul', 'tags-list');
   tags.forEach((tag) => {
     const item = createElement('li');
     const link = createElement('a');
-    link.innerText = tag.tag;
+    link.innerHTML = `<span class="tag-name">#${tag.tag}</span><span class="tag-count">${tag.count}</span>`;
     link.href = `/tag-matches?tag=${encodeURIComponent(tag)}`;
 
     item.append(link);
@@ -22,7 +57,7 @@ function getTagsLinks(tags) {
  */
 export default async function decorate(block) {
   const conf = readBlockConfig(block);
-  const { filter } = conf;
+  const { filter, showSearch } = conf;
   const applicableFilter = filter || 'auto';
   const posts = await getPosts(applicableFilter, -1);
   const tags = {};
@@ -45,7 +80,9 @@ export default async function decorate(block) {
   const tagsAsArray = Object.values(tags).map((tagObj) => tagObj);
   tagsAsArray.sort((a, b) => b.count - a.count);
   block.innerHTML = '';
+  if (showSearch) {
+    block.append(buildSearch(block));
+  }
   block.append(getTagsLinks(tagsAsArray));
-  block.insertAdjacentHTML('beforeend', '<p class="all-tags"><a href="/all-tags">See All Tags <span class="icon icon-chevron-right"></span></a></p>');
   decorateIcons(block);
 }
