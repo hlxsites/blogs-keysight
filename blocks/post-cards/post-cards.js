@@ -82,7 +82,7 @@ function getTagsLinks(post) {
 
 function buildPostCard(post, index) {
   const classes = ['post-card'];
-  if (index > pageSize) {
+  if (index >= pageSize) {
     classes.push('hidden');
   }
   if (index % 7 === 3) {

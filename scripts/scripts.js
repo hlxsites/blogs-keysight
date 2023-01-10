@@ -150,7 +150,7 @@ export async function getPosts(filter, limit) {
   const pages = await getPages();
   // filter out anything that isn't a blog post (eg. must have an author)
   let finalPosts;
-  const allPosts = pages.filter((page) => page.author !== undefined && page.author !== '');
+  const allPosts = pages.filter((page) => page.template === 'post');
   const topic = getMetadata('topic');
   const subTopic = getMetadata('subtopic');
   const url = new URL(window.location);
@@ -185,7 +185,7 @@ export async function getPosts(filter, limit) {
       }
       if (applicableFilter === 'author') {
         // on author pages the author name is the title
-        const author = getMetadata('title');
+        const author = getMetadata('og:title');
         matches = author === post.author;
       }
       if (applicableFilter === 'tag') {

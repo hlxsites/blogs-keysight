@@ -137,6 +137,7 @@ main .post-cards .post-cards-grid .post-card .card-tags a {
 main .post-cards .show-more-cards-container {
   display: flex;
   justify-content: center;
+  margin-top: 3rem;
 }
 
 main .post-cards .show-more-cards-container .show-more-cards {
