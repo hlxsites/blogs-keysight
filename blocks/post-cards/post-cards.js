@@ -179,7 +179,7 @@ export default async function decorate(block) {
       }
     }
   };
-  execDeferred(loadDeferred);
+  // execDeferred(loadDeferred);
 
   block.innerHTML = '';
   block.append(grid);
