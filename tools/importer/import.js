@@ -173,6 +173,20 @@ function generateBlogPost(document) {
       parent.replaceWith(img);
     }
   });
+  postContent.querySelectorAll('.embeddedContent').forEach((embed) => {
+    const src = embed.getAttribute('data-oembed');
+    const embedCells = [
+      ['Embed'],
+      ['Source', src],
+    ];
+    const embedBlock = WebImporter.DOMUtils.createTable(embedCells, document);
+    embed.replaceWith(embedBlock);
+  });
+  postContent.querySelectorAll('figcaption').forEach((caption) => {
+    const em = document.createElement('em');
+    em.textContent = caption.textContent;
+    caption.replaceWith(em);
+  });
   post.append(postContent);
 
   const related = document.querySelector('#blogs_related_content');
