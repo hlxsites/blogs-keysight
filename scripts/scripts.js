@@ -12,6 +12,7 @@ import {
   waitForLCP,
   loadBlocks,
   loadCSS,
+  fetchPlaceholders,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = ['hero']; // add your LCP blocks to the list
@@ -340,10 +341,8 @@ export function addFavIcon(href) {
   }
 }
 
-/**
- * replaces the __tag__ placeholder with the actual tag from the url query param
- */
-function replaceTagText(element) {
+async function updatePlaceholders() {
+  // replace the tag in body content and meta tags
   const url = new URL(window.location);
   const params = url.searchParams;
   const tag = params.get('tag');
@@ -361,7 +360,23 @@ function replaceTagText(element) {
       }
     };
 
-    recurse(element);
+    recurse(document);
+    document.querySelectorAll('head > meta').forEach((meta) => {
+      const text = meta.content;
+      const newText = text.replaceAll('__tag__', tag);
+      meta.content = newText;
+    });
+  }
+
+  const placeholders = await fetchPlaceholders();
+  if (placeholders.titleSuffix) {
+    const title = document.querySelector('head > title');
+    const ogTitle = document.querySelector('head > meta[property="og:title"]');
+    const twitterTitle = document.querySelector('head > meta[name="twitter:title"]');
+    const withSuffix = `${title.textContent} ${placeholders.titleSuffix}`;
+    document.querySelector('head > title').textContent = withSuffix;
+    ogTitle.content = withSuffix;
+    twitterTitle.content = withSuffix;
   }
 }
 
@@ -379,7 +394,7 @@ async function loadLazy(doc) {
   loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
 
-  replaceTagText(document.body);
+  updatePlaceholders();
 
   loadCSS(`${window.hlx.codeBasePath}/fonts/fonts.css`);
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
