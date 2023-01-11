@@ -85,10 +85,22 @@ export function wrapImgsInLinks(container) {
  * Get the list of pages from the query index
  */
 export async function getPages() {
-  if (window.keysight.pages === undefined || window.keysight.pages.length === 0) {
-    const resp = await fetch('/query-index.json');
-    const json = await resp.json();
-    window.keysight.pages = json.data;
+  if (window.keysight.pages.length === 0) {
+    const pageData = [];
+    const queryLimit = 1000;
+    let queryOffset = 0;
+    let morePages = true;
+    while (morePages) {
+      // eslint-disable-next-line no-await-in-loop
+      const resp = await fetch(`/query-index.json?limit=${queryLimit}&offset=${queryOffset}`);
+      // eslint-disable-next-line no-await-in-loop
+      const json = await resp.json();
+      const { total, data } = json;
+      pageData.push(...data);
+      morePages = total > queryOffset + queryLimit;
+      queryOffset += queryLimit;
+    }
+    window.keysight.pages = pageData;
   }
   return window.keysight.pages;
 }
@@ -99,10 +111,7 @@ export async function getPages() {
  */
 export function splitTags(tags) {
   if (tags) {
-    return tags.split(',').map((tag) => {
-      const returnTag = tag.replace(/[[\]"]/g, '');
-      return returnTag;
-    }).filter((tag) => tag.trim() !== '');
+    return JSON.parse(tags);
   }
   return [];
 }
@@ -190,7 +199,9 @@ export async function getPosts(filter, limit) {
   }
 
   if (applicableFilter === 'post') {
-    finalPosts = allPosts.sort(sortRelatedPosts);
+    finalPosts = allPosts
+      .filter((post) => post.path !== window.location.pathname)
+      .sort(sortRelatedPosts);
   } else {
     finalPosts = allPosts.filter((post) => {
       let matches = true;

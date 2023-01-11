@@ -82,7 +82,16 @@ export default async function decorate(block) {
       });
     }
   });
-  const tagsAsArray = Object.values(tags).map((tagObj) => tagObj);
+  const tagsAsArray = Object.values(tags).map((tagObj) => tagObj).filter((tagObj) => {
+    const url = new URL(window.location);
+    const params = url.searchParams;
+    const tag = params.get('tag');
+    if (tag) {
+      // hide current tag when on a tag page
+      return tag !== tagObj.tag;
+    }
+    return true;
+  });
   tagsAsArray.sort((a, b) => b.count - a.count);
   block.innerHTML = '';
   block.append(getTagsLinks(tagsAsArray));
