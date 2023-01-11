@@ -110,6 +110,7 @@ export default async function decorate(block) {
       } else {
         tools.classList.add('search-open');
         searchNav.setAttribute('aria-expanded', 'true');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
 
