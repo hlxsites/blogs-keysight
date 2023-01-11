@@ -178,6 +178,8 @@ export async function getPosts(filter, limit) {
       applicableFilter = 'tag';
     } else if (template === 'author') {
       applicableFilter = 'author';
+    } else if (template === 'post') {
+      applicableFilter = 'post';
     } else if (topic && subTopic) {
       applicableFilter = 'subtopic';
     } else if (topic) {
