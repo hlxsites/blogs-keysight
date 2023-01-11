@@ -152,3 +152,7 @@ main .post-cards .show-more-cards-container .show-more-cards {
   font-size: var(--body-font-size-l);
   padding: 1rem 4rem;
 }
+
+main .post-cards .show-more-cards-container .show-more-cards:hover {
+  background-color: var(--color-gray-300-tranparent);
+}
