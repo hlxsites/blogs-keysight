@@ -2,6 +2,11 @@ main .featured-posts-container {
   background-color: white;
 }
 
+main .section > div.featured-posts-wrapper {
+  margin: 0 auto;
+  padding: 2rem;
+}
+
 main .featured-posts .featured-posts-grid {
   display: grid;
   gap: 1rem;
