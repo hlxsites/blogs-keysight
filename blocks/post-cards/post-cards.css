@@ -27,10 +27,19 @@ main .post-cards .post-cards-grid .post-card {
   }
 }
 
+main .post-cards .post-cards-grid .post-card .post-card-image picture {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+}
+
 main .post-cards .post-cards-grid .post-card .post-card-image picture img {
   object-fit: cover;
   width: 100%;
-  height: auto;
+  height: 100%;
+  position: absolute;
+  inset: 0;
 }
 
 main .post-cards .post-cards-grid .post-card .post-card-text {
@@ -56,17 +65,12 @@ main .post-cards .post-cards-grid .post-card .post-card-text > p {
     grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
   }
 
-  main .post-cards .post-cards-grid .post-card.featured .post-card-image {
-    position: relative;
-  }
-
   main .post-cards .post-cards-grid .post-card .post-card-text > * {
     padding: 0 3rem 0 4rem;
   }
 
-  main .post-cards .post-cards-grid .post-card.featured .post-card-image picture img {
-    position: absolute;
-    width: 100%;
+  main .post-cards .post-cards-grid .post-card.featured .post-card-image picture {
+    aspect-ratio: unset;
     height: 100%;
   }
 }
@@ -151,4 +155,8 @@ main .post-cards .show-more-cards-container .show-more-cards {
   border: 1px solid var(--color-gray-600);
   font-size: var(--body-font-size-l);
   padding: 1rem 4rem;
+}
+
+main .post-cards .show-more-cards-container .show-more-cards:hover {
+  background-color: var(--color-gray-300-tranparent);
 }

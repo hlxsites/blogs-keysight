@@ -1,7 +1,3 @@
-main .section > div.hero-wrapper {
-  margin: 2rem auto;
-}
-
 main .section > div.hero-wrapper.hero-full {
   max-width: unset;
   padding: 0;
@@ -11,7 +7,7 @@ main .section > div.hero-wrapper.hero-full {
 main .hero {
   position: relative;
   padding: 32px;
-  min-height: 525px;
+  min-height: min(525px, calc(100vw * .43));
 }
 
 main .hero-full .hero {
@@ -42,7 +38,7 @@ main .hero img {
 }
 
 main .hero :is(h1, p) {
-  max-width: 75%;
+  max-width: min(calc(var(--section-max-width) * .5), 75%);
 }
 
 main .hero h1 {
@@ -64,11 +60,5 @@ main .hero p {
   
   main .hero p {
     font-size: var(--body-font-size-l);
-  }
-}
-
-@media(min-width: 900px) {
-  main .hero :is(h1, p) {
-    max-width: 50%;
   }
 }

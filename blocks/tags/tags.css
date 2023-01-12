@@ -37,7 +37,7 @@ main .tags .tags-list .tag-count {
 }
 
 main .tags .tags-list li:hover {
-  background: rgb(82 79 86 / 10%);
+  background: var(--color-gray-300-tranparent);
 }
 
 main .tags .all-tags {
@@ -60,6 +60,8 @@ main .tags .find-tag .find-tag-text {
   position: relative;
   background: var(--color-white) url("/icons/search.svg") no-repeat 1.6rem center;
   background-size: 2rem 2rem;
+  border: 1px solid var(--color-gray-800);
+  outline: none;
 }
 
 main .tags .find-tag .found-tags {

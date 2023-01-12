@@ -18,10 +18,24 @@ function buildSeachNav() {
 
   const searchForm = createElement('div', 'search-form');
   searchForm.innerHTML = `
-    <input type="text" placeholder="Search Blogs" name="term" value="" autocomplete="off" />
+    <input type="text"  id="header-search-text" placeholder="Search Blogs" name="term" value="" autocomplete="off" />
     <button class="button secondary" id="header-search-submit">Search Blogs</button>
   `;
   searchNav.append(searchForm);
+
+  const input = searchForm.querySelector('#header-search-text');
+  const execSearch = () => {
+    const term = input.value;
+    if (term) {
+      window.location = `/search?q=${encodeURIComponent(term)}`;
+    }
+  };
+  searchForm.querySelector('#header-search-submit').addEventListener('click', execSearch);
+  input.addEventListener('keyup', (e) => {
+    if (e.key === 'Enter') {
+      execSearch();
+    }
+  });
 
   return searchNav;
 }
@@ -96,6 +110,7 @@ export default async function decorate(block) {
       } else {
         tools.classList.add('search-open');
         searchNav.setAttribute('aria-expanded', 'true');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
 
