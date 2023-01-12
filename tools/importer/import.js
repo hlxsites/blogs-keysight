@@ -196,10 +196,28 @@ function generateBlogPost(document) {
     relContentHead.textContent = 'Related Content';
     post.append(relContentHead);
     const colsLayout = related.querySelector('.layout-multicolumn');
-    const cols = colsLayout.querySelectorAll(':scope > div');
+    const cols = [...colsLayout.querySelectorAll(':scope > div')].map((col) => {
+      const colContent = document.createElement('div');
+
+      const category = col.querySelector('.related-content-category');
+      let colHasContent = false;
+      if (category) {
+        colHasContent = true;
+        colContent.append(category);
+      }
+
+      const links = col.querySelectorAll('a');
+      links.forEach((link) => {
+        const linksItem = document.createElement('p');
+        colHasContent = true;
+        linksItem.append(link);
+        colContent.append(linksItem);
+      });
+      return colHasContent ? colContent : null;
+    }).filter((col) => col !== null);
 
     const colsCells = [
-      ['Columns'],
+      ['Related Content'],
       [...cols],
     ];
     const relatedCols = WebImporter.DOMUtils.createTable(colsCells, document);
@@ -214,7 +232,6 @@ function generateBlogPost(document) {
 
   const cells = [
     ['Post Cards'],
-    ['filter', 'post'],
     ['limit', '3'],
   ];
   const postCardsBlock = WebImporter.DOMUtils.createTable(cells, document);
