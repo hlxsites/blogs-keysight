@@ -17,7 +17,7 @@ data.split(/\r?\n/).forEach((line) => {
       content += url[1].replace('http://localhost:4503', 'https://blogs.keysight.com');
       content += '\n';
       counter += 1;
-      if (counter % 100 === 0) {
+      if (counter % 200 === 0) {
         fs.writeFileSync(`./urls-${counter}.txt`, content);
         content = '';
       }

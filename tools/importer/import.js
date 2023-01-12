@@ -123,7 +123,6 @@ function generateAuthor(document, url) {
 
   const cells = [
     ['Post Cards'],
-    ['filter', 'author'],
   ];
   const postCardsBlock = WebImporter.DOMUtils.createTable(cells, document);
   author.append(postCardsBlock);
@@ -305,9 +304,14 @@ export default {
       const blogPostElement = generateBlogPost(document);
       const blogPostPath = generateBlogPostPath(blogPostElement, url);
 
+      const authorLink = document.querySelector('a[href^="/blogs/author.html/"]');
+
       return [{
         element: blogPostElement,
         path: blogPostPath,
+        report: {
+          author: `https://blogs.keysight.com${authorLink.href}`,
+        },
       }];
     }
 
