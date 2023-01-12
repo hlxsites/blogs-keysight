@@ -7,7 +7,7 @@ main .section > div.hero-wrapper.hero-full {
 main .hero {
   position: relative;
   padding: 32px;
-  min-height: 525px;
+  min-height: min(525px, calc(100vw * .43));
 }
 
 main .hero-full .hero {
