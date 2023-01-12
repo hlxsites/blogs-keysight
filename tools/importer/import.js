@@ -175,9 +175,12 @@ function generateBlogPost(document) {
   });
   postContent.querySelectorAll('.embeddedContent').forEach((embed) => {
     const src = embed.getAttribute('data-oembed');
+    const link = document.createElement('a');
+    link.href = src;
+    link.innerHTML = src;
     const embedCells = [
       ['Embed'],
-      ['Source', src],
+      ['Source', link],
     ];
     const embedBlock = WebImporter.DOMUtils.createTable(embedCells, document);
     embed.replaceWith(embedBlock);
@@ -301,6 +304,7 @@ export default {
     if (blogRte) {
       const blogPostElement = generateBlogPost(document);
       const blogPostPath = generateBlogPostPath(blogPostElement, url);
+
       return [{
         element: blogPostElement,
         path: blogPostPath,
