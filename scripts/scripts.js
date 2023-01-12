@@ -159,13 +159,16 @@ function sortRelatedPosts(postA, postB) {
  * @param {string} filter the name of the filter to apply
  * one of: topic, subtopic, author, tag, post, auto, none
  * @param {number} limit the number of posts to return, or -1 for no limit
+ * @param {string} pagetemplate the page template of post to return
+ * one of: post, author
  * @returns the posts as an array
  */
-export async function getPosts(filter, limit) {
+export async function getPosts(filter, limit, pagetemplate) {
+  const postType = pagetemplate !== undefined ? pagetemplate : 'post';
   const pages = await getPages();
   // filter out anything that isn't a blog post (eg. must have an author)
   let finalPosts;
-  const allPosts = pages.filter((page) => page.template === 'post');
+  const allPosts = pages.filter((page) => page.template === postType);
   const topic = getMetadata('topic');
   const subTopic = getMetadata('subtopic');
   const url = new URL(window.location);
