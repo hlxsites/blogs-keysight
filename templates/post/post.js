@@ -15,7 +15,7 @@ async function buildAuthorImage(sidebar, author) {
       authorUrl = posts[i].path;
     }
   }
-  const picMedia = [{ media: '(min-width: 600px)', width: '160' }, { media: '(min-width: 900px)', width: '400' }, { width: '600' }];
+  const picMedia = [{ media: '(min-width: 160px)', width: '160' }];
   const pic = createOptimizedPicture(authorImage, '', false, picMedia);
   sidebar.innerHTML = `<a class="author-image" href="${authorUrl}">${pic.outerHTML}</a>
   <div class="author-details">
@@ -38,7 +38,7 @@ function buildPostData(contentarea, sidebar, contentcontainer) {
   const pubdate = getMetadata('publication-date');
   const readtime = getMetadata('read-time');
   contentcontainer.insertAdjacentHTML('afterbegin', `<p class='blog-category'><a href='#'>${topic}</a></p>`);
-  contentcontainer.querySelector('h1').insertAdjacentHTML('afterend', `<span class='pubdate'>${pubdate}</span>  | <span class="icon icon-clock"></span><span class='readtime'>${readtime}</span>`);
+  contentcontainer.querySelector('h1').insertAdjacentHTML('afterend', `<div class='post-stats'><span class='pubdate'>${pubdate}</span>  | <span class="icon icon-clock"></span><span class='readtime'>${readtime}</span></div>`);
   contentarea.parentNode.insertBefore(sidebar, contentarea);
   decorateIcons(contentarea);
 }
