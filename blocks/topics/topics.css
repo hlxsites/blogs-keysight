@@ -32,7 +32,7 @@ main .topics .topics-list li {
   margin-top: 4px;
 }
 
-main .topics .topics-list > li {
+main .topics .topics-list > li > a {
   text-transform: uppercase;
 }
 
