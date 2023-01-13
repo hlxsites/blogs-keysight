@@ -364,8 +364,10 @@ async function updatePlaceholders() {
       if (el.nodeType === 3) {
         // text node
         const text = el.textContent;
-        const newText = text.replaceAll('__tag__', tag);
-        el.textContent = newText;
+        if (text.contains('__tag__')) {
+          const newText = text.replaceAll('__tag__', tag);
+          el.textContent = newText;
+        }
       } else {
         el.childNodes.forEach((child) => {
           recurse(child);
