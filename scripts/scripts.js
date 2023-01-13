@@ -364,7 +364,7 @@ async function updatePlaceholders() {
       if (el.nodeType === 3) {
         // text node
         const text = el.textContent;
-        if (text.contains('__tag__')) {
+        if (text.includes('__tag__')) {
           const newText = text.replaceAll('__tag__', tag);
           el.textContent = newText;
         }
