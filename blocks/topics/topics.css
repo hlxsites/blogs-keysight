@@ -36,7 +36,7 @@ main .topics .topics-list a {
   color: var(--color-gray-500);
 }
 
-main .topics .topics-list > li > a {
+main .topics .topics-list li.nav-topic > a {
   text-transform: uppercase;
 }
 

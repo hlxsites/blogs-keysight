@@ -1,7 +1,7 @@
 import { decorateIcons, getMetadata } from '../../scripts/lib-franklin.js';
 import { createElement, getPages, addOutsideClickListener } from '../../scripts/scripts.js';
 
-async function buildTopicNav() {
+async function getTopicNavData() {
   const pages = await getPages();
   const topicNav = {};
   pages.forEach((page) => {
@@ -32,20 +32,30 @@ async function buildTopicNav() {
   return topicNav;
 }
 
+function buildNav(ul, navItems, topicType) {
+  Object.values(navItems).forEach((navItem) => {
+    const topicLi = createElement('li', `nav-${topicType}`);
+    topicLi.innerHTML = `<a href="${navItem.href}">${navItem.title}</a>`;
+    if (navItem.subtopics.length > 0) {
+      const topicUl = createElement('ul');
+      buildNav(topicUl, navItem.subtopics, 'sub-topic');
+      topicLi.append(topicUl);
+    }
+    ul.append(topicLi);
+  });
+}
+
 /**
  * decorates the block
  * @param {Element} block The topics block element
  */
 export default async function decorate(block) {
-  const topicNav = await buildTopicNav();
+  const topicNav = await getTopicNavData();
   const topic = getMetadata('topic');
 
   let title = 'Topics';
-  let navItems = topicNav;
   if (topic) {
-    // nav on subtopic landing pages
     title = 'Subtopics';
-    navItems = topicNav[topic].subtopics;
   }
   const nav = createElement('nav', 'topics-nav', {
     'aria-expanded': 'false',
@@ -66,20 +76,12 @@ export default async function decorate(block) {
   nav.append(navTitle);
 
   const topicList = createElement('ul', 'topics-list');
-  Object.values(navItems).forEach((navItem) => {
-    const topicLi = createElement('li', 'nav-topic');
-    topicLi.innerHTML = `<a href="${navItem.href}">${navItem.title}</a>`;
-    if (navItem.subtopics.length > 0) {
-      const topicUl = createElement('ul');
-      navItem.subtopics.forEach((navSubItem) => {
-        const subtopicLi = createElement('li', 'nav-sub-topic');
-        subtopicLi.innerHTML = `<a href="${navSubItem.href}">${navSubItem.title}</a>`;
-        topicUl.append(subtopicLi);
-      });
-      topicLi.append(topicUl);
-    }
-    topicList.append(topicLi);
-  });
+  if (topic) {
+    buildNav(topicList, topicNav[topic].subtopics, 'sub-topic');
+  } else {
+    buildNav(topicList, topicNav, 'topic');
+  }
+
   nav.append(topicList);
   decorateIcons(nav);
   block.append(nav);
