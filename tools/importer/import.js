@@ -193,7 +193,6 @@ function generateBlogPost(document) {
 
   const related = document.querySelector('#blogs_related_content');
   if (related) {
-    post.append(sectionBreak.cloneNode(true));
     const relContentHead = document.createElement('h3');
     relContentHead.textContent = 'Related Content';
     post.append(relContentHead);
@@ -218,12 +217,15 @@ function generateBlogPost(document) {
       return colHasContent ? colContent : null;
     }).filter((col) => col !== null);
 
-    const colsCells = [
-      ['Related Content'],
-      [...cols],
-    ];
-    const relatedCols = WebImporter.DOMUtils.createTable(colsCells, document);
-    post.append(relatedCols);
+    if (cols.length > 0) {
+      const colsCells = [
+        ['Related Content'],
+        [...cols],
+      ];
+      const relatedCols = WebImporter.DOMUtils.createTable(colsCells, document);
+      post.append(sectionBreak.cloneNode(true));
+      post.append(relatedCols);
+    }
   }
 
   post.append(sectionBreak.cloneNode(true));
