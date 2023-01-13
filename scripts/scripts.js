@@ -399,6 +399,7 @@ async function updatePlaceholders() {
  * loads everything that doesn't need to be delayed.
  */
 async function loadLazy(doc) {
+  updatePlaceholders();
   const main = doc.querySelector('main');
   await loadBlocks(main);
 
@@ -408,8 +409,6 @@ async function loadLazy(doc) {
 
   loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
-
-  updatePlaceholders();
 
   loadCSS(`${window.hlx.codeBasePath}/fonts/fonts.css`);
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
