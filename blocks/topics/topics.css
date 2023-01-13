@@ -17,7 +17,8 @@ main .topics .nav-title:is(:hover, :focus) {
 
 main .topics .topics-list {
   position: absolute;
-  top: .8rem;
+  top: 3rem;
+  margin: 0;
   padding: 2rem 1.3rem;
   background-color: var(--color-white);
   box-shadow: 0 2px 5px var(--color-gray-400);
@@ -28,10 +29,15 @@ main .topics .topics-list {
 
 main .topics .topics-list li {
   list-style: none;
+  margin-top: 4px;
+}
+
+main .topics .topics-list > li:first-child {
+  margin-top: 0;
 }
 
 main .topics .topics-list ul {
-  padding-inline-start: 2rem
+  padding-inline-start: 1rem;
 }
 
 

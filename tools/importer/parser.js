@@ -2,6 +2,7 @@ const fs = require('fs');
 
 const data = fs.readFileSync('./fetchUGCProperties', { encoding: 'utf8', flag: 'r' });
 let content = '';
+let curContent = '';
 let counter = 0;
 let isDraft = false;
 const regex = /^[\s]*entity_url[\s]*:[\s]*(http.*)$/;
@@ -16,12 +17,15 @@ data.split(/\r?\n/).forEach((line) => {
       const url = line.match(regex);
       content += url[1].replace('http://localhost:4503', 'https://blogs.keysight.com');
       content += '\n';
+      curContent += url[1].replace('http://localhost:4503', 'https://blogs.keysight.com');
+      curContent += '\n';
       counter += 1;
       if (counter % 200 === 0) {
-        fs.writeFileSync(`./urls-${counter}.txt`, content);
-        content = '';
+        fs.writeFileSync(`./urls-${counter}.txt`, curContent);
+        curContent = '';
       }
     }
   }
 });
-fs.writeFileSync(`./urls-${counter}.txt`, content);
+fs.writeFileSync(`./urls-${counter}.txt`, curContent);
+fs.writeFileSync('./urls-all.txt', content);
