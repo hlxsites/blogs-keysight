@@ -32,6 +32,10 @@ main .topics .topics-list li {
   margin-top: 4px;
 }
 
+main .topics .topics-list > li {
+  text-transform: uppercase;
+}
+
 main .topics .topics-list > li:first-child {
   margin-top: 0;
 }
