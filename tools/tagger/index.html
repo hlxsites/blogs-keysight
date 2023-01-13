@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Keysight Blog - Tagger</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="/tools/tagger/tagger.js" type="module"></script>
+    <link rel="stylesheet" href="/tools/tagger/tagger.css"/>
+  </head>
+  <body>
+    <div id="tags-data"></div>
+    <main>
+      <div class="intro">
+        <h1 id="pick-your-tags">Pick your tags</h1>
+        <p>Use this page to pick the tags for your post.</p>
+        <p>Once you click on a tag, it will populate at the bottom of the page. When you have picked all the tags, click “copy” and then paste the information directly in your blog post draft.</p>
+      </div>
+      <div class="filter">
+        <input autocomplete="off" placeholder="Type to filter" id="search" onkeydown="filter()" onkeyup="filter()">
+      </div>
+      <div id="results"></div>
+      <div id="selected" class="hidden">test</div>
+    </main>
+    <textarea class="offscreen" id="copybuffer"></textarea>
+  </body>
+</html>
