@@ -32,6 +32,10 @@ main .topics .topics-list li {
   margin-top: 4px;
 }
 
+main .topics .topics-list a {
+  color: var(--color-gray-500);
+}
+
 main .topics .topics-list > li > a {
   text-transform: uppercase;
 }
@@ -48,10 +52,6 @@ main .topics .topics-list ul {
 main .topics .topics-nav[aria-expanded="false"] .topics-list {
   max-height: 0;
   visibility: hidden;
-}
-
-main .topics .topics-list a {
-  color: var(--color-gray-500);
 }
 
 main .topics .topics-list a:is(:hover, :focus) {
