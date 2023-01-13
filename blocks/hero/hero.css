@@ -37,7 +37,7 @@ main .hero img {
   height: 100%;
 }
 
-main .hero :is(h1, p) {
+main .hero-wrapper.hero-text-contained .hero :is(h1, p) {
   max-width: min(calc(var(--section-max-width) * .5), 75%);
 }
 
