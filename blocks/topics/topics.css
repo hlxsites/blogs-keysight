@@ -19,12 +19,21 @@ main .topics .topics-list {
   position: absolute;
   top: .8rem;
   padding: 2rem 1.3rem;
-  list-style: none;
   background-color: var(--color-white);
   box-shadow: 0 2px 5px var(--color-gray-400);
   max-height: 30rem;
   overflow-y: auto;
+  z-index: 2;
 }
+
+main .topics .topics-list li {
+  list-style: none;
+}
+
+main .topics .topics-list ul {
+  padding-inline-start: 2rem
+}
+
 
 main .topics .topics-nav[aria-expanded="false"] .topics-list {
   max-height: 0;

@@ -21,6 +21,7 @@ async function buildTopicNav() {
         pageTopicItem.subtopics.push({
           title: pageSubTopic,
           href: page.path,
+          subtopics: [],
         });
       } else {
         pageTopicItem.href = page.path;
@@ -44,7 +45,7 @@ export default async function decorate(block) {
   if (topic) {
     // nav on subtopic landing pages
     title = 'Subtopics';
-    navItems = topicNav[topic];
+    navItems = topicNav[topic].subtopics;
   }
   const nav = createElement('nav', 'topics-nav', {
     'aria-expanded': 'false',
