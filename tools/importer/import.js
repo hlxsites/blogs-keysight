@@ -189,6 +189,11 @@ function generateBlogPost(document) {
     em.textContent = caption.textContent;
     caption.replaceWith(em);
   });
+  postContent.querySelectorAll('table').forEach((table) => {
+    if (table.childElementCount === 0) {
+      table.remove();
+    }
+  });
   post.append(postContent);
 
   const related = document.querySelector('#blogs_related_content');
