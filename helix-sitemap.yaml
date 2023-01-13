@@ -1,5 +1,5 @@
 sitemaps:
-   example:
+   keysight-blogs:
      origin: https://blogs.keysight.com
      source: /query-index.json
      destination: /sitemap-en.xml
