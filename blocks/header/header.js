@@ -55,6 +55,9 @@ export default async function decorate(block) {
       if (section) section.classList.add(`nav-${e}`);
     });
 
+    const navBrand = [...nav.children][0];
+    navBrand.querySelector('a').title = 'Keysight Home';
+
     const navSections = [...nav.children][2];
     if (navSections) {
       navSections.querySelectorAll(':scope > ul > li').forEach((navSection) => {

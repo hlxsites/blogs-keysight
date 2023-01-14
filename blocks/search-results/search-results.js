@@ -103,7 +103,7 @@ function buildPostCard(post, index) {
   const picMedia = [{ width: '400' }];
   const pic = createOptimizedPicture(post.image, '', false, picMedia);
   postCard.innerHTML = `
-    <a class="post-card-image" href="${post.path}">${pic.outerHTML}</a>
+    <a class="post-card-image" title="${post.title.replaceAll('"', '')}" href="${post.path}">${pic.outerHTML}</a>
     <div class="post-card-text">
       <p class="card-title"><a href="${post.path}">${post.title}</a></p>
       <p class="card-author"><span class="card-date">${postDateStr}</span></p>
