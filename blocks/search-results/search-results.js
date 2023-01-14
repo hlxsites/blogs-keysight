@@ -1,43 +1,18 @@
 import {
+  createOptimizedPicture,
+  buildBlock,
+  decorateBlock,
+  loadBlock,
+} from '../../scripts/lib-franklin.js';
+import {
   getPosts,
+  splitTags,
   createElement,
   getPages,
-  splitTags,
 } from '../../scripts/scripts.js';
-import { createOptimizedPicture, readBlockConfig, decorateIcons } from '../../scripts/lib-franklin.js';
 
-const pageSize = 7;
+const pageSize = 10;
 const initLoad = pageSize * 2;
-
-async function getTopicLink(post) {
-  const { topic, subtopic } = post;
-  const topicText = subtopic || topic;
-
-  const notLink = createElement('span');
-  notLink.innerText = topicText;
-
-  try {
-    const pages = await getPages();
-
-    const topicPage = pages.find((page) => {
-      const isPost = page.template === 'post';
-      if (!isPost) {
-        return page.topic === topic && page.subtopic === subtopic;
-      }
-      return false;
-    });
-    if (topicPage) {
-      const link = createElement('a');
-      link.href = topicPage.path;
-      link.innerText = topicText;
-      return link;
-    }
-  } finally {
-    // no op, just fall through to retunr default
-  }
-
-  return notLink;
-}
 
 async function getAuthorLink(post) {
   const { author } = post;
@@ -81,13 +56,31 @@ function getTagsLinks(post) {
   return undefined;
 }
 
+async function executeSearch(q) {
+  const posts = await getPosts('none', -1);
+  const results = posts.map((post) => {
+    let score = 0;
+    score += post.title.toLowerCase().includes(q) ? 10 : 0;
+    score += post.description.toLowerCase().includes(q) ? 5 : 0;
+    score += post.author.toLowerCase().includes(q) ? 2 : 0;
+    const tags = splitTags(post.tags);
+    tags.forEach((tag) => {
+      score += tag.toLowerCase().includes(q) ? 5 : 0;
+    });
+    return {
+      post,
+      score,
+    };
+  }).filter((postObj) => postObj.score > 0)
+    .sort((postA, postB) => postB.score - postA.score);
+
+  return results;
+}
+
 function buildPostCard(post, index) {
   const classes = ['post-card'];
   if (index >= pageSize) {
     classes.push('hidden');
-  }
-  if (index % 7 === 3) {
-    classes.push('featured');
   }
   const postCard = createElement('div', classes);
 
@@ -107,24 +100,15 @@ function buildPostCard(post, index) {
     }
   }
 
-  let picMedia = [{ media: '(min-width: 600px)', width: '450' }, { width: '600' }];
-  if (classes.includes('featured')) {
-    picMedia = [{ media: '(min-width: 900px)', width: '1200' }, { width: '600' }];
-  }
+  const picMedia = [{ width: '400' }];
   const pic = createOptimizedPicture(post.image, '', false, picMedia);
   postCard.innerHTML = `
     <a class="post-card-image" href="${post.path}">${pic.outerHTML}</a>
     <div class="post-card-text">
-      <p class="card-topic"></p>
       <p class="card-title"><a href="${post.path}">${post.title}</a></p>
       <p class="card-author"><span class="card-date">${postDateStr}</span></p>
-      <div class="card-description"><p class="card-description-text">${post.description}</p></div>
-      <p class="card-read"><span class="icon icon-clock"></span>${post.readtime}</p>
     </div>
   `;
-  getTopicLink(post).then((link) => {
-    postCard.querySelector('.card-topic').append(link);
-  });
   getAuthorLink(post).then((link) => {
     postCard.querySelector('.card-author').prepend(link);
   });
@@ -133,54 +117,53 @@ function buildPostCard(post, index) {
     postCard.querySelector('.post-card-text').append(tagsLinks);
   }
 
-  decorateIcons(postCard);
+  // decorateIcons(postCard);
   return postCard;
 }
 
-/**
- * decorates the block
- * @param {Element} block The featured posts block element
- */
 export default async function decorate(block) {
-  const conf = readBlockConfig(block);
-  const { limit, filter } = conf;
-  const limitNumber = limit || -1;
-  const applicableFilter = filter || 'auto';
-  const posts = await getPosts(applicableFilter, limit);
+  const url = new URL(window.location);
+  const params = url.searchParams;
+  const q = params.get('q').toLowerCase();
+
+  const results = await executeSearch(q);
   const grid = createElement('div', 'post-cards-grid');
   let primaryPosts;
   let deferredPosts;
-  if (posts.length > initLoad) {
-    primaryPosts = posts.slice(0, initLoad);
-    deferredPosts = posts.slice(initLoad);
+  if (results.length > initLoad) {
+    primaryPosts = results.slice(0, initLoad);
+    deferredPosts = results.slice(initLoad);
   } else {
-    primaryPosts = posts;
+    primaryPosts = results;
     deferredPosts = [];
   }
 
   let counter = 0;
-  for (let i = 0; i < primaryPosts.length && (limitNumber < 0 || i < limitNumber); i += 1) {
-    const postCard = buildPostCard(primaryPosts[i], counter);
+  for (let i = 0; i < primaryPosts.length; i += 1) {
+    const postCard = buildPostCard(primaryPosts[i].post, counter);
     grid.append(postCard);
     counter += 1;
   }
 
-  // there are potentially hundreds of posts, so to make this load faster in those scenarios
-  // we defer building the dom for posts after the first few pages
   let deferredLoaded = false;
   const loadDeferred = () => {
     if (!deferredLoaded) {
       deferredLoaded = true;
-      for (let i = 0; i < deferredPosts.length && (limitNumber < 0 || i < limitNumber); i += 1) {
-        const postCard = buildPostCard(deferredPosts[i], counter);
+      for (let i = 0; i < deferredPosts.length; i += 1) {
+        const postCard = buildPostCard(deferredPosts[i].post, counter);
         grid.append(postCard);
         counter += 1;
       }
     }
   };
-  // execDeferred(loadDeferred);
 
   block.innerHTML = '';
+
+  const resultCount = createElement('h2');
+  resultCount.textContent = `${results.length} Results`;
+  resultCount.classList.add('results-count');
+  block.append(resultCount);
+
   block.append(grid);
 
   let hasHidden = grid.querySelector('.post-card.hidden');
@@ -209,5 +192,13 @@ export default async function decorate(block) {
     moreContainer.append(moreButton);
 
     block.append(moreContainer);
+
+    const section = block.closest('.section');
+    const searchFormSection = createElement('div', 'section');
+    const searchForm = buildBlock('search-form', '');
+    searchFormSection.append(searchForm);
+    decorateBlock(searchForm);
+    await loadBlock(searchForm);
+    section.insertAdjacentElement('beforebegin', searchFormSection);
   }
 }

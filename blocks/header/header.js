@@ -1,4 +1,10 @@
-import { readBlockConfig, decorateIcons } from '../../scripts/lib-franklin.js';
+import {
+  readBlockConfig,
+  decorateIcons,
+  buildBlock,
+  decorateBlock,
+  loadBlock,
+} from '../../scripts/lib-franklin.js';
 import { wrapImgsInLinks, createElement, addOutsideClickListener } from '../../scripts/scripts.js';
 
 /**
@@ -12,30 +18,15 @@ function collapseAllNavSections(sections) {
   });
 }
 
-function buildSeachNav() {
+async function buildSeachNav() {
   const searchNav = createElement('div', 'search-nav');
   searchNav.setAttribute('aria-expanded', false);
 
-  const searchForm = createElement('div', 'search-form');
-  searchForm.innerHTML = `
-    <input type="text"  id="header-search-text" placeholder="Search Blogs" name="term" value="" autocomplete="off" />
-    <button class="button secondary" id="header-search-submit">Search Blogs</button>
-  `;
+  // auto block in search form
+  const searchForm = buildBlock('search-form', '');
   searchNav.append(searchForm);
-
-  const input = searchForm.querySelector('#header-search-text');
-  const execSearch = () => {
-    const term = input.value;
-    if (term) {
-      window.location = `/search?q=${encodeURIComponent(term)}`;
-    }
-  };
-  searchForm.querySelector('#header-search-submit').addEventListener('click', execSearch);
-  input.addEventListener('keyup', (e) => {
-    if (e.key === 'Enter') {
-      execSearch();
-    }
-  });
+  decorateBlock(searchForm);
+  loadBlock(searchForm);
 
   return searchNav;
 }
@@ -99,7 +90,7 @@ export default async function decorate(block) {
     // wire up search
     const tools = [...nav.children][3];
     const search = tools.querySelector('.icon-search');
-    const searchNav = buildSeachNav();
+    const searchNav = await buildSeachNav();
     block.prepend(searchNav);
     search.parentElement.insertAdjacentHTML('beforeend', '<span class="icon icon-search-close"></span>');
     tools.addEventListener('click', () => {
