@@ -116,6 +116,9 @@ export function splitTags(tags) {
   return [];
 }
 
+/**
+ * A function for sorting an array of posts according to what is most cloesely related
+ */
 function sortRelatedPosts(postA, postB) {
   let postAScore = 0;
   let postBScore = 0;
@@ -159,6 +162,15 @@ function sortRelatedPosts(postA, postB) {
   }
 
   return result;
+}
+
+/**
+ * A function for sorting an array of posts by date
+ */
+function sortPostsByDate(postA, postB) {
+  const aDate = Number(postA.date || postA.lastModified);
+  const bDate = Number(postB.date || postB.lastModified);
+  return bDate - aDate;
 }
 
 /**
@@ -224,11 +236,7 @@ export async function getPosts(filter, limit) {
         }
       }
       return matches;
-    }).sort((a, b) => {
-      const aDate = Number(a.date);
-      const bDate = Number(b.date);
-      return bDate - aDate;
-    });
+    }).sort(sortPostsByDate);
   }
 
   return limit < 0 ? finalPosts : finalPosts.slice(0, limit);
