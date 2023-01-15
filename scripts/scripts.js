@@ -225,7 +225,7 @@ export async function getPosts(filter, limit) {
       }
       if (applicableFilter === 'author') {
         // on author pages the author name is the title
-        const author = getMetadata('og:title');
+        const author = getMetadata('originalTitle');
         matches = author === post.author;
       }
       if (applicableFilter === 'tag') {
@@ -394,6 +394,13 @@ async function updatePlaceholders() {
   const placeholders = await fetchPlaceholders();
   if (placeholders.titleSuffix) {
     const title = document.querySelector('head > title');
+
+    const originalTitle = createElement('meta', '', {
+      name: 'originalTitle',
+      content: title.textContent,
+    });
+    document.querySelector('head').append(originalTitle);
+
     const ogTitle = document.querySelector('head > meta[property="og:title"]');
     const twitterTitle = document.querySelector('head > meta[name="twitter:title"]');
     const withSuffix = `${title.textContent} ${placeholders.titleSuffix}`;
