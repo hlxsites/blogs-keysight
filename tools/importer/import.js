@@ -123,7 +123,6 @@ function generateAuthor(document, url) {
 
   const cells = [
     ['Post Cards'],
-    ['filter', 'author'],
   ];
   const postCardsBlock = WebImporter.DOMUtils.createTable(cells, document);
   author.append(postCardsBlock);
@@ -148,7 +147,10 @@ function generateBlogPost(document) {
     heroBlog.style = '';
     const startIndex = style.indexOf('url("') + 5;
     const endIndex = style.indexOf('")');
-    const heroImgUrl = style.substr(startIndex, endIndex - startIndex);
+    let heroImgUrl = style.substr(startIndex, endIndex - startIndex);
+    if (heroImgUrl.includes('stgblogs.keysight')) {
+      heroImgUrl = heroImgUrl.replace('stgblogs.keysight.', 'blogs.keysight.');
+    }
     heroBlog.style.backgroundImage = `url("${heroImgUrl}")`;
     const img = WebImporter.DOMUtils.replaceBackgroundByImg(heroBlog, document);
     img.classList.add('hero-img');
@@ -174,36 +176,82 @@ function generateBlogPost(document) {
     }
   });
   postContent.querySelectorAll('.embeddedContent').forEach((embed) => {
-    const src = embed.getAttribute('data-oembed');
-    const embedCells = [
-      ['Embed'],
-      ['Source', src],
-    ];
-    const embedBlock = WebImporter.DOMUtils.createTable(embedCells, document);
-    embed.replaceWith(embedBlock);
+    let src = embed.getAttribute('data-oembed');
+    if (!src) {
+      const iframe = embed.querySelector('iframe');
+      if (iframe) {
+        const normalizedSrc = iframe.src.startsWith('//') ? `https:${iframe.src}` : iframe.src;
+        const sourceUrl = new URL(normalizedSrc);
+        if (sourceUrl.hostname === 'www.youtube.com' && sourceUrl.pathname.startsWith('/embed/')) {
+          const vid = sourceUrl.pathname.split('/')[2];
+          src = `https://www.youtube.com/watch?v=${vid}`;
+        } else {
+          src = iframe.src;
+        }
+      }
+    }
+    if (src) {
+      console.log(`creating embed with src ${src}`);
+      const link = document.createElement('a');
+      link.href = src;
+      link.innerHTML = src;
+      const embedCells = [
+        ['Embed'],
+        ['Source', link],
+      ];
+      const embedBlock = WebImporter.DOMUtils.createTable(embedCells, document);
+      embed.replaceWith(embedBlock);
+    } else {
+      console.error(`removing embed, no src found ${embed.outerHTML}`);
+    }
   });
   postContent.querySelectorAll('figcaption').forEach((caption) => {
     const em = document.createElement('em');
     em.textContent = caption.textContent;
     caption.replaceWith(em);
   });
+  postContent.querySelectorAll('table').forEach((table) => {
+    if (table.childElementCount === 0) {
+      table.remove();
+    }
+  });
   post.append(postContent);
 
   const related = document.querySelector('#blogs_related_content');
   if (related) {
-    post.append(sectionBreak.cloneNode(true));
     const relContentHead = document.createElement('h3');
     relContentHead.textContent = 'Related Content';
     post.append(relContentHead);
     const colsLayout = related.querySelector('.layout-multicolumn');
-    const cols = colsLayout.querySelectorAll(':scope > div');
+    const cols = [...colsLayout.querySelectorAll(':scope > div')].map((col) => {
+      const colContent = document.createElement('div');
 
-    const colsCells = [
-      ['Columns'],
-      [...cols],
-    ];
-    const relatedCols = WebImporter.DOMUtils.createTable(colsCells, document);
-    post.append(relatedCols);
+      const category = col.querySelector('.related-content-category');
+      let colHasContent = false;
+      if (category) {
+        colHasContent = true;
+        colContent.append(category);
+      }
+
+      const links = col.querySelectorAll('a');
+      links.forEach((link) => {
+        const linksItem = document.createElement('p');
+        colHasContent = true;
+        linksItem.append(link);
+        colContent.append(linksItem);
+      });
+      return colHasContent ? colContent : null;
+    }).filter((col) => col !== null);
+
+    if (cols.length > 0) {
+      const colsCells = [
+        ['Related Content'],
+        [...cols],
+      ];
+      const relatedCols = WebImporter.DOMUtils.createTable(colsCells, document);
+      post.append(sectionBreak.cloneNode(true));
+      post.append(relatedCols);
+    }
   }
 
   post.append(sectionBreak.cloneNode(true));
@@ -214,7 +262,6 @@ function generateBlogPost(document) {
 
   const cells = [
     ['Post Cards'],
-    ['filter', 'post'],
     ['limit', '3'],
   ];
   const postCardsBlock = WebImporter.DOMUtils.createTable(cells, document);
@@ -284,9 +331,15 @@ export default {
     if (blogRte) {
       const blogPostElement = generateBlogPost(document);
       const blogPostPath = generateBlogPostPath(blogPostElement, url);
+
+      const authorLink = document.querySelector('a[href^="/blogs/author.html/"]');
+
       return [{
         element: blogPostElement,
         path: blogPostPath,
+        report: {
+          author: `https://blogs.keysight.com${authorLink.href}`,
+        },
       }];
     }
 

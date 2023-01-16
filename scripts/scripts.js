@@ -116,6 +116,9 @@ export function splitTags(tags) {
   return [];
 }
 
+/**
+ * A function for sorting an array of posts according to what is most cloesely related
+ */
 function sortRelatedPosts(postA, postB) {
   let postAScore = 0;
   let postBScore = 0;
@@ -159,6 +162,15 @@ function sortRelatedPosts(postA, postB) {
   }
 
   return result;
+}
+
+/**
+ * A function for sorting an array of posts by date
+ */
+function sortPostsByDate(postA, postB) {
+  const aDate = Number(postA.date || postA.lastModified);
+  const bDate = Number(postB.date || postB.lastModified);
+  return bDate - aDate;
 }
 
 /**
@@ -216,7 +228,7 @@ export async function getPosts(filter, limit, pagetemplate) {
       }
       if (applicableFilter === 'author') {
         // on author pages the author name is the title
-        const author = getMetadata('og:title');
+        const author = getMetadata('originalTitle');
         matches = author === post.author;
       }
       if (applicableFilter === 'tag') {
@@ -227,11 +239,7 @@ export async function getPosts(filter, limit, pagetemplate) {
         }
       }
       return matches;
-    }).sort((a, b) => {
-      const aDate = Number(a.date);
-      const bDate = Number(b.date);
-      return bDate - aDate;
-    });
+    }).sort(sortPostsByDate);
   }
 
   return limit < 0 ? finalPosts : finalPosts.slice(0, limit);
@@ -367,8 +375,10 @@ async function updatePlaceholders() {
       if (el.nodeType === 3) {
         // text node
         const text = el.textContent;
-        const newText = text.replaceAll('__tag__', tag);
-        el.textContent = newText;
+        if (text.includes('__tag__')) {
+          const newText = text.replaceAll('__tag__', tag);
+          el.textContent = newText;
+        }
       } else {
         el.childNodes.forEach((child) => {
           recurse(child);
@@ -387,6 +397,13 @@ async function updatePlaceholders() {
   const placeholders = await fetchPlaceholders();
   if (placeholders.titleSuffix) {
     const title = document.querySelector('head > title');
+
+    const originalTitle = createElement('meta', '', {
+      name: 'originalTitle',
+      content: title.textContent,
+    });
+    document.querySelector('head').append(originalTitle);
+
     const ogTitle = document.querySelector('head > meta[property="og:title"]');
     const twitterTitle = document.querySelector('head > meta[name="twitter:title"]');
     const withSuffix = `${title.textContent} ${placeholders.titleSuffix}`;
@@ -400,6 +417,7 @@ async function updatePlaceholders() {
  * loads everything that doesn't need to be delayed.
  */
 async function loadLazy(doc) {
+  updatePlaceholders();
   const main = doc.querySelector('main');
   await loadBlocks(main);
 
@@ -409,8 +427,6 @@ async function loadLazy(doc) {
 
   loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
-
-  updatePlaceholders();
 
   loadCSS(`${window.hlx.codeBasePath}/fonts/fonts.css`);
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);

@@ -17,18 +17,19 @@ main .topics .nav-title:is(:hover, :focus) {
 
 main .topics .topics-list {
   position: absolute;
-  top: .8rem;
+  top: 3rem;
+  margin: 0;
   padding: 2rem 1.3rem;
-  list-style: none;
   background-color: var(--color-white);
   box-shadow: 0 2px 5px var(--color-gray-400);
   max-height: 30rem;
   overflow-y: auto;
+  z-index: 2;
 }
 
-main .topics .topics-nav[aria-expanded="false"] .topics-list {
-  max-height: 0;
-  visibility: hidden;
+main .topics .topics-list li {
+  list-style: none;
+  margin-top: 4px;
 }
 
 main .topics .topics-list a {
@@ -37,4 +38,22 @@ main .topics .topics-list a {
 
 main .topics .topics-list a:is(:hover, :focus) {
   color: var(--color-red);
+}
+
+main .topics .topics-list li.nav-topic > a {
+  text-transform: uppercase;
+}
+
+main .topics .topics-list > li:first-child {
+  margin-top: 0;
+}
+
+main .topics .topics-list ul {
+  padding-inline-start: 1rem;
+}
+
+
+main .topics .topics-nav[aria-expanded="false"] .topics-list {
+  max-height: 0;
+  visibility: hidden;
 }

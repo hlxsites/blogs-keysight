@@ -347,46 +347,8 @@ header nav .nav-sections ul > li.nav-drop[aria-expanded='true'] > a::before {
 
 header .search-nav {
   display: none;
-  padding: 1.6rem;
-  background-color: var(--header-nav-hover-color);
 }
 
 header .search-nav[aria-expanded='true'] {
   display: block;
-}
-
-header .search-nav .search-form {
-  display: flex;
-  gap: .5rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  max-width: 700px;
-  margin: auto;
-}
-
-header .search-nav .search-form input {
-  width: 100%;
-  background-color: var(--header-background-color);
-  padding: 1.2rem 1.6rem;
-  border: none !important;
-  outline: none;
-  font-size: inherit;
-  font-family: inherit;
-  height: 5rem;;
-}
-
-header .search-nav button {
-  height: 5rem;
-}
-
-
-@media (min-width: 600px) {
-  header .search-nav .search-form {
-    gap: 0;
-  }
-
-  header .search-nav .search-form input {
-    max-width: calc(100% - 20rem);
-  }
 }

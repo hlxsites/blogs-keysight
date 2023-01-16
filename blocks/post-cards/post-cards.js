@@ -68,7 +68,7 @@ function getTagsLinks(post) {
     tags.forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
-      link.innerText = tag;
+      link.innerText = `#${tag}`;
       link.href = `/tag-matches?tag=${encodeURIComponent(tag)}`;
 
       item.append(link);
@@ -113,7 +113,7 @@ function buildPostCard(post, index) {
   }
   const pic = createOptimizedPicture(post.image, '', false, picMedia);
   postCard.innerHTML = `
-    <a class="post-card-image" href="${post.path}">${pic.outerHTML}</a>
+    <a class="post-card-image" title="${post.title.replaceAll('"', '')}" href="${post.path}">${pic.outerHTML}</a>
     <div class="post-card-text">
       <p class="card-topic"></p>
       <p class="card-title"><a href="${post.path}">${post.title}</a></p>
@@ -188,21 +188,24 @@ export default async function decorate(block) {
     const moreButton = createElement('button', 'show-more-cards');
     moreButton.innerText = 'Show More';
     moreButton.addEventListener('click', () => {
-      if (!deferredLoaded) {
-        loadDeferred();
-      }
-
       for (let i = 0; i < pageSize; i += 1) {
         const nextPost = grid.querySelector('.post-card.hidden');
         if (nextPost) {
           nextPost.classList.remove('hidden');
         }
       }
-      hasHidden = grid.querySelector('.post-card.hidden');
-      if (!hasHidden) {
-        // no more hidden, so hide show more button
-        moreButton.style.display = 'none';
-      }
+
+      // small timeout to avoid any visible delay in the next page loading
+      setTimeout(() => {
+        if (!deferredLoaded) {
+          loadDeferred();
+        }
+        hasHidden = grid.querySelector('.post-card.hidden');
+        if (!hasHidden) {
+          // no more hidden, so hide show more button
+          moreButton.style.display = 'none';
+        }
+      }, 250);
     });
 
     const moreContainer = createElement('div', 'show-more-cards-container');

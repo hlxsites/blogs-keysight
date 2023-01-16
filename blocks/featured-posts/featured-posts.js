@@ -35,7 +35,7 @@ export default async function decorate(block) {
     if (pageForLink) {
       const pic = createOptimizedPicture(pageForLink.image, '', false, [{ width: '200' }]);
       post.innerHTML = `
-        <a href="${pageForLink.path}">${pic.outerHTML}</a>
+        <a href="${pageForLink.path}" title="${pageForLink.title.replaceAll('"', '')}">${pic.outerHTML}</a>
         <div>
           <p class="category">${heading.textContent}</p>
           <a href="${pageForLink.path}">${pageForLink.title}</a>
