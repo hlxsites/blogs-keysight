@@ -147,7 +147,10 @@ function generateBlogPost(document) {
     heroBlog.style = '';
     const startIndex = style.indexOf('url("') + 5;
     const endIndex = style.indexOf('")');
-    const heroImgUrl = style.substr(startIndex, endIndex - startIndex);
+    let heroImgUrl = style.substr(startIndex, endIndex - startIndex);
+    if (heroImgUrl.includes('stgblogs.keysight')) {
+      heroImgUrl = heroImgUrl.replace('stgblogs.keysight.', 'blogs.keysight.');
+    }
     heroBlog.style.backgroundImage = `url("${heroImgUrl}")`;
     const img = WebImporter.DOMUtils.replaceBackgroundByImg(heroBlog, document);
     img.classList.add('hero-img');
@@ -173,16 +176,34 @@ function generateBlogPost(document) {
     }
   });
   postContent.querySelectorAll('.embeddedContent').forEach((embed) => {
-    const src = embed.getAttribute('data-oembed');
-    const link = document.createElement('a');
-    link.href = src;
-    link.innerHTML = src;
-    const embedCells = [
-      ['Embed'],
-      ['Source', link],
-    ];
-    const embedBlock = WebImporter.DOMUtils.createTable(embedCells, document);
-    embed.replaceWith(embedBlock);
+    let src = embed.getAttribute('data-oembed');
+    if (!src) {
+      const iframe = embed.querySelector('iframe');
+      if (iframe) {
+        const normalizedSrc = iframe.src.startsWith('//') ? `https:${iframe.src}` : iframe.src;
+        const sourceUrl = new URL(normalizedSrc);
+        if (sourceUrl.hostname === 'www.youtube.com' && sourceUrl.pathname.startsWith('/embed/')) {
+          const vid = sourceUrl.pathname.split('/')[2];
+          src = `https://www.youtube.com/watch?v=${vid}`;
+        } else {
+          src = iframe.src;
+        }
+      }
+    }
+    if (src) {
+      console.log(`creating embed with src ${src}`);
+      const link = document.createElement('a');
+      link.href = src;
+      link.innerHTML = src;
+      const embedCells = [
+        ['Embed'],
+        ['Source', link],
+      ];
+      const embedBlock = WebImporter.DOMUtils.createTable(embedCells, document);
+      embed.replaceWith(embedBlock);
+    } else {
+      console.error(`removing embed, no src found ${embed.outerHTML}`);
+    }
   });
   postContent.querySelectorAll('figcaption').forEach((caption) => {
     const em = document.createElement('em');
