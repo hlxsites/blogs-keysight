@@ -134,7 +134,7 @@ function buildPostCard(post, index) {
   return postCard;
 }
 
-async function loadPage(grid, moreButtonContainer) {
+async function loadPage(grid) {
   const { filter } = grid.dataset;
   const limit = Number(grid.dataset.limit);
   const posts = await getPosts(filter, limit);
@@ -152,19 +152,19 @@ async function loadPage(grid, moreButtonContainer) {
   if ((counter + 50) >= posts.length) {
     await loadPosts(true);
   }
-
-  const hidden = grid.querySelector('.post-card.hidden');
-  if (!hidden) {
-    moreButtonContainer.style.display = 'none';
-  }
 }
 
-function showPage(grid) {
+function showPage(grid, moreButtonContainer) {
   for (let i = 0; i < pageSize; i += 1) {
     const post = grid.querySelector('.post-card.hidden');
     if (post) {
       post.classList.remove('hidden');
     }
+  }
+
+  const hidden = grid.querySelector('.post-card.hidden');
+  if (!hidden) {
+    moreButtonContainer.style.display = 'none';
   }
 }
 
@@ -188,16 +188,16 @@ export default async function decorate(block) {
   const moreContainer = createElement('div', 'show-more-cards-container');
   moreContainer.append(moreButton);
   moreButton.addEventListener('click', () => {
-    showPage(grid);
-    loadPage(grid, moreContainer);
+    loadPage(grid);
+    showPage(grid, moreContainer);
   });
 
   block.innerHTML = '';
 
   // load the first 2 pages, show 1
-  await loadPage(grid, moreContainer);
-  await loadPage(grid, moreContainer);
-  showPage(grid);
+  await loadPage(grid);
+  await loadPage(grid);
+  showPage(grid, moreContainer);
 
   block.append(grid);
   block.append(moreContainer);
