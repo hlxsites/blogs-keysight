@@ -47,7 +47,7 @@ function buildPostData(contentcontainer) {
   decorateIcons(contentcontainer);
 }
 
-export default function decorate(doc) {
+export default async function decorate(doc) {
   const contentcontainer = doc.querySelector('.hero-container').nextElementSibling.firstElementChild;
   const classes = ['section', 'post-sidebar'];
   const sidebar = createElement('div', classes);
@@ -70,6 +70,6 @@ export default function decorate(doc) {
 
   sidebarPreviousSection.insertAdjacentElement('beforebegin', sidebar);
 
-  buildSidebar(sidebar, getMetadata('author'));
+  await buildSidebar(sidebar, getMetadata('author'));
   buildPostData(contentcontainer);
 }
