@@ -8,32 +8,33 @@ import {
   getPosts,
   splitTags,
   createElement,
+  getNavPages,
 } from '../../scripts/scripts.js';
 
 const pageSize = 10;
 const initLoad = pageSize * 2;
 
-// async function getAuthorLink(post) {
-//   const { author } = post;
-//   const notLink = createElement('span');
-//   notLink.innerText = `${author}`;
+async function getAuthorLink(post) {
+  const { author } = post;
+  const notLink = createElement('span');
+  notLink.innerText = `${author}`;
 
-//   try {
-//     const pages = await getPages();
+  try {
+    const pages = await getNavPages();
 
-//     const authorPage = pages.find((page) => page.title === author);
-//     if (authorPage) {
-//       const link = createElement('a');
-//       link.href = authorPage.path;
-//       link.innerText = `${author}`;
-//       return link;
-//     }
-//   } finally {
-//     // no op, just fall through to return default value
-//   }
+    const authorPage = pages.find((page) => page.title === author);
+    if (authorPage) {
+      const link = createElement('a');
+      link.href = authorPage.path;
+      link.innerText = `${author}`;
+      return link;
+    }
+  } finally {
+    // no op, just fall through to return default value
+  }
 
-//   return notLink;
-// }
+  return notLink;
+}
 
 function getTagsLinks(post) {
   const tags = splitTags(post.tags);
@@ -105,12 +106,13 @@ function buildPostCard(post, index) {
     <a class="post-card-image" title="${post.title.replaceAll('"', '')}" href="${post.path}">${pic.outerHTML}</a>
     <div class="post-card-text">
       <p class="card-title"><a href="${post.path}">${post.title}</a></p>
-      <p class="card-author"><span>${post.author}</span><span class="card-date">${postDateStr}</span></p>
+      <p class="card-author"><span class="author-text">${post.author}</span><span class="card-date">${postDateStr}</span></p>
     </div>
   `;
-  // getAuthorLink(post).then((link) => {
-  //   postCard.querySelector('.card-author').prepend(link);
-  // });
+  getAuthorLink(post).then((link) => {
+    postCard.querySelector('.card-author').replaceChild(link, postCard.querySelector('.card-author .author-text'));
+  });
+
   const tagsLinks = getTagsLinks(post);
   if (tagsLinks) {
     postCard.querySelector('.post-card-text').append(tagsLinks);

@@ -18,11 +18,12 @@ import {
 const LCP_BLOCKS = ['hero']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
 window.keysight = window.keysight || {};
-window.keysight.pageData = window.keysight.pageData || {
+window.keysight.postData = window.keysight.postData || {
   posts: [],
   offset: 0,
   allLoaded: false,
 };
+window.keysight.navPages = window.keysight.navPages || [];
 window.keysight.delayed = window.keysight.delayed || [];
 window.keysight.delayedReached = false;
 
@@ -89,17 +90,35 @@ export function wrapImgsInLinks(container) {
  * loads more data from the query index
  * */
 async function loadMorePosts() {
-  if (!window.keysight.pageData.allLoaded) {
+  if (!window.keysight.postData.allLoaded) {
     const queryLimit = 500;
-    const resp = await fetch(`/query-index.json?limit=${queryLimit}&offset=${window.keysight.pageData.offset}`);
+    const resp = await fetch(`/query-index.json?limit=${queryLimit}&offset=${window.keysight.postData.offset}`);
     const json = await resp.json();
     const { total, data } = json;
-    const justPosts = data.filter((page) => page.template === 'post');
-    window.keysight.pageData.posts.push(...justPosts);
-    window.keysight.pageData.allLoaded = total <= (window.keysight.pageData.offset + queryLimit);
-    window.keysight.pageData.offset += queryLimit;
-    window.keysight.pageData.currentlyLoading = false;
+    window.keysight.postData.posts.push(...data);
+    window.keysight.postData.allLoaded = total <= (window.keysight.postData.offset + queryLimit);
+    window.keysight.postData.offset += queryLimit;
   }
+}
+
+export async function getNavPages() {
+  if (window.keysight.navPages.length === 0) {
+    let allLoaded = false;
+    const queryLimit = 1000;
+    let offset = 0;
+    while (!allLoaded) {
+      // eslint-disable-next-line no-await-in-loop
+      const resp = await fetch(`/query-index.json?sheet=nav&limit=${queryLimit}&offset=${offset}`);
+      // eslint-disable-next-line no-await-in-loop
+      const json = await resp.json();
+      const { total, data } = json;
+      window.keysight.navPages.push(...data);
+      allLoaded = total <= (offset + queryLimit);
+      offset += queryLimit;
+    }
+  }
+
+  return window.keysight.navPages;
 }
 
 /**
@@ -107,10 +126,10 @@ async function loadMorePosts() {
  * @returns the currently loaded listed of posts from the query index pages
  */
 export async function loadPosts(more) {
-  if (window.keysight.pageData.posts.length === 0 || more) {
+  if (window.keysight.postData.posts.length === 0 || more) {
     await loadMorePosts();
   }
-  return window.keysight.pageData.posts;
+  return window.keysight.postData.posts;
 }
 
 /**

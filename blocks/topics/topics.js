@@ -1,14 +1,14 @@
 import { decorateIcons, getMetadata } from '../../scripts/lib-franklin.js';
-import { createElement, loadPosts, addOutsideClickListener } from '../../scripts/scripts.js';
+import { createElement, addOutsideClickListener, getNavPages } from '../../scripts/scripts.js';
 
 async function getTopicNavData() {
-  const pages = await loadPosts();
+  const pages = await getNavPages();
   const topicNav = {};
   pages.forEach((page) => {
     const pageTopic = page.topic;
     const pageSubTopic = page.subtopic;
     const pageAuthor = page.author;
-    if (pageTopic && !pageAuthor) {
+    if ((pageTopic && pageTopic !== '0') && (!pageAuthor || pageAuthor === '0')) {
       let pageTopicItem = topicNav[pageTopic];
       if (!pageTopicItem) {
         pageTopicItem = {
@@ -17,7 +17,7 @@ async function getTopicNavData() {
           subtopics: [],
         };
       }
-      if (pageSubTopic) {
+      if (pageSubTopic && pageSubTopic !== '0') {
         pageTopicItem.subtopics.push({
           title: pageSubTopic,
           href: page.path,
