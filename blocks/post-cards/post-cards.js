@@ -9,7 +9,16 @@ import { createOptimizedPicture, readBlockConfig, decorateIcons } from '../../sc
 
 const pageSize = 7;
 
-async function getTopicLink(post) {
+function showHideMore(grid, moreContainer) {
+  const hidden = grid.querySelector('.post-card.hidden');
+  if (hidden) {
+    moreContainer.style.display = 'auto';
+  } else {
+    moreContainer.style.display = 'none';
+  }
+}
+
+function getTopicLink(post, navPages) {
   const { topic, subtopic } = post;
   let topicText = topic;
   if (subtopic && subtopic !== '0') {
@@ -20,7 +29,6 @@ async function getTopicLink(post) {
   notLink.innerText = topicText;
 
   try {
-    const navPages = await getNavPages();
     const topicPage = navPages.find((page) => page.topic === topic && page.subtopic === subtopic);
     if (topicPage) {
       const link = createElement('a');
@@ -35,13 +43,12 @@ async function getTopicLink(post) {
   return notLink;
 }
 
-async function getAuthorLink(post) {
+function getAuthorLink(post, navPages) {
   const { author } = post;
   const notLink = createElement('span');
   notLink.innerText = `${author}`;
 
   try {
-    const navPages = await getNavPages();
     const authorPage = navPages.find((page) => page.title === author);
     if (authorPage) {
       const link = createElement('a');
@@ -76,7 +83,7 @@ function getTagsLinks(post) {
   return undefined;
 }
 
-function buildPostCard(post, index) {
+function buildPostCard(post, index, navPagesPromise) {
   const classes = ['post-card', 'hidden'];
   if (index % 7 === 3) {
     classes.push('featured');
@@ -119,12 +126,17 @@ function buildPostCard(post, index) {
       <p class="card-read"><span class="icon icon-clock"></span>${post.readtime}</p>
     </div>
   `;
-  getTopicLink(post).then((link) => {
-    postCard.querySelector('.card-topic').replaceChild(link, postCard.querySelector('.card-topic .topic-text'));
+  navPagesPromise.then((navPages) => {
+    const topicLink = getTopicLink(post, navPages);
+    if (topicLink) {
+      postCard.querySelector('.card-topic').replaceChild(topicLink, postCard.querySelector('.card-topic .topic-text'));
+    }
+    const authorLink = getAuthorLink(post, navPages);
+    if (authorLink) {
+      postCard.querySelector('.card-author').replaceChild(authorLink, postCard.querySelector('.card-author .author-text'));
+    }
   });
-  getAuthorLink(post).then((link) => {
-    postCard.querySelector('.card-author').replaceChild(link, postCard.querySelector('.card-author .author-text'));
-  });
+
   const tagsLinks = getTagsLinks(post);
   if (tagsLinks) {
     postCard.querySelector('.post-card-text').append(tagsLinks);
@@ -139,10 +151,11 @@ async function loadPage(grid) {
   const limit = Number(grid.dataset.limit);
   const posts = await getPosts(filter, limit);
   let counter = Number(grid.dataset.loadedCount);
+  const navPages = getNavPages();
   for (let i = 0;
     counter < posts.length && i < pageSize && (limit < 0 || counter < limit);
     i += 1) {
-    const postCard = buildPostCard(posts[counter], counter);
+    const postCard = buildPostCard(posts[counter], counter, navPages);
     grid.append(postCard);
     counter += 1;
   }
@@ -154,17 +167,12 @@ async function loadPage(grid) {
   }
 }
 
-function showPage(grid, moreButtonContainer) {
+function showPage(grid) {
   for (let i = 0; i < pageSize; i += 1) {
     const post = grid.querySelector('.post-card.hidden');
     if (post) {
       post.classList.remove('hidden');
     }
-  }
-
-  const hidden = grid.querySelector('.post-card.hidden');
-  if (!hidden) {
-    moreButtonContainer.style.display = 'none';
   }
 }
 
@@ -187,9 +195,10 @@ export default async function decorate(block) {
   moreButton.innerText = 'Show More';
   const moreContainer = createElement('div', 'show-more-cards-container');
   moreContainer.append(moreButton);
-  moreButton.addEventListener('click', () => {
-    loadPage(grid);
-    showPage(grid, moreContainer);
+  moreButton.addEventListener('click', async () => {
+    showPage(grid);
+    await loadPage(grid);
+    showHideMore(grid, moreContainer);
   });
 
   block.innerHTML = '';
@@ -197,8 +206,10 @@ export default async function decorate(block) {
   // load the first 2 pages, show 1
   await loadPage(grid);
   await loadPage(grid);
-  showPage(grid, moreContainer);
+  showPage(grid);
 
   block.append(grid);
   block.append(moreContainer);
+
+  showHideMore(grid, moreContainer);
 }
