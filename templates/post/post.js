@@ -38,21 +38,38 @@ async function buildSidebar(sidebar, author) {
   decorateIcons(sidebar);
 }
 
-function buildPostData(contentarea, sidebar, contentcontainer) {
+function buildPostData(contentcontainer) {
   const topic = getMetadata('topic');
   const pubdate = getMetadata('publication-date');
   const readtime = getMetadata('read-time');
   contentcontainer.insertAdjacentHTML('afterbegin', `<p class='blog-category'><a href='#'>${topic}</a></p>`);
   contentcontainer.querySelector('h1').insertAdjacentHTML('afterend', `<div class='post-stats'><span class='pubdate'>${pubdate}</span> | <span class="icon icon-clock"></span><span class='readtime'>${readtime}</span></div>`);
-  contentarea.parentNode.insertBefore(sidebar, contentarea);
   decorateIcons(contentcontainer);
 }
 
 export default function decorate(doc) {
-  const contentarea = doc.querySelector('.post-cards-container').previousElementSibling.classList.contains('related-content-container') ? doc.querySelector('.post-cards-container').previousElementSibling : doc.querySelector('.post-cards-container').previousElementSibling.previousElementSibling;
   const contentcontainer = doc.querySelector('.hero-container').nextElementSibling.firstElementChild;
   const classes = ['section', 'post-sidebar'];
   const sidebar = createElement('div', classes);
+
+  // TODO load and decorate the block into the section
+
+  let sidebarPreviousSection;
+  let sectionFound = false;
+  const sections = [...doc.querySelectorAll('.section')];
+  while (!sectionFound && sections.length > 0) {
+    const section = sections.pop();
+    if (!sidebarPreviousSection) {
+      sidebarPreviousSection = section;
+    } else if (section.classList.contains('related-content-container') || section.classList.contains('post-cards-container')) {
+      sidebarPreviousSection = section;
+    } else {
+      sectionFound = true;
+    }
+  }
+
+  sidebarPreviousSection.insertAdjacentElement('beforebegin', sidebar);
+
   buildSidebar(sidebar, getMetadata('author'));
-  buildPostData(contentarea, sidebar, contentcontainer);
+  buildPostData(contentcontainer);
 }
