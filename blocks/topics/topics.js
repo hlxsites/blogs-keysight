@@ -1,8 +1,8 @@
 import { decorateIcons, getMetadata } from '../../scripts/lib-franklin.js';
-import { createElement, getPages, addOutsideClickListener } from '../../scripts/scripts.js';
+import { createElement, loadPosts, addOutsideClickListener } from '../../scripts/scripts.js';
 
 async function getTopicNavData() {
-  const pages = await getPages();
+  const pages = await loadPosts();
   const topicNav = {};
   pages.forEach((page) => {
     const pageTopic = page.topic;

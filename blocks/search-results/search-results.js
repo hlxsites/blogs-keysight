@@ -8,33 +8,32 @@ import {
   getPosts,
   splitTags,
   createElement,
-  getPages,
 } from '../../scripts/scripts.js';
 
 const pageSize = 10;
 const initLoad = pageSize * 2;
 
-async function getAuthorLink(post) {
-  const { author } = post;
-  const notLink = createElement('span');
-  notLink.innerText = `${author}`;
+// async function getAuthorLink(post) {
+//   const { author } = post;
+//   const notLink = createElement('span');
+//   notLink.innerText = `${author}`;
 
-  try {
-    const pages = await getPages();
+//   try {
+//     const pages = await getPages();
 
-    const authorPage = pages.find((page) => page.title === author);
-    if (authorPage) {
-      const link = createElement('a');
-      link.href = authorPage.path;
-      link.innerText = `${author}`;
-      return link;
-    }
-  } finally {
-    // no op, just fall through to return default value
-  }
+//     const authorPage = pages.find((page) => page.title === author);
+//     if (authorPage) {
+//       const link = createElement('a');
+//       link.href = authorPage.path;
+//       link.innerText = `${author}`;
+//       return link;
+//     }
+//   } finally {
+//     // no op, just fall through to return default value
+//   }
 
-  return notLink;
-}
+//   return notLink;
+// }
 
 function getTagsLinks(post) {
   const tags = splitTags(post.tags);
@@ -109,9 +108,9 @@ function buildPostCard(post, index) {
       <p class="card-author"><span class="card-date">${postDateStr}</span></p>
     </div>
   `;
-  getAuthorLink(post).then((link) => {
-    postCard.querySelector('.card-author').prepend(link);
-  });
+  // getAuthorLink(post).then((link) => {
+  //   postCard.querySelector('.card-author').prepend(link);
+  // });
   const tagsLinks = getTagsLinks(post);
   if (tagsLinks) {
     postCard.querySelector('.post-card-text').append(tagsLinks);

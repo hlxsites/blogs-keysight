@@ -18,7 +18,11 @@ import {
 const LCP_BLOCKS = ['hero']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
 window.keysight = window.keysight || {};
-window.keysight.pages = window.keysight.pages || [];
+window.keysight.pageData = window.keysight.pageData || {
+  posts: [],
+  offset: 0,
+  allLoaded: false,
+};
 window.keysight.delayed = window.keysight.delayed || [];
 window.keysight.delayedReached = false;
 
@@ -82,27 +86,31 @@ export function wrapImgsInLinks(container) {
 }
 
 /**
- * Get the list of pages from the query index
- */
-export async function getPages() {
-  if (window.keysight.pages.length === 0) {
-    const pageData = [];
-    const queryLimit = 1000;
-    let queryOffset = 0;
-    let morePages = true;
-    while (morePages) {
-      // eslint-disable-next-line no-await-in-loop
-      const resp = await fetch(`/query-index.json?limit=${queryLimit}&offset=${queryOffset}`);
-      // eslint-disable-next-line no-await-in-loop
-      const json = await resp.json();
-      const { total, data } = json;
-      pageData.push(...data);
-      morePages = total > queryOffset + queryLimit;
-      queryOffset += queryLimit;
-    }
-    window.keysight.pages = pageData;
+ * loads more data from the query index
+ * */
+async function loadMorePosts() {
+  if (!window.keysight.pageData.allLoaded) {
+    const queryLimit = 500;
+    const resp = await fetch(`/query-index.json?limit=${queryLimit}&offset=${window.keysight.pageData.offset}`);
+    const json = await resp.json();
+    const { total, data } = json;
+    const justPosts = data.filter((page) => page.template === 'post');
+    window.keysight.pageData.posts.push(...justPosts);
+    window.keysight.pageData.allLoaded = total <= (window.keysight.pageData.offset + queryLimit);
+    window.keysight.pageData.offset += queryLimit;
+    window.keysight.pageData.currentlyLoading = false;
   }
-  return window.keysight.pages;
+}
+
+/**
+ * @param {boolean} more indicates to force loading additional data from query index
+ * @returns the currently loaded listed of posts from the query index pages
+ */
+export async function loadPosts(more) {
+  if (window.keysight.pageData.posts.length === 0 || more) {
+    await loadMorePosts();
+  }
+  return window.keysight.pageData.posts;
 }
 
 /**
@@ -183,7 +191,7 @@ function sortPostsByDate(postA, postB) {
  * @returns the posts as an array
  */
 export async function getPosts(filter, limit) {
-  const pages = await getPages();
+  const pages = await loadPosts();
   // filter out anything that isn't a blog post (eg. must have an author)
   let finalPosts;
   const allPosts = pages.filter((page) => page.template === 'post');

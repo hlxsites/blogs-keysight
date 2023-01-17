@@ -1,25 +1,25 @@
 import {
   getPosts,
   createElement,
-  getPages,
+  loadPosts,
   splitTags,
 } from '../../scripts/scripts.js';
 import { createOptimizedPicture, readBlockConfig, decorateIcons } from '../../scripts/lib-franklin.js';
 
 const pageSize = 7;
-const initLoad = pageSize * 2;
-
+/*
 async function getTopicLink(post) {
   const { topic, subtopic } = post;
-  const topicText = (subtopic && subtopic !== '0') || topic;
+  let topicText = topic;
+  if (subtopic && subtopic !== '0') {
+    topicText = subtopic;
+  }
 
   const notLink = createElement('span');
   notLink.innerText = topicText;
 
   try {
-    const pages = await getPages();
-
-    const topicPage = pages.find((page) => {
+    const topicPage = await findPage((page) => {
       const isPost = page.template === 'post';
       if (!isPost) {
         return page.topic === topic && page.subtopic === subtopic;
@@ -33,7 +33,7 @@ async function getTopicLink(post) {
       return link;
     }
   } finally {
-    // no op, just fall through to retunr default
+    // no op, just fall through to return default
   }
 
   return notLink;
@@ -45,9 +45,7 @@ async function getAuthorLink(post) {
   notLink.innerText = `${author}`;
 
   try {
-    const pages = await getPages();
-
-    const authorPage = pages.find((page) => page.title === author);
+    const authorPage = await findPage((page) => page.title === author);
     if (authorPage) {
       const link = createElement('a');
       link.href = authorPage.path;
@@ -60,7 +58,7 @@ async function getAuthorLink(post) {
 
   return notLink;
 }
-
+*/
 function getTagsLinks(post) {
   const tags = splitTags(post.tags);
   if (tags.length > 0) {
@@ -82,10 +80,7 @@ function getTagsLinks(post) {
 }
 
 function buildPostCard(post, index) {
-  const classes = ['post-card'];
-  if (index >= pageSize) {
-    classes.push('hidden');
-  }
+  const classes = ['post-card', 'hidden'];
   if (index % 7 === 3) {
     classes.push('featured');
   }
@@ -112,22 +107,31 @@ function buildPostCard(post, index) {
     picMedia = [{ media: '(min-width: 900px)', width: '1200' }, { width: '600' }];
   }
   const pic = createOptimizedPicture(post.image, '', false, picMedia);
+  const { topic, subtopic } = post;
+  let topicText = topic;
+  if (subtopic && subtopic !== '0') {
+    topicText = subtopic;
+  }
   postCard.innerHTML = `
     <a class="post-card-image" title="${post.title.replaceAll('"', '')}" href="${post.path}">${pic.outerHTML}</a>
     <div class="post-card-text">
-      <p class="card-topic"></p>
+      <p class="card-topic"><span class="topic-text">${topicText}</span></p>
       <p class="card-title"><a href="${post.path}">${post.title}</a></p>
-      <p class="card-author"><span class="card-date">${postDateStr}</span></p>
+      <p class="card-author"><span class="author-text">${post.author}</span><span class="card-date">${postDateStr}</span></p>
       <div class="card-description"><p class="card-description-text">${post.description}</p></div>
       <p class="card-read"><span class="icon icon-clock"></span>${post.readtime}</p>
     </div>
   `;
+  /*
   getTopicLink(post).then((link) => {
-    postCard.querySelector('.card-topic').append(link);
+    postCard.querySelector('.card-topic')
+    .replaceChild(link, postCard.querySelector('.card-topic .topic-text'));
   });
   getAuthorLink(post).then((link) => {
-    postCard.querySelector('.card-author').prepend(link);
+    postCard.querySelector('.card-author')
+    .replaceChild(link, postCard.querySelector('.card-author .author-text'));
   });
+  */
   const tagsLinks = getTagsLinks(post);
   if (tagsLinks) {
     postCard.querySelector('.post-card-text').append(tagsLinks);
@@ -135,6 +139,40 @@ function buildPostCard(post, index) {
 
   decorateIcons(postCard);
   return postCard;
+}
+
+async function loadPage(grid, moreButtonContainer) {
+  const { filter } = grid.dataset;
+  const limit = Number(grid.dataset.limit);
+  const posts = await getPosts(filter, limit);
+  let counter = Number(grid.dataset.loadedCount);
+  for (let i = 0;
+    counter < posts.length && i < pageSize && (limit < 0 || counter < limit);
+    i += 1) {
+    const postCard = buildPostCard(posts[counter], counter);
+    grid.append(postCard);
+    counter += 1;
+  }
+  grid.dataset.loadedCount = counter;
+
+  // if we get within 50 of the end, load more
+  if ((counter + 50) >= posts.length) {
+    await loadPosts(true);
+  }
+
+  const hidden = grid.querySelector('.post-card.hidden');
+  if (!hidden) {
+    moreButtonContainer.style.display = 'none';
+  }
+}
+
+function showPage(grid) {
+  for (let i = 0; i < pageSize; i += 1) {
+    const post = grid.querySelector('.post-card.hidden');
+    if (post) {
+      post.classList.remove('hidden');
+    }
+  }
 }
 
 /**
@@ -146,71 +184,28 @@ export default async function decorate(block) {
   const { limit, filter } = conf;
   const limitNumber = limit || -1;
   const applicableFilter = filter || 'auto';
-  const posts = await getPosts(applicableFilter, limit);
-  const grid = createElement('div', 'post-cards-grid');
-  let primaryPosts;
-  let deferredPosts;
-  if (posts.length > initLoad) {
-    primaryPosts = posts.slice(0, initLoad);
-    deferredPosts = posts.slice(initLoad);
-  } else {
-    primaryPosts = posts;
-    deferredPosts = [];
-  }
+  const grid = createElement('div', 'post-cards-grid', {
+    'data-limit': limitNumber,
+    'data-filter': applicableFilter,
+    'data-loaded-count': 0,
+  });
 
-  let counter = 0;
-  for (let i = 0; i < primaryPosts.length && (limitNumber < 0 || i < limitNumber); i += 1) {
-    const postCard = buildPostCard(primaryPosts[i], counter);
-    grid.append(postCard);
-    counter += 1;
-  }
-
-  // there are potentially hundreds of posts, so to make this load faster in those scenarios
-  // we defer building the dom for posts after the first few pages
-  let deferredLoaded = false;
-  const loadDeferred = () => {
-    if (!deferredLoaded) {
-      deferredLoaded = true;
-      for (let i = 0; i < deferredPosts.length && (limitNumber < 0 || i < limitNumber); i += 1) {
-        const postCard = buildPostCard(deferredPosts[i], counter);
-        grid.append(postCard);
-        counter += 1;
-      }
-    }
-  };
-  // execDeferred(loadDeferred);
+  const moreButton = createElement('button', 'show-more-cards');
+  moreButton.innerText = 'Show More';
+  const moreContainer = createElement('div', 'show-more-cards-container');
+  moreContainer.append(moreButton);
+  moreButton.addEventListener('click', () => {
+    showPage(grid);
+    loadPage(grid, moreContainer);
+  });
 
   block.innerHTML = '';
+
+  // load the first 2 pages, show 1
+  await loadPage(grid, moreContainer);
+  await loadPage(grid, moreContainer);
+  showPage(grid);
+
   block.append(grid);
-
-  let hasHidden = grid.querySelector('.post-card.hidden');
-  if (hasHidden) {
-    const moreButton = createElement('button', 'show-more-cards');
-    moreButton.innerText = 'Show More';
-    moreButton.addEventListener('click', () => {
-      for (let i = 0; i < pageSize; i += 1) {
-        const nextPost = grid.querySelector('.post-card.hidden');
-        if (nextPost) {
-          nextPost.classList.remove('hidden');
-        }
-      }
-
-      // small timeout to avoid any visible delay in the next page loading
-      setTimeout(() => {
-        if (!deferredLoaded) {
-          loadDeferred();
-        }
-        hasHidden = grid.querySelector('.post-card.hidden');
-        if (!hasHidden) {
-          // no more hidden, so hide show more button
-          moreButton.style.display = 'none';
-        }
-      }, 250);
-    });
-
-    const moreContainer = createElement('div', 'show-more-cards-container');
-    moreContainer.append(moreButton);
-
-    block.append(moreContainer);
-  }
+  block.append(moreContainer);
 }
