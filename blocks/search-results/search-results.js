@@ -105,7 +105,7 @@ function buildPostCard(post, index) {
     <a class="post-card-image" title="${post.title.replaceAll('"', '')}" href="${post.path}">${pic.outerHTML}</a>
     <div class="post-card-text">
       <p class="card-title"><a href="${post.path}">${post.title}</a></p>
-      <p class="card-author"><span class="card-date">${postDateStr}</span></p>
+      <p class="card-author"><span>${post.author}</span><span class="card-date">${postDateStr}</span></p>
     </div>
   `;
   // getAuthorLink(post).then((link) => {
