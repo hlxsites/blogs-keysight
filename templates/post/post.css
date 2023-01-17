@@ -109,7 +109,7 @@
 }
 
 /* author details */
-.author-image {
+.post .author-image {
   grid-area: authorimage;
   height:165px;
   margin: 0 auto;
@@ -150,7 +150,7 @@
 }
 
 /* Icon styling */
-.social .icon svg {
+.post .social .icon svg {
   display: block;
   height: 25px;
   margin: 5px auto;
@@ -158,21 +158,25 @@
   width: 25px;
 }
 
-.social .icon svg {
+.post .social .icon svg {
   fill: var(--color-gray-700);
 }
 
-.social .icon svg:hover {
+.post .social .icon svg:hover {
   fill: var(--color-red);
 }
 
 /* Post Body */
-.post-stats > span {
+.post .post-stats {
+  min-height:24px;
+}
+
+.post .post-stats > span {
   font-size: var(--heading-font-size-xxs);
   margin-right:10px;
 }
 
-.icon.icon-clock svg{
+.post .icon.icon-clock svg{
   display: block;
   height: 15px;
   margin: 0;
@@ -180,7 +184,7 @@
   width: 15px;
 }
 
-.readtime{
+.post .readtime{
   margin-left:10px;
 }
 
@@ -191,6 +195,7 @@
   text-transform: uppercase;
 }
 
+/* Post headline */
 .post main h1:first-of-type {
   color: var(--color-gray-300);
   font-size: var(--heading-font-size-l);
@@ -198,5 +203,6 @@
   letter-spacing: 0.03em;
   line-height: 42px;
   margin: 0.25em 0;
+  min-height:20x;
   text-transform: none;
 }
