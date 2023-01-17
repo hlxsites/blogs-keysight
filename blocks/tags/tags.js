@@ -3,6 +3,7 @@ import {
   createElement,
   addOutsideClickListener,
   splitTags,
+  loadPosts,
 } from '../../scripts/scripts.js';
 import { decorateIcons, readBlockConfig } from '../../scripts/lib-franklin.js';
 
@@ -63,6 +64,13 @@ function getTagsLinks(tags, limit) {
 export default async function decorate(block) {
   const conf = readBlockConfig(block);
   const { filter } = conf;
+  const isAll = block.classList.contains('all');
+  if (isAll) {
+    while (!window.keysight.postData.allLoaded) {
+      // eslint-disable-next-line no-await-in-loop
+      await loadPosts(true);
+    }
+  }
   const applicableFilter = filter || 'auto';
   const posts = await getPosts(applicableFilter, -1);
   const tags = {};
@@ -94,7 +102,6 @@ export default async function decorate(block) {
   });
   tagsAsArray.sort((a, b) => b.count - a.count);
   block.innerHTML = '';
-  const isAll = block.classList.contains('all');
   block.append(getTagsLinks(tagsAsArray, isAll ? -1 : 15));
   if (isAll) {
     block.prepend(buildSearch(block));

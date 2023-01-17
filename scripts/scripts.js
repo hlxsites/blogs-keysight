@@ -18,7 +18,12 @@ import {
 const LCP_BLOCKS = ['hero']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
 window.keysight = window.keysight || {};
-window.keysight.pages = window.keysight.pages || [];
+window.keysight.postData = window.keysight.postData || {
+  posts: [],
+  offset: 0,
+  allLoaded: false,
+};
+window.keysight.navPages = window.keysight.navPages || [];
 window.keysight.delayed = window.keysight.delayed || [];
 window.keysight.delayedReached = false;
 
@@ -82,27 +87,49 @@ export function wrapImgsInLinks(container) {
 }
 
 /**
- * Get the list of pages from the query index
- */
-export async function getPages() {
-  if (window.keysight.pages.length === 0) {
-    const pageData = [];
+ * loads more data from the query index
+ * */
+async function loadMorePosts() {
+  if (!window.keysight.postData.allLoaded) {
+    const queryLimit = 500;
+    const resp = await fetch(`/query-index.json?limit=${queryLimit}&offset=${window.keysight.postData.offset}`);
+    const json = await resp.json();
+    const { total, data } = json;
+    window.keysight.postData.posts.push(...data);
+    window.keysight.postData.allLoaded = total <= (window.keysight.postData.offset + queryLimit);
+    window.keysight.postData.offset += queryLimit;
+  }
+}
+
+export async function getNavPages() {
+  if (window.keysight.navPages.length === 0) {
+    let allLoaded = false;
     const queryLimit = 1000;
-    let queryOffset = 0;
-    let morePages = true;
-    while (morePages) {
+    let offset = 0;
+    while (!allLoaded) {
       // eslint-disable-next-line no-await-in-loop
-      const resp = await fetch(`/query-index.json?limit=${queryLimit}&offset=${queryOffset}`);
+      const resp = await fetch(`/query-index.json?sheet=nav&limit=${queryLimit}&offset=${offset}`);
       // eslint-disable-next-line no-await-in-loop
       const json = await resp.json();
       const { total, data } = json;
-      pageData.push(...data);
-      morePages = total > queryOffset + queryLimit;
-      queryOffset += queryLimit;
+      window.keysight.navPages.push(...data);
+      allLoaded = total <= (offset + queryLimit);
+      offset += queryLimit;
     }
-    window.keysight.pages = pageData;
   }
-  return window.keysight.pages;
+
+  return window.keysight.navPages;
+}
+
+/**
+ * @param {boolean} more indicates to force loading additional data from query index
+ * @returns the currently loaded listed of posts from the query index pages
+ */
+export async function loadPosts(more) {
+  if (window.keysight.postData.posts.length === 0 || more) {
+    await loadMorePosts();
+  }
+  return window.keysight.postData.posts;
 }
 
 /**
@@ -180,16 +207,13 @@ function sortPostsByDate(postA, postB) {
  * @param {string} filter the name of the filter to apply
  * one of: topic, subtopic, author, tag, post, auto, none
  * @param {number} limit the number of posts to return, or -1 for no limit
- * @param {string} pagetemplate the page template of post to return
- * one of: post, author
  * @returns the posts as an array
  */
-export async function getPosts(filter, limit, pagetemplate) {
-  const postType = pagetemplate !== undefined ? pagetemplate : 'post';
-  const pages = await getPages();
+export async function getPosts(filter, limit) {
+  const pages = await loadPosts();
   // filter out anything that isn't a blog post (eg. must have an author)
   let finalPosts;
-  const allPosts = pages.filter((page) => page.template === postType);
+  const allPosts = pages.filter((page) => page.template === 'post');
   const topic = getMetadata('topic');
   const subTopic = getMetadata('subtopic');
   const url = new URL(window.location);

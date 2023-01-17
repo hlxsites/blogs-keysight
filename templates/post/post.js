@@ -1,5 +1,5 @@
 import { getMetadata, createOptimizedPicture, decorateIcons } from '../../scripts/lib-franklin.js';
-import { createElement, getPosts } from '../../scripts/scripts.js';
+import { createElement, getNavPages } from '../../scripts/scripts.js';
 
 const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
 
@@ -18,15 +18,15 @@ async function buildSidebar(sidebar, author) {
   let authorName;
   let authorTitle;
   let authorUrl;
-  const posts = await getPosts('post', -1, 'author');
-  for (let i = 0; i < posts.length; i += 1) {
-    if (author === posts[i].title) {
-      authorImage = posts[i].image;
-      authorName = posts[i].title;
-      authorTitle = posts[i].authortitle !== '' ? posts[i].authortitle : 'Contributor';
-      authorUrl = posts[i].path;
-    }
+  const navPages = await getNavPages();
+  const authorPage = navPages.find((page) => page.title === author);
+  if (authorPage) {
+    authorImage = authorPage.image;
+    authorName = authorPage.title;
+    authorTitle = (authorPage.authortitle !== '' && authorPage.authortitle !== '0') ? authorPage.authortitle : 'Contributor';
+    authorUrl = authorPage.path;
   }
+
   const picMedia = [{ media: '(min-width: 160px)', width: '160' }];
   const pic = createOptimizedPicture(authorImage, '', false, picMedia);
   sidebar.innerHTML = `<a class="author-image" href="${authorUrl}">${pic.outerHTML}</a>
@@ -47,7 +47,7 @@ function buildPostData(contentcontainer) {
   decorateIcons(contentcontainer);
 }
 
-export default function decorate(doc) {
+export default async function decorate(doc) {
   const contentcontainer = doc.querySelector('.hero-container').nextElementSibling.firstElementChild;
   const classes = ['section', 'post-sidebar'];
   const sidebar = createElement('div', classes);
@@ -70,6 +70,6 @@ export default function decorate(doc) {
 
   sidebarPreviousSection.insertAdjacentElement('beforebegin', sidebar);
 
-  buildSidebar(sidebar, getMetadata('author'));
+  await buildSidebar(sidebar, getMetadata('author'));
   buildPostData(contentcontainer);
 }

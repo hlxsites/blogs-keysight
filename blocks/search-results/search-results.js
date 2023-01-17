@@ -8,21 +8,19 @@ import {
   getPosts,
   splitTags,
   createElement,
-  getPages,
+  getNavPages,
 } from '../../scripts/scripts.js';
 
 const pageSize = 10;
 const initLoad = pageSize * 2;
 
-async function getAuthorLink(post) {
+function getAuthorLink(post, navPages) {
   const { author } = post;
   const notLink = createElement('span');
   notLink.innerText = `${author}`;
 
   try {
-    const pages = await getPages();
-
-    const authorPage = pages.find((page) => page.title === author);
+    const authorPage = navPages.find((page) => page.title === author);
     if (authorPage) {
       const link = createElement('a');
       link.href = authorPage.path;
@@ -77,7 +75,7 @@ async function executeSearch(q) {
   return results;
 }
 
-function buildPostCard(post, index) {
+function buildPostCard(post, index, navPagesPromise) {
   const classes = ['post-card'];
   if (index >= pageSize) {
     classes.push('hidden');
@@ -106,12 +104,16 @@ function buildPostCard(post, index) {
     <a class="post-card-image" title="${post.title.replaceAll('"', '')}" href="${post.path}">${pic.outerHTML}</a>
     <div class="post-card-text">
       <p class="card-title"><a href="${post.path}">${post.title}</a></p>
-      <p class="card-author"><span class="card-date">${postDateStr}</span></p>
+      <p class="card-author"><span class="author-text">${post.author}</span><span class="card-date">${postDateStr}</span></p>
     </div>
   `;
-  getAuthorLink(post).then((link) => {
-    postCard.querySelector('.card-author').prepend(link);
+  navPagesPromise.then((navPages) => {
+    const authorLink = getAuthorLink(post, navPages);
+    if (authorLink) {
+      postCard.querySelector('.card-author').replaceChild(authorLink, postCard.querySelector('.card-author .author-text'));
+    }
   });
+
   const tagsLinks = getTagsLinks(post);
   if (tagsLinks) {
     postCard.querySelector('.post-card-text').append(tagsLinks);
@@ -139,8 +141,9 @@ export default async function decorate(block) {
   }
 
   let counter = 0;
+  const navPagesPromise = getNavPages();
   for (let i = 0; i < primaryPosts.length; i += 1) {
-    const postCard = buildPostCard(primaryPosts[i].post, counter);
+    const postCard = buildPostCard(primaryPosts[i].post, counter, navPagesPromise);
     grid.append(postCard);
     counter += 1;
   }
@@ -150,7 +153,7 @@ export default async function decorate(block) {
     if (!deferredLoaded) {
       deferredLoaded = true;
       for (let i = 0; i < deferredPosts.length; i += 1) {
-        const postCard = buildPostCard(deferredPosts[i].post, counter);
+        const postCard = buildPostCard(deferredPosts[i].post, counter, navPagesPromise);
         grid.append(postCard);
         counter += 1;
       }
