@@ -11,7 +11,7 @@ const initLoad = pageSize * 2;
 
 async function getTopicLink(post) {
   const { topic, subtopic } = post;
-  const topicText = subtopic || topic;
+  const topicText = (subtopic && subtopic !== '0') || topic;
 
   const notLink = createElement('span');
   notLink.innerText = topicText;
