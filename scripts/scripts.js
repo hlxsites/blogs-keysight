@@ -269,6 +269,29 @@ export async function getPosts(filter, limit) {
   return limit < 0 ? finalPosts : finalPosts.slice(0, limit);
 }
 
+function findImageCaption(img) {
+  const sibling = img.nextElementSibling;
+  if (sibling && sibling.nodeName === 'EM') {
+    return sibling;
+  }
+  const parent = img.parentNode;
+  const parentSibling = parent.nextElementSibling;
+  return parentSibling && parentSibling.firstChild.nodeName === 'EM' ? parentSibling : undefined;
+}
+
+function buildImageBlocks(main) {
+  const imgs = [...main.querySelectorAll(':scope > div > p > picture')];
+  imgs.forEach((img) => {
+    const parent = img.parentNode;
+    const imgBlock = buildBlock('image', {
+      elems: [img.cloneNode(true), findImageCaption(img)],
+    });
+    if (parent.parentNode) {
+      parent.replaceWith(imgBlock);
+    }
+  });
+}
+
 function buildHeroBlock(main) {
   const h1 = main.querySelector('h1');
   const picture = main.querySelector('picture');
@@ -309,6 +332,7 @@ function buildHeroBlock(main) {
 function buildAutoBlocks(main) {
   try {
     buildHeroBlock(main);
+    buildImageBlocks(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
