@@ -4,7 +4,7 @@ function renderItems(items, catId) {
     const { title, path } = tag;
     html += `
       <span class="path">${path}
-        <span data-title="${title}" class="tag cat-${catId}">${title}</span>
+        <span data-title="${title}" class="tag cat-${catId % 4}">${title}</span>
       </span>
     `;
     html += renderItems(tag.children, catId);

@@ -121,7 +121,6 @@ span.psep {
 
 @media(min-width: 600px) {
   #selected {
-    grid-template-rows: 1fr;
     grid-template-columns: 1fr 100px;
   }
 }
