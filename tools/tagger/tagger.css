@@ -1,0 +1,163 @@
+main .intro {
+  font-size: 1.2rem;
+}
+
+main select {
+  font-size: 1rem;
+  border: none;
+  border-bottom: solid 1px grey;
+  padding-top: 5px;
+}
+
+main input {
+  width: 100%;
+  font-size: 2rem;
+  border: none;
+  border-bottom: solid 1px grey;
+  padding-top: 5px;
+}
+
+main .filter {
+  padding: 20px 10px 20px 10px;
+}
+
+main #selected {
+  padding: 30px;
+}
+
+main #selected button {
+  border-radius: 1em;
+  padding: 5px 20px;
+}
+
+#results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding-bottom: 150px;
+}
+
+#results > .category {
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+main > div > span,
+main > div > div > span {
+  white-space: nowrap;
+  margin: 6px 4px;
+}
+
+main {
+  padding: 20px;
+  font-size: 1.3rem;
+  line-height: 1.2em;
+}
+
+span.tag {
+  color: lightgrey;
+  padding: 2px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.tag {
+  cursor: pointer;
+  padding-top: 5px;
+}
+
+.selected span.tag {
+  background-color: #888888;
+  color: lightgrey;
+}
+
+.tag.cat-0 {
+  background-color: #0d66d0;
+}
+
+.tag.cat-0.nuft {
+  background-color: #86b2e7;
+}
+
+.tag.cat-1 {
+  background-color: #d7373f;
+}
+
+.tag.cat-1.nuft {
+  background-color: #eb9b9f;
+}
+
+.tag.cat-2 {
+  background-color: #12805c;
+}
+
+.tag.cat-2.nuft {
+  background-color: #88bfad;
+}
+
+.tag.cat-3 {
+  background-color: #d2b200;
+}
+
+.tag.cat-3.nuft {
+  background-color: #e8d87f;
+}
+
+span.tag.nuft {
+  color: lightslategrey
+}
+
+span.tag .highlight {
+  font-weight: 700;
+  color: white;
+}
+
+span.path {
+  border-radius: 10px;
+  border: 1px dashed black;
+  padding: 4px 10px 2px 10px;
+  font-size: 12px;
+}
+
+span.psep {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Adobe Clean';
+}
+
+#selected {
+  position: fixed;
+  bottom: 0;
+  background-color: lightsalmon;
+  padding-bottom: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  left: 0;
+  user-select: none;
+}
+
+#selected button:disabled {
+  background-color: #ccc;
+  color: grey;
+}
+
+#selected button {
+  background-color: #F25749;
+  color: white;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  border: 1px solid white;
+  font-size: 13px;
+}
+
+.hidden {
+  display: none;
+}
+
+.offscreen {
+  position: absolute;
+  top: -1000px;
+}
