@@ -33,6 +33,7 @@ main #selected button {
 #results {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
   gap: 2rem;
   padding-bottom: 150px;
 }
@@ -117,7 +118,15 @@ span.psep {
   width: 100%;
   box-sizing: border-box;
   left: 0;
-  user-select: none;
+  display: grid;
+  gap: 1rem
+}
+
+@media(min-width: 600px) {
+  #selected {
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 100px;
+  }
 }
 
 #selected button:disabled {
@@ -128,15 +137,18 @@ span.psep {
 #selected button {
   background-color: #F25749;
   color: white;
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
   border: 1px solid white;
   font-size: 13px;
 }
 
+.selected-tags {
+  display: flex;
+  flex-wrap: wrap;
+  height: min-content;
+}
+
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .offscreen {

@@ -1,17 +1,24 @@
+function renderItems(items, catId) {
+  let html = '';
+  items.forEach((tag) => {
+    const { title, path } = tag;
+    html += `
+      <span class="path">${path}
+        <span data-title="${title}" class="tag cat-${catId}">${title}</span>
+      </span>
+    `;
+    html += renderItems(tag.children, catId);
+  });
+  return html;
+}
+
 function initTaxonomy(taxonomy) {
   let html = '';
   Object.values(taxonomy).forEach((cat, idx) => {
     html += '<div class="category">';
     html += `<h2>${cat.title}</h2>`;
     const items = cat.children;
-    items.forEach((tag) => {
-      const { title, path } = tag;
-      html += `
-        <span data-target="${title}" data-category="${cat.title}" class="path">${path}
-          <span class="tag cat-${idx}">${title}</span>
-        </span>
-      `;
-    });
+    html += renderItems(items, idx);
     html += '</div>';
   });
   const results = document.getElementById('results');
@@ -43,12 +50,12 @@ async function getTaxonomy() {
 function filter() {
   const searchTerm = document.getElementById('search').value.toLowerCase();
   document.querySelectorAll('#results .tag').forEach((tag) => {
-    const title = tag.textContent.trim();
+    const { title } = tag.dataset;
     const offset = title.toLowerCase().indexOf(searchTerm);
     if (offset >= 0) {
-      const before = title.substr(0, offset);
-      const term = title.substr(offset, searchTerm.length);
-      const after = title.substr(offset + searchTerm.length);
+      const before = title.substring(0, offset);
+      const term = title.substring(offset, offset + searchTerm.length);
+      const after = title.substring(offset + searchTerm.length);
       tag.innerHTML = `${before}<span class="highlight">${term}</span>${after}`;
       tag.closest('.path').classList.remove('filtered');
     } else {
@@ -65,33 +72,24 @@ function toggleTag(target) {
 
 function displaySelected() {
   const selEl = document.getElementById('selected');
+  const selTagsEl = selEl.querySelector('.selected-tags');
   const toCopyBuffer = [];
 
-  selEl.innerHTML = '';
+  selTagsEl.innerHTML = '';
   const selectedTags = document.querySelectorAll('#results .path.selected');
   if (selectedTags.length > 0) {
-    selectedTags.forEach((tag) => {
-      const clone = tag.cloneNode(true);
+    selectedTags.forEach((path) => {
+      const clone = path.cloneNode(true);
       clone.classList.remove('filtered', 'selected');
+      const tag = clone.querySelector('.tag');
+      tag.innerHTML = tag.dataset.title;
       clone.addEventListener('click', () => {
-        toggleTag(tag);
+        toggleTag(path);
       });
-      toCopyBuffer.push(clone.querySelector('.tag').textContent);
-      selEl.append(clone);
+      toCopyBuffer.push(tag.dataset.title);
+      selTagsEl.append(clone);
     });
-    const button = document.createElement('button');
-    button.addEventListener('click', () => {
-      const copyText = document.getElementById('copybuffer');
 
-      copyText.select();
-      copyText.setSelectionRange(0, 99999);
-
-      document.execCommand('copy');
-
-      button.disabled = true;
-    });
-    button.textContent = 'Copy';
-    selEl.append(button);
     selEl.classList.remove('hidden');
   } else {
     selEl.classList.add('hidden');
@@ -106,7 +104,24 @@ async function init() {
 
   initTaxonomy(tax);
 
+  const selEl = document.getElementById('selected');
+  const copyButton = selEl.querySelector('button.copy');
+  copyButton.addEventListener('click', () => {
+    const copyText = document.getElementById('copybuffer');
+    navigator.clipboard.writeText(copyText.value);
+
+    copyButton.disabled = true;
+  });
+
+  selEl.querySelector('button.clear').addEventListener('click', () => {
+    const selectedTags = document.querySelectorAll('#results .path.selected');
+    selectedTags.forEach((tag) => {
+      toggleTag(tag);
+    });
+  });
+
   document.querySelector('#search').addEventListener('keyup', filter);
+
   document.addEventListener('click', (e) => {
     const target = e.target.closest('.category .path');
     if (target) {
