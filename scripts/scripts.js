@@ -284,11 +284,9 @@ function buildImageBlocks(main) {
   imgs.forEach((img) => {
     const parent = img.parentNode;
     const imgBlock = buildBlock('image', {
-      elems: [img.cloneNode(true), findImageCaption(img)],
+      elems: [img, findImageCaption(img)],
     });
-    if (parent.parentNode) {
-      parent.replaceWith(imgBlock);
-    }
+    parent.insertAdjacentElement('beforebegin', imgBlock);
   });
 }
 
