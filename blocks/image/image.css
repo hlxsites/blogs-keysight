@@ -1,0 +1,12 @@
+main .image .container picture img {
+  max-width: 100%;
+  height: auto;
+}
+
+main .image .container em {
+  background-color: var(--color-gray-100);
+  display: block;
+  font-size: var(--body-font-size-s);
+  margin: 1rem 0;
+  padding: .6rem 1.2rem;
+}
