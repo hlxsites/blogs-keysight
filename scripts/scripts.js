@@ -18,7 +18,12 @@ import {
 const LCP_BLOCKS = ['hero']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
 window.keysight = window.keysight || {};
-window.keysight.pages = window.keysight.pages || [];
+window.keysight.postData = window.keysight.postData || {
+  posts: [],
+  offset: 0,
+  allLoaded: false,
+};
+window.keysight.navPages = window.keysight.navPages || [];
 window.keysight.delayed = window.keysight.delayed || [];
 window.keysight.delayedReached = false;
 
@@ -82,27 +87,49 @@ export function wrapImgsInLinks(container) {
 }
 
 /**
- * Get the list of pages from the query index
- */
-export async function getPages() {
-  if (window.keysight.pages.length === 0) {
-    const pageData = [];
+ * loads more data from the query index
+ * */
+async function loadMorePosts() {
+  if (!window.keysight.postData.allLoaded) {
+    const queryLimit = 500;
+    const resp = await fetch(`/query-index.json?limit=${queryLimit}&offset=${window.keysight.postData.offset}`);
+    const json = await resp.json();
+    const { total, data } = json;
+    window.keysight.postData.posts.push(...data);
+    window.keysight.postData.allLoaded = total <= (window.keysight.postData.offset + queryLimit);
+    window.keysight.postData.offset += queryLimit;
+  }
+}
+
+export async function getNavPages() {
+  if (window.keysight.navPages.length === 0) {
+    let allLoaded = false;
     const queryLimit = 1000;
-    let queryOffset = 0;
-    let morePages = true;
-    while (morePages) {
+    let offset = 0;
+    while (!allLoaded) {
       // eslint-disable-next-line no-await-in-loop
-      const resp = await fetch(`/query-index.json?limit=${queryLimit}&offset=${queryOffset}`);
+      const resp = await fetch(`/query-index.json?sheet=nav&limit=${queryLimit}&offset=${offset}`);
       // eslint-disable-next-line no-await-in-loop
       const json = await resp.json();
       const { total, data } = json;
-      pageData.push(...data);
-      morePages = total > queryOffset + queryLimit;
-      queryOffset += queryLimit;
+      window.keysight.navPages.push(...data);
+      allLoaded = total <= (offset + queryLimit);
+      offset += queryLimit;
     }
-    window.keysight.pages = pageData;
   }
-  return window.keysight.pages;
+
+  return window.keysight.navPages;
+}
+
+/**
+ * @param {boolean} more indicates to force loading additional data from query index
+ * @returns the currently loaded listed of posts from the query index pages
+ */
+export async function loadPosts(more) {
+  if (window.keysight.postData.posts.length === 0 || more) {
+    await loadMorePosts();
+  }
+  return window.keysight.postData.posts;
 }
 
 /**
@@ -116,6 +143,9 @@ export function splitTags(tags) {
   return [];
 }
 
+/**
+ * A function for sorting an array of posts according to what is most cloesely related
+ */
 function sortRelatedPosts(postA, postB) {
   let postAScore = 0;
   let postBScore = 0;
@@ -162,6 +192,15 @@ function sortRelatedPosts(postA, postB) {
 }
 
 /**
+ * A function for sorting an array of posts by date
+ */
+function sortPostsByDate(postA, postB) {
+  const aDate = Number(postA.date || postA.lastModified);
+  const bDate = Number(postB.date || postB.lastModified);
+  return bDate - aDate;
+}
+
+/**
  * Get the list of blog posts from the query index. Posts are auto-filtered based on page context
  * e.g topic, sub-topic, tags, etc. and sorted by date
  *
@@ -171,7 +210,7 @@ function sortRelatedPosts(postA, postB) {
  * @returns the posts as an array
  */
 export async function getPosts(filter, limit) {
-  const pages = await getPages();
+  const pages = await loadPosts();
   // filter out anything that isn't a blog post (eg. must have an author)
   let finalPosts;
   const allPosts = pages.filter((page) => page.template === 'post');
@@ -213,7 +252,7 @@ export async function getPosts(filter, limit) {
       }
       if (applicableFilter === 'author') {
         // on author pages the author name is the title
-        const author = getMetadata('og:title');
+        const author = getMetadata('originalTitle');
         matches = author === post.author;
       }
       if (applicableFilter === 'tag') {
@@ -224,11 +263,7 @@ export async function getPosts(filter, limit) {
         }
       }
       return matches;
-    }).sort((a, b) => {
-      const aDate = Number(a.date);
-      const bDate = Number(b.date);
-      return bDate - aDate;
-    });
+    }).sort(sortPostsByDate);
   }
 
   return limit < 0 ? finalPosts : finalPosts.slice(0, limit);
@@ -364,8 +399,10 @@ async function updatePlaceholders() {
       if (el.nodeType === 3) {
         // text node
         const text = el.textContent;
-        const newText = text.replaceAll('__tag__', tag);
-        el.textContent = newText;
+        if (text.includes('__tag__')) {
+          const newText = text.replaceAll('__tag__', tag);
+          el.textContent = newText;
+        }
       } else {
         el.childNodes.forEach((child) => {
           recurse(child);
@@ -384,6 +421,13 @@ async function updatePlaceholders() {
   const placeholders = await fetchPlaceholders();
   if (placeholders.titleSuffix) {
     const title = document.querySelector('head > title');
+
+    const originalTitle = createElement('meta', '', {
+      name: 'originalTitle',
+      content: title.textContent,
+    });
+    document.querySelector('head').append(originalTitle);
+
     const ogTitle = document.querySelector('head > meta[property="og:title"]');
     const twitterTitle = document.querySelector('head > meta[name="twitter:title"]');
     const withSuffix = `${title.textContent} ${placeholders.titleSuffix}`;
@@ -397,6 +441,7 @@ async function updatePlaceholders() {
  * loads everything that doesn't need to be delayed.
  */
 async function loadLazy(doc) {
+  updatePlaceholders();
   const main = doc.querySelector('main');
   await loadBlocks(main);
 
@@ -406,8 +451,6 @@ async function loadLazy(doc) {
 
   loadHeader(doc.querySelector('header'));
   loadFooter(doc.querySelector('footer'));
-
-  updatePlaceholders();
 
   loadCSS(`${window.hlx.codeBasePath}/fonts/fonts.css`);
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);

@@ -1,0 +1,174 @@
+main .search-results .results-count {
+  font-size: var(--heading-font-size-l);
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+main .search-results .post-cards-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+main .search-results .post-cards-grid .post-card {
+  display: grid;
+  padding-top: 2rem;
+  gap: 1rem;
+}
+
+main .search-results .post-cards-grid .post-card:not(:first-child) {
+  border-top: 1px solid var(--color-gray-200);
+}
+
+main .search-results .post-cards-grid .post-card.hidden {
+  display: none;
+}
+
+main .search-results .post-cards-grid .post-card .post-card-image {
+  display: flex;
+  justify-content: center;
+}
+
+main .search-results .post-cards-grid .post-card .post-card-image picture {
+  position: relative;
+  width: 160px;
+  height: 100px;
+  display: block;
+}
+
+main .search-results .post-cards-grid .post-card .post-card-image picture img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+main .search-results .post-cards-grid .post-card .post-card-text {
+  display: grid;
+}
+
+main .search-results .post-cards-grid .post-card .post-card-text .card-title {
+  margin: 0;
+}
+
+main .search-results .post-cards-grid .post-card .card-read,
+main .search-results .post-cards-grid .post-card .card-author,
+main .search-results .post-cards-grid .post-card .card-author a {
+  display: inline;
+  font-size: var(--body-font-size-s);
+  color: var(--color-gray-600);
+}
+
+main .search-results .post-cards-grid .post-card .post-card-text .card-title a {
+  color: var(--color-gray-300);
+  font-weight: 400;
+  font-size: var(--heading-font-size-m);
+  line-height: 1.3;
+}
+
+main .search-results .post-cards-grid .post-card .card-tags {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+main .search-results .post-cards-grid .post-card .card-tags li {
+  word-wrap: break-word;
+  display: inline;
+  margin-inline-end: .8rem;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+main .search-results .post-cards-grid .post-card .card-tags a {
+  word-wrap: break-word;
+  font-size: var(--body-font-size-s);
+}
+
+main .search-results .show-more-cards-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+}
+
+main .search-results .show-more-cards-container .show-more-cards {
+  text-transform: uppercase;
+  font-family: inherit;
+  background-color: transparent;
+  color: var(--text-color);
+  border: 1px solid var(--color-gray-600);
+  font-size: var(--body-font-size-l);
+  padding: 1rem 4rem;
+}
+
+main .search-results .show-more-cards-container .show-more-cards:hover {
+  background-color: var(--color-gray-300-tranparent);
+}
+
+@media(min-width: 600px) {
+  main .search-results .post-cards-grid .post-card {
+    grid-template-columns: 200px 1fr;
+  }
+
+  main .search-results .post-cards-grid .post-card .post-card-image {
+    grid-column: 1;
+    grid-row: 1 / -1;
+    justify-content: start;
+  }
+
+  main .search-results .post-cards-grid .post-card .post-card-text {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    justify-content: start;
+  }
+
+  main .search-results .post-cards-grid .post-card .card-read,
+  main .search-results .post-cards-grid .post-card .card-author,
+  main .search-results .post-cards-grid .post-card .card-author a {
+    margin-block: 0;
+  }
+}
+
+main .search-results .search-nav {
+  padding: 1.6rem;
+  background-color: var(--color-gray-100);
+}
+
+main .search-results .search-nav .search-form {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 700px;
+  margin: auto;
+}
+
+main .search-results .search-nav .search-form input {
+  width: 100%;
+  background-color: var(--color-white);
+  padding: 1.2rem 1.6rem;
+  border: none !important;
+  outline: none;
+  font-size: inherit;
+  font-family: inherit;
+  height: 5rem;;
+}
+
+main .search-results .search-nav button {
+  height: 5rem;
+}
+
+
+@media (min-width: 600px) {
+  main .search-results .search-nav .search-form {
+    gap: 0;
+  }
+
+  main .search-results .search-nav .search-form input {
+    max-width: calc(100% - 20rem);
+  }
+}
