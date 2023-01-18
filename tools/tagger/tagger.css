@@ -1,12 +1,9 @@
-main .intro {
-  font-size: 1.2rem;
+main {
+  font-family: system-ui, Arial;
 }
 
-main select {
-  font-size: 1rem;
-  border: none;
-  border-bottom: solid 1px grey;
-  padding-top: 5px;
+main .intro {
+  font-size: 1.2rem;
 }
 
 main input {
@@ -15,6 +12,7 @@ main input {
   border: none;
   border-bottom: solid 1px grey;
   padding-top: 5px;
+  font-family: inherit;
 }
 
 main .filter {
@@ -33,7 +31,6 @@ main #selected button {
 #results {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
   gap: 2rem;
   padding-bottom: 150px;
 }
