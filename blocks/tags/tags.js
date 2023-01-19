@@ -5,7 +5,7 @@ import {
   splitTags,
   loadPosts,
 } from '../../scripts/scripts.js';
-import { decorateIcons, readBlockConfig } from '../../scripts/lib-franklin.js';
+import { readBlockConfig } from '../../scripts/lib-franklin.js';
 
 function buildSearch(block) {
   const wrapper = createElement('div', 'find-tag');
@@ -57,20 +57,15 @@ function getTagsLinks(tags, limit) {
   return list;
 }
 
-/**
- * decorates the block
- * @param {Element} block The featured posts block element
- */
-export default async function decorate(block) {
+async function loadBlock(block) {
   const conf = readBlockConfig(block);
   const { filter } = conf;
   const isAll = block.classList.contains('all');
-  if (isAll) {
-    while (!window.keysight.postData.allLoaded) {
-      // eslint-disable-next-line no-await-in-loop
-      await loadPosts(true);
-    }
+  while (!window.keysight.postData.allLoaded) {
+    // eslint-disable-next-line no-await-in-loop
+    await loadPosts(true);
   }
+
   const applicableFilter = filter || 'auto';
   const posts = await getPosts(applicableFilter, -1);
   const tags = {};
@@ -106,5 +101,18 @@ export default async function decorate(block) {
   if (isAll) {
     block.prepend(buildSearch(block));
   }
-  decorateIcons(block);
+}
+
+/**
+ * decorates the block
+ * @param {Element} block The featured posts block element
+ */
+export default function decorate(block) {
+  const observer = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) {
+      observer.disconnect();
+      loadBlock(block);
+    }
+  });
+  observer.observe(block);
 }

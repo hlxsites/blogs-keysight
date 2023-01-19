@@ -149,7 +149,14 @@ function buildPostCard(post, index, navPagesPromise) {
 async function loadPage(grid) {
   const { filter } = grid.dataset;
   const limit = Number(grid.dataset.limit);
-  const posts = await getPosts(filter, limit);
+  let posts = await getPosts(filter, limit);
+  const loadMoreThreshold = limit > 0 && limit < pageSize ? limit : pageSize;
+  while (posts.length < loadMoreThreshold && !window.keysight.postData.allLoaded) {
+    // eslint-disable-next-line no-await-in-loop
+    await loadPosts(true);
+    // eslint-disable-next-line no-await-in-loop
+    posts = await getPosts(filter, limit);
+  }
   let counter = Number(grid.dataset.loadedCount);
   const navPages = getNavPages();
   for (let i = 0;
@@ -176,11 +183,7 @@ function showPage(grid) {
   }
 }
 
-/**
- * decorates the block
- * @param {Element} block The featured posts block element
- */
-export default async function decorate(block) {
+async function loadBlock(block) {
   const conf = readBlockConfig(block);
   const { limit, filter } = conf;
   const limitNumber = limit || -1;
@@ -212,4 +215,18 @@ export default async function decorate(block) {
   block.append(moreContainer);
 
   showHideMore(grid, moreContainer);
+}
+
+/**
+ * decorates the block
+ * @param {Element} block The featured posts block element
+ */
+export default function decorate(block) {
+  const observer = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) {
+      observer.disconnect();
+      loadBlock(block);
+    }
+  });
+  observer.observe(block);
 }
