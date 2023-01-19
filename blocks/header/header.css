@@ -131,6 +131,7 @@ header nav .nav-brand p {
 /* stylelint-disable-next-line no-descending-specificity */
 header nav .nav-brand .icon {
   --icon-width: 121px;
+
   display: block;
   padding: 0;
   height: 42px;
@@ -139,6 +140,7 @@ header nav .nav-brand .icon {
 @media (min-width: 600px) {
   header nav .nav-brand .icon {
     --icon-width: 212px;
+    
     height: 75px;
   }
 }
