@@ -24,9 +24,14 @@ async function buildPostData(contentcontainer) {
 }
 
 export default async function decorate(doc) {
-  const contentcontainer = doc.querySelector('.hero-container') ? doc.querySelector('.hero-container').nextElementSibling.firstElementChild : doc.querySelector('main > .section'); /* if there is no hero, select first section under main */
+  const contentcontainer = doc.querySelector('.hero-container') ? doc.querySelector('.hero-container').nextElementSibling.firstElementChild : doc.querySelector('main > .section');
+  buildPostData(contentcontainer);
+
   const classes = ['section'];
-  const sidebar = createElement('div', classes);
+  const sidebarSection = createElement('div', classes);
+  const sidebarContainer = createElement('div');
+  sidebarSection.append(sidebarContainer);
+
   let sidebarPreviousSection;
   let sectionFound = false;
   const sections = [...doc.querySelectorAll('.section')];
@@ -40,10 +45,9 @@ export default async function decorate(doc) {
       sectionFound = true;
     }
   }
-  buildPostData(contentcontainer);
   const postSidebar = buildBlock('post-sidebar', '');
-  sidebar.append(postSidebar);
-  sidebarPreviousSection.insertAdjacentElement('beforebegin', sidebar);
+  sidebarContainer.append(postSidebar);
+  sidebarPreviousSection.insertAdjacentElement('beforebegin', sidebarSection);
   decorateBlock(postSidebar);
-  await loadBlock(postSidebar);
+  loadBlock(postSidebar);
 }
