@@ -6,8 +6,6 @@
 
 @media (min-width: 600px) {
   .post .post-sidebar-wrapper {
-    grid-column:1;
-    grid-row:2;
     margin:0;
   }
   .post .post-sidebar {

@@ -58,7 +58,12 @@
 }
 
 /* grid post sections */
-.post .section:nth-of-type(2) {
+.post .post-sidebar-container {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.post .section:not(.post-sidebar-container, .hero-container) {
   grid-column: 2;
 }
 
@@ -67,13 +72,6 @@
   font-size: var(--heading-font-size-m);
 }
 
-.post .related-content-container {
-  grid-column: 2;
-}
-
-.post .post-cards-container {
-  grid-column: 2;
-}
 
 /* Post Body */
 .post .post-stats {
