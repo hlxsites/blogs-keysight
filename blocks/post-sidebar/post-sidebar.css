@@ -20,11 +20,7 @@
   .post .post-sidebar {
     column-gap: 10px;
     display: grid;
-    grid-area: sidebar;
-    grid-template-areas:
-    "authorimage social"
-    "authordetails social";
-    grid-template-columns:  165px auto / 3fr 1fr;
+    grid-template-columns: 3fr 1fr;
   }
 }
 
@@ -41,13 +37,13 @@
 
 /* author details */
 .post .author-image {
-  grid-area: authorimage;
+  grid-column: 1;
   height:165px;
   margin: 0 auto;
 }
 
 .post .author-details {
-  grid-area: authordetails;
+  grid-column: 1;
   margin:0 auto;
   text-align: center;
 }
@@ -78,14 +74,15 @@
 
 @media (min-width: 600px) {
   .post .social {
-    grid-area: social;
+    grid-column: 2;
+    grid-row: 1 / -1;
     text-align: unset;
     margin:unset;
   }
 }
 
 .post .social span {
-  margin: 0px 1rem;
+  margin: 0 1rem;
 }
 
 .post main .icon {
@@ -95,13 +92,14 @@
 .post .social .icon svg {
   display: block;
   height: 25px;
+  fill: var(--color-gray-700);
   margin: 5px auto;
   text-align: center;
   width: 25px;
 }
 
 .post .social .icon svg {
-  fill: var(--color-gray-700);
+
 }
 
 .post .social .icon svg:hover {
@@ -112,6 +110,7 @@
 
 .post .tags-container {
   margin:0;
+  grid-column: 1;
 }
 
 .post .tags-list {
@@ -130,11 +129,13 @@
   .post .tags-container {
     margin:8rem 0 0 2rem;
   }
-
+  
   .post .tags-list {
     justify-content: unset;
   }
 }
+
+
 
 .post .tags-list li {
   border: 1px solid var(--color-gray-200);
