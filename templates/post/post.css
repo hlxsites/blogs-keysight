@@ -58,11 +58,11 @@
 }
 
 /* grid post sections */
-.post .section:nth-of-type(2) {
+.post .section:not(.hero-container):not(.post-sidebar-wrapper) {
   grid-column: 2;
 }
 
-.post .section:nth-of-type(2) h3 {
+.post .section:not(.hero-container):not(.post-sidebar-wrapper) h3 {
   color:var(--color-gray-400);
   font-size: var(--heading-font-size-m);
 }

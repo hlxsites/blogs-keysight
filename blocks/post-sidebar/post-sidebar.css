@@ -7,9 +7,16 @@
 @media (min-width: 600px) {
   .post .post-sidebar-wrapper {
     grid-column:1;
+    grid-row:1;
+    margin:0;
+  }
+  
+  .post .hero-container ~ .post-sidebar-wrapper {
+    grid-column:1;
     grid-row:2;
     margin:0;
   }
+
   .post .post-sidebar {
     column-gap: 10px;
     display: grid;
@@ -124,6 +131,7 @@
   .post .tags-container {
     margin:8rem 0 0 2rem;
   }
+  
   .post .tags-list {
     justify-content: unset;
   }

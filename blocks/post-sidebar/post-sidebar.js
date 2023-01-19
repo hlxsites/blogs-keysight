@@ -11,19 +11,21 @@ import {
 const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
 
 function buildTags(sidebar) {
-  const tags = getMetadata('article:tag').split(', ');
-  const tagsContainer = createElement('div', 'tags-container');
-  const list = createElement('ul', 'tags-list');
-  tagsContainer.append(list);
-  tags.forEach((tag) => {
-    const item = createElement('li');
-    const link = createElement('a');
-    link.innerHTML = `<span class="tag-name">#${tag}</span>`;
-    link.href = `/tag-matches?tag=${tag}`;
-    item.append(link);
-    list.append(item);
-  });
-  sidebar.append(tagsContainer);
+  if (getMetadata('article:tag') !== '') {
+    const tags = getMetadata('article:tag').split(', ');
+    const tagsContainer = createElement('div', 'tags-container');
+    const list = createElement('ul', 'tags-list');
+    tagsContainer.append(list);
+    tags.forEach((tag) => {
+      const item = createElement('li');
+      const link = createElement('a');
+      link.innerHTML = `<span class="tag-name">#${tag}</span>`;
+      link.href = `/tag-matches?tag=${tag}`;
+      item.append(link);
+      list.append(item);
+    });
+    sidebar.append(tagsContainer);
+  }
 }
 
 function buildSocial(sidebar) {

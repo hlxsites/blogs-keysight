@@ -9,7 +9,7 @@ import { createElement, getNavPages } from '../../scripts/scripts.js';
 
 async function buildPostData(contentcontainer) {
   const pages = await getNavPages();
-  const topic = getMetadata('topic');
+  const topic = getMetadata('subtopic') !== '' ? getMetadata('subtopic') : getMetadata('topic');
   let topicPath = '#';
   pages.forEach((page) => {
     if (page.topic === topic) {
@@ -24,11 +24,10 @@ async function buildPostData(contentcontainer) {
 }
 
 export default async function decorate(doc) {
-  const contentcontainer = doc.querySelector('.hero-container').nextElementSibling.firstElementChild;
+  const contentcontainer = doc.querySelector('.hero-container') ? doc.querySelector('.hero-container').nextElementSibling.firstElementChild : doc.querySelector('main > .section');
+  console.log(contentcontainer);
   const classes = ['section'];
   const sidebar = createElement('div', classes);
-
-  // TODO load and decorate the block into the section
 
   let sidebarPreviousSection;
   let sectionFound = false;
