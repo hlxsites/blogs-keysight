@@ -24,8 +24,7 @@
     grid-template-areas:
     "authorimage social"
     "authordetails social";
-    grid-template-columns: 3fr 1fr;
-    grid-template-rows: 165px auto;
+    grid-template-columns:  165px auto / 3fr 1fr;
   }
 }
 
@@ -131,13 +130,11 @@
   .post .tags-container {
     margin:8rem 0 0 2rem;
   }
-  
+
   .post .tags-list {
     justify-content: unset;
   }
 }
-
-
 
 .post .tags-list li {
   border: 1px solid var(--color-gray-200);
