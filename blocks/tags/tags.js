@@ -4,6 +4,7 @@ import {
   addOutsideClickListener,
   splitTags,
   loadPosts,
+  execDeferred,
 } from '../../scripts/scripts.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
 
@@ -125,8 +126,19 @@ export default async function decorate(block) {
         Once that completes, this block can simply collect tags from the posts already loaded
         rather than potentially having to load more posts on it's own to find all the required tags.
       */
+
+      let loaded = false;
       window.addEventListener('message', (msg) => {
         if (msg.origin === window.location.origin && msg.data && msg.data.postCardsLoaded) {
+          loaded = true;
+          loadBlock(block);
+        }
+      });
+      execDeferred(() => {
+        // in some cases, this block doesn't load til after the post cards sends it's message
+        // so this handles that by executing the loading on a deferred timout
+        // this feels hacky, should consider if there are better ways to do this
+        if (!loaded) {
           loadBlock(block);
         }
       });
