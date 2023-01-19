@@ -1,3 +1,7 @@
+main .post-cards {
+  min-height: 650px;
+}
+
 main .post-cards .post-cards-grid {
   --num-cols: 1;
   
