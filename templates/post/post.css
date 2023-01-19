@@ -58,11 +58,6 @@
 }
 
 /* grid post sections */
-.post .post-sidebar-container {
-  grid-column: 1;
-  grid-row: 2;
-}
-
 .post .section:not(.post-sidebar-container, .hero-container) {
   grid-column: 2;
 }
