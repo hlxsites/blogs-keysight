@@ -215,6 +215,9 @@ async function loadBlock(block) {
   block.append(moreContainer);
 
   showHideMore(grid, moreContainer);
+  // post a message indicating cards are loaded, this triggers the tags block to load
+  // see comment there for more details
+  window.postMessage({ postCardsLoaded: true }, window.location.origin);
 }
 
 /**
