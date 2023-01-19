@@ -79,10 +79,6 @@ main .tags .find-tag .found-tags:empty {
 }
 
 /* All tags block variant */
-main .tags.all {
-  min-height: 300px;
-}
-
 main .tags.all .tags-list {
   max-height: unset;
 }
