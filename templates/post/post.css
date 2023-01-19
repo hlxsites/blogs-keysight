@@ -65,25 +65,9 @@
 
 }
 
-
 /* grid post sections */
 .post .section:nth-of-type(2) {
   grid-area: content;
-}
-
-.post .section:nth-of-type(2) img {
-  height:auto;
-  max-width:100%;
-}
-
-.post .section:nth-of-type(2) picture + em {
-  background-color: var(--color-gray-100);
-  display:block;
-  font-size: var(--body-font-size-s);
-  margin: 10px 0;
-  padding: 6px 12px;
-  position: relative;
-  width:100%;
 }
 
 .post .section:nth-of-type(2) h3 {
