@@ -25,10 +25,12 @@ async function buildPostData(contentcontainer) {
 
 export default async function decorate(doc) {
   const contentcontainer = doc.querySelector('.hero-container').nextElementSibling.firstElementChild;
-  const classes = ['section'];
-  const sidebar = createElement('div', classes);
+  buildPostData(contentcontainer);
 
-  // TODO load and decorate the block into the section
+  const classes = ['section'];
+  const sidebarSection = createElement('div', classes);
+  const sidebarContainer = createElement('div');
+  sidebarSection.append(sidebarContainer);
 
   let sidebarPreviousSection;
   let sectionFound = false;
@@ -43,11 +45,9 @@ export default async function decorate(doc) {
       sectionFound = true;
     }
   }
-
-  buildPostData(contentcontainer);
   const postSidebar = buildBlock('post-sidebar', '');
-  sidebar.append(postSidebar);
-  sidebarPreviousSection.insertAdjacentElement('beforebegin', sidebar);
+  sidebarContainer.append(postSidebar);
+  sidebarPreviousSection.insertAdjacentElement('beforebegin', sidebarSection);
   decorateBlock(postSidebar);
-  await loadBlock(postSidebar);
+  loadBlock(postSidebar);
 }
