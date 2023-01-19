@@ -217,6 +217,7 @@ async function loadBlock(block) {
   showHideMore(grid, moreContainer);
   // post a message indicating cards are loaded, this triggers the tags block to load
   // see comment there for more details
+  block.dataset.postsLoaded = 'true';
   window.postMessage({ postCardsLoaded: true }, window.location.origin);
 }
 
@@ -225,6 +226,7 @@ async function loadBlock(block) {
  * @param {Element} block The featured posts block element
  */
 export default function decorate(block) {
+  block.dataset.postsLoaded = 'false';
   const observer = new IntersectionObserver((entries) => {
     if (entries.some((e) => e.isIntersecting)) {
       observer.disconnect();

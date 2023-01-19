@@ -4,7 +4,6 @@ import {
   addOutsideClickListener,
   splitTags,
   loadPosts,
-  execDeferred,
 } from '../../scripts/scripts.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
 
@@ -105,45 +104,34 @@ async function loadBlock(block) {
  * @param {Element} block The featured posts block element
  */
 export default async function decorate(block) {
-  const isAll = block.classList.contains('all');
-  if (isAll) {
+  const postCards = document.querySelector('.block.post-cards');
+  if (!postCards || postCards.dataset.postsLoaded === 'true') {
+    const isAll = block.classList.contains('all');
     // if it's all tags, force load all the posts then use those to collect the tags
-    while (!window.keysight.postData.allLoaded) {
+    while (isAll && !window.keysight.postData.allLoaded) {
       // eslint-disable-next-line no-await-in-loop
       await loadPosts(true);
     }
     loadBlock(block);
   } else {
-    // find a post cards block, if it exists wait to load tags til that loads, else just load
-    const postCards = document.querySelector('.block.post-cards');
-    if (postCards) {
-      /*
-        The posts, which are used to derive the tags, are a shared array
-        This helps avoid timing conflict, such that if there are post cards in the page
-        we wait til that finishes loading, which may require loading additional posts from
-        the query index.
+    /*
+      The posts, which are used to derive the tags, are a shared array
+      This helps avoid timing conflicts, such that if there are post cards in the page
+      we wait til that finishes loading, which may require loading additional posts from
+      the query index to the shared array.
 
-        Once that completes, this block can simply collect tags from the posts already loaded
-        rather than potentially having to load more posts on it's own to find all the required tags.
-      */
+      Once that completes, this block can simply collect tags from the posts already loaded
+      rather than potentially having to load more posts on it's own to find all the required tags.
+      We do this by listening for a message from the post cards block, which triggers the loading.
 
-      let loaded = false;
-      window.addEventListener('message', (msg) => {
-        if (msg.origin === window.location.origin && msg.data && msg.data.postCardsLoaded) {
-          loaded = true;
-          loadBlock(block);
-        }
-      });
-      execDeferred(() => {
-        // in some cases, this block doesn't load til after the post cards sends it's message
-        // so this handles that by executing the loading on a deferred timout
-        // this feels hacky, should consider if there are better ways to do this
-        if (!loaded) {
-          loadBlock(block);
-        }
-      });
-    } else {
-      loadBlock(block);
-    }
+      Note also the check above on postCards.dataset.postsLoaded. That is required to avoid
+      a case where the posts finish loading before this block loads, in which case the
+      message would never be received.
+    */
+    window.addEventListener('message', (msg) => {
+      if (msg.origin === window.location.origin && msg.data && msg.data.postCardsLoaded) {
+        loadBlock(block);
+      }
+    });
   }
 }
