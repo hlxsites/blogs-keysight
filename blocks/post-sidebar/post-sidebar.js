@@ -9,10 +9,10 @@ import {
 } from '../../scripts/scripts.js';
 
 const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
+const tags = getMetadata('article:tag').split(', ');
 
 function buildTags(sidebar) {
   if (getMetadata('article:tag') !== '') {
-    const tags = getMetadata('article:tag').split(', ');
     const tagsContainer = createElement('div', 'tags-container');
     const list = createElement('ul', 'tags-list');
     tagsContainer.append(list);
@@ -20,7 +20,7 @@ function buildTags(sidebar) {
       const item = createElement('li');
       const link = createElement('a');
       link.innerHTML = `<span class="tag-name">#${tag}</span>`;
-      link.href = `/tag-matches?tag=${tag}`;
+      link.href = `/tag-matches?tag=${encodeURIComponent(tag)}`;
       item.append(link);
       list.append(item);
     });
@@ -28,12 +28,37 @@ function buildTags(sidebar) {
   }
 }
 
+function getSocialLinks(social, url, title) {
+  let link;
+  switch (social) {
+    case 'facebook':
+      link = `http://www.facebook.com/sharer.php?u=${url}`;
+      break;
+    case 'twitter':
+      link = `https://twitter.com/share?status=${url};text=${encodeURIComponent(title)};hashtags=${encodeURIComponent(tags.join(','))}`;
+      break;
+    case 'linkedin':
+      link = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${encodeURIComponent(title)}&summary=${url}`;
+      break;
+    case 'email':
+      link = `mailto:?subject=${encodeURIComponent(title)}&body=${url}`;
+      break;
+    default:
+      link = '#';
+  }
+  return link;
+}
+
 function buildSocial(sidebar) {
   const social = createElement('div', 'social');
+  const title = getMetadata('og:title');
+  const url = window.location.href;
   for (let i = 0; i < socialIcons.length; i += 1) {
-    const classes = ['icon', `icon-${socialIcons[i]}`];
-    const socialIcon = createElement('span', classes);
-    social.appendChild(socialIcon);
+    const link = createElement('a');
+    link.target = '_blank';
+    link.innerHTML = `<span class="icon icon-${socialIcons[i]}"></span>`;
+    link.href = getSocialLinks(socialIcons[i], url, title);
+    social.appendChild(link);
   }
   sidebar.append(social);
   buildTags(sidebar);
