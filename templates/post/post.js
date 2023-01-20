@@ -1,7 +1,6 @@
 import {
   getMetadata,
   decorateIcons,
-  loadBlock,
   buildBlock,
   decorateBlock,
 } from '../../scripts/lib-franklin.js';
@@ -28,7 +27,9 @@ export default async function decorate(doc) {
   buildPostData(contentcontainer);
 
   const classes = ['section'];
-  const sidebarSection = createElement('div', classes);
+  const sidebarSection = createElement('div', classes, {
+    'data-section-status': 'initialized',
+  });
   const sidebarContainer = createElement('div');
   sidebarSection.append(sidebarContainer);
 
@@ -49,5 +50,4 @@ export default async function decorate(doc) {
   sidebarContainer.append(postSidebar);
   sidebarPreviousSection.insertAdjacentElement('beforebegin', sidebarSection);
   decorateBlock(postSidebar);
-  loadBlock(postSidebar);
 }
