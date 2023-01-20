@@ -50,5 +50,4 @@ export default async function decorate(doc) {
   sidebarContainer.append(postSidebar);
   sidebarPreviousSection.insertAdjacentElement('beforebegin', sidebarSection);
   decorateBlock(postSidebar);
-  // loadBlock(postSidebar);
 }
