@@ -11,7 +11,7 @@ async function buildPostData(contentcontainer) {
   const topic = getMetadata('subtopic') !== '' ? getMetadata('subtopic') : getMetadata('topic');
   let topicPath = '#';
   pages.forEach((page) => {
-    if (page.topic === topic) {
+    if (page.topic === topic || page.subtopic === topic) {
       topicPath = page.path;
     }
   });
