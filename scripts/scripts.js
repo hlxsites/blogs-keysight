@@ -460,12 +460,14 @@ async function updatePlaceholders() {
  */
 async function loadLazy(doc) {
   updatePlaceholders();
-  const main = doc.querySelector('main');
-  await loadBlocks(main);
+
   const templateName = getMetadata('template');
   if (templateName) {
     await loadTemplate(doc, templateName);
   }
+
+  const main = doc.querySelector('main');
+  await loadBlocks(main);
 
   const { hash } = window.location;
   const element = hash ? main.querySelector(hash) : false;
