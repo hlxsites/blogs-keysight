@@ -235,6 +235,10 @@ export default function decorate(block) {
       observer.disconnect();
       loadBlock(block);
     }
-  }, { rootMargin: '400px' });
-  observer.observe(block);
+  });
+  const section = block.closest('.section');
+  const observationElement = section && section.previousElementSibling
+    ? section.previousElementSibling : block;
+  console.log(observationElement);
+  observer.observe(observationElement);
 }
