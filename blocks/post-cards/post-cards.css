@@ -177,3 +177,7 @@ main .post-cards .show-more-cards-container .show-more-cards:hover {
 .post main .post-cards .post-cards-grid .post-card .card-title a {
   font-size: var(--heading-font-size-s);
 }
+
+.post main .post-cards {
+  min-height: 500px;
+}
