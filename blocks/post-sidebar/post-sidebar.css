@@ -82,6 +82,7 @@
 .post .tags-container {
   margin:0;
   grid-column: 1 / -1;
+  text-align: center;
 }
 
 .post .tags-list {
@@ -89,10 +90,6 @@
   margin: 0;
   padding: 0;
   display: inline-table;
-  text-align: center;
-}
-
-.post .tags-container {
   text-align: center;
 }
 
