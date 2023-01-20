@@ -12,7 +12,7 @@ const pageSize = 7;
 function showHideMore(grid, moreContainer) {
   const hidden = grid.querySelector('.post-card.hidden');
   if (hidden) {
-    moreContainer.style.display = 'auto';
+    moreContainer.style.display = '';
   } else {
     moreContainer.style.display = 'none';
   }
@@ -235,6 +235,9 @@ export default function decorate(block) {
       observer.disconnect();
       loadBlock(block);
     }
-  }, { rootMargin: '400px' });
-  observer.observe(block);
+  });
+  const section = block.closest('.section');
+  const observationElement = section && section.previousElementSibling
+    ? section.previousElementSibling : block;
+  observer.observe(observationElement);
 }
