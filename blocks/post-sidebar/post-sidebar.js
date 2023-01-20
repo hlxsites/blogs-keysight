@@ -81,7 +81,7 @@ export default async function decorate(block) {
 
   const picMedia = [{ media: '(min-width: 160px)', width: '160' }];
   const pic = createOptimizedPicture(authorImage, '', false, picMedia);
-  block.innerHTML = `<a class="author-image" href="${encodeURIComponent(authorUrl)}">${pic.outerHTML}</a>
+  block.innerHTML = `<a class="author-image" href="${authorUrl}">${pic.outerHTML}</a>
     <div class="author-details">
     <h3 class="author-name"><a href="${authorUrl}">${authorName}</a></h3>
     <h4 class="author-title">${authorTitle}</h4>

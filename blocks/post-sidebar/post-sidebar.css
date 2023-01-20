@@ -89,12 +89,17 @@
   margin: 0;
   padding: 0;
   display: inline-table;
-  justify-content: center;
+  text-align: center;
+}
+
+.post .tags-container {
+  text-align: center;
 }
 
 @media (min-width: 600px) {
   .post .tags-container {
     margin:8rem 0 0 2rem;
+    text-align: unset;
   }
   
   .post .tags-list {
@@ -110,8 +115,6 @@
 }
 
 .post .tags-list li a {
-  display: flex;
-  gap: 2rem;
   font-size: var(--body-font-size-s);
   color: var(--color-gray-300);
 }
