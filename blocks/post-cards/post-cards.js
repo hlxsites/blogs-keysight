@@ -184,6 +184,26 @@ function showPage(grid) {
 }
 
 async function loadBlock(block) {
+  const grid = block.querySelector('.post-cards-grid');
+  const moreContainer = block.querySelector('.show-more-cards-container');
+
+  // load the first 2 pages, show 1
+  await loadPage(grid);
+  await loadPage(grid);
+  showPage(grid);
+
+  showHideMore(grid, moreContainer);
+  // post a message indicating cards are loaded, this triggers the tags block to load
+  // see comment there for more details
+  block.dataset.postsLoaded = 'true';
+  window.postMessage({ postCardsLoaded: true }, window.location.origin);
+}
+
+/**
+ * decorates the block
+ * @param {Element} block The featured posts block element
+ */
+export default function decorate(block) {
   const conf = readBlockConfig(block);
   const { limit, filter } = conf;
   const limitNumber = limit || -1;
@@ -205,33 +225,16 @@ async function loadBlock(block) {
   });
 
   block.innerHTML = '';
-
-  // load the first 2 pages, show 1
-  await loadPage(grid);
-  await loadPage(grid);
-  showPage(grid);
-
   block.append(grid);
   block.append(moreContainer);
-
   showHideMore(grid, moreContainer);
-  // post a message indicating cards are loaded, this triggers the tags block to load
-  // see comment there for more details
-  block.dataset.postsLoaded = 'true';
-  window.postMessage({ postCardsLoaded: true }, window.location.origin);
-}
 
-/**
- * decorates the block
- * @param {Element} block The featured posts block element
- */
-export default function decorate(block) {
   block.dataset.postsLoaded = 'false';
   const observer = new IntersectionObserver((entries) => {
     if (entries.some((e) => e.isIntersecting)) {
       observer.disconnect();
       loadBlock(block);
     }
-  });
+  }, { rootMargin: '400px' });
   observer.observe(block);
 }

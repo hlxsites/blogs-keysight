@@ -164,3 +164,12 @@ main .post-cards .show-more-cards-container .show-more-cards {
 main .post-cards .show-more-cards-container .show-more-cards:hover {
   background-color: var(--color-gray-300-tranparent);
 }
+
+/* post cards on post page */
+.post main .post-cards .post-cards-grid .post-card .card-description p {
+  display: none;
+}
+
+.post main .post-cards .post-cards-grid {
+  gap: 2rem;
+}
