@@ -19,11 +19,10 @@
 /* hero restyles */
 .post main .hero picture {
   z-index:1;
-  padding-bottom:2em;
 }
 
 .post main .hero {
-  margin: 0 auto;
+  margin: 0 auto 2rem;
   padding: 0;
 }
 
@@ -48,7 +47,7 @@
 
   .post .hero-container {
     grid-column: 1 / -1;
-    padding-bottom:4em;
+    padding-bottom: 3rem;
   }
 }
 
@@ -125,4 +124,9 @@
   margin: 0.25em 0;
   min-height:20x;
   text-transform: none;
+}
+
+.post .related-content-container,
+.post .post-cards-container {
+  border-top: 1px solid #eee;
 }

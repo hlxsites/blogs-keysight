@@ -19,15 +19,34 @@ main .post-cards .post-cards-grid .post-card {
   min-height: 45rem;
 }
 
-@media (min-width: 600px) {
-  main .post-cards .post-cards-grid {
-    --num-cols: 2;
+@supports (container-type: inline-size) {
+  main .post-cards {
+    container-type: inline-size;
+  }
+
+  @container (min-width: 560px) {
+    main .post-cards .post-cards-grid {
+      --num-cols: 2;
+    }
+  }
+  
+  @container(min-width: 860px) {
+    main .post-cards .post-cards-grid {
+      --num-cols: 3;
+    }
   }
 }
-
-@media (min-width: 900px) {
-  main .post-cards .post-cards-grid {
-    --num-cols: 3;
+@supports not (container-type: inline-size) {
+  @media (min-width: 600px) {
+    main .post-cards .post-cards-grid {
+      --num-cols: 2;
+    }
+  }
+  
+  @media (min-width: 900px) {
+    main .post-cards .post-cards-grid {
+      --num-cols: 3;
+    }
   }
 }
 
@@ -62,22 +81,44 @@ main .post-cards .post-cards-grid .post-card .post-card-text > p {
   margin: 1rem 0;
 }
 
-@media (min-width: 900px) {
-  main .post-cards .post-cards-grid .post-card.featured {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-  }
-
-  main .post-cards .post-cards-grid .post-card .post-card-text > * {
-    padding: 0 3rem 0 4rem;
-  }
-
-  main .post-cards .post-cards-grid .post-card.featured .post-card-image picture {
-    aspect-ratio: unset;
-    height: 100%;
+@supports (container-type: inline-size) {
+  @container (min-width: 860px) {
+    main .post-cards .post-cards-grid .post-card.featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    }
+  
+    main .post-cards .post-cards-grid .post-card .post-card-text > * {
+      padding: 0 3rem 0 4rem;
+    }
+  
+    main .post-cards .post-cards-grid .post-card.featured .post-card-image picture {
+      aspect-ratio: unset;
+      height: 100%;
+    }
   }
 }
+
+@supports not (container-type: inline-size) {
+  @media (min-width: 900px) {
+    main .post-cards .post-cards-grid .post-card.featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    }
+  
+    main .post-cards .post-cards-grid .post-card .post-card-text > * {
+      padding: 0 3rem 0 4rem;
+    }
+  
+    main .post-cards .post-cards-grid .post-card.featured .post-card-image picture {
+      aspect-ratio: unset;
+      height: 100%;
+    }
+  }
+}
+
 
 main .post-cards .post-cards-grid .post-card.hidden {
   display: none;
