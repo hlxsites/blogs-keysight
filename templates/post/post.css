@@ -126,7 +126,6 @@
   text-transform: none;
 }
 
-.post .related-content-container,
-.post .post-cards-container {
+.post :is(.related-content-container, .post-cards-container) > div:first-child {
   border-top: 1px solid #eee;
 }
