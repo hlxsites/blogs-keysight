@@ -3,8 +3,11 @@
 }
 
 .related-content .cols {
-  display: flex;
-  flex-direction: column;
+  --num-cols: 1;
+
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(var(--num-cols), minmax(0, 1fr));
 }
 
 .related-content .cols ul {
@@ -17,15 +20,33 @@
   margin-top: 2rem;
 }
 
-@media (min-width: 600px) {
-  .related-content .cols {
-    flex-flow: row wrap;
-    justify-content: space-between;
-    gap: 2rem;
+@supports (container-type: inline-size) {
+  .related-content {
+    container-type: inline-size;
   }
 
-  .related-content .cols > div {
-    flex: 1 1 calc(33% - 4rem);
-    min-width: 20rem
+  @container (min-width: 560px) {
+    .related-content .cols {
+      --num-cols: 2;
+    }
+  }
+  
+  @container(min-width: 860px) {
+    .related-content .cols {
+      --num-cols: 3;
+    }
+  }
+}
+@supports not (container-type: inline-size) {
+  @media (min-width: 600px) {
+    .related-content .cols {
+      --num-cols: 2;
+    }
+  }
+  
+  @media (min-width: 900px) {
+    .related-content .cols {
+      --num-cols: 3;
+    }
   }
 }

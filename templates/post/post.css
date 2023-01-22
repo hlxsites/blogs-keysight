@@ -128,4 +128,5 @@
 
 .post :is(.related-content-container, .post-cards-container) > div:first-child {
   border-top: 1px solid #eee;
+  margin-top: 2rem;
 }
