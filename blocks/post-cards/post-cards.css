@@ -30,7 +30,7 @@ main .post-cards .post-cards-grid .post-card {
     }
   }
   
-  @container(min-width: 860px) {
+  @container (min-width: 860px) {
     main .post-cards .post-cards-grid {
       --num-cols: 3;
     }

@@ -31,13 +31,14 @@
     }
   }
   
-  @container(min-width: 860px) {
+  @container (min-width: 860px) {
     .related-content .cols {
       --num-cols: 3;
     }
   }
 }
 
+/* once containers are more widely supported, can remove this */
 @supports not (container-type: inline-size) {
   @media (min-width: 600px) {
     .related-content .cols {
