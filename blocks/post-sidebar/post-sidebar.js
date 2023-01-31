@@ -79,9 +79,14 @@ export default async function decorate(block) {
     authorUrl = authorPage.path;
   }
 
-  const picMedia = [{ media: '(min-width: 160px)', width: '160' }];
-  const pic = createOptimizedPicture(authorImage, '', false, picMedia);
-  block.innerHTML = `<a class="author-image" href="${authorUrl}">${pic.outerHTML}</a>
+  let picHtml = '<span class="icon icon-user"></span>';
+  if (!authorImage.includes('/default-meta-image')) {
+    const picMedia = [{ media: '(min-width: 160px)', width: '160' }];
+    const pic = createOptimizedPicture(authorImage, '', false, picMedia);
+    picHtml = pic.outerHTML;
+  }
+
+  block.innerHTML = `<a class="author-image" href="${authorUrl}">${picHtml}</a>
     <div class="author-details">
     <h3 class="author-name"><a href="${authorUrl}">${authorName}</a></h3>
     <h4 class="author-title">${authorTitle}</h4>
