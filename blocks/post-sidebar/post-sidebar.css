@@ -15,6 +15,14 @@
   grid-column: 1;
   height:165px;
   margin: 0 auto;
+  color: var(--color-gray-200);
+}
+
+.post .author-image .icon {
+  --icon-width: 125px;
+
+  display: block;
+  margin: auto;
 }
 
 .post .author-details {
@@ -61,16 +69,15 @@
 }
 
 .post main .icon {
-  width: 25px;
+  --icon-width: 25px;
 }
 
 .post .social .icon svg {
   display: block;
-  height: 25px;
+  height: var(--icon-width);
   fill: var(--color-gray-700);
   margin: 5px auto;
   text-align: center;
-  width: 25px;
 }
 
 .post .social .icon svg:hover {
