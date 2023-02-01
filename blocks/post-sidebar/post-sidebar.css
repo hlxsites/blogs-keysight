@@ -10,6 +10,10 @@
   width:165px;
 }
 
+.post main .icon {
+  --icon-width: 25px;
+}
+
 /* author details */
 .post .author-image {
   grid-column: 1;
@@ -66,10 +70,6 @@
 
 .post .social span {
   margin: 0 1rem;
-}
-
-.post main .icon {
-  --icon-width: 25px;
 }
 
 .post .social .icon svg {
