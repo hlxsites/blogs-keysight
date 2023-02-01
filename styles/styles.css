@@ -136,6 +136,10 @@ main {
   padding-bottom: 4rem;
 }
 
+pre {
+  overflow: auto;
+}
+
 /* links and buttons */
 a {
   color: var(--color-red);

@@ -1,58 +1,37 @@
-import { getMetadata, createOptimizedPicture, decorateIcons } from '../../scripts/lib-franklin.js';
+import {
+  getMetadata,
+  decorateIcons,
+  buildBlock,
+  decorateBlock,
+} from '../../scripts/lib-franklin.js';
 import { createElement, getNavPages } from '../../scripts/scripts.js';
 
-const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
-
-function buildSocial(sidebar) {
-  const social = createElement('div', 'social');
-  for (let i = 0; i < socialIcons.length; i += 1) {
-    const classes = ['icon', `icon-${socialIcons[i]}`];
-    const socialIcon = createElement('span', classes);
-    social.appendChild(socialIcon);
-  }
-  sidebar.append(social);
-}
-
-async function buildSidebar(sidebar, author) {
-  let authorImage;
-  let authorName;
-  let authorTitle;
-  let authorUrl;
-  const navPages = await getNavPages();
-  const authorPage = navPages.find((page) => page.title === author);
-  if (authorPage) {
-    authorImage = authorPage.image;
-    authorName = authorPage.title;
-    authorTitle = (authorPage.authortitle !== '' && authorPage.authortitle !== '0') ? authorPage.authortitle : 'Contributor';
-    authorUrl = authorPage.path;
-  }
-
-  const picMedia = [{ media: '(min-width: 160px)', width: '160' }];
-  const pic = createOptimizedPicture(authorImage, '', false, picMedia);
-  sidebar.innerHTML = `<a class="author-image" href="${authorUrl}">${pic.outerHTML}</a>
-    <div class="author-details">
-    <h3 class="author-name"><a href="${authorUrl}">${authorName}</a></h3>
-    <h4 class="author-title">${authorTitle}</h4>
-    </div>`;
-  buildSocial(sidebar);
-  decorateIcons(sidebar);
-}
-
-function buildPostData(contentcontainer) {
-  const topic = getMetadata('topic');
+async function buildPostData(contentcontainer) {
+  const pages = await getNavPages();
+  const topic = getMetadata('subtopic') !== '' ? getMetadata('subtopic') : getMetadata('topic');
+  let topicPath = '#';
+  pages.forEach((page) => {
+    if (page.topic === topic || page.subtopic === topic) {
+      topicPath = page.path;
+    }
+  });
   const pubdate = getMetadata('publication-date');
   const readtime = getMetadata('read-time');
-  contentcontainer.insertAdjacentHTML('afterbegin', `<p class='blog-category'><a href='#'>${topic}</a></p>`);
+  contentcontainer.insertAdjacentHTML('afterbegin', `<p class='blog-category'><a href='${topicPath}'>${topic}</a></p>`);
   contentcontainer.querySelector('h1').insertAdjacentHTML('afterend', `<div class='post-stats'><span class='pubdate'>${pubdate}</span> | <span class="icon icon-clock"></span><span class='readtime'>${readtime}</span></div>`);
   decorateIcons(contentcontainer);
 }
 
 export default async function decorate(doc) {
-  const contentcontainer = doc.querySelector('.hero-container').nextElementSibling.firstElementChild;
-  const classes = ['section', 'post-sidebar'];
-  const sidebar = createElement('div', classes);
+  const contentcontainer = doc.querySelector('.hero-container') ? doc.querySelector('.hero-container').nextElementSibling.firstElementChild : doc.querySelector('main > .section');
+  buildPostData(contentcontainer);
 
-  // TODO load and decorate the block into the section
+  const classes = ['section'];
+  const sidebarSection = createElement('div', classes, {
+    'data-section-status': 'initialized',
+  });
+  const sidebarContainer = createElement('div');
+  sidebarSection.append(sidebarContainer);
 
   let sidebarPreviousSection;
   let sectionFound = false;
@@ -67,9 +46,8 @@ export default async function decorate(doc) {
       sectionFound = true;
     }
   }
-
-  sidebarPreviousSection.insertAdjacentElement('beforebegin', sidebar);
-
-  await buildSidebar(sidebar, getMetadata('author'));
-  buildPostData(contentcontainer);
+  const postSidebar = buildBlock('post-sidebar', '');
+  sidebarContainer.append(postSidebar);
+  sidebarPreviousSection.insertAdjacentElement('beforebegin', sidebarSection);
+  decorateBlock(postSidebar);
 }

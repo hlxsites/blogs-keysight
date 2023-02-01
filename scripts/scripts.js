@@ -383,10 +383,6 @@ async function loadTemplate(doc, templateName) {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
-  const templateName = getMetadata('template');
-  if (templateName) {
-    loadTemplate(doc, templateName);
-  }
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
@@ -464,6 +460,12 @@ async function updatePlaceholders() {
  */
 async function loadLazy(doc) {
   updatePlaceholders();
+
+  const templateName = getMetadata('template');
+  if (templateName) {
+    await loadTemplate(doc, templateName);
+  }
+
   const main = doc.querySelector('main');
   await loadBlocks(main);
 
