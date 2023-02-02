@@ -5,9 +5,9 @@
   background-repeat: no-repeat;
   border-radius: 50%;
   display:block;
-  height:165px;
+  max-height:165px;
   margin:0 auto;
-  width:165px;
+  max-width:165px;
 }
 
 .post main .icon {
