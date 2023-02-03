@@ -50,6 +50,36 @@ export function createElement(tagName, classes, props) {
 }
 
 /**
+ * load a script by adding to page head
+ * @param {string} url the script src url
+ * @param {string} type the script type
+ * @param {function} callback a funciton to callback after loading
+ */
+export function loadScript(url, type, callback) {
+  const head = document.querySelector('head');
+  let script = head.querySelector(`script[src="${url}"]`);
+  if (!script) {
+    script = document.createElement('script');
+    script.src = url;
+    if (type) script.setAttribute('type', type);
+    head.append(script);
+    script.onload = callback;
+    return script;
+  }
+  return script;
+}
+
+/**
+ * Load the launch library applicable to the domain
+ */
+export function loadLaunch() {
+  const isProd = window.location.hostname.endsWith('keysight.com');
+  const launchProd = 'https://assets.adobedtm.com/af12bb6c0390/f1190bca45f3/launch-6bc4c4772e81.min.js';
+  const launchStaging = 'https://assets.adobedtm.com/af12bb6c0390/f1190bca45f3/launch-9dfc78dfe662-staging.min.js';
+  loadScript(isProd ? launchProd : launchStaging);
+}
+
+/**
  * Add a listener for clicks outside an element, and execute the callback when they happen.
  * useful for closing menus when they are clicked outside of.
  * @param {Element} elem the element
@@ -489,8 +519,8 @@ async function loadLazy(doc) {
  * the user experience.
  */
 function loadDelayed() {
-  // eslint-disable-next-line import/no-cycle
   window.setTimeout(() => {
+    // eslint-disable-next-line import/no-cycle
     import('./delayed.js');
     // execute any delayed functions
     window.keysight.delayedReached = true;
