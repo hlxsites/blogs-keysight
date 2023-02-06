@@ -219,6 +219,7 @@ function generateBlogPost(document) {
 
   const related = document.querySelector('#blogs_related_content');
   if (related) {
+    post.append(sectionBreak.cloneNode(true));
     const relContentHead = document.createElement('h3');
     relContentHead.textContent = 'Related Content';
     post.append(relContentHead);
@@ -249,7 +250,6 @@ function generateBlogPost(document) {
         [...cols],
       ];
       const relatedCols = WebImporter.DOMUtils.createTable(colsCells, document);
-      post.append(sectionBreak.cloneNode(true));
       post.append(relatedCols);
     }
   }
