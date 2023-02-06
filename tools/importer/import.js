@@ -26,7 +26,6 @@ function generateBlogPostPath(blogPostElement, url) {
   const path = new URL(url).pathname.replace(/\.html$/, '').replace(/\/$/, '');
   const pathSegments = path.split('/');
   if (pathSegments.length === 8) {
-    const blogs = pathSegments[1];
     const topicCode = pathSegments[2];
     const subTopicPath = pathSegments[3];
     const subTopicCode = subTopicPath.split('.')[0];
@@ -35,11 +34,10 @@ function generateBlogPostPath(blogPostElement, url) {
     const day = pathSegments[6];
     const name = titleToName(blogPostElement.querySelector('h1.blog-title').textContent);
 
-    const finalPath = `/${blogs}/${topicCode}/${subTopicCode}/${year}/${month}/${day}/${name}`;
+    const finalPath = `/${topicCode}/${subTopicCode}/${year}/${month}/${day}/${name}`;
     return finalPath;
   }
   if (pathSegments.length === 7) {
-    const blogs = pathSegments[1];
     const topicPath = pathSegments[2];
     const topicCode = topicPath.split('.')[0];
     const year = pathSegments[3];
@@ -47,20 +45,17 @@ function generateBlogPostPath(blogPostElement, url) {
     const day = pathSegments[5];
     const name = titleToName(blogPostElement.querySelector('h1.blog-title').textContent);
 
-    const finalPath = `/${blogs}/${topicCode}/${year}/${month}/${day}/${name}`;
+    const finalPath = `/${topicCode}/${year}/${month}/${day}/${name}`;
     return finalPath;
   }
 
   return path;
 }
 
-function generateAuthorPath(authorContent, url) {
-  const path = new URL(url).pathname.replace(/\.html$/, '').replace(/\/$/, '');
-  const pathSegments = path.split('/');
-  const blogs = pathSegments[1];
+function generateAuthorPath(authorContent) {
   const name = titleToName(authorContent.querySelector('h1#bio-name').textContent);
 
-  const finalPath = `/${blogs}/authors/${name}`;
+  const finalPath = `/authors/${name}`;
   return finalPath;
 }
 
@@ -348,7 +343,7 @@ export default {
       const authorContent = generateAuthor(document, url);
       return [{
         element: authorContent,
-        path: generateAuthorPath(authorContent, url),
+        path: generateAuthorPath(authorContent),
       }];
     }
 
