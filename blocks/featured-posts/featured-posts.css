@@ -2,6 +2,20 @@ main .featured-posts-container {
   background-color: white;
 }
 
+main .featured-posts.loading {
+  min-height: 245px;
+}
+
+main .featured-posts.loading > div {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  main .featured-posts.loading {
+    min-height: 75px;
+  }
+}
+
 main .section > div.featured-posts-wrapper {
   margin: 0 auto;
   padding: 2rem;
