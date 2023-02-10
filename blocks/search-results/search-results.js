@@ -6,6 +6,7 @@ import {
 } from '../../scripts/lib-franklin.js';
 import {
   getPosts,
+  loadPosts,
   splitTags,
   createElement,
   getNavPages,
@@ -55,16 +56,28 @@ function getTagsLinks(post) {
 }
 
 async function executeSearch(q) {
+  while (!window.keysight.postData.allLoaded) {
+    // eslint-disable-next-line no-await-in-loop
+    await loadPosts(true);
+  }
   const posts = await getPosts('none', -1);
+  const terms = q.toLowerCase().split(' ').map((e) => e.trim()).filter((e) => !!e);
+  const stopWords = ['a', 'an', 'the', 'and', 'to', 'for', 'i', 'of', 'on', 'into'];
   const results = posts.map((post) => {
     let score = 0;
-    score += post.title.toLowerCase().includes(q) ? 10 : 0;
-    score += post.description.toLowerCase().includes(q) ? 5 : 0;
-    score += post.author.toLowerCase().includes(q) ? 2 : 0;
-    const tags = splitTags(post.tags);
-    tags.forEach((tag) => {
-      score += tag.toLowerCase().includes(q) ? 5 : 0;
+    const title = post.title.toLowerCase();
+    const text = [post.description, post.author].join(' ').toLowerCase();
+    const tags = splitTags(post.tags).join(' ').toLowerCase();
+
+    terms.forEach((term) => {
+      if (!stopWords.includes(term)) {
+        const regex = new RegExp(term, 'g');
+        score += ((title.match(regex) || []).length) * 4;
+        score += (text.match(regex) || []).length;
+        score += ((tags.match(regex) || []).length) * 2;
+      }
     });
+
     return {
       post,
       score,
@@ -195,13 +208,12 @@ export default async function decorate(block) {
     moreContainer.append(moreButton);
 
     block.append(moreContainer);
-
-    const section = block.closest('.section');
-    const searchFormSection = createElement('div', 'section');
-    const searchForm = buildBlock('search-form', '');
-    searchFormSection.append(searchForm);
-    decorateBlock(searchForm);
-    await loadBlock(searchForm);
-    section.insertAdjacentElement('beforebegin', searchFormSection);
   }
+  const section = block.closest('.section');
+  const searchFormSection = createElement('div', 'section');
+  const searchForm = buildBlock('search-form', '');
+  searchFormSection.append(searchForm);
+  decorateBlock(searchForm);
+  await loadBlock(searchForm);
+  section.insertAdjacentElement('beforebegin', searchFormSection);
 }
