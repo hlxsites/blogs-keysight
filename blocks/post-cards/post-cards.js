@@ -9,6 +9,13 @@ import { createOptimizedPicture, readBlockConfig, decorateIcons } from '../../sc
 
 const pageSize = 7;
 
+function preLoadBlock() {
+  // just trigger loading post data, but don't wait on the promise
+  // since block itself is in an intersection observer
+  // should ensure actually loading the block is fast once it's in view
+  loadPosts();
+}
+
 function showHideMore(grid, moreContainer) {
   const hidden = grid.querySelector('.post-card.hidden');
   if (hidden) {
@@ -229,6 +236,7 @@ export default function decorate(block) {
   block.append(moreContainer);
   showHideMore(grid, moreContainer);
 
+  preLoadBlock();
   block.dataset.postsLoaded = 'false';
   const observer = new IntersectionObserver((entries) => {
     if (entries.some((e) => e.isIntersecting)) {
@@ -236,8 +244,5 @@ export default function decorate(block) {
       loadBlock(block);
     }
   });
-  const section = block.closest('.section');
-  const observationElement = section && section.previousElementSibling
-    ? section.previousElementSibling : block;
-  observer.observe(observationElement);
+  observer.observe(block);
 }
