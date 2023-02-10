@@ -1,6 +1,6 @@
 {
   "project": "Keysight Blogs",
-  "host": "blogs.keysight.com",
+  "host": "main--blogs-keysight--hlxsites.hlx.live",
   "plugins": [
     {
       "id": "tagger",
