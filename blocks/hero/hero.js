@@ -5,6 +5,9 @@
 export default async function decorate(block) {
   const textElems = block.querySelectorAll('h1, p');
   const wrapper = block.closest('.hero-wrapper');
+
+  block.querySelector('img').setAttribute('loading', 'eager');
+
   if (textElems && textElems.length > 0) {
     wrapper.classList.add('hero-full');
     if (textElems.length === 1) {
