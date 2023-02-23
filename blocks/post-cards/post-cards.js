@@ -236,8 +236,8 @@ export default function decorate(block) {
       loadBlock(block);
     }
   });
-  const section = block.closest('.section');
-  const observationElement = section && section.previousElementSibling
-    ? section.previousElementSibling : block;
-  observer.observe(observationElement);
+  // const section = block.closest('.section');
+  // const observationElement = section && section.previousElementSibling
+  //   ? section.previousElementSibling : block;
+  observer.observe(block);
 }
