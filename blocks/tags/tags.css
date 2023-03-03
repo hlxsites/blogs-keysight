@@ -1,3 +1,15 @@
+/* make the button just a like for the all tags page */
+main .tags-container a.button {
+  background: unset;
+  color: var(--color-red);
+  font-weight: 400;
+}
+
+main .tags-container a.button:is(:hover, :focus) {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 main .tags-container h2 {
   margin-block-end: .5em;
   font-size: var(--heading-font-size-s);
