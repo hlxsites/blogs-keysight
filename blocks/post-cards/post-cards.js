@@ -5,7 +5,12 @@ import {
   splitTags,
   getNavPages,
 } from '../../scripts/scripts.js';
-import { createOptimizedPicture, readBlockConfig, decorateIcons } from '../../scripts/lib-franklin.js';
+import {
+  createOptimizedPicture,
+  readBlockConfig,
+  decorateIcons,
+  getMetadata,
+} from '../../scripts/lib-franklin.js';
 
 const pageSize = 7;
 
@@ -85,7 +90,8 @@ function getTagsLinks(post) {
 
 function buildPostCard(post, index, navPagesPromise) {
   const classes = ['post-card', 'hidden'];
-  if (index % 7 === 3) {
+  const isAnAuthorPage = getMetadata('template') === 'author';
+  if (!isAnAuthorPage && index % 7 === 3) {
     classes.push('featured');
   }
   const postCard = createElement('div', classes);

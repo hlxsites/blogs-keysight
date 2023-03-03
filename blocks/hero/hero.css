@@ -11,7 +11,7 @@ main .hero {
 }
 
 main .hero-full .hero {
-  min-height: 300px;
+  min-height: 240px;
 }
 
 main .hero > div > div {
