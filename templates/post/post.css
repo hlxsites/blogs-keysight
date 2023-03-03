@@ -82,6 +82,11 @@
   margin-right: 10px;
 }
 
+.post .post-stats > span.pubdate::after {
+  content: '|';
+  padding-inline-start: 1rem;
+}
+
 .post .icon.icon-clock svg {
   display: block;
   height: 15px;

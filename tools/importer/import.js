@@ -308,6 +308,69 @@ function generateBlogPost(document) {
   return post;
 }
 
+function generateEggplantBlogPost(doc, postContent) {
+  const meta = {
+    Template: 'post',
+  };
+
+  const sectionBreak = doc.createElement('p');
+  sectionBreak.innerHTML = '---';
+  postContent.prepend(sectionBreak);
+
+  const heroImage = doc.querySelector('meta[property="og:image"]');
+  const img = doc.createElement('img');
+  img.src = heroImage.content;
+  postContent.prepend(img);
+  meta.Image = img.cloneNode(true);
+
+  const authorLink = postContent.querySelector('a[href*="/author/"]');
+  if (authorLink) {
+    meta.Author = authorLink.textContent;
+    const parent = authorLink.parentElement;
+    const authorContent = parent.textContent;
+    const dateRegex = /[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{2}/;
+    const date = authorContent.match(dateRegex);
+    if (date && date[0]) {
+      const dateParts = date[0].split('/');
+      const day = dateParts[1];
+      const month = dateParts[0];
+      const year = dateParts[2];
+
+      const formattedDate = `20${year}-${month}-${day}`;
+      meta['Publication Date'] = formattedDate;
+      parent.remove();
+    }
+  }
+
+  const desc = doc.querySelector('meta[name="description"]');
+  if (desc) {
+    meta.Description = desc.content;
+  } else {
+    meta.Description = postContent.querySelector('#hs_cos_wrapper_post_body > p').textContent;
+  }
+
+  // meta.Tags
+  // meta['Read Time']
+
+  postContent.append(sectionBreak.cloneNode(true));
+
+  const h3 = doc.createElement('h3');
+  h3.textContent = 'Related Posts';
+  postContent.append(h3);
+
+  const cells = [
+    ['Post Cards'],
+    ['limit', '3'],
+  ];
+  const postCardsBlock = WebImporter.DOMUtils.createTable(cells, doc);
+  postContent.append(postCardsBlock);
+
+  const metaBlock = WebImporter.Blocks.getMetadataBlock(doc, meta);
+  postContent.append(metaBlock);
+
+  return postContent;
+}
+
 export default {
   /**
    * Apply DOM operations to the provided document and return an array of
@@ -322,6 +385,21 @@ export default {
     // eslint-disable-next-line no-unused-vars
     document, url, html, params,
   }) => {
+    const isEggplant = url.includes('blog.eggplantsoftware.com');
+    if (isEggplant) {
+      const blogRte = document.querySelector('div.post-body');
+      if (blogRte) {
+        const blogPostElement = generateEggplantBlogPost(document, blogRte);
+        return [{
+          element: blogPostElement,
+          path: '/asdas',
+          report: {
+            author: '',
+          },
+        }];
+      }
+    }
+
     const blogRte = document.querySelector('div.rte-body-blog-post');
     if (blogRte) {
       const blogPostElement = generateBlogPost(document);
