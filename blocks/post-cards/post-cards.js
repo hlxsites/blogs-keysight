@@ -5,7 +5,12 @@ import {
   splitTags,
   getNavPages,
 } from '../../scripts/scripts.js';
-import { createOptimizedPicture, readBlockConfig, decorateIcons, getMetadata } from '../../scripts/lib-franklin.js';
+import {
+  createOptimizedPicture,
+  readBlockConfig,
+  decorateIcons,
+  getMetadata,
+} from '../../scripts/lib-franklin.js';
 
 const pageSize = 7;
 
