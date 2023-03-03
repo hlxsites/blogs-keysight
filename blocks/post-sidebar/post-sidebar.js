@@ -71,7 +71,7 @@ export default async function decorate(block) {
   let authorUrl;
   const navPages = await getNavPages();
 
-  const authorPage = navPages.find((page) => page.title === getMetadata('author'));
+  const authorPage = navPages.find((page) => page.title.toLowerCase() === getMetadata('author')?.toLowerCase());
   if (authorPage) {
     authorImage = authorPage.image;
     authorName = authorPage.title;
