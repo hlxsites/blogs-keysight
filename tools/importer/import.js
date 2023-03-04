@@ -308,6 +308,69 @@ function generateBlogPost(document) {
   return post;
 }
 
+function buildEggplantAuthor(doc) {
+  const author = doc.createElement('div');
+  const meta = {
+    Template: 'author',
+  };
+  const img = doc.querySelector('div.img-circle img');
+  if (img) {
+    author.append(img);
+    meta.Image = img.cloneNode(true);
+  }
+
+  const sectionBreak = doc.createElement('p');
+  sectionBreak.innerHTML = '---';
+  author.append(sectionBreak);
+
+  const name = doc.querySelector('.listing-template h1');
+  const desc = doc.querySelector('.listing-template h1 ~ p');
+  if (name) {
+    meta.Title = name.textContent;
+    author.append(name);
+  }
+  meta['Author Title'] = '';
+
+  const social = doc.querySelector('.hs_cos_wrapper_type_follow_me');
+  if (social) {
+    const socialList = doc.createElement('ul');
+    social.querySelectorAll('a').forEach((link) => {
+      const li = doc.createElement('li');
+      li.append(link);
+      if (!link.href.startsWith('http')) {
+        link.href = `https://${link.href}`;
+      }
+      link.textContent = link.href;
+      socialList.append(li);
+    });
+    author.append(socialList);
+  }
+
+  if (desc) {
+    author.append(desc);
+  }
+
+  const metdataCells = [
+    ['Section Metadata'],
+    ['style', 'author-bio'],
+  ];
+  const sectionMetadataBlock = WebImporter.DOMUtils.createTable(metdataCells, doc);
+  author.append(sectionMetadataBlock);
+
+  author.append(sectionBreak.cloneNode(true));
+
+  const cells = [
+    ['Post Cards'],
+  ];
+  const postCardsBlock = WebImporter.DOMUtils.createTable(cells, doc);
+  author.append(postCardsBlock);
+
+  const metaBlock = WebImporter.Blocks.getMetadataBlock(doc, meta);
+  author.append(metaBlock);
+
+  return author;
+}
+
 function generateEggplantBlogPost(doc, postContent, topicLinks) {
   const meta = {
     Template: 'post',
@@ -323,7 +386,42 @@ function generateEggplantBlogPost(doc, postContent, topicLinks) {
   postContent.prepend(img);
   meta.Image = img.cloneNode(true);
 
+  postContent.querySelectorAll('iframe').forEach((iframe) => {
+    const normalizedSrc = iframe.src.startsWith('//') ? `https:${iframe.src}` : iframe.src;
+    const sourceUrl = new URL(normalizedSrc);
+    let { src } = iframe;
+    if (sourceUrl.hostname === 'www.youtube.com' && sourceUrl.pathname.startsWith('/embed/')) {
+      const vid = sourceUrl.pathname.split('/')[2];
+      src = `https://www.youtube.com/watch?v=${vid}`;
+    }
+    const link = doc.createElement('a');
+    link.href = src;
+    link.innerHTML = src;
+    const embedCells = [
+      ['Embed'],
+      ['Source', link],
+    ];
+    const embedBlock = WebImporter.DOMUtils.createTable(embedCells, doc);
+    iframe.replaceWith(embedBlock);
+  });
+
+  postContent.querySelectorAll('a img').forEach((linkedImg) => {
+    const a = linkedImg.closest('a');
+    const { href } = a;
+    const p = a.closest('p');
+    const newA = doc.createElement('a');
+    newA.href = href;
+    newA.innerHTML = href;
+    const newP = doc.createElement('p');
+    newP.append(newA);
+    p.insertAdjacentElement('afterend', newP);
+    a.replaceWith(linkedImg);
+  });
+
   const authorLink = postContent.querySelector('a[href*="/author/"]');
+  let day = '4';
+  let month = '3';
+  let year = '2023';
   if (authorLink) {
     meta.Author = authorLink.textContent;
     const parent = authorLink.parentElement;
@@ -332,9 +430,9 @@ function generateEggplantBlogPost(doc, postContent, topicLinks) {
     const date = authorContent.match(dateRegex);
     if (date && date[0]) {
       const dateParts = date[0].split('/');
-      const day = dateParts[1];
-      const month = dateParts[0];
-      const year = dateParts[2];
+      day = dateParts[1];
+      month = dateParts[0];
+      year = `20${dateParts[2]}`;
 
       const formattedDate = `20${year}-${month}-${day}`;
       meta['Publication Date'] = formattedDate;
@@ -377,7 +475,10 @@ function generateEggplantBlogPost(doc, postContent, topicLinks) {
   const metaBlock = WebImporter.Blocks.getMetadataBlock(doc, meta);
   postContent.append(metaBlock);
 
-  return postContent;
+  return {
+    el: postContent,
+    path: `/blogs/${year}/${month}/${day}`,
+  };
 }
 
 export default {
@@ -401,14 +502,21 @@ export default {
       if (blogRte) {
         const topics = document.querySelectorAll('.post-bottom > a');
         const authorLink = blogRte.querySelector('a[href*="/author/"]');
-        const blogPostElement = generateEggplantBlogPost(document, blogRte, topics);
+        const eggplantPost = generateEggplantBlogPost(document, blogRte, topics);
 
         return [{
-          element: blogPostElement,
-          path: `/blogs/${urlObject.pathname}`,
+          element: eggplantPost.el,
+          path: `${eggplantPost.path}/${urlObject.pathname}`,
           report: {
             author: authorLink ? authorLink.href : '',
           },
+        }];
+      }
+      if (urlObject.pathname.startsWith('/author/')) {
+        const author = buildEggplantAuthor(document);
+        return [{
+          element: author,
+          path: urlObject.pathname.replace('/author/', '/authors/'),
         }];
       }
     }
