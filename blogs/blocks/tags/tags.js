@@ -27,7 +27,7 @@ function buildSearch(block) {
       ul.append(...matchedTags.map((tagSpan) => {
         const li = createElement('li');
         const tagText = tagSpan.innerText.replace('#', '');
-        li.innerHTML = `<a href="/tag-matches?tag=${encodeURIComponent(tagText)}">${tagText}</a>`;
+        li.innerHTML = `<a href="/blogs/tag-matches?tag=${encodeURIComponent(tagText)}">${tagText}</a>`;
         return li;
       }));
       addOutsideClickListener(ul, () => {
@@ -48,7 +48,7 @@ function getTagsLinks(tags, limit) {
     const item = createElement('li');
     const link = createElement('a');
     link.innerHTML = `<span class="tag-name">#${tag.tag}</span><span class="tag-count">${tag.count}</span>`;
-    link.href = `/tag-matches?tag=${encodeURIComponent(tag.tag)}`;
+    link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag.tag)}`;
 
     item.append(link);
     list.append(item);

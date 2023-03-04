@@ -1,5 +1,21 @@
-import { getPosts, execDeferred } from '../../scripts/scripts.js';
+import { getPosts, execDeferred, loadPosts } from '../../scripts/scripts.js';
 import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
+
+async function findPageForPost(postUrl) {
+  let pages = await getPosts('none', -1);
+  let pageForLink = pages.find((page) => page.path === new URL(postUrl).pathname);
+  while (!pageForLink && !window.keysight.postData.allLoaded) {
+    // eslint-disable-next-line no-await-in-loop
+    await loadPosts(true);
+    // eslint-disable-next-line no-await-in-loop
+    pages = await getPosts('none', -1);
+
+    pageForLink = pages.find((page) => page.path === new URL(postUrl).pathname);
+  }
+
+  return pageForLink;
+}
+
 /**
  * decorates the block
  * @param {Element} block The featured posts block element
@@ -29,14 +45,19 @@ export default async function decorate(block) {
   });
 
   execDeferred(async () => {
-    const pages = await getPosts('none', -1);
+    for (let i = 0; i < featuredPosts.length; i += 1) {
+      const post = featuredPosts[i];
+      // eslint-disable-next-line no-await-in-loop
+      const pageForPost = await findPageForPost(post.url);
+      post.page = pageForPost;
+    }
+
     const filteredPages = await getPosts('auto', -1);
 
     let notFoundCounter = 0;
     featuredPosts.forEach((post) => {
       const postElem = block.querySelector('.post-placeholder');
-      let pageForLink = pages.find((page) => page.path === new URL(post.url).pathname);
-      if (!pageForLink) {
+      if (!post.page) {
         /*
            in most normal cases this should only happen for the "most recent" section
           so we are just getting the first post
@@ -46,22 +67,22 @@ export default async function decorate(block) {
           we also use the filtered pages here
           to ensure the link comes from the right section of the site
         */
-        pageForLink = filteredPages[notFoundCounter];
+        post.page = filteredPages[notFoundCounter];
         notFoundCounter += 1;
       }
 
-      if (pageForLink) {
-        const pic = createOptimizedPicture(pageForLink.image, '', false, [{ width: '200' }]);
+      if (post.page) {
+        const pic = createOptimizedPicture(post.page.image, '', false, [{ width: '200' }]);
         postElem.innerHTML = `
-        <a href="${pageForLink.path}" title="${pageForLink.title.replaceAll('"', '')}">${pic.outerHTML}</a>
+        <a href="${post.page.path}" title="${post.page.title.replaceAll('"', '')}">${pic.outerHTML}</a>
         <div>
           <p class="category">${post.title}</p>
-          <a href="${pageForLink.path}">${pageForLink.title}</a>
+          <a href="${post.page.path}">${post.page.title}</a>
         </div>
       `;
         postElem.classList.remove('post-placeholder');
       } else {
-        post.remove();
+        postElem.remove();
       }
     });
   });

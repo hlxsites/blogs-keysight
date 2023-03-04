@@ -20,7 +20,7 @@ function buildTags(sidebar) {
       const item = createElement('li');
       const link = createElement('a');
       link.innerHTML = `<span class="tag-name">#${tag}</span>`;
-      link.href = `/tag-matches?tag=${encodeURIComponent(tag)}`;
+      link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag)}`;
       item.append(link);
       list.append(item);
     });

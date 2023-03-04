@@ -122,6 +122,8 @@ export function wrapImgsInLinks(container) {
 async function loadMorePosts() {
   if (!window.keysight.postData.allLoaded) {
     const queryLimit = 500;
+    console.trace();
+    console.log(`loading posts with offset ${window.keysight.postData.offset} and limit ${queryLimit}`);
     const resp = await fetch(`/blogs/query-index.json?limit=${queryLimit}&offset=${window.keysight.postData.offset}`);
     const json = await resp.json();
     const { total, data } = json;
