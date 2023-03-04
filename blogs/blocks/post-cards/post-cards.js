@@ -129,9 +129,13 @@ function buildPostCard(post, index, navPagesPromise) {
       <p class="card-title"><a href="${post.path}">${post.title}</a></p>
       <p class="card-author"><span class="author-text">${post.author}</span><span class="card-date">${postDateStr}</span></p>
       <div class="card-description"><p class="card-description-text">${post.description}</p></div>
-      <p class="card-read"><span class="icon icon-clock"></span>${post.readtime}</p>
     </div>
   `;
+
+  if (post.readtime && post.readtime !== '0') {
+    postCard.querySelector('.post-card-text').insertAdjacentHTML('beforeend', `<p class="card-read"><span class="icon icon-clock"></span>${post.readtime}</p>`);
+  }
+
   navPagesPromise.then((navPages) => {
     const topicLink = getTopicLink(post, navPages);
     if (topicLink) {

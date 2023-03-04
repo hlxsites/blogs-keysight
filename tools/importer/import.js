@@ -430,11 +430,10 @@ function generateEggplantBlogPost(doc, postContent, topicLinks) {
     const date = authorContent.match(dateRegex);
     if (date && date[0]) {
       const dateParts = date[0].split('/');
-      day = dateParts[1];
-      month = dateParts[0];
+      [month, day] = dateParts;
       year = `20${dateParts[2]}`;
 
-      const formattedDate = `20${year}-${month}-${day}`;
+      const formattedDate = `${year}-${month}-${day}`;
       meta['Publication Date'] = formattedDate;
       parent.remove();
     }
