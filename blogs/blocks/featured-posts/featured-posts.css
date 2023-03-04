@@ -65,3 +65,15 @@ main .featured-posts .featured-posts-grid .post > div a {
   line-height: 1.3;
 }
 
+/* placeholders */
+main .featured-posts .post-placeholder .picture-placeholder {
+  width: 100px;
+  height: 70px;
+  background: linear-gradient(transparent, #0008);
+}
+
+main .featured-posts .post-placeholder a:empty {
+  width: 100%;
+  height: 18px;
+  background: linear-gradient(transparent, #0008);
+}
