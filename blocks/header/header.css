@@ -232,6 +232,10 @@ header nav .nav-sections ul > li a {
   padding: .9rem 1.2rem;
 }
 
+header nav .nav-sections > ul > li > a {
+  text-transform: uppercase;
+}
+
 header nav .nav-sections > ul > li[aria-expanded='true'] > a {
   background-color: var(--header-nav-border-color);
 }
@@ -274,6 +278,7 @@ header nav .nav-sections > ul > li.nav-drop > ul > li > a:is(:hover, :focus) {
 
 header nav .nav-sections > ul > li.nav-drop > ul > li:first-child > a {
   color: var(--color-red);
+  text-transform: uppercase;
 }
 
 header nav .nav-sections > ul > li.nav-drop > ul > li:first-child > a .icon svg {
