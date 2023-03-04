@@ -122,7 +122,7 @@ export function wrapImgsInLinks(container) {
 async function loadMorePosts() {
   if (!window.keysight.postData.allLoaded) {
     const queryLimit = 500;
-    const resp = await fetch(`/query-index.json?limit=${queryLimit}&offset=${window.keysight.postData.offset}`);
+    const resp = await fetch(`/blogs/query-index.json?limit=${queryLimit}&offset=${window.keysight.postData.offset}`);
     const json = await resp.json();
     const { total, data } = json;
     window.keysight.postData.posts.push(...data);
@@ -138,7 +138,7 @@ export async function getNavPages() {
     let offset = 0;
     while (!allLoaded) {
       // eslint-disable-next-line no-await-in-loop
-      const resp = await fetch(`/query-index.json?sheet=nav&limit=${queryLimit}&offset=${offset}`);
+      const resp = await fetch(`/blogs/query-index.json?sheet=nav&limit=${queryLimit}&offset=${offset}`);
       // eslint-disable-next-line no-await-in-loop
       const json = await resp.json();
       const { total, data } = json;
