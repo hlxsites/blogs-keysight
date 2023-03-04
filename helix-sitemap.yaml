@@ -1,6 +1,6 @@
 sitemaps:
    keysight-blogs:
-     origin: https://blogs.keysight.com
-     source: /query-index.json
-     destination: /sitemap-en.xml
+     origin: https://www.keysight.com
+     source: /blogs/query-index.json
+     destination: /blogs/sitemap-en.xml
      Lastmod: YYYY-MM-DD

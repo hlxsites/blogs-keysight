@@ -3,8 +3,8 @@ auto-generated: false
 indices:
   default:
     include:
-      - /**
-    target: /query-index.json
+      - /blogs/**
+    target: /blogs/query-index.json
     properties:
       lastModified:
         select: none

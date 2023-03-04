@@ -2,4 +2,4 @@ User-agent: *
 Disallow: /drafts/
 
 
-Sitemap: https://blogs.keysight.com/sitemap-index.xml
+Sitemap: https://www.keysight.com/blogs/sitemap-index.xml
