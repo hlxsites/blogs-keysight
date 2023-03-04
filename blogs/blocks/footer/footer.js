@@ -9,7 +9,7 @@ export default async function decorate(block) {
   const cfg = readBlockConfig(block);
   block.textContent = '';
 
-  const footerPath = cfg.footer || '/footer';
+  const footerPath = cfg.footer || '/blogs/footer';
   const resp = await fetch(`${footerPath}.plain.html`);
   const html = await resp.text();
   const footer = createElement('div');

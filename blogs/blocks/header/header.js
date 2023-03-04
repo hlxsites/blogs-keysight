@@ -40,7 +40,7 @@ export default async function decorate(block) {
   block.textContent = '';
 
   // fetch nav content
-  const navPath = cfg.nav || '/nav';
+  const navPath = cfg.nav || '/blogs/nav';
   const resp = await fetch(`${navPath}.plain.html`);
   if (resp.ok) {
     const html = await resp.text();
