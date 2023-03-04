@@ -355,9 +355,10 @@ function generateEggplantBlogPost(doc, postContent, topicLinks) {
       metaTags.push(tag.textContent.replace('#', '').trim());
     });
     if (metaTags.length > 0) {
-      meta.Tags = metaTags.join(', ');
+      meta['Migrated Tags'] = metaTags.join(', ');
     }
   }
+  meta.tags = 'applicationsoftwaretesting';
   // meta['Read Time']
 
   postContent.append(sectionBreak.cloneNode(true));
