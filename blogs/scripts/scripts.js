@@ -101,19 +101,21 @@ export function addOutsideClickListener(elem, callback) {
 
 /**
  * Wraps images followed by links within a matching <a> tag.
- * @param {Element} container The container element
+ * @param {Element} pic The picture element to wrap
  */
-export function wrapImgsInLinks(container) {
-  const pictures = container.querySelectorAll('p picture');
-  pictures.forEach((pic) => {
-    const parent = pic.parentNode;
-    const link = parent.nextElementSibling.querySelector('a');
-    if (link && link.textContent.includes(link.getAttribute('href'))) {
-      link.parentElement.remove();
-      link.innerHTML = pic.outerHTML;
-      parent.replaceWith(link);
-    }
-  });
+export function wrapImgInLink(pic) {
+  const parent = pic.parentNode;
+  const link = parent.nextElementSibling.querySelector('a');
+  if (link && link.textContent.includes(link.getAttribute('href'))) {
+    link.parentElement.remove();
+    link.innerHTML = pic.outerHTML;
+    parent.append(link);
+    pic.remove();
+
+    return link;
+  }
+
+  return pic;
 }
 
 /**
@@ -318,9 +320,11 @@ function findImageCaption(img) {
 function buildImageBlocks(main) {
   const imgs = [...main.querySelectorAll(':scope > div > p > picture')];
   imgs.forEach((img) => {
-    const parent = img.parentNode;
+    const linkOrImg = wrapImgInLink(img);
+    const parent = linkOrImg.parentNode;
+    const caption = findImageCaption(linkOrImg);
     const imgBlock = buildBlock('image', {
-      elems: [img, findImageCaption(img)],
+      elems: [linkOrImg, caption],
     });
     parent.insertAdjacentElement('beforebegin', imgBlock);
   });
@@ -380,9 +384,9 @@ function buildAutoBlocks(main) {
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
   // hopefully forward compatible button decoration
-  decorateButtons(main);
   decorateIcons(main);
   buildAutoBlocks(main);
+  decorateButtons(main);
   decorateSections(main);
   decorateBlocks(main);
 }
