@@ -12,7 +12,7 @@ export default async function decorate(block) {
   const execSearch = () => {
     const term = input.value;
     if (term) {
-      window.location = `/search?q=${encodeURIComponent(term)}`;
+      window.location = `/blogs/search?q=${encodeURIComponent(term)}`;
     }
   };
   block.querySelector('#header-search-submit').addEventListener('click', execSearch);

@@ -272,7 +272,8 @@ export async function getPosts(filter, limit) {
       .filter((post) => post.path !== window.location.pathname)
       .sort(sortRelatedPosts);
   } else {
-    finalPosts = allPosts.filter((post) => {
+    // first filter out anything with no-index
+    finalPosts = allPosts.filter((post) => !post.robots.includes('noindex')).filter((post) => {
       let matches = true;
       if (applicableFilter === 'topic') {
         matches = topic === post.topic;
