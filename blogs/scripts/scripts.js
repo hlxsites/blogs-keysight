@@ -526,11 +526,13 @@ async function loadLazy(doc) {
  */
 function loadDelayed() {
   window.setTimeout(() => {
-    // eslint-disable-next-line import/no-cycle
-    import('./delayed.js');
     // execute any delayed functions
     window.keysight.delayedReached = true;
     window.keysight.delayed.forEach((func) => func());
+  }, 1500);
+  window.setTimeout(() => {
+    // eslint-disable-next-line import/no-cycle
+    import('./delayed.js');
   }, 3000);
   // load anything that can be postponed to the latest here
 }
