@@ -26,7 +26,7 @@ function initTaxonomy(taxonomy) {
 }
 
 async function getTaxonomy() {
-  const resp = await fetch('/tags.plain.html');
+  const resp = await fetch('/blogs/tags.plain.html');
   const markup = await resp.text();
   const div = document.createElement('div');
   div.innerHTML = markup;
