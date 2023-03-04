@@ -178,13 +178,11 @@ main .post-cards .post-cards-grid .post-card .card-tags {
 }
 
 main .post-cards .post-cards-grid .post-card .card-tags li {
-  word-wrap: break-word;
-  display: inline;
+  display: inline-block;
   margin-inline-end: .8rem;
 }
 
 main .post-cards .post-cards-grid .post-card .card-tags a {
-  word-wrap: break-word;
   font-size: var(--body-font-size-s);
 }
 

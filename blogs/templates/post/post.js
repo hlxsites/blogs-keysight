@@ -23,10 +23,10 @@ async function buildPostData(h1) {
   const pubDateSpan = createElement('span', 'pubdate');
   pubDateSpan.innerHTML = pubdate;
   stats.append(pubDateSpan);
-  const clockIcon = createElement('span', ['icon', 'icon-clock']);
-  stats.append(clockIcon);
-
   if (readtime) {
+    const clockIcon = createElement('span', ['icon', 'icon-clock']);
+    stats.append(clockIcon);
+
     const readTimeSpan = createElement('span', 'readtime');
     readTimeSpan.innerHTML = readtime;
     stats.append(readTimeSpan);

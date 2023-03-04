@@ -5,7 +5,7 @@ import {
   decorateBlock,
   loadBlock,
 } from '../../scripts/lib-franklin.js';
-import { wrapImgsInLinks, createElement, addOutsideClickListener } from '../../scripts/scripts.js';
+import { createElement, addOutsideClickListener } from '../../scripts/scripts.js';
 
 /**
  * collapses all open nav sections
@@ -123,7 +123,6 @@ export default async function decorate(block) {
     nav.prepend(hamburger);
     nav.setAttribute('aria-expanded', 'false');
     decorateIcons(nav);
-    wrapImgsInLinks(nav);
     block.append(nav);
     block.classList.add('appear');
   }
