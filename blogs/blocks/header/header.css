@@ -232,6 +232,7 @@ header nav .nav-sections ul > li a {
   padding: .9rem 1.2rem;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 header nav .nav-sections > ul > li > a {
   text-transform: uppercase;
 }
