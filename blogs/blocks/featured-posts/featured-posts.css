@@ -72,6 +72,8 @@ main .featured-posts .post-placeholder .picture-placeholder {
   background: linear-gradient(transparent, #0008);
 }
 
+
+/* stylelint-disable-next-line no-descending-specificity */
 main .featured-posts .post-placeholder a:empty {
   width: 100%;
   height: 18px;
