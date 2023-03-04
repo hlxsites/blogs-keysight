@@ -308,7 +308,7 @@ function generateBlogPost(document) {
   return post;
 }
 
-function generateEggplantBlogPost(doc, postContent) {
+function generateEggplantBlogPost(doc, postContent, topicLinks) {
   const meta = {
     Template: 'post',
   };
@@ -349,7 +349,15 @@ function generateEggplantBlogPost(doc, postContent) {
     meta.Description = postContent.querySelector('#hs_cos_wrapper_post_body > p').textContent;
   }
 
-  // meta.Tags
+  const metaTags = [];
+  if (topicLinks) {
+    topicLinks.forEach((tag) => {
+      metaTags.push(tag.textContent.replace('#', '').trim());
+    });
+    if (metaTags.length > 0) {
+      meta.Tags = metaTags.join(', ');
+    }
+  }
   // meta['Read Time']
 
   postContent.append(sectionBreak.cloneNode(true));
@@ -385,16 +393,20 @@ export default {
     // eslint-disable-next-line no-unused-vars
     document, url, html, params,
   }) => {
+    const urlObject = new URL(url);
     const isEggplant = url.includes('blog.eggplantsoftware.com');
     if (isEggplant) {
       const blogRte = document.querySelector('div.post-body');
       if (blogRte) {
-        const blogPostElement = generateEggplantBlogPost(document, blogRte);
+        const topics = document.querySelectorAll('.post-bottom > a');
+        const authorLink = blogRte.querySelector('a[href*="/author/"]');
+        const blogPostElement = generateEggplantBlogPost(document, blogRte, topics);
+
         return [{
           element: blogPostElement,
-          path: '/asdas',
+          path: `/blogs/${urlObject.pathname}`,
           report: {
-            author: '',
+            author: authorLink ? authorLink.href : '',
           },
         }];
       }
@@ -427,7 +439,7 @@ export default {
 
     return [{
       element: document.querySelector('#mainsection'),
-      path: new URL(url).pathname.replace(/\.html$/, '').replace(/\/$/, ''),
+      path: urlObject.pathname.replace(/\.html$/, '').replace(/\/$/, ''),
     }];
   },
 };
