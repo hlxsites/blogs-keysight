@@ -11,7 +11,7 @@ document.head.innerHTML = await readFile({ path: './head.html' });
 
 describe('Core Helix features', () => {
   before(async () => {
-    scripts = await import('../../scripts/scripts.js');
+    scripts = await import('../../blogs/scripts/scripts.js');
     document.body.innerHTML = await readFile({ path: './body.html' });
   });
 
