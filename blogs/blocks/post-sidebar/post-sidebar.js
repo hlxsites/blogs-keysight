@@ -77,6 +77,11 @@ export default async function decorate(block) {
     authorName = authorPage.title;
     authorTitle = (authorPage.authortitle !== '' && authorPage.authortitle !== '0') ? authorPage.authortitle : 'Contributor';
     authorUrl = authorPage.path;
+  } else {
+    authorImage = '/default-meta-image';
+    authorName = getMetadata('author');
+    authorTitle = 'Contributor';
+    authorUrl = '#';
   }
 
   let picHtml = '<span class="icon icon-user"></span>';
@@ -88,8 +93,8 @@ export default async function decorate(block) {
 
   block.innerHTML = `<a class="author-image" href="${authorUrl}">${picHtml}</a>
     <div class="author-details">
-    <h3 class="author-name"><a href="${authorUrl}">${authorName}</a></h3>
-    <h4 class="author-title">${authorTitle}</h4>
+      <h3 class="author-name"><a href="${authorUrl}">${authorName}</a></h3>
+      <h4 class="author-title">${authorTitle}</h4>
     </div>`;
   buildSocial(block);
   decorateIcons(block);
