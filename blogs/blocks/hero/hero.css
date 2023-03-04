@@ -8,6 +8,9 @@ main .hero {
   position: relative;
   padding: 32px;
   min-height: min(525px, calc(100vw * .43));
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 main .hero-full .hero {
@@ -62,6 +65,11 @@ main .hero p {
 @media(min-width: 600px) {
   main .hero h1 {
     font-size: var(--heading-font-size-xl);
+  }
+
+  main .hero-wrapper.hero-text-full .hero h1 {
+    /* one off font size for topic pages */
+    font-size: 4rem;
   }
   
   main .hero p {
