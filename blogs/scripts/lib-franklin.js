@@ -152,7 +152,7 @@ export function decorateIcons(element = document) {
  * Gets placeholders object
  * @param {string} prefix
  */
-export async function fetchPlaceholders(prefix = 'default') {
+export async function fetchPlaceholders(prefix = 'blogs') {
   window.placeholders = window.placeholders || {};
   const loaded = window.placeholders[`${prefix}-loaded`];
   if (!loaded) {
