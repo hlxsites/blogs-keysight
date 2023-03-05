@@ -105,7 +105,10 @@ function buildPostCard(post, index, navPagesPromise) {
       if (month < 10) {
         month = `0${month}`;
       }
-      const date = postDate.getDate();
+      let date = postDate.getDate();
+      if (date < 10) {
+        date = `0${date}`;
+      }
       postDateStr = ` | ${year}.${month}.${date}`;
     } finally {
       // no op
