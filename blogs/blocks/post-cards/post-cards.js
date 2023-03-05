@@ -12,7 +12,7 @@ import {
   getMetadata,
 } from '../../scripts/lib-franklin.js';
 
-const pageSize = 7;
+let pageSize = 7;
 
 function showHideMore(grid, moreContainer) {
   const hidden = grid.querySelector('.post-card.hidden');
@@ -218,6 +218,8 @@ async function loadBlock(block) {
  * @param {Element} block The featured posts block element
  */
 export default function decorate(block) {
+  const isAnAuthorPage = getMetadata('template') === 'author';
+  if (isAnAuthorPage) pageSize = 9;
   const conf = readBlockConfig(block);
   const { limit, filter } = conf;
   const limitNumber = limit || -1;
