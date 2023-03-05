@@ -494,8 +494,20 @@ export default {
     // eslint-disable-next-line no-unused-vars
     document, url, html, params,
   }) => {
-    const urlObject = new URL(url);
-    const isEggplant = url.includes('blog.eggplantsoftware.com');
+    const urlObject = new URL(params.originalURL);
+    const isEggplant = params.originalURL.includes('blog.eggplantsoftware.com');
+    const isDiscover = params.originalURL.includes('www.keysight.com/discover');
+    if (isDiscover) {
+      // TODO
+      const el = document.querySelector('.uf-item-blog-content');
+      console.log('is discover');
+      console.log(el);
+      return [{
+        element: el,
+        path: urlObject.pathname.replace(/\.html$/, '').replace(/\/$/, ''),
+      }];
+    }
+
     if (isEggplant) {
       const blogRte = document.querySelector('div.post-body');
       if (blogRte) {
