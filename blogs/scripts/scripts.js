@@ -105,7 +105,7 @@ export function addOutsideClickListener(elem, callback) {
  */
 export function wrapImgInLink(pic) {
   const parent = pic.parentNode;
-  const link = parent.nextElementSibling.querySelector('a');
+  const link = parent?.nextElementSibling?.querySelector('a');
   if (link && link.textContent.includes(link.getAttribute('href'))) {
     link.parentElement.remove();
     link.innerHTML = pic.outerHTML;
