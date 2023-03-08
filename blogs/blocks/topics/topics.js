@@ -1,47 +1,26 @@
 import { decorateIcons, getMetadata } from '../../scripts/lib-franklin.js';
-import { createElement, addOutsideClickListener, getNavPages } from '../../scripts/scripts.js';
+import { createElement, addOutsideClickListener, execDeferred } from '../../scripts/scripts.js';
 
-async function getTopicNavData() {
-  const pages = await getNavPages();
-  const topicNav = {};
-  pages.forEach((page) => {
-    const pageTopic = page.topic;
-    const pageSubTopic = page.subtopic;
-    const pageAuthor = page.author;
-    if ((pageTopic && pageTopic !== '0') && (!pageAuthor || pageAuthor === '0')) {
-      let pageTopicItem = topicNav[pageTopic];
-      if (!pageTopicItem) {
-        pageTopicItem = {
-          title: pageTopic,
-          href: '',
-          subtopics: [],
-        };
-      }
-      if (pageSubTopic && pageSubTopic !== '0') {
-        pageTopicItem.subtopics.push({
-          title: pageSubTopic,
-          href: page.path,
-          subtopics: [],
+function buildNav(ul, navItems, topic) {
+  navItems.querySelectorAll(':scope > li').forEach((topicLi) => {
+    topicLi.classList.add('nav-topic');
+    const subtopicUl = topicLi.querySelector(':scope > ul');
+    if (subtopicUl) {
+      subtopicUl.querySelectorAll(':scope > li').forEach((subtopicLi) => {
+        subtopicLi.classList.add('nav-sub-topic');
+      });
+    }
+
+    if (!topic) {
+      ul.append(topicLi);
+    } else {
+      const topicLink = topicLi.querySelector(':scope > a');
+      if (topicLink.getAttribute('href') === window.location.pathname) {
+        topicLi.querySelectorAll('.nav-sub-topic').forEach((el) => {
+          ul.append(el);
         });
-      } else {
-        pageTopicItem.href = page.path;
       }
-      topicNav[pageTopic] = pageTopicItem;
     }
-  });
-  return topicNav;
-}
-
-function buildNav(ul, navItems, topicType) {
-  Object.values(navItems).forEach((navItem) => {
-    const topicLi = createElement('li', `nav-${topicType}`);
-    topicLi.innerHTML = `<a href="${navItem.href}">${navItem.title}</a>`;
-    if (navItem.subtopics.length > 0) {
-      const topicUl = createElement('ul');
-      buildNav(topicUl, navItem.subtopics, 'sub-topic');
-      topicLi.append(topicUl);
-    }
-    ul.append(topicLi);
   });
 }
 
@@ -50,7 +29,6 @@ function buildNav(ul, navItems, topicType) {
  * @param {Element} block The topics block element
  */
 export default async function decorate(block) {
-  const topicNav = await getTopicNavData();
   const topic = getMetadata('topic');
 
   let title = 'Topics';
@@ -74,13 +52,22 @@ export default async function decorate(block) {
     }
   });
   nav.append(navTitle);
-
   const topicList = createElement('ul', 'topics-list');
-  if (topic) {
-    buildNav(topicList, topicNav[topic].subtopics, 'sub-topic');
-  } else {
-    buildNav(topicList, topicNav, 'topic');
-  }
+
+  execDeferred(async () => {
+    const resp = await fetch('/blogs/nav.plain.html');
+    if (resp.ok) {
+      const html = await resp.text();
+      const temp = createElement('div');
+      temp.innerHTML = html;
+      const topicNav = temp.querySelector('div:nth-child(3) > ul');
+      if (topic) {
+        buildNav(topicList, topicNav, topic);
+      } else {
+        buildNav(topicList, topicNav);
+      }
+    }
+  });
 
   nav.append(topicList);
   decorateIcons(nav);
