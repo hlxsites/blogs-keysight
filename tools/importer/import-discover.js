@@ -11,50 +11,79 @@
  */
 /* global WebImporter */
 /* eslint-disable no-console, class-methods-use-this */
+const makeProxySrcs = (main, host) => {
+  main.querySelectorAll('img').forEach((img) => {
+    if (img.src.startsWith('/')) {
+      // make absolute
+      const cu = new URL(host);
+      img.src = `${cu.origin}${img.src}`;
+    }
+    try {
+      const u = new URL(img.src);
+      u.searchParams.append('host', u.origin);
+      img.src = `http://localhost:3001${u.pathname}${u.search}`;
+    } catch (error) {
+      console.warn(`Unable to make proxy src for ${img.src}: ${error.message}`);
+    }
+  });
+};
+
 function buildAuthorPage(document, authorBio, authorLink) {
   const meta = {
     Template: 'author',
   };
-
-  authorBio.querySelector('.uf-author-name').remove();
-  authorBio.querySelector('.uf-author-link').remove();
+  const finalBio = document.createElement('div');
 
   const image = authorBio.querySelector('.uf-author-avatar > img');
+  finalBio.append(image);
   const bio = authorBio.querySelector('.uf-author-bio');
-  meta.Image = image.cloneNode(true);
 
   const sectionBreak = document.createElement('p');
   sectionBreak.innerHTML = '---';
+  finalBio.append(sectionBreak);
 
-  bio.parentElement.prepend(sectionBreak);
-  bio.parentElement.prepend(image);
+  meta.Image = image.cloneNode(true);
 
   const h1 = document.createElement('h1');
   h1.textContent = authorLink.textContent;
-  bio.prepend(h1);
+  finalBio.append(h1);
   meta.Title = authorLink.textContent;
   const path = authorLink.getAttribute('href').replace('/discover/', '/blogs/');
+
+  const authorLinks = authorBio.querySelector('.uf-author-links');
+  const liLink = authorLinks.querySelector('.uf-author-linkedin');
+  if (liLink) {
+    const socialList = document.createElement('ul');
+    const li = document.createElement('li');
+    li.append(liLink);
+    liLink.textContent = liLink.href;
+    socialList.append(li);
+    finalBio.append(socialList);
+  }
+
+  finalBio.append(bio);
 
   const metdataCells = [
     ['Section Metadata'],
     ['style', 'author-bio'],
   ];
   const sectionMetadataBlock = WebImporter.DOMUtils.createTable(metdataCells, document);
-  authorBio.append(sectionMetadataBlock);
+  finalBio.append(sectionMetadataBlock);
 
-  authorBio.append(sectionBreak.cloneNode(true));
+  finalBio.append(sectionBreak.cloneNode(true));
 
   const cells = [
     ['Post Cards'],
   ];
   const postCardsBlock = WebImporter.DOMUtils.createTable(cells, document);
-  authorBio.append(postCardsBlock);
+  finalBio.append(postCardsBlock);
 
   const metaBlock = WebImporter.Blocks.getMetadataBlock(document, meta);
-  authorBio.append(metaBlock);
+  finalBio.append(metaBlock);
 
+  makeProxySrcs(finalBio, 'https://www.keysight.com');
   return {
-    element: authorBio,
+    element: finalBio,
     path,
   };
 }
@@ -89,19 +118,19 @@ function buildDiscoverBlog(document, el, url) {
 
   const postMeta = el.querySelector('.uf-meta-data');
 
+  let year = '2023';
+  let month = '03';
+  let day = '08';
   let author;
   if (postMeta) {
     const dt = postMeta.querySelector('.uf-datetime > time');
     if (dt) {
       const postDate = new Date(dt.getAttribute('datetime'));
-      const year = postDate.getUTCFullYear();
-      let month = postDate.getUTCMonth() + 1;
+      year = postDate.getUTCFullYear();
+      month = postDate.getUTCMonth() + 1;
       if (month < 10) month = `0${month}`;
-      let day = postDate.getUTCDate();
+      day = postDate.getUTCDate();
       if (day < 10) day = `0${day}`;
-      meta['Publication Date'] = `${year}-${month}-${day}`;
-    } else {
-      meta['Publication Date'] = '2023-03-08';
     }
 
     author = postMeta.querySelector('.uf-author > a');
@@ -112,9 +141,9 @@ function buildDiscoverBlog(document, el, url) {
     }
     postMeta.remove();
   } else {
-    meta['Publication Date'] = '2023-03-08';
     meta.Author = 'Keysight';
   }
+  meta['Publication Date'] = `${year}-${month}-${day}`;
 
   const authorBio = el.querySelector('.uf-author-profile');
   if (author && authorBio) {
@@ -154,12 +183,19 @@ function buildDiscoverBlog(document, el, url) {
   const pathSplit = path.split('/');
   const tag = pathSplit[2].replace('-', ' ').split(' ').map((word) => `${word.charAt(0).toUpperCase()}${word.substr(1)}`);
   meta.Tags = tag;
-  path = `/blogs/keys/thought-leadership/${pathSplit.slice(3).join('/')}`;
+  path = `/blogs/keys/thought-leadership/${year}/${month}/${day}/${pathSplit.slice(3).join('/')}`;
 
   const metaBlock = WebImporter.Blocks.getMetadataBlock(document, meta);
   el.append(metaBlock);
 
   // process a few blocks
+  el.querySelectorAll('a').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (href && href.startsWith('/')) {
+      a.setAttribute('href', `https://www.keysight.com${href}`);
+    }
+  });
+
   el.querySelectorAll('.uf-flipbook.uf-embedded-content').forEach((flipBook) => {
     const iframe = flipBook.querySelector('iframe');
     const { src } = iframe;
@@ -220,6 +256,7 @@ function buildDiscoverBlog(document, el, url) {
     iframe.replaceWith(block);
   });
 
+  makeProxySrcs(el, 'https://www.keysight.com');
   pages.push({
     element: el,
     path,
