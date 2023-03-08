@@ -124,11 +124,6 @@ export function wrapImgInLink(pic) {
 async function loadMorePosts() {
   if (!window.keysight.postData.allLoaded) {
     const queryLimit = 500;
-    /*
-      console.trace();
-      console
-      .log(`loading posts with offset ${window.keysight.postData.offset} and limit ${queryLimit}`);
-    */
     const resp = await fetch(`/blogs/query-index.json?limit=${queryLimit}&offset=${window.keysight.postData.offset}`);
     const json = await resp.json();
     const { total, data } = json;
@@ -158,13 +153,67 @@ export async function getNavPages() {
   return window.keysight.navPages;
 }
 
+class Semaphore {
+  /**
+   * Creates a semaphore that limits the number of concurrent Promises being handled
+   * @param {*} maxConcurrentRequests max number of concurrent promises being handled at any time
+   */
+  constructor(maxConcurrentRequests = 1) {
+    this.currentRequests = [];
+    this.runningRequests = 0;
+    this.maxConcurrentRequests = maxConcurrentRequests;
+  }
+
+  /**
+   * Returns a Promise that will eventually return the result of the function passed in
+   * Use this to limit the number of concurrent function executions
+   * @param {*} fnToCall function that has a cap on the number of concurrent executions
+   * @param  {...any} args any arguments to be passed to fnToCall
+   * @returns Promise that will resolve with the resolved value as if the function passed in was directly called
+   */
+  callFunction(fnToCall, ...args) {
+    return new Promise((resolve, reject) => {
+      this.currentRequests.push({
+        resolve,
+        reject,
+        fnToCall,
+        args,
+      });
+      this.tryNext();
+    });
+  }
+
+  tryNext() {
+    if (!this.currentRequests.length) {
+      return;
+    }
+    if (this.runningRequests < this.maxConcurrentRequests) {
+      const {
+        resolve,
+        reject,
+        fnToCall,
+        args,
+      } = this.currentRequests.shift();
+      this.runningRequests += 1;
+      const req = fnToCall(...args);
+      req.then((res) => resolve(res))
+        .catch((err) => reject(err))
+        .finally(() => {
+          this.runningRequests -= 1;
+          this.tryNext();
+        });
+    }
+  }
+}
+
+const loadLock = new Semaphore(1);
 /**
  * @param {boolean} more indicates to force loading additional data from query index
  * @returns the currently loaded listed of posts from the query index pages
  */
 export async function loadPosts(more) {
   if (window.keysight.postData.posts.length === 0 || more) {
-    await loadMorePosts();
+    await loadLock.callFunction(loadMorePosts);
   }
   return window.keysight.postData.posts;
 }
