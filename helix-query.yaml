@@ -45,3 +45,7 @@ indices:
       template:
         select: head > meta[name="template"]
         value: attribute(el, "content")
+      content:
+        select: main > div:nth-of-type(2) > p
+        value: |
+          textContent(el)
