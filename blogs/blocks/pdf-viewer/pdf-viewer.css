@@ -1,0 +1,8 @@
+.pdf-viewer object {
+  width: 100%;
+  height: 800px;
+}
+
+.pdf-viewer.hidden {
+  display: none;
+}
