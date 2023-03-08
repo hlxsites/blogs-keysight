@@ -25,6 +25,7 @@ main .topics .topics-list {
   max-height: 30rem;
   overflow-y: auto;
   z-index: 2;
+  width: max-content;
 }
 
 main .topics .topics-list li {
