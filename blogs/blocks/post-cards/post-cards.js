@@ -126,7 +126,8 @@ function buildPostCard(post, index, navPagesPromise) {
   if (subtopic && subtopic !== '0') {
     topicText = subtopic;
   }
-  const description = post.content.substr(0, 500);
+
+  let description = post.content || post.description;
 
   postCard.innerHTML = `
     <a class="post-card-image" title="${post.title.replaceAll('"', '')}" href="${post.path}">${pic.outerHTML}</a>
@@ -134,7 +135,7 @@ function buildPostCard(post, index, navPagesPromise) {
       <p class="card-topic"><span class="topic-text">${topicText}</span></p>
       <p class="card-title"><a href="${post.path}">${post.title}</a></p>
       <p class="card-author"><span class="author-text">${post.author}</span><span class="card-date">${postDateStr}</span></p>
-      <div class="card-description"><p class="card-description-text">${description}</p></div>
+      <div class="card-description"><p class="card-description-text">${description.substr(0, 500)}</p></div>
     </div>
   `;
 
