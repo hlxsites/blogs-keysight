@@ -127,7 +127,7 @@ function buildPostCard(post, index, navPagesPromise) {
     topicText = subtopic;
   }
 
-  let description = post.content || post.description;
+  const description = post.content || post.description;
 
   postCard.innerHTML = `
     <a class="post-card-image" title="${post.title.replaceAll('"', '')}" href="${post.path}">${pic.outerHTML}</a>
