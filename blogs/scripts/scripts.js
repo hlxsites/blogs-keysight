@@ -187,20 +187,6 @@ function sortRelatedPosts(postA, postB) {
   let postAScore = 0;
   let postBScore = 0;
 
-  // score based on match for tags/topic/subtopic
-  // 1 point for each match on topic/subtopic/tag
-  const topic = getMetadata('topic');
-  const postATopic = postA.topic;
-  const postBTopic = postB.topic;
-  postAScore += (topic === postATopic) ? 1 : 0;
-  postBScore += (topic === postBTopic) ? 1 : 0;
-
-  const subtopic = getMetadata('subtopic');
-  const postASubtopic = postA.subtopic;
-  const postBSubtopic = postB.subtopic;
-  postAScore += (topic === postATopic && subtopic === postASubtopic) ? 1 : 0;
-  postBScore += (topic === postBTopic && subtopic === postBSubtopic) ? 1 : 0;
-
   const tags = getMetadata('article:tag');
   if (tags) {
     const postATags = splitTags(postA.tags);
