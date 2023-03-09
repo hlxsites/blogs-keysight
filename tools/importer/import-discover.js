@@ -88,6 +88,8 @@ function buildAuthorPage(document, authorBio, authorLink) {
   };
 }
 
+const tagMap = {};
+
 function buildDiscoverBlog(document, el, url) {
   const pages = [];
   const report = {
@@ -97,7 +99,7 @@ function buildDiscoverBlog(document, el, url) {
     Template: 'post',
   };
 
-  el.querySelector('.uf-cta-beside')?.remove();
+  const newDom = document.createElement('div');
 
   const sectionBreak = document.createElement('p');
   sectionBreak.innerHTML = '---';
@@ -139,7 +141,6 @@ function buildDiscoverBlog(document, el, url) {
     } else {
       meta.Author = 'Keysight';
     }
-    postMeta.remove();
   } else {
     meta.Author = 'Keysight';
   }
@@ -149,11 +150,22 @@ function buildDiscoverBlog(document, el, url) {
   if (author && authorBio) {
     const authorPage = buildAuthorPage(document, authorBio, author);
     pages.push(authorPage);
-    authorBio.remove();
   }
 
+  const postContent = el.querySelector('.uf-item-entry-content');
   const image = document.querySelector('meta[name="og:image"]');
-  const heroImg = el.querySelector('img');
+  const firstP = postContent.querySelector('p');
+  const heroImg = firstP?.querySelector('img');
+  if (heroImg) {
+    newDom.append(heroImg);
+  } else if (image) {
+    const img = document.createElement('img');
+    img.src = image.content;
+    newDom.append(img);
+  }
+  newDom.append(sectionBreak);
+  newDom.append(h1);
+
   if (image) {
     const img = document.createElement('img');
     img.src = image.content;
@@ -162,60 +174,59 @@ function buildDiscoverBlog(document, el, url) {
     meta.Image = heroImg.cloneNode(true);
   }
 
-  if (heroImg) {
-    heroImg.parentElement.append(h1);
-    heroImg.parentElement.append(sectionBreak);
-  }
-  el.append(sectionBreak.cloneNode(true));
+  newDom.append(postContent);
+  newDom.append(sectionBreak.cloneNode(true));
 
   const h3 = document.createElement('h3');
   h3.textContent = 'Related Posts';
-  el.append(h3);
+  newDom.append(h3);
 
   const cells = [
     ['Post Cards'],
     ['limit', '3'],
   ];
   const postCardsBlock = WebImporter.DOMUtils.createTable(cells, document);
-  el.append(postCardsBlock);
+  newDom.append(postCardsBlock);
 
   let path = url.pathname.replace(/\.html$/, '').replace(/\/$/, '');
   const pathSplit = path.split('/');
-  const tag = pathSplit[2].replace('-', ' ').split(' ').map((word) => `${word.charAt(0).toUpperCase()}${word.substr(1)}`);
-  meta.Tags = tag;
+  const tag = pathSplit[2].replace('-', ' ').split(' ').map((word) => `${word.charAt(0).toUpperCase()}${word.substr(1)}`).join(' ');
   path = `/blogs/keys/thought-leadership/${year}/${month}/${day}/${pathSplit.slice(3).join('/')}`;
+  const prevTags = tagMap[path];
+  if (prevTags) {
+    prevTags.push(tag);
+    meta.Tags = prevTags.join(', ');
+    tagMap[path] = prevTags;
+  } else {
+    tagMap[path] = [tag];
+    meta.Tags = tag;
+  }
 
   const metaBlock = WebImporter.Blocks.getMetadataBlock(document, meta);
-  el.append(metaBlock);
+  newDom.append(metaBlock);
 
   // process a few blocks
-  el.querySelectorAll('a').forEach((a) => {
+  newDom.querySelectorAll('a').forEach((a) => {
     const href = a.getAttribute('href');
     if (href && href.startsWith('/')) {
       a.setAttribute('href', `https://www.keysight.com${href}`);
     }
   });
 
-  el.querySelectorAll('.uf-flipbook.uf-embedded-content').forEach((flipBook) => {
+  newDom.querySelectorAll('.uf-flipbook.uf-embedded-content').forEach((flipBook) => {
     const iframe = flipBook.querySelector('iframe');
     const { src } = iframe;
     const u = new URL(`https://www.keysight.com/${src}`);
-    const newPath = WebImporter.FileUtils.sanitizePath(u.pathname);
     report.pdfUrls.push(u.toString());
-    // pages.push({
-    //   path: newPath,
-    //   from: u.toString(),
-    // });
-    const pdfUrl = new URL(WebImporter.FileUtils.sanitizePath(newPath), 'https://main--blogs-keysight--hlxsites.hlx.page').toString();
     const blockCells = [
       ['PDF Viewer'],
-      ['Source', pdfUrl],
+      ['Source', u.toString()],
     ];
     const block = WebImporter.DOMUtils.createTable(blockCells, document);
     flipBook.replaceWith(block);
   });
 
-  el.querySelectorAll('video').forEach((video) => {
+  newDom.querySelectorAll('video').forEach((video) => {
     const source = video.querySelector('source');
     const link = document.createElement('a');
     link.href = source.src;
@@ -228,7 +239,7 @@ function buildDiscoverBlog(document, el, url) {
     video.replaceWith(block);
   });
 
-  el.querySelectorAll('iframe').forEach((iframe) => {
+  newDom.querySelectorAll('iframe').forEach((iframe) => {
     let blockName = 'Embed';
     let { src } = iframe;
     let normalizedSrc = src.startsWith('//') ? `https:${src}` : src;
@@ -256,9 +267,9 @@ function buildDiscoverBlog(document, el, url) {
     iframe.replaceWith(block);
   });
 
-  makeProxySrcs(el, 'https://www.keysight.com');
+  makeProxySrcs(newDom, 'https://www.keysight.com');
   pages.push({
-    element: el,
+    element: newDom,
     path,
     report,
   });
