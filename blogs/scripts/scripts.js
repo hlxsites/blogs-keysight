@@ -73,7 +73,7 @@ export function loadScript(url, type, callback) {
  * Load the launch library applicable to the domain
  */
 export function loadLaunch() {
-  const isProd = window.location.hostname.endsWith('keysight.com');
+  const isProd = window.location.hostname === 'www.keysight.com';
   const launchProd = 'https://assets.adobedtm.com/af12bb6c0390/f1190bca45f3/launch-6bc4c4772e81.min.js';
   const launchStaging = 'https://assets.adobedtm.com/af12bb6c0390/f1190bca45f3/launch-9dfc78dfe662-staging.min.js';
   loadScript(isProd ? launchProd : launchStaging);
