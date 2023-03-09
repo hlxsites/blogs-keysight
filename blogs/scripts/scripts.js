@@ -523,7 +523,7 @@ function loadDelayed() {
   window.setTimeout(() => {
     // eslint-disable-next-line import/no-cycle
     import('./delayed.js');
-  }, 3000);
+  }, 4000);
   // load anything that can be postponed to the latest here
 }
 
