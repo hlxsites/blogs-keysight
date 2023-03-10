@@ -77,7 +77,6 @@ export function loadLaunch() {
   const launchProd = 'https://assets.adobedtm.com/af12bb6c0390/f1190bca45f3/launch-6bc4c4772e81.min.js';
   const launchStaging = 'https://assets.adobedtm.com/af12bb6c0390/f1190bca45f3/launch-9dfc78dfe662-staging.min.js';
   loadScript(isProd ? launchProd : launchStaging);
-
 }
 
 /**
