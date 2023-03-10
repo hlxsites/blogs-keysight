@@ -73,13 +73,11 @@ export function loadScript(url, type, callback) {
  * Load the launch library applicable to the domain
  */
 export function loadLaunch() {
-  const usp = new URLSearchParams(window.location.search);
-  if (usp.get('launch') !== 'off') {
-    const isProd = window.location.hostname === 'www.keysight.com';
-    const launchProd = 'https://assets.adobedtm.com/af12bb6c0390/f1190bca45f3/launch-6bc4c4772e81.min.js';
-    const launchStaging = 'https://assets.adobedtm.com/af12bb6c0390/f1190bca45f3/launch-9dfc78dfe662-staging.min.js';
-    loadScript(isProd ? launchProd : launchStaging);
-  }
+  const isProd = window.location.hostname === 'www.keysight.com';
+  const launchProd = 'https://assets.adobedtm.com/af12bb6c0390/f1190bca45f3/launch-6bc4c4772e81.min.js';
+  const launchStaging = 'https://assets.adobedtm.com/af12bb6c0390/f1190bca45f3/launch-9dfc78dfe662-staging.min.js';
+  loadScript(isProd ? launchProd : launchStaging);
+
 }
 
 /**
@@ -519,15 +517,24 @@ async function loadLazy(doc) {
  */
 function loadDelayed() {
   window.setTimeout(() => {
-    // execute any delayed functions
+    // execute any delayed functions from blocks
     window.keysight.delayedReached = true;
     window.keysight.delayed.forEach((func) => func());
   }, 1500);
-  window.setTimeout(() => {
-    // eslint-disable-next-line import/no-cycle
-    import('./delayed.js');
-  }, 3000);
-  // load anything that can be postponed to the latest here
+
+  // load the delayed script
+  const delayedScript = '/blogs/scripts/delayed.js';
+  const usp = new URLSearchParams(window.location.search);
+  const delayed = usp.get('delayed');
+
+  if (!(delayed === 'off' || document.querySelector(`head script[src="${delayedScript}"]`))) {
+    let ms = 3500;
+    const delay = usp.get('delay');
+    if (delay) ms = +delay;
+    setTimeout(() => {
+      loadScript(delayedScript, 'module');
+    }, ms);
+  }
 }
 
 /**
