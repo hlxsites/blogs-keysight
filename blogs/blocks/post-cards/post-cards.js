@@ -167,6 +167,7 @@ async function loadPage(grid) {
   const { filter } = grid.dataset;
   const limit = Number(grid.dataset.limit);
   let posts = await getPosts(filter, limit);
+
   const loadMoreThreshold = limit > 0 && limit < pageSize ? limit : pageSize;
   while (posts.length < loadMoreThreshold && !window.keysight.postData.allLoaded) {
     // eslint-disable-next-line no-await-in-loop

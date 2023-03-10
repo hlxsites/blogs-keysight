@@ -183,35 +183,17 @@ export function splitTags(tags) {
 /**
  * A function for sorting an array of posts according to what is most cloesely related
  */
-function sortRelatedPosts(postA, postB) {
-  let postAScore = 0;
-  let postBScore = 0;
-
+function filterRelatedPosts(otherPost) {
   const tags = getMetadata('article:tag');
   if (tags) {
-    const postATags = splitTags(postA.tags);
-    if (postATags.length > 0) {
-      const commonTags = tags.split(',').filter((tag) => postATags.includes(tag));
-      postAScore += commonTags.length;
-    }
-
-    const postBTags = splitTags(postB.tags);
-    if (postBTags.length > 0) {
-      const commonTags = tags.split(',').filter((tag) => postBTags.includes(tag));
-      postBScore += commonTags.length;
+    const postTags = splitTags(otherPost.tags);
+    if (postTags.length > 0) {
+      const commonTags = tags.split(',').filter((tag) => postTags.includes(tag));
+      return commonTags.length > 0;
     }
   }
 
-  // calc result
-  const result = postBScore - postAScore;
-  if (result === 0) {
-    // if they have the same score, sort by date
-    const aDate = Number(postA.date);
-    const bDate = Number(postB.date);
-    return bDate - aDate;
-  }
-
-  return result;
+  return false;
 }
 
 /**
@@ -263,7 +245,8 @@ export async function getPosts(filter, limit) {
   if (applicableFilter === 'post') {
     finalPosts = allPosts
       .filter((post) => post.path !== window.location.pathname)
-      .sort(sortRelatedPosts);
+      .filter(filterRelatedPosts)
+      .sort(sortPostsByDate);
   } else {
     // first filter out anything with no-index
     finalPosts = allPosts.filter((post) => !post.robots.includes('noindex')).filter((post) => {
