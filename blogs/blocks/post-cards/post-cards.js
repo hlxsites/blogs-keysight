@@ -254,7 +254,7 @@ export default function decorate(block) {
       observer.disconnect();
       loadBlock(block);
     }
-  });
+  }, { rootMargin: '100px' });
   // const section = block.closest('.section');
   // const observationElement = section && section.previousElementSibling
   //   ? section.previousElementSibling : block;
