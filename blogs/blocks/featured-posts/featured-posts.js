@@ -66,7 +66,7 @@ export default async function decorate(block) {
               post.innerHTML = `
               <a href="${mostRecentPost.path}" title="${mostRecentPost.title.replaceAll('"', '')}">${pic.outerHTML}</a>
               <div>
-                <p class="category">${mostRecentPost.title}</p>
+                <p class="category">${heading.textContent}</p>
                 <a href="${mostRecentPost.path}">${mostRecentPost.title}</a>
               </div>`;
               post.classList.remove('post-placeholder');
