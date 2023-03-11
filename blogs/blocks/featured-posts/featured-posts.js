@@ -55,7 +55,7 @@ export default async function decorate(block) {
                   // no topic so just get the first one
                   return true;
                 }
-  
+
                 if (topic === postData.topic) {
                   if (subTopic) {
                     return subTopic === postData.subtopic;
