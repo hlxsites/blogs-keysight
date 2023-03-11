@@ -38,6 +38,8 @@ export default async function decorate(block) {
             post.querySelector(':scope > div > a').textContent = title.textContent;
             post.classList.remove('post-placeholder');
           });
+        } else {
+          post.remove();
         }
       });
     } else {
@@ -54,7 +56,7 @@ export default async function decorate(block) {
 
               if (topic === postData.topic) {
                 if (subTopic) {
-                  return subTopic === postData.subTopic;
+                  return subTopic === postData.subtopic;
                 }
                 // topic match but no subtopic
                 return true;
