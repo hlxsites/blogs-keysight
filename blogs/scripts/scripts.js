@@ -159,6 +159,40 @@ export async function getNavPages() {
 }
 
 /**
+ * forward looking *.metadata.json experiment
+ * fetches metadata.json of page
+ * @param {path} path to *.metadata.json
+ * @returns {Object} containing sanitized meta data
+ */
+export async function getMetadataJson(path) {
+  let resp;
+  try {
+    resp = await fetch(`${path.split('.')[0]}?noredirect`);
+  } catch {
+    // fail
+  }
+
+  if (resp && resp.ok) {
+    const text = await resp.text();
+    const headStr = text.split('<head>')[1].split('</head>')[0];
+    const head = document.createElement('head');
+    head.innerHTML = headStr;
+    const metaTags = head.querySelectorAll(':scope > meta');
+    const meta = {};
+    metaTags.forEach((metaTag) => {
+      const name = metaTag.getAttribute('name') || metaTag.getAttribute('property');
+      const value = metaTag.getAttribute('content');
+      if (meta[name]) {
+        meta[name] += `, ${value}`;
+      } else {
+        meta[name] = value;
+      }
+    });
+    return meta;
+  }
+  return null;
+}
+/**
  * @param {boolean} more indicates to force loading additional data from query index
  * @returns the currently loaded listed of posts from the query index pages
  */

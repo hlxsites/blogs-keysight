@@ -1,4 +1,4 @@
-import { createElement } from '../../scripts/scripts.js';
+import { getMetadataJson } from '../../scripts/scripts.js';
 import { createOptimizedPicture, getMetadata } from '../../scripts/lib-franklin.js';
 
 /**
@@ -26,23 +26,15 @@ export default async function decorate(block) {
     // small delay to get to lcp faster
     setTimeout(() => {
       if (link.title !== 'auto') {
-        fetch(`${link.href}.plain.html`).then((resp) => {
-          if (resp.ok) {
-            resp.text().then((html) => {
-              const temp = createElement('div');
-              temp.innerHTML = html;
-              const image = temp.querySelector('img');
-              const title = temp.querySelector('h1');
-              if (image) {
-                const pic = createOptimizedPicture(image.src, '', false, [{ width: '200' }]);
-                post.querySelector('.picture-placeholder').replaceWith(pic);
-              }
-              post.querySelector(':scope > div > a').textContent = title.textContent;
-              post.classList.remove('post-placeholder');
-            });
-          } else {
-            post.remove();
+        getMetadataJson(`${link.href}.metadata.json`).then((meta) => {
+          const image = meta['og:image'];
+          const title = meta['og:title'];
+          if (image) {
+            const pic = createOptimizedPicture(image, '', false, [{ width: '200' }]);
+            post.querySelector('.picture-placeholder').replaceWith(pic);
           }
+          post.querySelector(':scope > div > a').textContent = title;
+          post.classList.remove('post-placeholder');
         });
       } else {
         fetch('/blogs/query-index.json?limit=500').then((resp) => {
