@@ -167,7 +167,7 @@ export async function getNavPages() {
 export async function getMetadataJson(path) {
   let resp;
   try {
-    resp = await fetch(`${path.split('.')[0]}?noredirect`);
+    resp = await fetch(path);
   } catch {
     // fail
   }

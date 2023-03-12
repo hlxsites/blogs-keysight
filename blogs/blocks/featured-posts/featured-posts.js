@@ -26,7 +26,7 @@ export default async function decorate(block) {
     // small delay to get to lcp faster
     setTimeout(() => {
       if (link.title !== 'auto') {
-        getMetadataJson(`${link.href}.metadata.json`).then((meta) => {
+        getMetadataJson(`${link.href}`).then((meta) => {
           const image = meta['og:image'];
           const title = meta['og:title'];
           if (image) {
