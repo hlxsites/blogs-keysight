@@ -59,6 +59,9 @@ export default async function decorate(block) {
                 return false;
               });
               if (mostRecentPost) {
+                if (mostRecentPost.image.includes('/default-meta-image')) {
+                  mostRecentPost.image = '/blogs/generic-post-image.jpg?width=1200&format=pjpg&optimize=medium';
+                }
                 const pic = createOptimizedPicture(mostRecentPost.image, '', false, [{ width: '200' }]);
                 post.innerHTML = `
                 <a href="${mostRecentPost.path}" title="${mostRecentPost.title.replaceAll('"', '')}">${pic.outerHTML}</a>
