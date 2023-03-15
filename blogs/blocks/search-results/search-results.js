@@ -98,13 +98,17 @@ function buildPostCard(post, index, navPagesPromise) {
   let postDateStr = '';
   if (post.date) {
     try {
-      const postDate = new Date(Number(post.date) * 1000);
-      const year = postDate.getFullYear();
-      let month = postDate.getMonth() + 1;
+      const dateinMs = Number(post.date) * 1000;
+      const postDate = new Date(dateinMs);
+      const year = postDate.getUTCFullYear();
+      let month = postDate.getUTCMonth() + 1;
       if (month < 10) {
         month = `0${month}`;
       }
-      const date = postDate.getDate();
+      let date = postDate.getUTCDate();
+      if (date < 10) {
+        date = `0${date}`;
+      }
       postDateStr = ` | ${year}.${month}.${date}`;
     } finally {
       // no op
