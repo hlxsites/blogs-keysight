@@ -1,5 +1,0 @@
-User-agent: *
-Disallow: /drafts/
-
-
-Sitemap: https://www.keysight.com/blogs/sitemap-index.xml
