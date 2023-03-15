@@ -13,6 +13,7 @@ import {
   loadBlocks,
   loadCSS,
   fetchPlaceholders,
+  createOptimizedPicture,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = ['hero', 'featured-posts']; // add your LCP blocks to the list
@@ -168,30 +169,36 @@ export async function getMetadataJson(path) {
   let resp;
   try {
     resp = await fetch(path);
+    if (resp && resp.ok) {
+      const text = await resp.text();
+      const headStr = text.split('<head>')[1].split('</head>')[0];
+      const head = document.createElement('head');
+      head.innerHTML = headStr;
+      const metaTags = head.querySelectorAll(':scope > meta');
+      const meta = {};
+      metaTags.forEach((metaTag) => {
+        const name = metaTag.getAttribute('name') || metaTag.getAttribute('property');
+        const value = metaTag.getAttribute('content');
+        if (meta[name]) {
+          meta[name] += `, ${value}`;
+        } else {
+          meta[name] = value;
+        }
+      });
+
+      if (meta['og:image'].includes('/default-meta-image')) {
+        meta['og:image'] = '/blogs/generic-post-image.jpg?width=1200&format=pjpg&optimize=medium';
+      }
+
+      return meta;
+    }
   } catch {
     // fail
   }
 
-  if (resp && resp.ok) {
-    const text = await resp.text();
-    const headStr = text.split('<head>')[1].split('</head>')[0];
-    const head = document.createElement('head');
-    head.innerHTML = headStr;
-    const metaTags = head.querySelectorAll(':scope > meta');
-    const meta = {};
-    metaTags.forEach((metaTag) => {
-      const name = metaTag.getAttribute('name') || metaTag.getAttribute('property');
-      const value = metaTag.getAttribute('content');
-      if (meta[name]) {
-        meta[name] += `, ${value}`;
-      } else {
-        meta[name] = value;
-      }
-    });
-    return meta;
-  }
   return null;
 }
+
 /**
  * @param {boolean} more indicates to force loading additional data from query index
  * @returns the currently loaded listed of posts from the query index pages
@@ -270,7 +277,13 @@ export async function getPosts(filter, limit) {
   const pages = await loadPosts();
   // filter out anything that isn't a blog post (eg. must have an author)
   let finalPosts;
-  const allPosts = pages.filter((page) => page.template === 'post');
+  const allPosts = pages.filter((page) => page.template === 'post').map((p) => {
+    if (p.image.includes('/default-meta-image')) {
+      p.image = '/blogs/generic-post-image.jpg?width=1200&format=pjpg&optimize=medium';
+    }
+
+    return p;
+  });
   const topic = getMetadata('topic');
   const subTopic = getMetadata('subtopic');
   const url = new URL(window.location);
@@ -351,6 +364,16 @@ function buildImageBlocks(main) {
 }
 
 function buildHeroBlock(main) {
+  if (document.body.classList.contains('post')) {
+    const heroImg = main.querySelector(':scope > div:first-child picture');
+    if (!heroImg) {
+      const section = createElement('div');
+      const pic = createOptimizedPicture('/blogs/generic-post-image.jpg', 'Post Hero Image', true);
+      section.append(pic);
+      main.prepend(section);
+    }
+  }
+
   const h1 = main.querySelector('h1');
   const picture = main.querySelector('picture');
   const pictureParent = picture?.parentElement;
