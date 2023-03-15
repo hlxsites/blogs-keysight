@@ -3,6 +3,7 @@ import {
 } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
+  block.closest('.section').id = 'blogs_related_content';
   const colWrapper = block.firstElementChild;
   colWrapper.classList.add('cols');
   const cols = [...colWrapper.children];

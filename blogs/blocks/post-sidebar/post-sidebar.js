@@ -24,6 +24,7 @@ function buildTags(sidebar) {
       item.append(link);
       list.append(item);
     });
+    tagsContainer.id = 'blogs_related_tags';
     sidebar.append(tagsContainer);
   }
 }
@@ -60,8 +61,8 @@ function buildSocial(sidebar) {
     link.href = getSocialLinks(socialIcons[i], url, title);
     social.appendChild(link);
   }
+  social.id = 'blogs_social_sharing';
   sidebar.append(social);
-  buildTags(sidebar);
 }
 
 export default async function decorate(block) {
@@ -97,5 +98,6 @@ export default async function decorate(block) {
       <h4 class="author-title">${authorTitle}</h4>
     </div>`;
   buildSocial(block);
+  buildTags(block);
   decorateIcons(block);
 }

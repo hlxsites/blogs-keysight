@@ -22,6 +22,7 @@ export default async function decorate(block) {
           <a href="${link.href}"></a>
         </div>
     `;
+    post.id = `blogs_${heading.textContent.toLowerCase().replace(' ', '_')}`;
 
     // small delay to get to lcp faster
     setTimeout(() => {

@@ -255,8 +255,9 @@ export default function decorate(block) {
       loadBlock(block);
     }
   }, { rootMargin: '100px' });
-  // const section = block.closest('.section');
-  // const observationElement = section && section.previousElementSibling
-  //   ? section.previousElementSibling : block;
+  if (getMetadata('template') === 'post') {
+    block.closest('.section').id = 'blogs_related_posts';
+  }
+
   observer.observe(block);
 }

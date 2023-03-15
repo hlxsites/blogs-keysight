@@ -104,6 +104,8 @@ async function loadBlock(block) {
  * @param {Element} block The featured posts block element
  */
 export default async function decorate(block) {
+  block.closest('.section').id = 'blogs_related_tags';
+
   const postCards = document.querySelector('.block.post-cards');
   if (!postCards || postCards.dataset.postsLoaded === 'true') {
     const isAll = block.classList.contains('all');
