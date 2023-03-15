@@ -14,6 +14,7 @@ export default async function decorate(block) {
       wrapper.classList.add('hero-text-full');
     } else {
       wrapper.classList.add('hero-text-contained');
+      block.id = 'BannerBlog';
     }
   } else {
     wrapper.classList.add('hero-contained');

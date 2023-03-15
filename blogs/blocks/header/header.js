@@ -49,10 +49,30 @@ export default async function decorate(block) {
     const nav = createElement('nav');
     nav.innerHTML = html;
 
-    const classes = ['brand', 'blog-home', 'sections', 'tools'];
-    classes.forEach((e, j) => {
+    const sectionProps = [
+      {
+        class: 'brand',
+        id: 'logo',
+      },
+      {
+        class: 'blog-home',
+        id: 'blog-home',
+      },
+      {
+        class: 'sections',
+        id: 'gnavbar',
+      },
+      {
+        class: 'tools',
+        id: 'util-search',
+      },
+    ];
+    sectionProps.forEach((e, j) => {
       const section = nav.children[j];
-      if (section) section.classList.add(`nav-${e}`);
+      if (section) {
+        section.classList.add(`nav-${e.class}`);
+        section.id = e.id;
+      }
     });
 
     const navBrand = [...nav.children][0];
