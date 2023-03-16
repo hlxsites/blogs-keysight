@@ -585,7 +585,7 @@ async function loadLazy(doc) {
     // execute any lazy functions from blocks
     window.keysight.delayed.lazy.reached = true;
     window.keysight.delayed.lazy.funcs.forEach((func) => func());
-  }, 1000);
+  }, 500);
 }
 
 /**
