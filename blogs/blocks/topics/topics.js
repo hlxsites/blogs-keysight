@@ -67,7 +67,7 @@ export default async function decorate(block) {
         buildNav(topicList, topicNav);
       }
     }
-  });
+  }, true);
 
   nav.append(topicList);
   decorateIcons(nav);

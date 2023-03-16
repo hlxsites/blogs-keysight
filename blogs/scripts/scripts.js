@@ -25,8 +25,16 @@ window.keysight.postData = window.keysight.postData || {
   allLoaded: false,
 };
 window.keysight.navPages = window.keysight.navPages || [];
-window.keysight.delayed = window.keysight.delayed || [];
-window.keysight.delayedReached = false;
+window.keysight.delayed = {
+  lazy: {
+    reached: false,
+    funcs: [],
+  },
+  delayed: {
+    reached: false,
+    funcs: [],
+  },
+};
 
 /**
  * Create an element with the given id and classes.
@@ -572,6 +580,12 @@ async function loadLazy(doc) {
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
   sampleRUM.observe(main.querySelectorAll('picture > img'));
+
+  window.setTimeout(() => {
+    // execute any lazy functions from blocks
+    window.keysight.delayed.lazy.reached = true;
+    window.keysight.delayed.lazy.funcs.forEach((func) => func());
+  }, 1000);
 }
 
 /**
@@ -579,12 +593,6 @@ async function loadLazy(doc) {
  * the user experience.
  */
 function loadDelayed() {
-  window.setTimeout(() => {
-    // execute any delayed functions from blocks
-    window.keysight.delayedReached = true;
-    window.keysight.delayed.forEach((func) => func());
-  }, 1500);
-
   // load the delayed script
   const delayedScript = '/blogs/scripts/delayed.js';
   const usp = new URLSearchParams(window.location.search);
@@ -595,6 +603,9 @@ function loadDelayed() {
     const delay = usp.get('delay');
     if (delay) ms = +delay;
     setTimeout(() => {
+      window.keysight.delayed.delayed.reached = true;
+      window.keysight.delayed.delayed.funcs.forEach((func) => func());
+
       loadScript(delayedScript, 'module');
     }, ms);
   }
@@ -604,11 +615,12 @@ function loadDelayed() {
  * Execute a function of a delayed basis.
  * @param {function} func the function to execute
  */
-export function execDeferred(func) {
-  if (window.keysight.delayedReached) {
+export function execDeferred(func, lazy = false) {
+  const delObj = window.keysight.delayed[lazy ? 'lazy' : 'delayed'];
+  if (delObj.reached) {
     func();
   } else {
-    window.keysight.delayed.push(func);
+    delObj.funcs.push(func);
   }
 }
 
