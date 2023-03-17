@@ -1,5 +1,5 @@
 import { decorateIcons, getMetadata } from '../../scripts/lib-franklin.js';
-import { createElement, addOutsideClickListener, execDeferred } from '../../scripts/scripts.js';
+import { createElement, addOutsideClickListener } from '../../scripts/scripts.js';
 
 function buildNav(ul, navItems, topic) {
   navItems.querySelectorAll(':scope > li').forEach((topicLi) => {
@@ -54,20 +54,26 @@ export default async function decorate(block) {
   nav.append(navTitle);
   const topicList = createElement('ul', 'topics-list');
 
-  execDeferred(async () => {
-    const resp = await fetch('/blogs/nav.plain.html');
-    if (resp.ok) {
-      const html = await resp.text();
-      const temp = createElement('div');
-      temp.innerHTML = html;
-      const topicNav = temp.querySelector('div:nth-child(3) > ul');
-      if (topic) {
-        buildNav(topicList, topicNav, topic);
-      } else {
-        buildNav(topicList, topicNav);
+  const intervalId = setInterval(async () => {
+    const headerLoaded = document.querySelector('header .header[data-block-status="loaded"]');
+    if (headerLoaded) {
+      clearInterval(intervalId);
+      // once the header is loaded
+      // we can safely fetch nav, knowing it will be cached
+      const resp = await fetch('/blogs/nav.plain.html');
+      if (resp.ok) {
+        const html = await resp.text();
+        const temp = createElement('div');
+        temp.innerHTML = html;
+        const topicNav = temp.querySelector('div:nth-child(3) > ul');
+        if (topic) {
+          buildNav(topicList, topicNav, topic);
+        } else {
+          buildNav(topicList, topicNav);
+        }
       }
     }
-  }, true);
+  }, 250);
 
   nav.append(topicList);
   decorateIcons(nav);
