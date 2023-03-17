@@ -25,8 +25,6 @@ window.keysight.postData = window.keysight.postData || {
   allLoaded: false,
 };
 window.keysight.navPages = window.keysight.navPages || [];
-window.keysight.delayed = window.keysight.delayed || [];
-window.keysight.delayedReached = false;
 
 /**
  * Create an element with the given id and classes.
@@ -579,12 +577,6 @@ async function loadLazy(doc) {
  * the user experience.
  */
 function loadDelayed() {
-  window.setTimeout(() => {
-    // execute any delayed functions from blocks
-    window.keysight.delayedReached = true;
-    window.keysight.delayed.forEach((func) => func());
-  }, 1500);
-
   // load the delayed script
   const delayedScript = '/blogs/scripts/delayed.js';
   const usp = new URLSearchParams(window.location.search);
@@ -597,18 +589,6 @@ function loadDelayed() {
     setTimeout(() => {
       loadScript(delayedScript, 'module');
     }, ms);
-  }
-}
-
-/**
- * Execute a function of a delayed basis.
- * @param {function} func the function to execute
- */
-export function execDeferred(func) {
-  if (window.keysight.delayedReached) {
-    func();
-  } else {
-    window.keysight.delayed.push(func);
   }
 }
 
