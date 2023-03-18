@@ -112,11 +112,21 @@ function buildDiscoverBlog(document, el, url) {
     meta.Description = description.content;
   }
 
-  const text = el.querySelector('.uf-item-entry-content').textContent;
-  const wpm = 225;
-  const words = text.trim().split(/\s+/).length;
-  const time = Math.ceil(words / wpm);
-  meta['Read Time'] = `${time} min read`;
+  const { tags } = document.body.dataset;
+  if (tags) {
+    const migratedTags = [];
+    const timeRegex = /^[0-9]{1,2} min( (podcast|video))?$/;
+    tags.toLowerCase().split(',').forEach((tag) => {
+      if (timeRegex.test(tag)) {
+        meta['Read Time'] = `${tag}${tag.includes('video') || tag.includes('podcast') ? '' : ' read'}`;
+      } else {
+        migratedTags.push(tag);
+      }
+    });
+    if (migratedTags.length > 0) {
+      meta['Migrated Tags'] = migratedTags.join(', ');
+    }
+  }
 
   const postMeta = el.querySelector('.uf-meta-data');
 
@@ -128,10 +138,10 @@ function buildDiscoverBlog(document, el, url) {
     const dt = postMeta.querySelector('.uf-datetime > time');
     if (dt) {
       const postDate = new Date(dt.getAttribute('datetime'));
-      year = postDate.getUTCFullYear();
-      month = postDate.getUTCMonth() + 1;
+      year = postDate.getFullYear();
+      month = postDate.getMonth() + 1;
       if (month < 10) month = `0${month}`;
-      day = postDate.getUTCDate();
+      day = postDate.getDate();
       if (day < 10) day = `0${day}`;
     }
 

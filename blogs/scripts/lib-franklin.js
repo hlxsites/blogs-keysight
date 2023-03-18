@@ -140,6 +140,7 @@ export function decorateIcons(element = document) {
       if (iconHTML.match(/<style/i)) {
         const img = document.createElement('img');
         img.src = `data:image/svg+xml,${encodeURIComponent(iconHTML)}`;
+        img.alt = `${icon.replace('-', ' ')}`;
         span.appendChild(img);
       } else {
         span.innerHTML = iconHTML;
