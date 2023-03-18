@@ -36,6 +36,7 @@ export default async function decorate(block) {
           }
           post.querySelector(':scope > div > a').textContent = title;
           post.classList.remove('post-placeholder');
+          post.querySelector('a > picture').parentElement.setAttribute('title', title);
         });
       } else {
         fetch('/blogs/query-index.json?limit=500').then((resp) => {
@@ -64,12 +65,13 @@ export default async function decorate(block) {
                 }
                 const pic = createOptimizedPicture(mostRecentPost.image, '', false, [{ width: '200' }]);
                 post.innerHTML = `
-                <a href="${mostRecentPost.path}" title="${mostRecentPost.title.replaceAll('"', '')}">${pic.outerHTML}</a>
+                <a href="${mostRecentPost.path}">${pic.outerHTML}</a>
                 <div>
                   <p class="category">${heading.textContent}</p>
                   <a href="${mostRecentPost.path}">${mostRecentPost.title}</a>
                 </div>`;
                 post.classList.remove('post-placeholder');
+                post.querySelector('a > picture').parentElement.setAttribute('title', mostRecentPost.title);
               } else {
                 post.remove();
               }
