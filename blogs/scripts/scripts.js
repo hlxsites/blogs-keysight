@@ -155,7 +155,7 @@ export async function getNavPages() {
     }
   }
 
-  return window.keysight.navPages;
+  return window.keysight.navPages.filter((p) => !p.robots.includes('noindex'));
 }
 
 /**
