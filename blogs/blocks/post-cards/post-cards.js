@@ -179,11 +179,12 @@ async function loadPage(grid) {
     posts = await getPosts(filter, limit);
   }
   let counter = Number(grid.dataset.loadedCount);
+  const hasCta = grid.dataset.hasCta === 'true';
   const navPages = getNavPages();
   for (let i = 0;
     counter < posts.length && i < pageSize && (limit < 0 || counter < limit);
     i += 1) {
-    const postCard = buildPostCard(posts[counter], counter, navPages);
+    const postCard = buildPostCard(posts[counter], hasCta ? counter + 1 : counter, navPages);
     grid.append(postCard);
     counter += 1;
   }
@@ -223,7 +224,7 @@ async function loadBlock(block) {
           decorateButtons(cta);
           const ctaPostCard = createElement('div', ['post-card', 'hidden']);
           ctaPostCard.append(cta);
-          grid.dataset.loadedCount = 1;
+          grid.dataset.hasCta = true;
           grid.append(ctaPostCard);
           decorateBlock(cta);
           loadExtBlock(cta);
