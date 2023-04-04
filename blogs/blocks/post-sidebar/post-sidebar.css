@@ -21,7 +21,8 @@
     flex-direction: column;
   }
 
-  .post-sidebar > .tags-container {
+  .post-sidebar > .tags-container,
+  .post-sidebar > .cta {
     grid-column: 1 / -1;
   }
 }
