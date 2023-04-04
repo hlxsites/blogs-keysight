@@ -1,0 +1,20 @@
+main .cta {
+  background-color: var(--color-red);
+  color: var(--color-white);
+  padding: 2rem;
+  height: 100%;
+}
+
+main .cta .button-container {
+  margin-block-start: 4rem;
+}
+
+main .cta a.button:any-link {
+  background: var(--color-white);
+  color: var(--color-red);
+}
+
+main .cta a.button:any-link:hover {
+  color: var(--color-dark-red);
+  text-decoration: underline
+}
