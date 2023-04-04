@@ -8,6 +8,7 @@ import {
 } from '../../scripts/lib-franklin.js';
 import {
   createElement,
+  decorateLinks,
   getNavPages,
   makeLinkRelative,
 } from '../../scripts/scripts.js';
@@ -27,6 +28,7 @@ async function buildCta(sidebar) {
       const cta = ctaDoc.querySelector('.cta');
       if (cta) {
         decorateButtons(cta);
+        decorateLinks(cta);
         sidebar.append(cta);
         decorateBlock(cta);
         loadBlock(cta);
