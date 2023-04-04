@@ -25,7 +25,8 @@ window.keysight.postData = window.keysight.postData || {
   allLoaded: false,
 };
 window.keysight.navPages = window.keysight.navPages || [];
-const PRODUCTION_DOMAINS = ['www.keysight.com'];
+const PRODUCTION_DOMAINS = ['www.keysight.com', 'stgwww.keysight.com'];
+const PRODUCTION_PATHS = ['/blogs/'];
 
 /**
  * Create an element with the given id and classes.
@@ -494,22 +495,28 @@ export function makeLinkRelative(linkUrl) {
   const url = new URL(linkUrl);
   const hostMatch = hosts.some((host) => url.hostname.includes(host));
   if (hostMatch) {
-    return `${url.pathname.replace('.html', '')}${url.search}${url.hash}`;
+    const pathMatch = PRODUCTION_PATHS.some((path) => url.pathname.startsWith(path));
+    if (pathMatch) {
+      return `${url.pathname.replace('.html', '')}${url.search}${url.hash}`;
+    }
   }
 
   return linkUrl;
 }
 
-/**
- * Turns absolute links within the domain into relative links.
- * @param {Element} main The container element
- */
-export function makeLinksRelative(main) {
-  main.querySelectorAll('a').forEach((a) => {
+export function decorateLinks(element) {
+  element.querySelectorAll('a').forEach((a) => {
     if (a.href) {
       try {
         const relLink = makeLinkRelative(a.href);
         a.href = relLink;
+
+        const url = new URL(relLink);
+        const hosts = ['hlx.page', 'hlx.live', ...PRODUCTION_DOMAINS];
+        const hostMatch = hosts.some((host) => url.hostname.includes(host));
+        if (!hostMatch) {
+          a.target = '_blank';
+        }
       } catch (e) {
         // something went wrong
         // eslint-disable-next-line no-console
@@ -598,6 +605,8 @@ async function loadLazy(doc) {
   loadCSS(`${window.hlx.codeBasePath}/fonts/fonts.css`);
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   addFavIcon(`${window.hlx.codeBasePath}/icons/favicon.png`);
+  decorateLinks(main);
+
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
   sampleRUM.observe(main.querySelectorAll('picture > img'));

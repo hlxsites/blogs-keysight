@@ -5,6 +5,7 @@ import {
   splitTags,
   getNavPages,
   makeLinkRelative,
+  decorateLinks,
 } from '../../scripts/scripts.js';
 import {
   createOptimizedPicture,
@@ -222,6 +223,7 @@ async function loadBlock(block) {
         const cta = ctaDoc.querySelector('.cta');
         if (cta) {
           decorateButtons(cta);
+          decorateLinks(cta);
           const ctaPostCard = createElement('div', ['post-card', 'hidden']);
           ctaPostCard.append(cta);
           grid.dataset.hasCta = true;
