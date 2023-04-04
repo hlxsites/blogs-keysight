@@ -4,12 +4,16 @@ import {
   loadPosts,
   splitTags,
   getNavPages,
+  makeLinkRelative,
 } from '../../scripts/scripts.js';
 import {
   createOptimizedPicture,
   readBlockConfig,
   decorateIcons,
   getMetadata,
+  decorateBlock,
+  loadBlock as loadExtBlock,
+  decorateButtons,
 } from '../../scripts/lib-franklin.js';
 
 let pageSize = 7;
@@ -204,6 +208,29 @@ async function loadBlock(block) {
   const grid = block.querySelector('.post-cards-grid');
   const moreContainer = block.querySelector('.show-more-cards-container');
 
+  if (getMetadata('template') !== 'post') {
+    // if not a blog post, check if we have a cta to load
+    const ctaPath = getMetadata('cta');
+    if (ctaPath) {
+      const relLink = makeLinkRelative(ctaPath);
+      const resp = await fetch(`${relLink}.plain.html`);
+      if (resp.ok) {
+        const html = await resp.text();
+        const dp = new DOMParser();
+        const ctaDoc = dp.parseFromString(html, 'text/html');
+        const cta = ctaDoc.querySelector('.cta');
+        if (cta) {
+          decorateButtons(cta);
+          const ctaPostCard = createElement('div', ['post-card', 'hidden']);
+          ctaPostCard.append(cta);
+          grid.dataset.loadedCount = 1;
+          grid.append(ctaPostCard);
+          decorateBlock(cta);
+          loadExtBlock(cta);
+        }
+      }
+    }
+  }
   // load the first 2 pages, show 1
   await loadPage(grid);
   await loadPage(grid);

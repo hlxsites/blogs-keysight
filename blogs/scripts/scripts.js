@@ -25,6 +25,7 @@ window.keysight.postData = window.keysight.postData || {
   allLoaded: false,
 };
 window.keysight.navPages = window.keysight.navPages || [];
+const PRODUCTION_DOMAINS = ['www.keysight.com'];
 
 /**
  * Create an element with the given id and classes.
@@ -486,6 +487,36 @@ export function addFavIcon(href) {
   } else {
     document.getElementsByTagName('head')[0].appendChild(link);
   }
+}
+
+export function makeLinkRelative(linkUrl) {
+  const hosts = ['hlx.page', 'hlx.live', ...PRODUCTION_DOMAINS];
+  const url = new URL(linkUrl);
+  const hostMatch = hosts.some((host) => url.hostname.includes(host));
+  if (hostMatch) {
+    return `${url.pathname.replace('.html', '')}${url.search}${url.hash}`;
+  }
+
+  return linkUrl;
+}
+
+/**
+ * Turns absolute links within the domain into relative links.
+ * @param {Element} main The container element
+ */
+export function makeLinksRelative(main) {
+  main.querySelectorAll('a').forEach((a) => {
+    if (a.href) {
+      try {
+        const relLink = makeLinkRelative(a.href);
+        a.href = relLink;
+      } catch (e) {
+        // something went wrong
+        // eslint-disable-next-line no-console
+        console.log(e);
+      }
+    }
+  });
 }
 
 async function updatePlaceholders() {
