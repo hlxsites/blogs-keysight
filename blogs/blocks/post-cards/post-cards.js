@@ -4,7 +4,6 @@ import {
   loadPosts,
   splitTags,
   getNavPages,
-  makeLinkRelative,
   decorateLinks,
 } from '../../scripts/scripts.js';
 import {
@@ -214,7 +213,7 @@ async function loadBlock(block) {
     // if not a blog post, check if we have a cta to load
     const ctaPath = getMetadata('cta');
     if (ctaPath) {
-      const relLink = makeLinkRelative(ctaPath);
+      const relLink = new URL(ctaPath).pathname;
       const resp = await fetch(`${relLink}.plain.html`);
       if (resp.ok) {
         const html = await resp.text();

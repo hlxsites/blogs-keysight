@@ -490,31 +490,24 @@ export function addFavIcon(href) {
   }
 }
 
-export function makeLinkRelative(linkUrl) {
-  const hosts = ['hlx.page', 'hlx.live', ...PRODUCTION_DOMAINS];
-  const url = new URL(linkUrl);
-  const hostMatch = hosts.some((host) => url.hostname.includes(host));
-  if (hostMatch) {
-    const pathMatch = PRODUCTION_PATHS.some((path) => url.pathname.startsWith(path));
-    if (pathMatch) {
-      return `${url.pathname.replace('.html', '')}${url.search}${url.hash}`;
-    }
-  }
-
-  return linkUrl;
-}
-
+/**
+ * decorate links to by making them relative and setting the target
+ *
+ * @param {Element} element the element containing the links to decorate
+ */
 export function decorateLinks(element) {
   element.querySelectorAll('a').forEach((a) => {
     if (a.href) {
       try {
-        const relLink = makeLinkRelative(a.href);
-        a.href = relLink;
-
-        const url = new URL(relLink);
+        const url = new URL(a.href);
         const hosts = ['hlx.page', 'hlx.live', ...PRODUCTION_DOMAINS];
         const hostMatch = hosts.some((host) => url.hostname.includes(host));
-        if (!hostMatch) {
+        const pathMatch = PRODUCTION_PATHS.some((path) => url.pathname.startsWith(path));
+        if (hostMatch) {
+          if (pathMatch) {
+            a.href = `${url.pathname.replace('.html', '')}${url.search}${url.hash}`;
+          }
+        } else {
           a.target = '_blank';
         }
       } catch (e) {
