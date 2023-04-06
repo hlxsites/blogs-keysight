@@ -421,15 +421,47 @@ function buildAutoBlocks(main) {
 }
 
 /**
+ * decorate links to by making them relative and setting the target
+ *
+ * @param {Element} element the element containing the links to decorate
+ */
+export function decorateLinks(element) {
+  element.querySelectorAll('a').forEach((a) => {
+    if (a.href) {
+      try {
+        const url = new URL(a.href);
+        const hosts = ['hlx.page', 'hlx.live', ...PRODUCTION_DOMAINS];
+        const hostMatch = hosts.some((host) => url.hostname.includes(host));
+        const pathMatch = PRODUCTION_PATHS.some((path) => url.pathname.startsWith(path));
+        if (hostMatch) {
+          if (pathMatch) {
+            a.href = `${url.pathname.replace('.html', '')}${url.search}${url.hash}`;
+          }
+        } else {
+          a.target = '_blank';
+        }
+      } catch (e) {
+        // something went wrong
+        // eslint-disable-next-line no-console
+        console.log(e);
+      }
+    }
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
 // eslint-disable-next-line import/prefer-default-export
-export function decorateMain(main) {
+export function decorateMain(main, isFragment) {
   // hopefully forward compatible button decoration
   decorateButtons(main);
   decorateIcons(main);
-  buildAutoBlocks(main);
+  decorateLinks(main);
+  if (!isFragment) {
+    buildAutoBlocks(main);
+  }
   decorateSections(main);
   decorateBlocks(main);
 }
@@ -488,35 +520,6 @@ export function addFavIcon(href) {
   } else {
     document.getElementsByTagName('head')[0].appendChild(link);
   }
-}
-
-/**
- * decorate links to by making them relative and setting the target
- *
- * @param {Element} element the element containing the links to decorate
- */
-export function decorateLinks(element) {
-  element.querySelectorAll('a').forEach((a) => {
-    if (a.href) {
-      try {
-        const url = new URL(a.href);
-        const hosts = ['hlx.page', 'hlx.live', ...PRODUCTION_DOMAINS];
-        const hostMatch = hosts.some((host) => url.hostname.includes(host));
-        const pathMatch = PRODUCTION_PATHS.some((path) => url.pathname.startsWith(path));
-        if (hostMatch) {
-          if (pathMatch) {
-            a.href = `${url.pathname.replace('.html', '')}${url.search}${url.hash}`;
-          }
-        } else {
-          a.target = '_blank';
-        }
-      } catch (e) {
-        // something went wrong
-        // eslint-disable-next-line no-console
-        console.log(e);
-      }
-    }
-  });
 }
 
 async function updatePlaceholders() {
@@ -598,7 +601,6 @@ async function loadLazy(doc) {
   loadCSS(`${window.hlx.codeBasePath}/fonts/fonts.css`);
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   addFavIcon(`${window.hlx.codeBasePath}/icons/favicon.png`);
-  decorateLinks(main);
 
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));

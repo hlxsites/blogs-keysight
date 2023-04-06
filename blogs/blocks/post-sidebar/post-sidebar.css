@@ -22,7 +22,7 @@
   }
 
   .post-sidebar > .tags-container,
-  .post-sidebar > .cta {
+  .post-sidebar > .cta-wrapper {
     grid-column: 1 / -1;
   }
 }
