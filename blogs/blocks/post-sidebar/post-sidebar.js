@@ -2,14 +2,13 @@ import {
   getMetadata,
   createOptimizedPicture,
   decorateIcons,
-  decorateButtons,
   decorateBlock,
   loadBlock,
+  buildBlock,
 } from '../../scripts/lib-franklin.js';
 import {
   createElement,
   getNavPages,
-  makeLinkRelative,
 } from '../../scripts/scripts.js';
 
 const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
@@ -18,20 +17,13 @@ const tags = getMetadata('article:tag').split(', ');
 async function buildCta(sidebar) {
   const ctaPath = getMetadata('cta');
   if (ctaPath) {
-    const relLink = makeLinkRelative(ctaPath);
-    const resp = await fetch(`${relLink}.plain.html`);
-    if (resp.ok) {
-      const html = await resp.text();
-      const dp = new DOMParser();
-      const ctaDoc = dp.parseFromString(html, 'text/html');
-      const cta = ctaDoc.querySelector('.cta');
-      if (cta) {
-        decorateButtons(cta);
-        sidebar.append(cta);
-        decorateBlock(cta);
-        loadBlock(cta);
-      }
-    }
+    const relLink = new URL(ctaPath).pathname;
+    const link = createElement('a');
+    link.href = relLink;
+    const fragmentBlock = buildBlock('fragment', [['Source', link]]);
+    sidebar.append(fragmentBlock);
+    decorateBlock(fragmentBlock);
+    await loadBlock(fragmentBlock);
   }
 }
 
@@ -123,6 +115,8 @@ export default async function decorate(block) {
     </div>`;
   buildSocial(block);
   buildTags(block);
-  buildCta(block);
+  const ctaContainer = createElement('div');
+  block.append(ctaContainer);
+  await buildCta(ctaContainer);
   decorateIcons(block);
 }

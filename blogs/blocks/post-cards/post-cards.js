@@ -4,7 +4,6 @@ import {
   loadPosts,
   splitTags,
   getNavPages,
-  makeLinkRelative,
 } from '../../scripts/scripts.js';
 import {
   createOptimizedPicture,
@@ -13,7 +12,7 @@ import {
   getMetadata,
   decorateBlock,
   loadBlock as loadExtBlock,
-  decorateButtons,
+  buildBlock,
 } from '../../scripts/lib-franklin.js';
 
 let pageSize = 7;
@@ -213,23 +212,16 @@ async function loadBlock(block) {
     // if not a blog post, check if we have a cta to load
     const ctaPath = getMetadata('cta');
     if (ctaPath) {
-      const relLink = makeLinkRelative(ctaPath);
-      const resp = await fetch(`${relLink}.plain.html`);
-      if (resp.ok) {
-        const html = await resp.text();
-        const dp = new DOMParser();
-        const ctaDoc = dp.parseFromString(html, 'text/html');
-        const cta = ctaDoc.querySelector('.cta');
-        if (cta) {
-          decorateButtons(cta);
-          const ctaPostCard = createElement('div', ['post-card', 'hidden']);
-          ctaPostCard.append(cta);
-          grid.dataset.hasCta = true;
-          grid.append(ctaPostCard);
-          decorateBlock(cta);
-          loadExtBlock(cta);
-        }
-      }
+      const relLink = new URL(ctaPath).pathname;
+      const link = createElement('a');
+      link.href = relLink;
+      const fragmentBlock = buildBlock('fragment', [['Source', link]]);
+      const ctaPostCard = createElement('div', ['post-card', 'hidden']);
+      ctaPostCard.append(fragmentBlock);
+      decorateBlock(fragmentBlock);
+      grid.dataset.hasCta = true;
+      grid.append(ctaPostCard);
+      loadExtBlock(fragmentBlock);
     }
   }
   // load the first 2 pages, show 1
