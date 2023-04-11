@@ -3,7 +3,7 @@
 ## Environments
 - Preview: https://main--blogs-keysight--hlxsites.hlx.page/
 - Live: https://main--blogs-keysight--hlxsites.hlx.live/
-- Prod: https://blogs.keysight.com
+- Prod: https://www.keysight.com/blogs/
 
 ## Installation
 
