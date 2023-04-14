@@ -38,7 +38,7 @@ async function buildPostData(h1) {
 
 export default async function decorate(doc) {
   const h1 = doc.querySelector('h1');
-  buildPostData(h1);
+  await buildPostData(h1);
 
   const classes = ['section'];
   const sidebarSection = createElement('div', classes, {
