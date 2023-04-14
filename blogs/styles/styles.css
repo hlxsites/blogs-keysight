@@ -61,7 +61,10 @@
 @font-face {
   font-family: 'Graphik LC Web-fallback';
   src: local(arial);
-  size-adjust: 107.16%;
+  size-adjust: 106%;
+  ascent-override: normal;
+  descent-override: normal;
+  line-gap-override: normal;
 }
 
 html {
