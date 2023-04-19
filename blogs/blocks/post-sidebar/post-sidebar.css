@@ -39,7 +39,6 @@
 .post-sidebar .author-image img {
   border-radius: 1000px;
   aspect-ratio: 1 / 1;
-  width: 100%;
   object-fit: cover;
   max-width: 165px;
 }
