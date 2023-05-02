@@ -45,6 +45,10 @@ export default async function decorate(block) {
               const topic = getMetadata('topic');
               const subTopic = getMetadata('subtopic');
               const mostRecentPost = json.data.find((postData) => {
+                if (postData.robots.indexOf('noindex') > -1) {
+                  return false;
+                }
+
                 if (!topic) {
                   // no topic so just get the first one
                   return true;
