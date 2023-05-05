@@ -277,7 +277,7 @@ export async function getPosts(filter, limit) {
   const pages = await loadPosts();
   // filter out anything that isn't a blog post (eg. must have an author)
   let finalPosts;
-  const allPosts = pages.filter((page) => page.template === 'post').map((p) => {
+  const allPosts = pages.filter((page) => !page.robots.includes('noindex') && page.template === 'post').map((p) => {
     if (p.image.includes('/default-meta-image')) {
       p.image = '/blogs/generic-post-image.jpg?width=1200&format=pjpg&optimize=medium';
     }
@@ -313,7 +313,7 @@ export async function getPosts(filter, limit) {
       .sort(sortRelatedPosts);
   } else {
     // first filter out anything with no-index
-    finalPosts = allPosts.filter((post) => !post.robots.includes('noindex')).filter((post) => {
+    finalPosts = allPosts.filter((post) => {
       let matches = true;
       if (applicableFilter === 'topic') {
         matches = topic === post.topic;
