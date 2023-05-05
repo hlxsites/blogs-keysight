@@ -15,8 +15,13 @@ function buildPost(isPlaceholder, entry) {
   `;
 }
 
-async function createFeaturedPosts(mailEl, allPosts) {
-  const postsGrid = mailEl.querySelector('div');
+/**
+ * decorates the block
+ * @param {Element} block The featured posts block element
+ */
+export default async function decorate(block) {
+  const indexUrl = new URL('query-index.json', window.location.href);
+  const postsGrid = block.querySelector('div');
   postsGrid.classList.add('featured-posts-grid');
 
   [...postsGrid.children].forEach((post) => {
@@ -33,7 +38,7 @@ async function createFeaturedPosts(mailEl, allPosts) {
     post.id = `blogs_${heading.textContent.toLowerCase().replace(' ', '_')}`;
 
     // small delay to get to lcp faster
-    setTimeout(() => {
+    setTimeout(async () => {
       if (link.title !== 'auto') {
         getMetadataJson(`${link.href}`).then((meta) => {
           const imageDefault = meta['og:image'];
@@ -47,60 +52,49 @@ async function createFeaturedPosts(mailEl, allPosts) {
           post.innerHTML = buildPost(false, entryForDefault);
           post.classList.remove('post-placeholder');
         });
-      } else if (allPosts.length >= 1) {
+      } else {
         const topic = getMetadata('topic');
         const subTopic = getMetadata('subtopic');
-        const mostRecentPost = allPosts.find((postData) => {
-          if (postData.robots.indexOf('noindex') > -1) {
-            return false;
-          }
-
-          if (!topic) {
-            // no topic so just get the first one
-            return true;
-          }
-
-          if (topic === postData.topic) {
-            if (subTopic) {
-              return subTopic === postData.subtopic;
+        const mostRecentPosts = await ffetch(indexUrl)
+          .filter((postData) => {
+            if (postData.robots.indexOf('noindex') > -1) {
+              return false;
             }
-            // topic match but no subtopic
-            return true;
-          }
-          return false;
-        });
-        if (mostRecentPost) {
-          if (mostRecentPost.image.includes('/default-meta-image')) {
-            mostRecentPost.image = '/blogs/generic-post-image.jpg?width=1200&format=pjpg&optimize=medium';
-          }
-          const entryForAuto = {
-            ...entryPlaceholder,
-            title: mostRecentPost.title,
-            link: mostRecentPost.path,
-            pic: createOptimizedPicture(mostRecentPost.image, '', false, [{ width: '200' }]),
-          };
 
-          post.innerHTML = buildPost(false, entryForAuto);
-          post.classList.remove('post-placeholder');
-        } else {
-          post.remove();
-        }
+            if (!topic) {
+            // no topic so just get the first one
+              return true;
+            }
+
+            if (topic === postData.topic) {
+              if (subTopic) {
+                return subTopic === postData.subtopic;
+              }
+              // topic match but no subtopic
+              return true;
+            }
+            return false;
+          }).slice(0, 1).all();
+
+        mostRecentPosts.forEach((recentPost) => {
+          if (recentPost) {
+            if (recentPost.image.includes('/default-meta-image')) {
+              recentPost.image = '/blogs/generic-post-image.jpg?width=1200&format=pjpg&optimize=medium';
+            }
+            const entryForAuto = {
+              ...entryPlaceholder,
+              title: recentPost.title,
+              link: recentPost.path,
+              pic: createOptimizedPicture(recentPost.image, '', false, [{ width: '200' }]),
+            };
+
+            post.innerHTML = buildPost(false, entryForAuto);
+            post.classList.remove('post-placeholder');
+          } else {
+            post.remove();
+          }
+        });
       }
     }, 250);
   });
-}
-
-async function getPosts() {
-  const indexUrl = new URL('query-index.json', window.location.href);
-  const posts = ffetch(indexUrl).limit(100).all();
-  return posts;
-}
-
-/**
- * decorates the block
- * @param {Element} block The featured posts block element
- */
-export default async function decorate(block) {
-  const allPosts = await getPosts();
-  createFeaturedPosts(block, allPosts);
 }
