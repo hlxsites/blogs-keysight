@@ -55,7 +55,7 @@ export default async function decorate(block) {
       } else {
         const topic = getMetadata('topic');
         const subTopic = getMetadata('subtopic');
-        const mostRecentPosts = await ffetch(indexUrl)
+        const mostRecentPost = await ffetch(indexUrl)
           .filter((postData) => {
             if (postData.robots.indexOf('noindex') > -1) {
               return false;
@@ -74,26 +74,24 @@ export default async function decorate(block) {
               return true;
             }
             return false;
-          }).slice(0, 1).all();
+          }).first();
 
-        mostRecentPosts.forEach((recentPost) => {
-          if (recentPost) {
-            if (recentPost.image.includes('/default-meta-image')) {
-              recentPost.image = '/blogs/generic-post-image.jpg?width=1200&format=pjpg&optimize=medium';
-            }
-            const entryForAuto = {
-              ...entryPlaceholder,
-              title: recentPost.title,
-              link: recentPost.path,
-              pic: createOptimizedPicture(recentPost.image, '', false, [{ width: '200' }]),
-            };
-
-            post.innerHTML = buildPost(false, entryForAuto);
-            post.classList.remove('post-placeholder');
-          } else {
-            post.remove();
+        if (mostRecentPost) {
+          if (mostRecentPost.image.includes('/default-meta-image')) {
+            mostRecentPost.image = '/blogs/generic-post-image.jpg?width=1200&format=pjpg&optimize=medium';
           }
-        });
+          const entryForAuto = {
+            ...entryPlaceholder,
+            title: mostRecentPost.title,
+            link: mostRecentPost.path,
+            pic: createOptimizedPicture(mostRecentPost.image, '', false, [{ width: '200' }]),
+          };
+
+          post.innerHTML = buildPost(false, entryForAuto);
+          post.classList.remove('post-placeholder');
+        } else {
+          post.remove();
+        }
       }
     }, 250);
   });
