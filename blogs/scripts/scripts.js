@@ -156,7 +156,7 @@ export async function getNavPages() {
     }
   }
 
-  return window.keysight.navPages.filter((p) => !p.robots.includes('noindex'));
+  return window.keysight.navPages;
 }
 
 /**
@@ -277,7 +277,7 @@ export async function getPosts(filter, limit) {
   const pages = await loadPosts();
   // filter out anything that isn't a blog post (eg. must have an author)
   let finalPosts;
-  const allPosts = pages.filter((page) => !page.robots.includes('noindex') && page.template === 'post').map((p) => {
+  const allPosts = pages.filter((page) => page.template === 'post').map((p) => {
     if (p.image.includes('/default-meta-image')) {
       p.image = '/blogs/generic-post-image.jpg?width=1200&format=pjpg&optimize=medium';
     }
