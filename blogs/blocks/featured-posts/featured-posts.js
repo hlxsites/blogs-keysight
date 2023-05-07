@@ -57,10 +57,6 @@ export default async function decorate(block) {
         const subTopic = getMetadata('subtopic');
         const mostRecentPost = await ffetch(indexUrl)
           .filter((postData) => {
-            if (postData.robots.indexOf('noindex') > -1) {
-              return false;
-            }
-
             if (!topic) {
             // no topic so just get the first one
               return true;

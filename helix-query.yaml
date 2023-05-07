@@ -30,9 +30,6 @@ indices:
       image:
         select: head > meta[property="og:image"]
         value: match(attribute(el, "content"), "https:\/\/[^/]+(/.*)")
-      robots:
-        select: head > meta[name="robots"]
-        value: attribute(el, "content")
       date:
         select: head > meta[name="publication-date"]
         value: parseTimestamp(attribute(el, "content"), "YYYY-MM-DD")

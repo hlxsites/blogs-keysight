@@ -156,7 +156,7 @@ export async function getNavPages() {
     }
   }
 
-  return window.keysight.navPages.filter((p) => !p.robots.includes('noindex'));
+  return window.keysight.navPages;
 }
 
 /**
@@ -313,7 +313,7 @@ export async function getPosts(filter, limit) {
       .sort(sortRelatedPosts);
   } else {
     // first filter out anything with no-index
-    finalPosts = allPosts.filter((post) => !post.robots.includes('noindex')).filter((post) => {
+    finalPosts = allPosts.filter((post) => {
       let matches = true;
       if (applicableFilter === 'topic') {
         matches = topic === post.topic;
