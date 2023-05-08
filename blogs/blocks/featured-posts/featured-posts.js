@@ -20,7 +20,7 @@ function buildPost(isPlaceholder, entry) {
  * @param {Element} block The featured posts block element
  */
 export default async function decorate(block) {
-  const indexUrl = new URL('query-index.json', window.location.href);
+  const indexUrl = new URL('/blogs/query-index.json', window.location.origin);
   const postsGrid = block.querySelector('div');
   postsGrid.classList.add('featured-posts-grid');
 
@@ -55,7 +55,7 @@ export default async function decorate(block) {
       } else {
         const topic = getMetadata('topic');
         const subTopic = getMetadata('subtopic');
-        const mostRecentPost = await ffetch(indexUrl)
+        const mostRecentPost = await ffetch(indexUrl.href)
           .filter((postData) => {
             if (!topic) {
             // no topic so just get the first one
