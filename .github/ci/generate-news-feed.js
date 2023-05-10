@@ -1,9 +1,9 @@
 import { Feed } from 'feed';
 import fs from 'fs';
 
-const endpoint = 'https://blog.keysight.com/press-releases.json';
-const feedInfoEndpoint = 'https://blog.keysight.com/press-releases/feed-info.json';
-const targetDirectory = '../../press-releases';
+const endpoint = 'https://www.keysight.com/blogs/query-index.json';
+const feedInfoEndpoint = 'https://www.keysight.com/blogs/feed-info.json';
+const targetDirectory = '../../rss';
 const targetFile = `${targetDirectory}/feed.xml`;
 const limit = 1000;
 
@@ -23,7 +23,7 @@ async function main() {
     id: feedMetadata.link,
     link: feedMetadata.link,
     updated: newestPost,
-    generator: 'AEM News feed generator (GitHub action)',
+    generator: 'News feed generator (GitHub action)',
     language: feedMetadata.lang,
   });
 
