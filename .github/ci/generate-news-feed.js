@@ -14,11 +14,13 @@ async function main() {
   const feedMetadata = await fetchBlogMetadata();
 
   const newestPost = allPosts
-    .map((post) => new Date(post.publishDate * 1000))
+    .map((post) => new Date(post.date * 1000))
     .reduce((maxDate, date) => (date > maxDate ? date : maxDate), new Date(0));
 
   const feed = new Feed({
     title: feedMetadata.title,
+    author: feedMetadata.author,
+    topic: feedMetadata.topic,
     description: feedMetadata.description,
     id: feedMetadata.link,
     link: feedMetadata.link,
@@ -31,11 +33,13 @@ async function main() {
     const link = feedMetadata["site-root"] + post.path;
     feed.addItem({
       title: post.title,
+      author: post.author,
+      topic: post.topic,
       id: link,
       link,
       content: post.description,
-      date: new Date(post.publishDate * 1000),
-      published: new Date(post.publishDate * 1000),
+      date: new Date(post.date * 1000),
+      published: new Date(post.date * 1000),
     });
   });
 
