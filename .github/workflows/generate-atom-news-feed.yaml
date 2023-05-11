@@ -43,5 +43,5 @@ jobs:
     - name: Commit and push changes
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        file_pattern: 'blogs/rss/feed.xml'
+        file_pattern: 'rss/feed.xml'
         commit_message: "Update feed.xml"

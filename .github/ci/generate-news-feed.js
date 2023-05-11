@@ -3,7 +3,7 @@ import fs from 'fs';
 
 const endpoint = 'https://www.keysight.com/blogs/query-index.json';
 const feedInfoEndpoint = 'https://www.keysight.com/blogs/feed-info.json';
-const targetDirectory = '../../blogs/rss';
+const targetDirectory = '../../rss';
 const targetFile = `${targetDirectory}/feed.xml`;
 const limit = 1000;
 
