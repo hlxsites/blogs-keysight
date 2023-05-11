@@ -24,7 +24,7 @@ jobs:
         # The token is then stored in the secrets of the this.
         # see https://github.com/hlxsites/blogs-keysight/settings/secrets/actions
         # more info: https://stackoverflow.com/a/72515781/79461
-        token: ${{ secrets.ATOM_FEED_BOT_ACCESS_TOKEN }}
+        token: ${{ secrets.BOT_ACCESS_TOKEN }}
     - name: Configure git
       run: |
         git config user.name "GitHubActions"
