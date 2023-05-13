@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-05-11T00:00:00.000Z</updated>
+    <updated>2023-05-12T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[7 Things You Might Not Know About Autonomous Vehicles]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/05/12/blog-post-av-faq</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/05/12/blog-post-av-faq"/>
+        <updated>2023-05-12T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[From the six levels of autonomy to safety concerns and future technologies, we’ll take you on a journey as we navigate the unknowns surrounding autonomous vehicles.]]></content>
+        <published>2023-05-12T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[With PCIe 6.0 You Have to Move from NRZ to PAM4... But What is PAM4 signaling?]]></title>
         <id>https://www.keysight.com/blogs/blogs/inds/2023/05/11/why-pcie-6-moves-from-nrz-to-pam4</id>
