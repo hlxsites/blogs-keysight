@@ -14,6 +14,7 @@ import {
   loadBlock as loadExtBlock,
   buildBlock,
 } from '../../scripts/lib-franklin.js';
+import ffetch from '../../scripts/ffetch.js';
 
 let pageSize = 7;
 
@@ -26,7 +27,7 @@ function showHideMore(grid, moreContainer) {
   }
 }
 
-function getTopicLink(post, navPages) {
+async function getTopicLink(post, navPages) {
   const { topic, subtopic } = post;
   let topicText = topic;
   if (subtopic && subtopic !== '0') {
@@ -36,17 +37,27 @@ function getTopicLink(post, navPages) {
   const notLink = createElement('span');
   notLink.innerText = topicText;
 
-  try {
-    const topicPage = navPages.find((page) => page.topic === topic && page.subtopic === subtopic);
-    if (topicPage) {
-      const link = createElement('a');
-      link.href = topicPage.path;
-      link.innerText = topicText;
-      return link;
-    }
-  } finally {
-    // no op, just fall through to return default
+  const topicPage = await ffetch('/blogs/query-index.json').sheet('nav')
+    .filter((page) => page.topic === topic && page.subtopic === subtopic).first();
+
+  if (topicPage) {
+    const link = createElement('a');
+    link.href = topicPage.path;
+    link.innerText = topicText;
+    return link;
   }
+
+  // eslint-disable-next-line no-restricted-syntax
+  // for await (const img of topicPage) {
+  //   document.append(img); // take the image from the linked document and place it here
+  // }
+
+  // if (topicPage) {
+  //   const link = createElement('a');
+  //   link.href = topicPage.path;
+  //   link.innerText = topicText;
+  //   return link;
+  // }
 
   return notLink;
 }
@@ -146,11 +157,19 @@ function buildPostCard(post, index, navPagesPromise) {
     postCard.querySelector('.post-card-text').insertAdjacentHTML('beforeend', `<p class="card-read"><span class="icon icon-clock"></span>${post.readtime}</p>`);
   }
 
+  const topicLink = getTopicLink(post);
+
+  if (topicLink) {
+    console.log('topicLink', topicLink);
+    postCard.querySelector('.card-topic').replaceChild(topicLink, postCard.querySelector('.card-topic .topic-text'));
+  }
+
   navPagesPromise.then((navPages) => {
-    const topicLink = getTopicLink(post, navPages);
-    if (topicLink) {
-      postCard.querySelector('.card-topic').replaceChild(topicLink, postCard.querySelector('.card-topic .topic-text'));
-    }
+    // const topicLink = getTopicLink(post);
+    // if (topicLink) {
+    //   console.log('topicLink', topicLink);
+    //   postCard.querySelector('.card-topic').replaceChild(topicLink, postCard.querySelector('.card-topic .topic-text'));
+    // }
     const authorLink = getAuthorLink(post, navPages);
     if (authorLink) {
       postCard.querySelector('.card-author').replaceChild(authorLink, postCard.querySelector('.card-author .author-text'));
