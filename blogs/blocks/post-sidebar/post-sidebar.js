@@ -8,8 +8,8 @@ import {
 } from '../../scripts/lib-franklin.js';
 import {
   createElement,
-  getNavPages,
 } from '../../scripts/scripts.js';
+import ffetch from '../../scripts/ffetch.js';
 
 const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
 const tags = getMetadata('article:tag').split(', ');
@@ -86,9 +86,9 @@ export default async function decorate(block) {
   let authorName;
   let authorTitle;
   let authorUrl;
-  const navPages = await getNavPages();
+  const authorPage = await ffetch('/blogs/query-index.json').sheet('nav')
+    .filter((page) => page.title.toLowerCase() === getMetadata('author')?.toLowerCase()).first();
 
-  const authorPage = navPages.find((page) => page.title.toLowerCase() === getMetadata('author')?.toLowerCase());
   if (authorPage) {
     authorImage = authorPage.image;
     authorName = authorPage.title;

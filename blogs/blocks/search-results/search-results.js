@@ -9,27 +9,24 @@ import {
   loadPosts,
   splitTags,
   createElement,
-  getNavPages,
 } from '../../scripts/scripts.js';
+import ffetch from '../../scripts/ffetch.js';
 
 const pageSize = 10;
 const initLoad = pageSize * 2;
 
-function getAuthorLink(post, navPages) {
+async function getAuthorLink(post) {
   const { author } = post;
-  const notLink = createElement('span');
-  notLink.innerText = `${author}`;
+  const notLink = `<span>${author}</span>`;
 
-  try {
-    const authorPage = navPages.find((page) => page.title === author);
-    if (authorPage) {
-      const link = createElement('a');
-      link.href = authorPage.path;
-      link.innerText = `${author}`;
-      return link;
-    }
-  } finally {
-    // no op, just fall through to return default value
+  const authorPage = await ffetch('/blogs/query-index.json').sheet('nav')
+    .filter((page) => page.title.toLowerCase() === author?.toLowerCase()).first();
+
+  if (authorPage) {
+    const link = createElement('a');
+    link.href = authorPage.path;
+    link.innerText = `${author}`;
+    return link;
   }
 
   return notLink;
@@ -88,7 +85,7 @@ async function executeSearch(q) {
   return results;
 }
 
-function buildPostCard(post, index, navPagesPromise) {
+function buildPostCard(post, index) {
   const classes = ['post-card'];
   if (index >= pageSize) {
     classes.push('hidden');
@@ -124,8 +121,9 @@ function buildPostCard(post, index, navPagesPromise) {
       <p class="card-author"><span class="author-text">${post.author}</span><span class="card-date">${postDateStr}</span></p>
     </div>
   `;
-  navPagesPromise.then((navPages) => {
-    const authorLink = getAuthorLink(post, navPages);
+
+  const authorLinkPromise = getAuthorLink(post);
+  authorLinkPromise.then((authorLink) => {
     if (authorLink) {
       postCard.querySelector('.card-author').replaceChild(authorLink, postCard.querySelector('.card-author .author-text'));
     }
@@ -158,9 +156,8 @@ export default async function decorate(block) {
   }
 
   let counter = 0;
-  const navPagesPromise = getNavPages();
   for (let i = 0; i < primaryPosts.length; i += 1) {
-    const postCard = buildPostCard(primaryPosts[i].post, counter, navPagesPromise);
+    const postCard = buildPostCard(primaryPosts[i].post, counter);
     grid.append(postCard);
     counter += 1;
   }
@@ -170,7 +167,7 @@ export default async function decorate(block) {
     if (!deferredLoaded) {
       deferredLoaded = true;
       for (let i = 0; i < deferredPosts.length; i += 1) {
-        const postCard = buildPostCard(deferredPosts[i].post, counter, navPagesPromise);
+        const postCard = buildPostCard(deferredPosts[i].post, counter);
         grid.append(postCard);
         counter += 1;
       }
