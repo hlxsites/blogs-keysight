@@ -15,6 +15,14 @@
         <published>2023-05-12T00:00:00.000Z</published>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Meeting Mayhem: Understanding the Outlook Appointment Vulnerability]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/05/15/outlook-cve-2023-23397</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/05/15/outlook-cve-2023-23397"/>
+        <updated>2023-05-12T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blogs takes a comprehensive look in the recent outlook vulnerability (CVE-2023-23397)]]></content>
+        <published>2023-05-12T00:00:00.000Z</published>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[With PCIe 6.0 You Have to Move from NRZ to PAM4... But What is PAM4 signaling?]]></title>
         <id>https://www.keysight.com/blogs/blogs/inds/2023/05/11/why-pcie-6-moves-from-nrz-to-pam4</id>
         <link href="https://www.keysight.com/blogs/blogs/inds/2023/05/11/why-pcie-6-moves-from-nrz-to-pam4"/>
