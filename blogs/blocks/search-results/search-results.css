@@ -58,7 +58,7 @@ main .search-results .post-cards-grid .post-card .card-author,
 main .search-results .post-cards-grid .post-card .card-author a {
   display: inline;
   font-size: var(--body-font-size-s);
-  color: var(--color-gray-300);
+  color: var(--color-gray-400);
 }
 
 main .search-results .post-cards-grid .post-card .post-card-text .card-title a {
