@@ -73,6 +73,7 @@ function buildSocial(sidebar) {
   for (let i = 0; i < socialIcons.length; i += 1) {
     const link = createElement('a');
     link.target = '_blank';
+    link.title = `Share to ${socialIcons[i]}`;
     link.innerHTML = `<span class="icon icon-${socialIcons[i]}"></span>`;
     link.href = getSocialLinks(socialIcons[i], url, title);
     social.appendChild(link);
