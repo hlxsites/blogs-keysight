@@ -108,7 +108,7 @@
 
 /* Post headline */
 .post main h1:first-of-type {
-  color: var(--color-gray-300);
+  color: var(--color-gray-500);
   font-size: var(--heading-font-size-l);
   font-weight: 300;
   letter-spacing: 0.03em;

@@ -3,7 +3,7 @@ header {
   --header-nav-border-color: var(--color-gray-200);
   --header-nav-hover-color: var(--color-gray-100);
   --header-nav-background-color: var(--color-off-white);
-  --header-text-color: var(--color-gray-500);
+  --header-text-color: var(--color-gray-700);
   --header-nav-text-color: var(--color-gray-400);
   --header-nav-height: calc(var(--nav-height) - 1px);
 
