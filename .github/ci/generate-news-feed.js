@@ -1,9 +1,9 @@
 import { Feed } from 'feed';
 import fs from 'fs';
 
-const endpoint = 'https://www.keysight.com/blogs/query-index.json';
-const feedInfoEndpoint = 'https://www.keysight.com/blogs/feed-info.json';
-const targetDirectory = '../../blogs/rss';
+const endpoint = process.argv[2];
+const feedInfoEndpoint = process.argv[3];
+const targetDirectory = process.argv[4];
 const targetFile = `${targetDirectory}/feed.xml`;
 const limit = 1000;
 

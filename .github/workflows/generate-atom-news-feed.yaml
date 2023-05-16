@@ -12,6 +12,11 @@ on:
       - '.github/ci/**'
       - '.github/workflows/generate-atom-news-feed.yaml'
 
+env:
+  ENDPOINT: "https://www.keysight.com/blogs/query-index.json"
+  FEEDINFOENDPOINT: "https://www.keysight.com/blogs/feed-info.json"
+  TARGETDIRECTORY: "../../blogs/rss"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -38,7 +43,7 @@ jobs:
 
     - name: Generate Feed
       working-directory: ./.github/ci
-      run:  node generate-news-feed.js
+      run:  node generate-news-feed.js ${{ env.ENDPOINT }} ${{ env.FEEDINFOENDPOINT }} ${{ env.TARGETDIRECTORY }}
 
     - name: Commit and push changes
       uses: stefanzweifel/git-auto-commit-action@v4
