@@ -21,8 +21,8 @@ export async function decorate(container, data, query) {
   container.dispatchEvent(new CustomEvent('ShowLoader'));
   const sideNav = createElement('sp-sidenav', '', { variant: 'multilevel', 'data-testid': 'autoblocks' });
 
-  console.log(data);
-  console.log(query);
+  console.log(`Auto-Blocks data: ${data}`);
+  console.log(`Auto-Blocks query: ${query}`);
 
   // Show blocks and hide loader
   container.append(sideNav);
