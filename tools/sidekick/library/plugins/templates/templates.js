@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { createElement } from '../../../../../blogs/scripts/scripts.js';
+import { createElement } from '../utils/utils.js';
 
 /**
  * Called when a user tries to load the plugin
@@ -21,8 +21,8 @@ export async function decorate(container, data, query) {
   container.dispatchEvent(new CustomEvent('ShowLoader'));
   const sideNav = createElement('sp-sidenav', '', { variant: 'multilevel', 'data-testid': 'autoblocks' });
 
-  console.log(data);
-  console.log(query);
+  console.log(`Templates data: ${data}`);
+  console.log(`Template query: ${query}`);
 
   // Show blocks and hide loader
   container.append(sideNav);
