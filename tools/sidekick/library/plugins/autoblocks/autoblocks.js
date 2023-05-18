@@ -28,6 +28,21 @@ export async function fetchBlock(path) {
   return window.blocks[path];
 }
 
+function processMarkup(pageBlock, path) {
+  const url = new URL(path);
+  pageBlock.querySelectorAll('img').forEach((img) => {
+    const srcSplit = img.src.split('/');
+    const mediaPath = srcSplit.pop();
+    img.src = `${url.origin}/${mediaPath}`;
+    const { width, height } = img;
+    const ratio = width > 200 ? 200 / width : 1;
+    img.width = width * ratio;
+    img.height = height * ratio;
+  });
+
+  return [pageBlock.innerHTML];
+}
+
 /**
  * Called when a user tries to load the plugin
  * @param {HTMLElement} container The container to render the plugin in
@@ -82,7 +97,7 @@ export async function decorate(container, data, _query) {
         }
 
         childNavItem.addEventListener('click', () => {
-          const blob = new Blob([pageBlock.outerHTML], { type: 'text/html' });
+          const blob = new Blob(processMarkup(pageBlock, path), { type: 'text/html' });
           createCopy(blob);
 
           // Show toast
