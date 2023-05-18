@@ -64,13 +64,8 @@ export async function decorate(container, data, _query) {
       }
 
       const pageBlocks = res.body.querySelectorAll(':scope > div');
-      const blockVariant = createElement('sp-sidenav-item', '', { label: name, preview: true });
+      const blockVariant = createElement('sp-sidenav-item', '', { label: name, preview: false });
       sideNav.append(blockVariant);
-
-      blockVariant.addEventListener('Preview', (evt) => {
-        evt.stopPropagation();
-        window.open(path, '_blockpreview');
-      });
 
       pageBlocks.forEach((pageBlock) => {
         let blockName = name;
