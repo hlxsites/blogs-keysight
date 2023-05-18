@@ -61,16 +61,18 @@ export async function decorate(container, data, _query) {
         let blockName = name;
         let blockDescription = '';
         const info = pageBlock.querySelector('div.block-info');
-        [...info.childNodes].forEach((row) => {
-          const cols = [...row.childNodes];
-          if (cols[0].textContent.toLowerCase() === 'name') {
-            blockName = cols[1].textContent;
-          }
-          if (cols[0].textContent.toLowerCase() === 'description') {
-            blockDescription = cols[1].textContent;
-          }
-        });
-        info.remove();
+        if (info) {
+          [...info.children].forEach((row) => {
+            const cols = [...row.children];
+            if (cols[0].textContent.toLowerCase() === 'name') {
+              blockName = cols[1].textContent;
+            }
+            if (cols[0].textContent.toLowerCase() === 'description') {
+              blockDescription = cols[1].textContent;
+            }
+          });
+          info.remove();
+        }
 
         const childNavItem = createElement('sp-sidenav-item', '', { label: blockName, 'data-testid': 'item' });
         blockVariant.append(childNavItem);
