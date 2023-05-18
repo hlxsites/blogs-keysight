@@ -9,7 +9,24 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { createElement } from '../utils/utils.js';
+import { createElement, createCopy } from '../utils/utils.js';
+
+export async function fetchBlock(path) {
+  if (!window.blocks) {
+    window.blocks = {};
+  }
+  if (!window.blocks[path]) {
+    const resp = await fetch(`${path}.plain.html`);
+    if (!resp.ok) return '';
+
+    const html = await resp.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    window.blocks[path] = doc;
+  }
+
+  return window.blocks[path];
+}
 
 /**
  * Called when a user tries to load the plugin
@@ -17,12 +34,69 @@ import { createElement } from '../utils/utils.js';
  * @param {Object} data The data contained in the plugin sheet
  * @param {String} query If search is active, the current search query
  */
-export async function decorate(container, data, query) {
+export async function decorate(container, data, _query) {
   container.dispatchEvent(new CustomEvent('ShowLoader'));
   const sideNav = createElement('sp-sidenav', '', { variant: 'multilevel', 'data-testid': 'autoblocks' });
 
-  console.log(`Auto-Blocks data: ${data}`);
-  console.log(`Auto-Blocks query: ${query}`);
+  const promises = data.map(async (item) => {
+    const { name, path } = item;
+    const blockPromise = fetchBlock(path);
+
+    try {
+      const res = await blockPromise;
+      if (!res) {
+        throw new Error(`An error occurred fetching ${name}`);
+      }
+
+      const pageBlocks = res.body.querySelectorAll(':scope > div');
+      const blockVariant = createElement('sp-sidenav-item', '', { label: name, preview: true });
+      sideNav.append(blockVariant);
+
+      blockVariant.addEventListener('Preview', (evt) => {
+        evt.stopPropagation();
+        window.open(path, '_blockpreview');
+      });
+
+      pageBlocks.forEach((pageBlock) => {
+        let blockName = name;
+        let blockDescription = '';
+        const info = pageBlock.querySelector('div.block-info');
+        [...info.childNodes].forEach((row) => {
+          const cols = [...row.childNodes];
+          if (cols[0].textContent.toLowerCase() === 'name') {
+            blockName = cols[1].textContent;
+          }
+          if (cols[0].textContent.toLowerCase() === 'description') {
+            blockDescription = cols[1].textContent;
+          }
+        });
+        info.remove();
+
+        const childNavItem = createElement('sp-sidenav-item', '', { label: blockName, 'data-testid': 'item' });
+        blockVariant.append(childNavItem);
+
+        if (blockDescription) {
+          childNavItem.setAttribute('data-info', blockDescription);
+        }
+
+        childNavItem.addEventListener('click', () => {
+          const blob = new Blob([pageBlock.outerHTML], { type: 'text/html' });
+          createCopy(blob);
+
+          // Show toast
+          container.dispatchEvent(new CustomEvent('Toast', { detail: { message: 'Copied Block' } }));
+        });
+      });
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e.message);
+      container.dispatchEvent(new CustomEvent('Toast', { detail: { message: e.message, variant: 'negative' } }));
+    }
+
+    return blockPromise;
+  });
+
+  await Promise.all(promises);
 
   // Show blocks and hide loader
   container.append(sideNav);
