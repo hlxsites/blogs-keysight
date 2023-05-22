@@ -1,6 +1,6 @@
 footer {
   --footer-background-color: var(--color-gray-100);
-  --footer-text-color: var(--color-gray-300);
+  --footer-text-color: var(--color-gray-500);
 
   background-color: var(--footer-background-color);
 }
