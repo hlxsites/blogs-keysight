@@ -5,11 +5,13 @@ import {
   decorateBlock,
   loadBlock,
   buildBlock,
+  toClassName,
 } from '../../scripts/lib-franklin.js';
 import {
   createElement,
   getNavPages,
 } from '../../scripts/scripts.js';
+import { getTaxonomy } from '../../scripts/taxonomy.js';
 
 const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
 const tags = getMetadata('article:tag').split(', ');
@@ -27,18 +29,22 @@ async function buildCta(sidebar) {
   }
 }
 
-function buildTags(sidebar) {
+async function buildTags(sidebar) {
   if (getMetadata('article:tag') !== '') {
     const tagsContainer = createElement('div', 'tags-container');
     const list = createElement('ul', 'tags-list');
+    const allowedTags = await getTaxonomy();
+
     tagsContainer.append(list);
     tags.forEach((tag) => {
-      const item = createElement('li');
-      const link = createElement('a');
-      link.innerHTML = `<span class="tag-name">#${tag}</span>`;
-      link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag)}`;
-      item.append(link);
-      list.append(item);
+      if (allowedTags.includes(toClassName(tag))) {
+        const item = createElement('li');
+        const link = createElement('a');
+        link.innerHTML = `<span class="tag-name">#${tag}</span>`;
+        link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag)}`;
+        item.append(link);
+        list.append(item);
+      }
     });
     tagsContainer.id = 'blogs_related_tags';
     sidebar.append(tagsContainer);
@@ -114,7 +120,7 @@ export default async function decorate(block) {
       <h4 class="author-title">${authorTitle}</h4>
     </div>`;
   buildSocial(block);
-  buildTags(block);
+  await buildTags(block);
   const ctaContainer = createElement('div');
   block.append(ctaContainer);
   await buildCta(ctaContainer);

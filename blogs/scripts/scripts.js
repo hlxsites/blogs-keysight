@@ -15,7 +15,6 @@ import {
   fetchPlaceholders,
   createOptimizedPicture,
 } from './lib-franklin.js';
-import getTaxonomy from './taxonomy.js';
 
 const LCP_BLOCKS = ['hero', 'featured-posts']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
@@ -28,8 +27,6 @@ window.keysight.postData = window.keysight.postData || {
 window.keysight.navPages = window.keysight.navPages || [];
 const PRODUCTION_DOMAINS = ['www.keysight.com', 'stgwww.keysight.com'];
 const PRODUCTION_PATHS = ['/blogs/'];
-
-let taxonomy = null;
 
 /**
  * Create an element with the given id and classes.
@@ -634,8 +631,6 @@ async function loadPage() {
   await loadEager(document);
   await loadLazy(document);
   loadDelayed();
-  taxonomy = await getTaxonomy();
-
 }
 
 loadPage();
