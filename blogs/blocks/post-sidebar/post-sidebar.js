@@ -11,7 +11,7 @@ import {
   createElement,
   getNavPages,
 } from '../../scripts/scripts.js';
-import { getTaxonomy } from '../../scripts/taxonomy.js';
+import getTaxonomy from '../../scripts/taxonomy.js';
 
 const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
 const tags = getMetadata('article:tag').split(', ');
