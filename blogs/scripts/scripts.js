@@ -19,13 +19,6 @@ import {
 
 const LCP_BLOCKS = ['hero', 'featured-posts']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
-window.keysight = window.keysight || {};
-window.keysight.postData = window.keysight.postData || {
-  posts: [],
-  offset: 0,
-  allLoaded: false,
-};
-window.keysight.navPages = window.keysight.navPages || [];
 const PRODUCTION_DOMAINS = ['www.keysight.com', 'stgwww.keysight.com'];
 const PRODUCTION_PATHS = ['/blogs/'];
 
@@ -121,26 +114,6 @@ export function wrapImgInLink(pic) {
 }
 
 /**
- * loads more data from the query index
- * */
-async function loadMorePosts() {
-  if (!window.keysight.postData.allLoaded) {
-    const queryLimit = 500;
-    /*
-      console.trace();
-      console
-      .log(`loading posts with offset ${window.keysight.postData.offset} and limit ${queryLimit}`);
-    */
-    const resp = await fetch(`/blogs/query-index.json?limit=${queryLimit}&offset=${window.keysight.postData.offset}`);
-    const json = await resp.json();
-    const { total, data } = json;
-    window.keysight.postData.posts.push(...data);
-    window.keysight.postData.allLoaded = total <= (window.keysight.postData.offset + queryLimit);
-    window.keysight.postData.offset += queryLimit;
-  }
-}
-
-/**
  * forward looking *.metadata.json experiment
  * fetches metadata.json of page
  * @param {path} path to *.metadata.json
@@ -181,17 +154,6 @@ export async function getMetadataJson(path) {
 }
 
 /**
- * @param {boolean} more indicates to force loading additional data from query index
- * @returns the currently loaded listed of posts from the query index pages
- */
-export async function loadPosts(more) {
-  if (window.keysight.postData.posts.length === 0 || more) {
-    await loadMorePosts();
-  }
-  return window.keysight.postData.posts;
-}
-
-/**
  * split the tags string into a string array
  * @param {string} tags the tags string from query index
  */
@@ -200,49 +162,6 @@ export function splitTags(tags) {
     return JSON.parse(tags);
   }
   return [];
-}
-
-/**
- * A function for sorting an array of posts according to what is most cloesely related
- */
-function sortRelatedPosts(postA, postB) {
-  let postAScore = 0;
-  let postBScore = 0;
-
-  const tags = getMetadata('article:tag');
-  if (tags) {
-    const postATags = splitTags(postA.tags);
-    if (postATags.length > 0) {
-      const commonTags = tags.split(',').filter((tag) => postATags.includes(tag));
-      postAScore += commonTags.length;
-    }
-
-    const postBTags = splitTags(postB.tags);
-    if (postBTags.length > 0) {
-      const commonTags = tags.split(',').filter((tag) => postBTags.includes(tag));
-      postBScore += commonTags.length;
-    }
-  }
-
-  // calc result
-  const result = postBScore - postAScore;
-  if (result === 0) {
-    // if they have the same score, sort by date
-    const aDate = Number(postA.date);
-    const bDate = Number(postB.date);
-    return bDate - aDate;
-  }
-
-  return result;
-}
-
-/**
- * A function for sorting an array of posts by date
- */
-function sortPostsByDate(postA, postB) {
-  const aDate = Number(postA.date || postA.lastModified);
-  const bDate = Number(postB.date || postB.lastModified);
-  return bDate - aDate;
 }
 
 export function getPostsFfetch() {
@@ -259,33 +178,14 @@ export function getPostsFfetch() {
   return posts;
 }
 
-/**
- * Get the list of blog posts from the query index. Posts are auto-filtered based on page context
- * e.g topic, sub-topic, tags, etc. and sorted by date
- *
- * @param {string} filter the name of the filter to apply
- * one of: topic, subtopic, author, tag, post, auto, none
- * @param {number} limit the number of posts to return, or -1 for no limit
- * @returns the posts as an array
- */
-export async function getPosts(filter, limit) {
-  const pages = await loadPosts();
-  // filter out anything that isn't a blog post (eg. must have an author)
-  let finalPosts;
-  const allPosts = pages.filter((page) => page.template === 'post').map((p) => {
-    if (p.image.includes('/default-meta-image')) {
-      p.image = '/blogs/generic-post-image.jpg?width=1200&format=pjpg&optimize=medium';
-    }
-
-    return p;
-  });
+function getApplicableFilter(filterName) {
+  let applicableFilter = filterName ? filterName.toLowerCase() : 'none';
   const topic = getMetadata('topic');
   const subTopic = getMetadata('subtopic');
   const url = new URL(window.location);
   const params = url.searchParams;
   const tag = params.get('tag');
   const template = getMetadata('template');
-  let applicableFilter = filter ? filter.toLowerCase() : 'none';
   if (applicableFilter === 'auto') {
     if (tag) {
       applicableFilter = 'tag';
@@ -302,37 +202,48 @@ export async function getPosts(filter, limit) {
     }
   }
 
-  if (applicableFilter === 'post') {
-    finalPosts = allPosts
-      .filter((post) => post.path !== window.location.pathname)
-      .sort(sortRelatedPosts);
-  } else {
-    // first filter out anything with no-index
-    finalPosts = allPosts.filter((post) => {
-      let matches = true;
-      if (applicableFilter === 'topic') {
-        matches = topic === post.topic;
-      }
-      if (applicableFilter === 'subtopic') {
-        matches = topic === post.topic && subTopic === post.subtopic;
-      }
-      if (applicableFilter === 'author') {
-        // on author pages the author name is the title
-        const author = getMetadata('originalTitle');
-        matches = author === post.author;
-      }
-      if (applicableFilter === 'tag') {
-        // used for the tag-matches page, where tag is passed in a query param
-        const postTags = splitTags(post.tags);
-        if (tag) {
-          matches = postTags.includes(tag);
-        }
-      }
-      return matches;
-    }).sort(sortPostsByDate);
-  }
+  return applicableFilter;
+}
 
-  return limit < 0 ? finalPosts : finalPosts.slice(0, limit);
+export function filterPosts(filterName) {
+  const applicableFilter = getApplicableFilter(filterName);
+  const filterFunc = (post) => {
+    if (applicableFilter === 'post') {
+      const isDiffPath = post.path !== window.location.pathname;
+      const tags = getMetadata('article:tag');
+      const postTags = splitTags(post.tags);
+      const commonTags = tags.split(',').filter((tag) => postTags.includes(tag));
+      return isDiffPath && commonTags.length > 0;
+    }
+
+    const topic = getMetadata('topic');
+    const subTopic = getMetadata('subtopic');
+    const url = new URL(window.location);
+    const params = url.searchParams;
+    const tag = params.get('tag');
+    let matches = true;
+    if (applicableFilter === 'topic') {
+      matches = topic === post.topic;
+    }
+    if (applicableFilter === 'subtopic') {
+      matches = topic === post.topic && subTopic === post.subtopic;
+    }
+    if (applicableFilter === 'author') {
+      // on author pages the author name is the title
+      const author = getMetadata('originalTitle');
+      matches = author === post.author;
+    }
+    if (applicableFilter === 'tag') {
+      // used for the tag-matches page, where tag is passed in a query param
+      const postTags = splitTags(post.tags);
+      if (tag) {
+        matches = postTags.includes(tag);
+      }
+    }
+    return matches;
+  };
+
+  return filterFunc;
 }
 
 function findImageCaption(img) {
