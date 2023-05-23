@@ -23,6 +23,14 @@
         <published>2023-05-22T00:00:00.000Z</published>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Introducing Keyisght’s APS-M8400 8 x 400GE Application and Security Test Appliance - Powering Network Application and Security Testing at Hyperscale]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/2023/05/22/introducing-keyisght-s-aps-m8400-8x400ge-application-and-security-test-appliance</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/2023/05/22/introducing-keyisght-s-aps-m8400-8x400ge-application-and-security-test-appliance"/>
+        <updated>2023-05-22T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Unlocking Hyperscale, 400GE Capable, Network Application and Security Testing]]></content>
+        <published>2023-05-22T00:00:00.000Z</published>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Automated Testing Using PathWave Test Executive for Manufacturing]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/05/18/automated-testing-using-pathwave-test-executive-for-manufacturing</id>
         <link href="https://www.keysight.com/blogs/blogs/tech/bench/2023/05/18/automated-testing-using-pathwave-test-executive-for-manufacturing"/>
@@ -10493,13 +10501,5 @@
         <updated>2016-06-17T00:00:00.000Z</updated>
         <content type="html"><![CDATA[ABCs of Network Packet Brokers]]></content>
         <published>2016-06-17T00:00:00.000Z</published>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Introducing Keyisght’s APS-M8400 8 x 400GE Application and Security Test Appliance - Powering Network Application and Security Testing at Hyperscale]]></title>
-        <id>https://www.keysight.com/blogs/blogs/tech/2023/05/22/introducing-keyisght-s-aps-m8400-8x400ge-application-and-security-test-appliance</id>
-        <link href="https://www.keysight.com/blogs/blogs/tech/2023/05/22/introducing-keyisght-s-aps-m8400-8x400ge-application-and-security-test-appliance"/>
-        <updated>1970-01-01T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[Unlocking Hyperscale, 400GE Capable, Network Application and Security Testing]]></content>
-        <published>1970-01-01T00:00:00.000Z</published>
     </entry>
 </feed>
