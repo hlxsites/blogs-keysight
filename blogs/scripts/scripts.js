@@ -1,3 +1,4 @@
+import ffetch from './ffetch.js';
 import {
   sampleRUM,
   buildBlock,
@@ -242,6 +243,20 @@ function sortPostsByDate(postA, postB) {
   const aDate = Number(postA.date || postA.lastModified);
   const bDate = Number(postB.date || postB.lastModified);
   return bDate - aDate;
+}
+
+export function getPostsFfetch() {
+  const posts = ffetch('/blogs/query-index.json')
+    .chunks(500)
+    .filter((page) => page.template === 'post')
+    .map((p) => {
+      if (p.image.includes('/default-meta-image')) {
+        p.image = '/blogs/generic-post-image.jpg?width=1200&format=pjpg&optimize=medium';
+      }
+      return p;
+    });
+
+  return posts;
 }
 
 /**

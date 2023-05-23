@@ -5,10 +5,9 @@ import {
   loadBlock,
 } from '../../scripts/lib-franklin.js';
 import {
-  getPosts,
-  loadPosts,
   splitTags,
   createElement,
+  getPostsFfetch,
 } from '../../scripts/scripts.js';
 import ffetch from '../../scripts/ffetch.js';
 
@@ -54,11 +53,7 @@ function getTagsLinks(post) {
 }
 
 async function executeSearch(q) {
-  while (!window.keysight.postData.allLoaded) {
-    // eslint-disable-next-line no-await-in-loop
-    await loadPosts(true);
-  }
-  const posts = await getPosts('none', -1);
+  const posts = await getPostsFfetch().all();
   const terms = q.toLowerCase().split(' ').map((e) => e.trim()).filter((e) => !!e);
   const stopWords = ['a', 'an', 'the', 'and', 'to', 'for', 'i', 'of', 'on', 'into'];
   const results = posts.map((post) => {
