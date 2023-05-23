@@ -212,8 +212,8 @@ export function filterPosts(filterName) {
       const isDiffPath = post.path !== window.location.pathname;
       const tags = getMetadata('article:tag');
       const postTags = splitTags(post.tags);
-      const commonTags = tags.split(',').filter((tag) => postTags.includes(tag));
-      return isDiffPath && commonTags.length > 0;
+      const hasCommonTags = tags.split(', ').some((tag) => postTags.includes(tag));
+      return isDiffPath && hasCommonTags;
     }
 
     const topic = getMetadata('topic');
