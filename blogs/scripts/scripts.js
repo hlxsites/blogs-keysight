@@ -139,26 +139,6 @@ async function loadMorePosts() {
   }
 }
 
-export async function getNavPages() {
-  if (window.keysight.navPages.length === 0) {
-    let allLoaded = false;
-    const queryLimit = 1000;
-    let offset = 0;
-    while (!allLoaded) {
-      // eslint-disable-next-line no-await-in-loop
-      const resp = await fetch(`/blogs/query-index.json?sheet=nav&limit=${queryLimit}&offset=${offset}`);
-      // eslint-disable-next-line no-await-in-loop
-      const json = await resp.json();
-      const { total, data } = json;
-      window.keysight.navPages.push(...data);
-      allLoaded = total <= (offset + queryLimit);
-      offset += queryLimit;
-    }
-  }
-
-  return window.keysight.navPages;
-}
-
 /**
  * forward looking *.metadata.json experiment
  * fetches metadata.json of page
