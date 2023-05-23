@@ -10,7 +10,7 @@ import {
   decorateIcons,
   getMetadata,
   decorateBlock,
-  loadBlock as loadExtBlock,
+  loadBlock,
   buildBlock,
 } from '../../scripts/lib-franklin.js';
 import ffetch from '../../scripts/ffetch.js';
@@ -204,7 +204,7 @@ function showPage(grid) {
   }
 }
 
-async function loadBlock(block) {
+async function loadPostCards(block) {
   const grid = block.querySelector('.post-cards-grid');
   const moreContainer = block.querySelector('.show-more-cards-container');
 
@@ -221,7 +221,7 @@ async function loadBlock(block) {
       decorateBlock(fragmentBlock);
       grid.dataset.hasCta = true;
       grid.append(ctaPostCard);
-      loadExtBlock(fragmentBlock);
+      loadBlock(fragmentBlock);
     }
   }
   // load the first 2 pages, show 1
@@ -272,7 +272,7 @@ export default function decorate(block) {
   const observer = new IntersectionObserver((entries) => {
     if (entries.some((e) => e.isIntersecting)) {
       observer.disconnect();
-      loadBlock(block);
+      loadPostCards(block);
     }
   }, { rootMargin: '100px' });
   if (getMetadata('template') === 'post') {
