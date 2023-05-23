@@ -28,9 +28,26 @@ export async function fetchTemplate(path) {
   return window.templates[path];
 }
 
-function processMarkup(pageTemplate, path) {
+function createTag(tag, attributes = {}, html = undefined) {
+  const el = document.createElement(tag);
+  if (html) {
+    if (html instanceof HTMLElement || html instanceof SVGElement) {
+      el.append(html);
+    } else {
+      el.insertAdjacentHTML('beforeend', html);
+    }
+  }
+  if (attributes) {
+    Object.entries(attributes).forEach(([key, val]) => {
+      el.setAttribute(key, val);
+    });
+  }
+  return el;
+}
+
+function decorateImages(templateSection, path) {
   const url = new URL(path);
-  pageTemplate.querySelectorAll('img').forEach((img) => {
+  templateSection.querySelectorAll('img').forEach((img) => {
     const srcSplit = img.src.split('/');
     const mediaPath = srcSplit.pop();
     img.src = `${url.origin}/${mediaPath}`;
@@ -40,7 +57,60 @@ function processMarkup(pageTemplate, path) {
     img.height = height * ratio;
   });
 
-  return [pageTemplate.innerHTML];
+  return [templateSection.innerHTML];
+}
+
+function createTable(block, name, path) {
+  decorateImages(block, path);
+  const rows = [...block.children];
+  const maxCols = rows.reduce((cols, row) => (
+    row.children.length > cols ? row.children.length : cols), 0);
+  const table = document.createElement('table');
+  table.setAttribute('border', 1);
+  const headerRow = document.createElement('tr');
+  headerRow.append(createTag('th', { colspan: maxCols }, name));
+  table.append(headerRow);
+  rows.forEach((row) => {
+    const tr = document.createElement('tr');
+    [...row.children].forEach((col) => {
+      const td = document.createElement('td');
+      if (row.children.length < maxCols) {
+        td.setAttribute('colspan', maxCols);
+      }
+      td.innerHTML = col.innerHTML;
+      tr.append(td);
+    });
+    table.append(tr);
+  });
+  return table.outerHTML;
+}
+
+function createSection(section, path) {
+  decorateImages(section, path);
+  let output = '';
+  [...section.children].forEach((row) => {
+    if (row.nodeName === 'DIV') {
+      const blockName = row.classList[0];
+      output = output.concat(createTable(row, blockName, path));
+    } else {
+      output = output.concat(row.outerHTML);
+    }
+  });
+  return output;
+}
+
+function processMarkup(template, path) {
+  decorateImages(template, path);
+  let output = '';
+  [...template.children].forEach((row, i) => {
+    if (row.nodeName === 'DIV') {
+      if (i > 0) output = output.concat('---');
+      output = output.concat(createSection(row, path));
+    } else {
+      output = output.concat(row.outerHTML);
+    }
+  });
+  return output;
 }
 
 /**
@@ -67,11 +137,12 @@ export async function decorate(container, data, _query) {
       sideNav.append(templateVariant);
 
       const childNavItem = createElement('sp-sidenav-item', '', { label: name, 'data-testid': 'item' });
-      childNavItem.setAttribute('data-info', name);
+      childNavItem.setAttribute('data-info', name); // TBD: this is template description
       templateVariant.append(childNavItem);
 
       childNavItem.addEventListener('click', () => {
-        const blob = new Blob(processMarkup(res.body, path), { type: 'text/html' });
+        const blobInput = processMarkup(res.body, path);
+        const blob = new Blob(blobInput, { type: 'text/html' });
         createCopy(blob);
 
         // Show toast
@@ -88,7 +159,7 @@ export async function decorate(container, data, _query) {
 
   await Promise.all(promises);
 
-  // Show templates and hide loader
+  // Show blocks and hide loader
   container.append(sideNav);
   container.dispatchEvent(new CustomEvent('HideLoader'));
 }
