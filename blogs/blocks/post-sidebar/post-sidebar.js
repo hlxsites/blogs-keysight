@@ -9,9 +9,9 @@ import {
 } from '../../scripts/lib-franklin.js';
 import {
   createElement,
-  getNavPages,
 } from '../../scripts/scripts.js';
 import getTaxonomy from '../../scripts/taxonomy.js';
+import ffetch from '../../scripts/ffetch.js';
 
 const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
 const tags = getMetadata('article:tag').split(', ');
@@ -79,6 +79,7 @@ function buildSocial(sidebar) {
   for (let i = 0; i < socialIcons.length; i += 1) {
     const link = createElement('a');
     link.target = '_blank';
+    link.title = `Share to ${socialIcons[i]}`;
     link.innerHTML = `<span class="icon icon-${socialIcons[i]}"></span>`;
     link.href = getSocialLinks(socialIcons[i], url, title);
     social.appendChild(link);
@@ -92,9 +93,9 @@ export default async function decorate(block) {
   let authorName;
   let authorTitle;
   let authorUrl;
-  const navPages = await getNavPages();
+  const authorPage = await ffetch('/blogs/query-index.json').sheet('nav')
+    .filter((page) => page.title.toLowerCase() === getMetadata('author')?.toLowerCase()).first();
 
-  const authorPage = navPages.find((page) => page.title.toLowerCase() === getMetadata('author')?.toLowerCase());
   if (authorPage) {
     authorImage = authorPage.image;
     authorName = authorPage.title;
@@ -110,7 +111,7 @@ export default async function decorate(block) {
   let picHtml = '<span class="icon icon-user"></span>';
   if (!authorImage.includes('/default-meta-image')) {
     const picMedia = [{ media: '(min-width: 160px)', width: '160' }];
-    const pic = createOptimizedPicture(authorImage, '', false, picMedia);
+    const pic = createOptimizedPicture(authorImage, `Author Image for ${authorName}`, false, picMedia);
     picHtml = pic.outerHTML;
   }
 

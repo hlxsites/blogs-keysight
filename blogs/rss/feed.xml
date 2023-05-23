@@ -2,10 +2,58 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-05-12T00:00:00.000Z</updated>
+    <updated>2023-08-05T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Keysight: A Company as Diverse as the World We Live In]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/09/keysight-a-company-as-diverse-as-the-world-we-live-in</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/09/keysight-a-company-as-diverse-as-the-world-we-live-in"/>
+        <updated>2023-08-05T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Keysight shares notable accomplishments and ongoing DEI focus areas with release of its 2022 Diversity, Equity, and Inclusion Report]]></content>
+        <published>2023-08-05T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How AI-Driven User Experience Testing Enhances Digital Healthcare Accessibility]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/5/22/how-ai-driven-user-experience-testing-enhances-digital-health-accessibility</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/5/22/how-ai-driven-user-experience-testing-enhances-digital-health-accessibility"/>
+        <updated>2023-05-22T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[AI-driven UX testing enables software testing teams to comprehensively examine user interactions, which plays a more critical role in making digital healthcare more accessible.]]></content>
+        <published>2023-05-22T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Introducing Keyisght’s APS-M8400 8 x 400GE Application and Security Test Appliance: Powering Network Application and Security Testing at Hyperscale]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/2023/05/22/introducing-keyisght-s-aps-m8400-8x400ge-application-and-security-test-appliance</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/2023/05/22/introducing-keyisght-s-aps-m8400-8x400ge-application-and-security-test-appliance"/>
+        <updated>2023-05-22T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Unlocking Hyperscale, 400GE Capable, Network Application and Security Testing]]></content>
+        <published>2023-05-22T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Automated Testing Using PathWave Test Executive for Manufacturing]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/05/18/automated-testing-using-pathwave-test-executive-for-manufacturing</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/bench/2023/05/18/automated-testing-using-pathwave-test-executive-for-manufacturing"/>
+        <updated>2023-05-18T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Automating test operations maximises the effeciency of your test equipment. Be it incircuit testing or flash programming, an inline automated test system takes away the human fatigue that may result in potential lost of production output. With Pathwave Test Executive for Manufacturing(PTEM) supports both the FlexiCore inline handler system and the i7090 inline handler system, you have the options to choose the system to add into your automated inline production.]]></content>
+        <published>2023-05-18T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Emulation versus Simulation in HSD: Do you know the difference?]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/05/18/emulation-simulation-hsd-know-difference</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/bench/2023/05/18/emulation-simulation-hsd-know-difference"/>
+        <updated>2023-05-18T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Knowing the difference between emulation and simulation can save you a lot of confusion, especially in high-speed wireline communication use cases.]]></content>
+        <published>2023-05-18T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Maximizing SAI Potential with Testing]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/traf-gen/2023/05/22/sai-testing-keysight</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/traf-gen/2023/05/22/sai-testing-keysight"/>
+        <updated>2023-05-18T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[A summary of how Keysight is contributing to the success of SAI for various open networking projects inclusing SONiC, SONiC-DASH, DENT.]]></content>
+        <published>2023-05-18T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[7 Things You Might Not Know About Autonomous Vehicles]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/05/12/blog-post-av-faq</id>
@@ -45,14 +93,6 @@
         <updated>2023-05-09T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Commercial software testing solutions are designed to help organizations improve the quality of their software and reduce time-to-market. By leveraging the latest testing tools, methodologies, and best practices, these solutions can help organizations identify defects and bugs earlier in the software development lifecycle.]]></content>
         <published>2023-05-09T00:00:00.000Z</published>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Keysight: A Company as Diverse as the World We Live In]]></title>
-        <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/09/dei-report-draft</id>
-        <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/09/dei-report-draft"/>
-        <updated>2023-05-08T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[Keysight shares notable accomplishments and ongoing DEI focus areas with release of its 2022 Diversity, Equity, and Inclusion Report]]></content>
-        <published>2023-05-08T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[Will an AI ever become conscious?]]></title>
