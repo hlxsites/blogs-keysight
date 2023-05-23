@@ -3,7 +3,6 @@ import {
   createElement,
   loadPosts,
   splitTags,
-  getNavPages,
 } from '../../scripts/scripts.js';
 import {
   createOptimizedPicture,
@@ -14,6 +13,7 @@ import {
   loadBlock as loadExtBlock,
   buildBlock,
 } from '../../scripts/lib-franklin.js';
+import ffetch from '../../scripts/ffetch.js';
 
 let pageSize = 7;
 
@@ -26,7 +26,7 @@ function showHideMore(grid, moreContainer) {
   }
 }
 
-function getTopicLink(post, navPages) {
+async function getTopicLink(post) {
   const { topic, subtopic } = post;
   let topicText = topic;
   if (subtopic && subtopic !== '0') {
@@ -36,36 +36,32 @@ function getTopicLink(post, navPages) {
   const notLink = createElement('span');
   notLink.innerText = topicText;
 
-  try {
-    const topicPage = navPages.find((page) => page.topic === topic && page.subtopic === subtopic);
-    if (topicPage) {
-      const link = createElement('a');
-      link.href = topicPage.path;
-      link.innerText = topicText;
-      return link;
-    }
-  } finally {
-    // no op, just fall through to return default
+  const topicPage = await ffetch('/blogs/query-index.json').sheet('nav')
+    .filter((page) => page.topic === topic && page.subtopic === subtopic).first();
+
+  if (topicPage) {
+    const link = createElement('a');
+    link.href = topicPage.path;
+    link.innerText = topicText;
+    return link;
   }
 
   return notLink;
 }
 
-function getAuthorLink(post, navPages) {
+async function getAuthorLink(post) {
   const { author } = post;
   const notLink = createElement('span');
   notLink.innerText = `${author}`;
 
-  try {
-    const authorPage = navPages.find((page) => page.title === author);
-    if (authorPage) {
-      const link = createElement('a');
-      link.href = authorPage.path;
-      link.innerText = `${author}`;
-      return link;
-    }
-  } finally {
-    // no op, just fall through to return default value
+  const authorPage = await ffetch('/blogs/query-index.json').sheet('nav')
+    .filter((page) => page.title.toLowerCase() === author?.toLowerCase()).first();
+
+  if (authorPage) {
+    const link = createElement('a');
+    link.href = authorPage.path;
+    link.innerText = `${author}`;
+    return link;
   }
 
   return notLink;
@@ -91,7 +87,7 @@ function getTagsLinks(post) {
   return undefined;
 }
 
-function buildPostCard(post, index, navPagesPromise) {
+function buildPostCard(post, index) {
   const classes = ['post-card', 'hidden'];
   const isAnAuthorPage = getMetadata('template') === 'author';
   if (!isAnAuthorPage && index % 7 === 3) {
@@ -146,14 +142,19 @@ function buildPostCard(post, index, navPagesPromise) {
     postCard.querySelector('.post-card-text').insertAdjacentHTML('beforeend', `<p class="card-read"><span class="icon icon-clock"></span>${post.readtime}</p>`);
   }
 
-  navPagesPromise.then((navPages) => {
-    const topicLink = getTopicLink(post, navPages);
+  const topicLinkPromise = getTopicLink(post);
+  topicLinkPromise.then((topicLink) => {
     if (topicLink) {
-      postCard.querySelector('.card-topic').replaceChild(topicLink, postCard.querySelector('.card-topic .topic-text'));
+      postCard.querySelector('.card-topic')
+        .replaceChild(topicLink, postCard.querySelector('.card-topic .topic-text'));
     }
-    const authorLink = getAuthorLink(post, navPages);
+  });
+
+  const authorLinkPromise = getAuthorLink(post);
+  authorLinkPromise.then((authorLink) => {
     if (authorLink) {
-      postCard.querySelector('.card-author').replaceChild(authorLink, postCard.querySelector('.card-author .author-text'));
+      postCard.querySelector('.card-author')
+        .replaceChild(authorLink, postCard.querySelector('.card-author .author-text'));
     }
   });
 
@@ -179,11 +180,10 @@ async function loadPage(grid) {
   }
   let counter = Number(grid.dataset.loadedCount);
   const hasCta = grid.dataset.hasCta === 'true';
-  const navPages = getNavPages();
   for (let i = 0;
     counter < posts.length && i < pageSize && (limit < 0 || counter < limit);
     i += 1) {
-    const postCard = buildPostCard(posts[counter], hasCta ? counter + 1 : counter, navPages);
+    const postCard = buildPostCard(posts[counter], hasCta ? counter + 1 : counter);
     grid.append(postCard);
     counter += 1;
   }
