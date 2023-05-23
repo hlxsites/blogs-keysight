@@ -67,7 +67,10 @@ async function loadTags(block, isAll) {
   if (isAll) {
     posts = await postsGenerator.all();
   } else {
-    postsGenerator = postsGenerator.slice(0, 25);
+    // 14 = 2x 7
+    // 7 is page size of post cards grid, and by default it loads the first 2 pages
+    // so this will look at number of posts loaded by post cards without having to load any extra
+    postsGenerator = postsGenerator.slice(0, 14);
     posts = [];
     // eslint-disable-next-line no-restricted-syntax
     for await (const post of postsGenerator) {
