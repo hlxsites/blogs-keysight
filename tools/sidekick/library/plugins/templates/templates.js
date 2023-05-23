@@ -9,7 +9,39 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { createElement } from '../utils/utils.js';
+import { createElement, createCopy } from '../utils/utils.js';
+
+export async function fetchTemplate(path) {
+  if (!window.templates) {
+    window.templates = {};
+  }
+  if (!window.templates[path]) {
+    const resp = await fetch(`${path}.plain.html`);
+    if (!resp.ok) return '';
+
+    const html = await resp.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    window.templates[path] = doc;
+  }
+
+  return window.templates[path];
+}
+
+function processMarkup(pageTemplate, path) {
+  const url = new URL(path);
+  pageTemplate.querySelectorAll('img').forEach((img) => {
+    const srcSplit = img.src.split('/');
+    const mediaPath = srcSplit.pop();
+    img.src = `${url.origin}/${mediaPath}`;
+    const { width, height } = img;
+    const ratio = 1;
+    img.width = width * ratio;
+    img.height = height * ratio;
+  });
+
+  return [pageTemplate.innerHTML];
+}
 
 /**
  * Called when a user tries to load the plugin
@@ -17,11 +49,46 @@ import { createElement } from '../utils/utils.js';
  * @param {Object} data The data contained in the plugin sheet
  * @param {String} query If search is active, the current search query
  */
-export async function decorate(container, data, query) {
+export async function decorate(container, data, _query) {
   container.dispatchEvent(new CustomEvent('ShowLoader'));
-  const sideNav = createElement('sp-sidenav', '', { variant: 'multilevel', 'data-testid': 'autoblocks' });
+  const sideNav = createElement('sp-sidenav', '', { variant: 'multilevel', 'data-testid': 'templates' });
 
-  // Show blocks and hide loader
+  const promises = data.map(async (item) => {
+    const { name, path } = item;
+    const templatePromise = fetchTemplate(path);
+
+    try {
+      const res = await templatePromise;
+      if (!res) {
+        throw new Error(`An error occurred fetching ${name}`);
+      }
+
+      const templateVariant = createElement('sp-sidenav-item', '', { label: name, preview: false });
+      sideNav.append(templateVariant);
+
+      const childNavItem = createElement('sp-sidenav-item', '', { label: name, 'data-testid': 'item' });
+      childNavItem.setAttribute('data-info', name);
+      templateVariant.append(childNavItem);
+
+      childNavItem.addEventListener('click', () => {
+        const blob = new Blob(processMarkup(res.body, path), { type: 'text/html' });
+        createCopy(blob);
+
+        // Show toast
+        container.dispatchEvent(new CustomEvent('Toast', { detail: { message: 'Copied Template' } }));
+      });
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e.message);
+      container.dispatchEvent(new CustomEvent('Toast', { detail: { message: e.message, variant: 'negative' } }));
+    }
+
+    return templatePromise;
+  });
+
+  await Promise.all(promises);
+
+  // Show templates and hide loader
   container.append(sideNav);
   container.dispatchEvent(new CustomEvent('HideLoader'));
 }
