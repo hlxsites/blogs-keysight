@@ -164,6 +164,10 @@ export function splitTags(tags) {
   return [];
 }
 
+/**
+ * get the blog posts via ffetch
+ * @returns an ffetch generator, which can then be filtered, sliced, etc.
+ */
 export function getPostsFfetch() {
   const posts = ffetch('/blogs/query-index.json')
     .chunks(500)
@@ -205,6 +209,12 @@ function getApplicableFilter(filterName) {
   return applicableFilter;
 }
 
+/**
+ * get a function to use for filtering posts. To be used in conjunction with
+ * getPostsFfetch()
+ * @param {string} filterName the name of the filter to apply
+ * @returns {function} a function for filtering posts based on the filter name
+ */
 export function filterPosts(filterName) {
   const applicableFilter = getApplicableFilter(filterName);
   const filterFunc = (post) => {
