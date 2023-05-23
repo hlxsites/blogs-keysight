@@ -142,7 +142,7 @@ export async function decorate(container, data, _query) {
 
       childNavItem.addEventListener('click', () => {
         const blobInput = processMarkup(res.body, path);
-        const blob = new Blob(blobInput, { type: 'text/html' });
+        const blob = new Blob([blobInput], { type: 'text/html' });
         createCopy(blob);
 
         // Show toast
