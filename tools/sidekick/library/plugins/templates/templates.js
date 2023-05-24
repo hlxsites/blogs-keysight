@@ -16,7 +16,7 @@ export async function fetchTemplate(path) {
     window.templates = {};
   }
   if (!window.templates[path]) {
-    const resp = await fetch(`${path}.plain.html`);
+    const resp = await fetch(`${path}?view-doc-source=true`);
     if (!resp.ok) return '';
 
     const html = await resp.text();
@@ -85,6 +85,39 @@ function createTable(block, name, path) {
   return table.outerHTML;
 }
 
+function createMetadataTable(headSection, path) {
+  decorateImages(headSection, path);
+  // meta tags to include and their docx translation
+  const validMetaMap = {
+    template: 'Template', 'og:title': 'Title', description: 'Description', 'og:image': 'Image', author: 'Author', 'article:tag': 'Tags', 'publication-date': 'Publication Date', 'read-time': 'Read Time',
+  };
+  const maxCols = 2;
+  const table = document.createElement('table');
+  table.setAttribute('border', 1);
+  const headerRow = document.createElement('tr');
+  headerRow.append(createTag('th', { colspan: maxCols }, 'metadata'));
+  table.append(headerRow);
+  headSection.querySelectorAll('meta').forEach((row) => {
+    const headMetaTag = row.getAttributeNames()[0] === 'property' ? row.getAttribute('property') : row.getAttribute('name');
+    const metaTagValue = validMetaMap[headMetaTag];
+    if (metaTagValue !== undefined) {
+      const tr = document.createElement('tr');
+      const tdName = document.createElement('td');
+      tdName.innerText = metaTagValue;
+      tr.append(tdName);
+      const tdValue = document.createElement('td');
+      tdValue.innerText = row.getAttribute('content');
+      if (metaTagValue === 'Tags') {
+        tdValue.innerText = tdValue.innerText.replace(';', ',');
+      }
+      tr.append(tdValue);
+      table.append(tr);
+    }
+  });
+
+  return table.outerHTML;
+}
+
 function createSection(section, path) {
   decorateImages(section, path);
   let output = '';
@@ -102,7 +135,8 @@ function createSection(section, path) {
 function processMarkup(template, path) {
   decorateImages(template, path);
   let output = '';
-  [...template.children].forEach((row, i) => {
+  // process template body
+  template.body.querySelector('main').querySelectorAll(':scope > div').forEach((row, i) => {
     if (row.nodeName === 'DIV') {
       if (i > 0) output = output.concat('---');
       output = output.concat(createSection(row, path));
@@ -110,6 +144,10 @@ function processMarkup(template, path) {
       output = output.concat(row.outerHTML);
     }
   });
+  // process template head to derive meta tags
+  output = output.concat('<br/>');
+  output = output.concat(createMetadataTable(template.head, path));
+
   return output;
 }
 
@@ -141,7 +179,7 @@ export async function decorate(container, data, _query) {
       templateVariant.append(childNavItem);
 
       childNavItem.addEventListener('click', () => {
-        const blobInput = processMarkup(res.body, path);
+        const blobInput = processMarkup(res, path);
         const blob = new Blob([blobInput], { type: 'text/html' });
         createCopy(blob);
 
