@@ -11,6 +11,8 @@
  */
 import { createElement, createCopy } from '../utils/utils.js';
 
+const blockHeaderBGColor = '#f4cccd';
+
 export async function fetchTemplate(path) {
   if (!window.templates) {
     window.templates = {};
@@ -68,7 +70,8 @@ function createTable(block, name, path) {
   const table = document.createElement('table');
   table.setAttribute('border', 1);
   const headerRow = document.createElement('tr');
-  headerRow.append(createTag('th', { colspan: maxCols }, name));
+  headerRow.append(createTag('th', { colspan: maxCols, align: 'left' }, name));
+  headerRow.style.backgroundColor = blockHeaderBGColor;
   table.append(headerRow);
   rows.forEach((row) => {
     const tr = document.createElement('tr');
@@ -91,28 +94,39 @@ function createMetadataTable(headSection, path) {
   const validMetaMap = {
     template: 'Template', 'og:title': 'Title', description: 'Description', 'og:image': 'Image', author: 'Author', 'article:tag': 'Tags', 'publication-date': 'Publication Date', 'read-time': 'Read Time',
   };
-  const maxCols = 2;
-  const table = document.createElement('table');
-  table.setAttribute('border', 1);
-  const headerRow = document.createElement('tr');
-  headerRow.append(createTag('th', { colspan: maxCols }, 'metadata'));
-  table.append(headerRow);
+  // stuff relevant template meta tags into array
+  const metadataArray = [];
   headSection.querySelectorAll('meta').forEach((row) => {
     const headMetaTag = row.getAttributeNames()[0] === 'property' ? row.getAttribute('property') : row.getAttribute('name');
     const metaTagValue = validMetaMap[headMetaTag];
     if (metaTagValue !== undefined) {
-      const tr = document.createElement('tr');
-      const tdName = document.createElement('td');
-      tdName.innerText = metaTagValue;
-      tr.append(tdName);
-      const tdValue = document.createElement('td');
-      tdValue.innerText = row.getAttribute('content');
-      if (metaTagValue === 'Tags') {
-        tdValue.innerText = tdValue.innerText.replace(';', ',');
-      }
-      tr.append(tdValue);
-      table.append(tr);
+      const metaObj = { attrib: metaTagValue, value: row.getAttribute('content') };
+      metadataArray.push(metaObj);
     }
+  });
+  // resolve duplicates
+  const compactedMetaArray = Array.from(new Set(metadataArray.map((set) => set.attrib)))
+    .map((attrib) => ({
+      attrib,
+      value: metadataArray.filter((set) => set.attrib === attrib).map((attribute) => attribute.value).join(', '),
+    }));
+
+  const maxCols = 2;
+  const table = document.createElement('table');
+  table.setAttribute('border', 1);
+  const headerRow = document.createElement('tr');
+  headerRow.append(createTag('th', { colspan: maxCols, align: 'left' }, 'metadata'));
+  headerRow.style.backgroundColor = blockHeaderBGColor;
+  table.append(headerRow);
+  compactedMetaArray.forEach((row) => {
+    const tr = document.createElement('tr');
+    const tdName = document.createElement('td');
+    tdName.innerText = row.attrib;
+    tr.append(tdName);
+    const tdValue = document.createElement('td');
+    tdValue.innerText = row.value;
+    tr.append(tdValue);
+    table.append(tr);
   });
 
   return table.outerHTML;
