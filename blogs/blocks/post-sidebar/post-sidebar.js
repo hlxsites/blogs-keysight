@@ -10,8 +10,8 @@ import {
 import {
   createElement,
 } from '../../scripts/scripts.js';
-import getTaxonomy from '../../scripts/taxonomy.js';
 import ffetch from '../../scripts/ffetch.js';
+import validateTags from '../../scripts/taxonomy.js';
 
 const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
 const tags = getMetadata('article:tag').split(', ');
@@ -33,18 +33,15 @@ async function buildTags(sidebar) {
   if (getMetadata('article:tag') !== '') {
     const tagsContainer = createElement('div', 'tags-container');
     const list = createElement('ul', 'tags-list');
-    const allowedTags = await getTaxonomy();
-
+    const validTags = await validateTags(tags);
     tagsContainer.append(list);
-    tags.forEach((tag) => {
-      if (allowedTags.includes(toClassName(tag))) {
+    validTags[0].forEach((tag) => {
         const item = createElement('li');
         const link = createElement('a');
         link.innerHTML = `<span class="tag-name">#${tag}</span>`;
         link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag)}`;
         item.append(link);
         list.append(item);
-      }
     });
     tagsContainer.id = 'blogs_related_tags';
     sidebar.append(tagsContainer);
