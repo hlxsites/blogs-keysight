@@ -11,8 +11,6 @@
  */
 import { createElement, createCopy } from '../utils/utils.js';
 
-const blockHeaderBGColor = '#f4cccd';
-
 export async function fetchTemplate(path) {
   if (!window.templates) {
     window.templates = {};
@@ -44,6 +42,7 @@ function createTag(tag, attributes = {}, html = undefined) {
       el.setAttribute(key, val);
     });
   }
+  el.style.textAlign = 'left';
   return el;
 }
 
@@ -70,8 +69,7 @@ function createTable(block, name, path) {
   const table = document.createElement('table');
   table.setAttribute('border', 1);
   const headerRow = document.createElement('tr');
-  headerRow.append(createTag('th', { colspan: maxCols, align: 'left' }, name));
-  headerRow.style.backgroundColor = blockHeaderBGColor;
+  headerRow.append(createTag('th', { colspan: maxCols, style: 'background-color:#f4cccd;' }, name));
   table.append(headerRow);
   rows.forEach((row) => {
     const tr = document.createElement('tr');
@@ -115,8 +113,7 @@ function createMetadataTable(headSection, path) {
   const table = document.createElement('table');
   table.setAttribute('border', 1);
   const headerRow = document.createElement('tr');
-  headerRow.append(createTag('th', { colspan: maxCols, align: 'left' }, 'metadata'));
-  headerRow.style.backgroundColor = blockHeaderBGColor;
+  headerRow.append(createTag('th', { colspan: maxCols, style: 'background-color:#f4cccd;' }, 'metadata'));
   table.append(headerRow);
   compactedMetaArray.forEach((row) => {
     const tr = document.createElement('tr');
