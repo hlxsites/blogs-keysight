@@ -2,18 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-08-05T00:00:00.000Z</updated>
+    <updated>2023-05-25T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
-    <entry>
-        <title type="html"><![CDATA[Keysight: A Company as Diverse as the World We Live In]]></title>
-        <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/09/keysight-a-company-as-diverse-as-the-world-we-live-in</id>
-        <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/09/keysight-a-company-as-diverse-as-the-world-we-live-in"/>
-        <updated>2023-08-05T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[Keysight shares notable accomplishments and ongoing DEI focus areas with release of its 2022 Diversity, Equity, and Inclusion Report]]></content>
-        <published>2023-08-05T00:00:00.000Z</published>
-    </entry>
     <entry>
         <title type="html"><![CDATA[High Power Amplifier Test Enhancements with the ENA-X VNA]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/5/25/high-power-amplifier-test-enhancements-with-the-ena-x-vna</id>
@@ -37,6 +29,14 @@
         <updated>2023-05-25T00:00:00.000Z</updated>
         <content type="html"><![CDATA[One of Keysight’s unique differentiators is that our workforce spans five generations. Our diverse perspective combines the knowledge and resources of our experienced employees with the cutting-edge ideas and thinking of the next generation.]]></content>
         <published>2023-05-25T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Keysight: A Company as Diverse as the World We Live In]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/09/keysight-a-company-as-diverse-as-the-world-we-live-in</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/09/keysight-a-company-as-diverse-as-the-world-we-live-in"/>
+        <updated>2023-05-24T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Keysight shares notable accomplishments and ongoing DEI focus areas with release of its 2022 Diversity, Equity, and Inclusion Report]]></content>
+        <published>2023-05-24T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[How AI-Driven User Experience Testing Enhances Digital Healthcare Accessibility]]></title>
