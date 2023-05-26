@@ -86,6 +86,16 @@ function createTable(block, name, path) {
   return table.outerHTML;
 }
 
+function createImgElement(src, width, height) {
+  const imgEl = document.createElement('img');
+  imgEl.setAttribute('src', src);
+  imgEl.setAttribute('alt', '<replace with your hero image>');
+  imgEl.loading = 'lazy';
+  imgEl.width = width;
+  imgEl.height = height;
+  return imgEl;
+}
+
 function createMetadataTable(headSection, path) {
   decorateImages(headSection, path);
   // meta tags to include and their docx translation
@@ -121,16 +131,10 @@ function createMetadataTable(headSection, path) {
     tdName.innerText = row.attrib;
     tr.append(tdName);
     const tdValue = document.createElement('td');
-    // refactor this if==image block later
     if (row.attrib === 'Image') {
-      const oImg = document.createElement('img');
       // use this image url to avoid 404
-      oImg.setAttribute('src', 'https://main--blogs-keysight--hlxsites.hlx.page/block-library/templates/media_110be40889e2176c09e36ef4c3ce1b3ad82eaa7d3.png?optimize=medium');
-      oImg.setAttribute('alt', '<replace with your hero image>');
-      oImg.loading = 'lazy';
-      oImg.width = '280';
-      oImg.height = '200';
-      tdValue.appendChild(oImg);
+      const templateImgUrl = 'https://main--blogs-keysight--hlxsites.hlx.page/block-library/templates/media_110be40889e2176c09e36ef4c3ce1b3ad82eaa7d3.png?optimize=medium';
+      tdValue.appendChild(createImgElement(templateImgUrl, '280', '200'));
       tdValue.appendChild(document.createTextNode('<replace with your hero image>'));
     } else {
       tdValue.innerText = row.value;
