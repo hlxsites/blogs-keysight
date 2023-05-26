@@ -196,22 +196,24 @@ export default async function decorate(block) {
   if (hasHidden) {
     const moreButton = createElement('button', 'show-more-cards');
     moreButton.innerText = 'Show More';
-    moreButton.addEventListener('click', async () => {
-      if (!deferredLoaded) {
-        await loadDeferred();
-      }
-
+    moreButton.addEventListener('click', () => {
       for (let i = 0; i < pageSize; i += 1) {
         const nextPost = grid.querySelector('.post-card.hidden');
         if (nextPost) {
           nextPost.classList.remove('hidden');
         }
       }
-      hasHidden = grid.querySelector('.post-card.hidden');
-      if (!hasHidden) {
-        // no more hidden, so hide show more button
-        moreButton.style.display = 'none';
-      }
+      setTimeout(async () => {
+        if (!deferredLoaded) {
+          await loadDeferred();
+        }
+
+        hasHidden = grid.querySelector('.post-card.hidden');
+        if (!hasHidden) {
+          // no more hidden, so hide show more button
+          moreButton.style.display = 'none';
+        }
+      }, 250);
     });
 
     const moreContainer = createElement('div', 'show-more-cards-container');
