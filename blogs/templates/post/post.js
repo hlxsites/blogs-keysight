@@ -37,6 +37,7 @@ async function buildPostData(h1) {
 }
 
 export default async function decorate(doc) {
+  // add a prefetch to header for the hero image
   const main = doc.querySelector('main');
   const heroImg = main.querySelector(':scope > div:first-child picture img');
   const head = document.querySelector('head');
@@ -44,8 +45,7 @@ export default async function decorate(doc) {
   preload.rel = 'prefetch';
   preload.as = 'image';
   preload.href = heroImg.src;
-  //preload.imagesizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw';
-  head.append(preload);   
+  head.append(preload);
 
   const h1 = doc.querySelector('h1');
   await buildPostData(h1);
