@@ -37,6 +37,16 @@ async function buildPostData(h1) {
 }
 
 export default async function decorate(doc) {
+  const main = doc.querySelector('main');
+  const heroImg = main.querySelector(':scope > div:first-child picture img');
+  const head = document.querySelector('head');
+  const preload = document.createElement('link');
+  preload.rel = 'prefetch';
+  preload.as = 'image';
+  preload.href = heroImg.src;
+  //preload.imagesizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw';
+  head.append(preload);   
+
   const h1 = doc.querySelector('h1');
   await buildPostData(h1);
 
