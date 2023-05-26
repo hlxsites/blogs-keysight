@@ -196,9 +196,9 @@ export default async function decorate(block) {
   if (hasHidden) {
     const moreButton = createElement('button', 'show-more-cards');
     moreButton.innerText = 'Show More';
-    moreButton.addEventListener('click', () => {
+    moreButton.addEventListener('click', async () => {
       if (!deferredLoaded) {
-        loadDeferred();
+        await loadDeferred();
       }
 
       for (let i = 0; i < pageSize; i += 1) {
