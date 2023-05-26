@@ -132,8 +132,8 @@ export default async function decorate(block) {
   const params = url.searchParams;
   const q = params.get('q').toLowerCase();
 
-  const initResults = executeSearch(q).slice(0, initLoad + 1);
-  const deferredPosts = executeSearch(q).slice(initLoad + 1);
+  const initResults = executeSearch(q).slice(0, initLoad);
+  const deferredPosts = executeSearch(q).slice(initLoad);
   const grid = createElement('div', 'post-cards-grid');
 
   let counter = 0;
@@ -145,8 +145,8 @@ export default async function decorate(block) {
   }
 
   let resultsLength;
-  if (counter >= initLoad) {
-    resultsLength = `${counter - 1}+`;
+  if (counter === initLoad) {
+    resultsLength = `${counter}+`;
   } else {
     resultsLength = `${counter}`;
   }
