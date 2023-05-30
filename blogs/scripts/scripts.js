@@ -300,18 +300,10 @@ function buildHeroBlock(main) {
     const h1Section = h1.closest('div');
     if (h1Section === section) {
       elems.push(h1);
-      const desc = h1.parentElement.querySelector('h1 + p');
-      if (desc) {
-        elems.push(desc);
-        const buttons = h1.parentElement.querySelector('h1 + p + .button-container');
-        if (buttons) {
-          elems.push(buttons);
-        }
-      } else {
-        const buttons = h1.parentElement.querySelector('h1 + .button-container');
-        if (buttons) {
-          elems.push(buttons);
-        }
+      let nextSib = h1.nextElementSibling;
+      while (nextSib && (nextSib.tagName === 'P' || nextSib.classList.contains('button-container'))) {
+        elems.push(nextSib);
+        nextSib = nextSib.nextElementSibling;
       }
     }
     section.append(buildBlock('hero', { elems }));
