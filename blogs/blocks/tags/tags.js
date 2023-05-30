@@ -1,9 +1,9 @@
 import {
-  getPosts,
   createElement,
   addOutsideClickListener,
   splitTags,
-  loadPosts,
+  getPostsFfetch,
+  filterPosts,
 } from '../../scripts/scripts.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
 
@@ -57,12 +57,27 @@ function getTagsLinks(tags, limit) {
   return list;
 }
 
-async function loadBlock(block) {
+async function loadTags(block, isAll) {
   const conf = readBlockConfig(block);
   const { filter } = conf;
 
   const applicableFilter = filter || 'auto';
-  const posts = await getPosts(applicableFilter, -1);
+  let postsGenerator = getPostsFfetch().filter(filterPosts(applicableFilter));
+  let posts;
+  if (isAll) {
+    posts = await postsGenerator.all();
+  } else {
+    // 14 = 2x 7
+    // 7 is page size of post cards grid, and by default it loads the first 2 pages
+    // so this will look at number of posts loaded by post cards without having to load any extra
+    postsGenerator = postsGenerator.slice(0, 14);
+    posts = [];
+    // eslint-disable-next-line no-restricted-syntax
+    for await (const post of postsGenerator) {
+      posts.push(post);
+    }
+  }
+
   const tags = {};
   posts.forEach((post) => {
     const postTags = splitTags(post.tags);
@@ -91,7 +106,6 @@ async function loadBlock(block) {
     return true;
   });
   tagsAsArray.sort((a, b) => b.count - a.count);
-  const isAll = block.classList.contains('all');
   block.innerHTML = '';
   block.append(getTagsLinks(tagsAsArray, isAll ? -1 : 15));
   if (isAll) {
@@ -105,16 +119,10 @@ async function loadBlock(block) {
  */
 export default async function decorate(block) {
   block.closest('.section').id = 'blogs_related_tags';
-
+  const isAll = block.classList.contains('all');
   const postCards = document.querySelector('.block.post-cards');
   if (!postCards || postCards.dataset.postsLoaded === 'true') {
-    const isAll = block.classList.contains('all');
-    // if it's all tags, force load all the posts then use those to collect the tags
-    while (isAll && !window.keysight.postData.allLoaded) {
-      // eslint-disable-next-line no-await-in-loop
-      await loadPosts(true);
-    }
-    loadBlock(block);
+    loadTags(block, isAll);
   } else {
     /*
       The posts, which are used to derive the tags, are a shared array
@@ -132,7 +140,7 @@ export default async function decorate(block) {
     */
     window.addEventListener('message', (msg) => {
       if (msg.origin === window.location.origin && msg.data && msg.data.postCardsLoaded) {
-        loadBlock(block);
+        loadTags(block, isAll);
       }
     });
   }

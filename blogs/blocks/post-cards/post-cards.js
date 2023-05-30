@@ -1,8 +1,8 @@
 import {
-  getPosts,
   createElement,
-  loadPosts,
   splitTags,
+  getPostsFfetch,
+  filterPosts,
 } from '../../scripts/scripts.js';
 import {
   createOptimizedPicture,
@@ -10,7 +10,7 @@ import {
   decorateIcons,
   getMetadata,
   decorateBlock,
-  loadBlock as loadExtBlock,
+  loadBlock,
   buildBlock,
 } from '../../scripts/lib-franklin.js';
 import ffetch from '../../scripts/ffetch.js';
@@ -170,29 +170,23 @@ function buildPostCard(post, index) {
 async function loadPage(grid) {
   const { filter } = grid.dataset;
   const limit = Number(grid.dataset.limit);
-  let posts = await getPosts(filter, limit);
-  const loadMoreThreshold = limit > 0 && limit < pageSize ? limit : pageSize;
-  while (posts.length < loadMoreThreshold && !window.keysight.postData.allLoaded) {
-    // eslint-disable-next-line no-await-in-loop
-    await loadPosts(true);
-    // eslint-disable-next-line no-await-in-loop
-    posts = await getPosts(filter, limit);
-  }
   let counter = Number(grid.dataset.loadedCount);
+  if (limit > 0 && counter >= limit) {
+    return;
+  }
+  const end = limit > 0 ? (limit + counter) : (pageSize + counter);
+  const postsGenerator = getPostsFfetch()
+    .filter(filterPosts(filter))
+    .slice(counter, end);
+
   const hasCta = grid.dataset.hasCta === 'true';
-  for (let i = 0;
-    counter < posts.length && i < pageSize && (limit < 0 || counter < limit);
-    i += 1) {
-    const postCard = buildPostCard(posts[counter], hasCta ? counter + 1 : counter);
+  // eslint-disable-next-line no-restricted-syntax
+  for await (const post of postsGenerator) {
+    const postCard = buildPostCard(post, hasCta ? counter + 1 : counter);
     grid.append(postCard);
     counter += 1;
   }
   grid.dataset.loadedCount = counter;
-
-  // if we get within 50 of the end, load more
-  if ((counter + 50) >= posts.length) {
-    await loadPosts(true);
-  }
 }
 
 function showPage(grid) {
@@ -204,7 +198,7 @@ function showPage(grid) {
   }
 }
 
-async function loadBlock(block) {
+async function loadPostCards(block) {
   const grid = block.querySelector('.post-cards-grid');
   const moreContainer = block.querySelector('.show-more-cards-container');
 
@@ -221,7 +215,7 @@ async function loadBlock(block) {
       decorateBlock(fragmentBlock);
       grid.dataset.hasCta = true;
       grid.append(ctaPostCard);
-      loadExtBlock(fragmentBlock);
+      loadBlock(fragmentBlock);
     }
   }
   // load the first 2 pages, show 1
@@ -272,7 +266,7 @@ export default function decorate(block) {
   const observer = new IntersectionObserver((entries) => {
     if (entries.some((e) => e.isIntersecting)) {
       observer.disconnect();
-      loadBlock(block);
+      loadPostCards(block);
     }
   }, { rootMargin: '100px' });
   if (getMetadata('template') === 'post') {
