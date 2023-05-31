@@ -517,6 +517,31 @@ async function loadLazy(doc) {
   sampleRUM.observe(main.querySelectorAll('picture > img'));
 }
 
+function initSidekick() {
+  let sk = document.querySelector('helix-sidekick');
+  const preflightEventListener = () => {
+    const pfModel = document.querySelector('#preflight-dialog');
+    if (!pfModel) {
+      const pf = buildBlock('preflight', '');
+      document.querySelector('main').append(pf);
+      decorateBlock(pf);
+      loadBlock(pf);
+    } else {
+      window.postMessage({ preflightInit: true }, window.location.origin);
+    }
+  };
+
+  if (sk) {
+    sk.addEventListener('custom:preflight', preflightEventListener);
+  } else {
+    // wait for sidekick to be loaded
+    document.addEventListener('helix-sidekick-ready', () => {
+      sk = document.querySelector('helix-sidekick');
+      sk.addEventListener('custom:preflight', preflightEventListener);
+    }, { once: true });
+  }
+}
+
 /**
  * loads everything that happens a lot later, without impacting
  * the user experience.
@@ -536,20 +561,7 @@ function loadDelayed() {
     }, ms);
   }
 
-  const sk = document.querySelector('helix-sidekick');
-  if (sk) {
-    sk.addEventListener('custom:preflight', () => {
-      const pfModel = document.querySelector('#preflight-dialog');
-      if (!pfModel) {
-        const pf = buildBlock('preflight', '');
-        document.querySelector('main').append(pf);
-        decorateBlock(pf);
-        loadBlock(pf);
-      } else {
-        window.postMessage({ preflightInit: true }, window.location.origin);
-      }
-    });
-  }
+  initSidekick();
 }
 
 async function loadPage() {
