@@ -125,13 +125,17 @@ export default async function decorate(block) {
     <dialog id="preflight-dialog">
       <div class="preflight-header">
         <h2>Franklin Pre-Flight Check</h2>
-        <span class="icon icon-close"></span>
+        <span class="icon icon-close">X</span>
       </div>
       <div class="preflight-body">
       </div>
     </dialog>
   `;
   init(block);
+  block.querySelector('#preflight-dialog .icon-close').addEventListener('click', () => {
+    const dialog = block.querySelector('#preflight-dialog');
+    dialog.close();
+  });
 
   window.addEventListener('message', (msg) => {
     if (msg.origin === window.location.origin && msg.data && msg.data.preflightInit) {
