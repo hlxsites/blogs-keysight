@@ -1,12 +1,11 @@
-import { decorateIcons } from '../../scripts/lib-franklin.js';
 import { checks } from './preflight-checks.js';
 
 // todo add more checks
 
-const toggle = (item) => {
+const toggle = (item, forceOpen) => {
   const trigger = item.querySelector('.preflight-category-trigger');
   const panel = item.querySelector('.preflight-category-panel');
-  const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+  const isOpen = forceOpen ? false : trigger.getAttribute('aria-expanded') === 'true';
   trigger.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
   if (isOpen) {
     panel.setAttribute('hidden', '');
@@ -39,7 +38,7 @@ async function runChecks(dialog) {
     if (curCategory !== check.category) {
       curCategory = check.category;
       categoryWrapper = document.createElement('div');
-      categoryWrapper.className = 'preflight-category';
+      categoryWrapper.classList.add('preflight-category', 'preflight-category-success');
       categoryWrapper.innerHTML = `
         <button class="preflight-category-trigger" aria-expanded="false" 
           aria-controls="preflight-category-panel-${curCategory}" 
@@ -49,7 +48,7 @@ async function runChecks(dialog) {
         <div class="preflight-category-panel" 
           id="preflight-category-panel-${curCategory}"
           role="region"
-          aria-labelledby="preflight-category-trigger-${curCategory}">
+          aria-labelledby="preflight-category-trigger-${curCategory}" hidden>
         </div>
       `;
 
@@ -60,20 +59,20 @@ async function runChecks(dialog) {
       body.append(categoryWrapper);
     }
 
-    const checkResult = check.exec(document);
-    const checkSuccess = checkResult === true;
-    if (!checkSuccess) categoryWrapper.classList.add('preflight-category-failed');
+    const { status, msg } = check.exec(document);
+    if (!status) {
+      categoryWrapper.classList.remove('preflight-category-success');
+      categoryWrapper.classList.add('preflight-category-failed');
+      toggle(categoryWrapper, true);
+    }
     const checkEl = document.createElement('div');
     checkEl.classList.add(
       'preflight-check',
-      `${checkSuccess ? 'preflight-check-success' : 'preflight-check-failed'}`,
+      `${status ? 'preflight-check-success' : 'preflight-check-failed'}`,
     );
     checkEl.innerHTML = `
-      <div class="preflight-check-info">
-        <span class="icon ${checkSuccess ? 'icon-preflight-success' : 'icon-preflight-failed'}"></span>
         <p class="preflight-check-title">${check.name}</p>
-      </div>
-      ${checkSuccess ? '' : `<p class="preflight-check-msg">${checkResult}</p>`}
+        <p class="preflight-check-msg">${msg}</p>
     `;
     categoryPanel.append(checkEl);
   });
@@ -82,7 +81,6 @@ async function runChecks(dialog) {
 function init(block) {
   const dialog = block.querySelector('#preflight-dialog');
   runChecks(dialog);
-  decorateIcons(dialog);
   dialog.showModal();
 }
 
@@ -91,14 +89,14 @@ export default async function decorate(block) {
     <dialog id="preflight-dialog">
       <div class="preflight-header">
         <h2>Franklin Pre-Flight Check</h2>
-        <span class="icon icon-close"></span>
+        <span class="preflight-close"></span>
       </div>
       <div class="preflight-body">
       </div>
     </dialog>
   `;
   init(block);
-  block.querySelector('#preflight-dialog .icon-close').addEventListener('click', () => {
+  block.querySelector('#preflight-dialog .preflight-close').addEventListener('click', () => {
     const dialog = block.querySelector('#preflight-dialog');
     dialog.close();
   });
