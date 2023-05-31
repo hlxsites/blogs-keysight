@@ -539,10 +539,14 @@ function loadDelayed() {
   const sk = document.querySelector('helix-sidekick');
   if (sk) {
     sk.addEventListener('custom:preflight', () => {
-      const pf = buildBlock('preflight', '');
-      document.querySelector('main').append(pf);
-      decorateBlock(pf);
-      loadBlock(pf);
+      const pfModel = document.querySelector('#preflight-dialog');
+      if (!pfModel) {
+        const pf = buildBlock('preflight', '');
+        document.querySelector('main').append(pf);
+        decorateBlock(pf);
+        loadBlock(pf);
+      }
+      window.postMessage({ preflightInit: true }, window.location.origin);
     });
   }
 }
