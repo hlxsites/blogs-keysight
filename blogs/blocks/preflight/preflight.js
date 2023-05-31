@@ -125,7 +125,7 @@ export default async function decorate(block) {
     <dialog id="preflight-dialog">
       <div class="preflight-header">
         <h2>Franklin Pre-Flight Check</h2>
-        <span class="icon icon-close">X</span>
+        <span class="icon icon-close"></span>
       </div>
       <div class="preflight-body">
       </div>
