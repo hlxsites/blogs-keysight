@@ -533,6 +533,13 @@ function loadDelayed() {
       loadScript(delayedScript, 'module');
     }, ms);
   }
+
+  const sk = document.querySelector('helix-sidekick');
+  if (sk) {
+    sk.addEventListener('custom:preflight', () => {
+      alert('load preflight');
+    });
+  }
 }
 
 async function loadPage() {
