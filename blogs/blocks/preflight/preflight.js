@@ -1,3 +1,5 @@
+import { decorateIcons } from '../../scripts/lib-franklin.js';
+
 const checks = [];
 
 checks.push({
@@ -10,16 +12,32 @@ checks.push({
     }
 
     if (h1s.length === 0) {
-      return 'Page must have at least one H1';
+      return 'No H1 on the page.';
     }
 
-    return 'Page must have only 1 H1';
+    return 'More than one H1 on the page.';
+  },
+});
+
+checks.push({
+  name: 'Page Title',
+  category: 'SEO',
+  exec: (doc) => {
+    const titleSize = doc.title.replace(/\s/g, '').length;
+    if (titleSize < 15) {
+      return 'Title size is too short.';
+    }
+    if (titleSize > 70) {
+      return 'Title size is too long.';
+    }
+
+    return true;
   },
 });
 
 // todo add more checks
 
-async function runChecks(block) {
+async function runChecks(dialog) {
   const checksByCat = checks.sort((c1, c2) => {
     const cat1 = c1.category.toUpperCase();
     const cat2 = c2.category.toUpperCase();
@@ -34,7 +52,8 @@ async function runChecks(block) {
     return 0;
   });
 
-  const body = block.querySelector('.preflight-body');
+  const body = dialog.querySelector('.preflight-body');
+  body.innerHTML = '';
   let curCategory = '';
   let categoryPanel;
   let categoryWrapper;
@@ -80,7 +99,8 @@ async function runChecks(block) {
 
 function init(block) {
   const dialog = block.querySelector('#preflight-dialog');
-  runChecks(block);
+  runChecks(dialog);
+  decorateIcons(dialog);
   dialog.showModal();
 }
 
