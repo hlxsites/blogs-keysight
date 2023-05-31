@@ -37,10 +37,11 @@ async function runChecks(block) {
   const body = block.querySelector('.preflight-body');
   let curCategory = '';
   let categoryPanel;
+  let categoryWrapper;
   checksByCat.forEach((check) => {
     if (curCategory !== check.category) {
       curCategory = check.category;
-      const categoryWrapper = document.createElement('div');
+      categoryWrapper = document.createElement('div');
       categoryWrapper.className = 'preflight-category';
       categoryWrapper.innerHTML = `
         <button class="preflight-category-trigger" aria-expanded="false" 
@@ -51,8 +52,7 @@ async function runChecks(block) {
         <div class="preflight-category-panel" 
           id="preflight-category-panel-${curCategory}"
           role="region"
-          aria-labelledby="preflight-category-trigger-${curCategory}"
-          hidden>
+          aria-labelledby="preflight-category-trigger-${curCategory}">
         </div>
       `;
       categoryPanel = categoryWrapper.querySelector('.preflight-category-panel');
@@ -61,14 +61,15 @@ async function runChecks(block) {
 
     const checkResult = check.exec(document);
     const checkSuccess = checkResult === true;
+    if (!checkSuccess) categoryWrapper.classList.add('preflight-category-failed');
     const checkEl = document.createElement('div');
     checkEl.classList.add(
       'preflight-check',
       `${checkSuccess ? 'preflight-check-success' : 'preflight-check-failed'}`,
     );
     checkEl.innerHTML = `
-      <div>
-        <span class="icon ${checkSuccess ? 'icon-preflight-success' : 'icon-preflight-failed'}"><span>
+      <div class="preflight-check-info">
+        <span class="icon ${checkSuccess ? 'icon-preflight-success' : 'icon-preflight-failed'}"></span>
         <p class="preflight-check-title">${check.name}</p>
       </div>
       ${checkSuccess ? '' : `<p class="preflight-check-msg">${checkResult}</p>`}
