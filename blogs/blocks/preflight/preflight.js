@@ -78,6 +78,12 @@ async function runChecks(block) {
   });
 }
 
+function init(block) {
+  const dialog = block.querySelector('#preflight-dialog');
+  runChecks(block);
+  dialog.showModal();
+}
+
 export default async function decorate(block) {
   block.innerHTML = `
     <dialog id="preflight-dialog">
@@ -89,12 +95,11 @@ export default async function decorate(block) {
       </div>
     </dialog>
   `;
+  init(block);
 
   window.addEventListener('message', (msg) => {
     if (msg.origin === window.location.origin && msg.data && msg.data.preflightInit) {
-      const dialog = block.querySelector('#preflight-dialog');
-      runChecks(block);
-      dialog.showModal();
+      init(block);
     }
   });
 }
