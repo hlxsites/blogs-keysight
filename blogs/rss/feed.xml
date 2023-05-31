@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-05-31T00:00:00.000Z</updated>
+    <updated>2023-06-01T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[World Environment Day: Solutions for Plastic Pollution]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/kcsr/2023/04/19/world-environment-day-2023</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/kcsr/2023/04/19/world-environment-day-2023"/>
+        <updated>2023-06-01T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Keysight’s Director of Sustainability & EHS reflects on World Environment Day and on the company’s action to support reduction of plastic pollution.]]></content>
+        <published>2023-06-01T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Mission Impossible: Manual Software Testing for Every User Journey]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/5/31/manual-software-testing-user-journey</id>
