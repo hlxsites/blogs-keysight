@@ -15,6 +15,8 @@ import {
   loadCSS,
   fetchPlaceholders,
   createOptimizedPicture,
+  decorateBlock,
+  loadBlock,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = ['hero', 'featured-posts']; // add your LCP blocks to the list
@@ -534,12 +536,14 @@ function loadDelayed() {
     }, ms);
   }
 
-  const sk = document.querySelector('helix-sidekick');
-  if (sk) {
-    sk.addEventListener('custom:preflight', () => {
-      alert('load preflight');
-    });
-  }
+  window.addEventListener('custom:preflight', () => {
+    // const sk = document.querySelector('helix-sidekick');
+    alert('pf');
+    // const pf = buildBlock('preflight', '');
+    // decorateBlock(pf);
+    // loadBlock(pf);
+  });
+
 }
 
 async function loadPage() {
