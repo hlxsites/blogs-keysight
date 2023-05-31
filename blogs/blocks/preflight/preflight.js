@@ -60,6 +60,7 @@ async function runChecks(dialog) {
     }
 
     const { status, msg } = check.exec(document);
+
     if (!status) {
       categoryWrapper.classList.remove('preflight-category-success');
       categoryWrapper.classList.add('preflight-category-failed');
@@ -88,10 +89,14 @@ export default async function decorate(block) {
   block.innerHTML = `
     <dialog id="preflight-dialog">
       <div class="preflight-header">
-        <h2>Franklin Pre-Flight Check</h2>
+        <h2>Pre-Flight Check</h2>
         <span class="preflight-close"></span>
       </div>
       <div class="preflight-body">
+      </div>
+      <div class="preflight-footer">
+        <input type="checkbox" id="preflight-hidePassed" name="preflight-hidePassed" value="yes">
+        <label for="preflight-hidePassed">Show only Failures?</label><br>
       </div>
     </dialog>
   `;
@@ -99,6 +104,16 @@ export default async function decorate(block) {
   block.querySelector('#preflight-dialog .preflight-close').addEventListener('click', () => {
     const dialog = block.querySelector('#preflight-dialog');
     dialog.close();
+  });
+
+  block.querySelector('#preflight-dialog #preflight-hidePassed').addEventListener('change', (evt) => {
+    block.querySelectorAll('#preflight-dialog .preflight-check-success, #preflight-dialog .preflight-category-success').forEach((item) => {
+      if (evt.target.checked) {
+        item.classList.add('hide');
+      } else {
+        item.classList.remove('hide');
+      }
+    });
   });
 
   window.addEventListener('message', (msg) => {

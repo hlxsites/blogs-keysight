@@ -2,6 +2,8 @@
   width: 800px;
   height: 600px;
   border: none;
+  display: grid;
+  grid-template-rows: 75px 1fr 30px;
 
   --color-green: #4BB543;
 }
@@ -140,4 +142,8 @@
 .preflight #preflight-dialog .preflight-category-panel .preflight-check p.preflight-check-msg {
   font-size: var(--body-font-size-s);
   grid-column: 2 / span 2;
+}
+
+.preflight #preflight-dialog .hide {
+  display: none;
 }
