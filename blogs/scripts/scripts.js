@@ -536,14 +536,15 @@ function loadDelayed() {
     }, ms);
   }
 
-  window.addEventListener('custom:preflight', () => {
-    // const sk = document.querySelector('helix-sidekick');
-    alert('pf');
-    // const pf = buildBlock('preflight', '');
-    // decorateBlock(pf);
-    // loadBlock(pf);
-  });
-
+  const sk = document.querySelector('helix-sidekick');
+  if (sk) {
+    sk.addEventListener('custom:preflight', () => {
+      const pf = buildBlock('preflight', '');
+      document.querySelector('main').append(pf);
+      decorateBlock(pf);
+      loadBlock(pf);
+    });
+  }
 }
 
 async function loadPage() {
