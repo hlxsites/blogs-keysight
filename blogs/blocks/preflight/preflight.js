@@ -37,6 +37,18 @@ checks.push({
 
 // todo add more checks
 
+const toggle = (item) => {
+  const trigger = item.querySelector('.preflight-category-trigger');
+  const panel = item.querySelector('.preflight-category-panel');
+  const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+  trigger.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+  if (isOpen) {
+    panel.setAttribute('hidden', '');
+  } else {
+    panel.removeAttribute('hidden');
+  }
+};
+
 async function runChecks(dialog) {
   const checksByCat = checks.sort((c1, c2) => {
     const cat1 = c1.category.toUpperCase();
@@ -74,6 +86,10 @@ async function runChecks(dialog) {
           aria-labelledby="preflight-category-trigger-${curCategory}">
         </div>
       `;
+
+      categoryWrapper.querySelector('.preflight-category-trigger').addEventListener('click', () => {
+        toggle(categoryWrapper);
+      });
       categoryPanel = categoryWrapper.querySelector('.preflight-category-panel');
       body.append(categoryWrapper);
     }
