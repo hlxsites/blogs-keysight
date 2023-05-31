@@ -49,3 +49,118 @@ checks.push({
     return res;
   },
 });
+
+checks.push({
+  name: 'Meta Description',
+  category: 'SEO',
+  exec: (doc) => {
+    const res = {
+      status: true,
+      msg: 'Meta description size is good.',
+    };
+    const metaDesc = doc.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      res.status = false;
+      res.msg = 'No meta description found.';
+    } else {
+      const descSize = metaDesc.content.replace(/\s/g, '').length;
+      if (descSize < 50) {
+        res.status = false;
+        res.msg = 'Reason: Meta description too short.';
+      } else if (descSize > 150) {
+        res.status = false;
+        res.msg = 'Reason: Meta description too long.';
+      }
+    }
+
+    return res;
+  },
+});
+
+checks.push({
+  name: 'Canonical',
+  category: 'SEO',
+  exec: async (doc) => {
+    const res = {
+      status: true,
+      msg: 'Canonical reference is valid.',
+    };
+    const canon = doc.querySelector("link[rel='canonical']");
+    const { href } = canon;
+    const resp = await fetch(href, { method: 'HEAD' });
+    if (!resp.ok) {
+      res.status = false;
+      res.msg = 'Error with canonical reference.';
+    }
+    if (resp.ok) {
+      if (resp.status >= 300 && resp.status <= 308) {
+        res.status = false;
+        res.msg = 'Canonical reference redirects.';
+      } else {
+        res.status = true;
+        res.msg = 'Canonical referenced is valid.';
+      }
+    }
+
+    return res;
+  },
+});
+
+checks.push({
+  name: 'Body Size',
+  category: 'SEO',
+  exec: (doc) => {
+    const res = {
+      status: true,
+      msg: 'Body size is good.',
+    };
+    const bodySize = doc.documentElement.innerText.replace(/\s/g, '').length;
+    if (bodySize > 200) {
+      res.status = true;
+      res.msg = 'Body content has a good length. 200 characters';
+    } else {
+      res.status = false;
+      res.msg = 'Body does not have enough content.';
+    }
+
+    return res;
+  },
+});
+
+checks.push({
+  name: 'Links',
+  category: 'SEO',
+  exec: async (doc) => {
+    const res = {
+      status: true,
+      msg: 'Body size is good.',
+    };
+    const links = doc.querySelectorAll('a[href^="/"]');
+
+    let badLink;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const link of links) {
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        const resp = await fetch(link.href, { method: 'HEAD' });
+        if (!resp.ok) {
+          badLink = true;
+          break;
+        }
+      } catch (e) {
+        badLink = true;
+        break;
+      }
+    }
+
+    if (badLink) {
+      res.status = false;
+      res.msg = 'There are one or more broken links.';
+    } else {
+      res.status = true;
+      res.msg = 'Links are valid.';
+    }
+
+    return res;
+  },
+});
