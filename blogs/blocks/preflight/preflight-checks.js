@@ -80,26 +80,31 @@ checks.push({
 checks.push({
   name: 'Canonical',
   category: 'SEO',
-  exec: async (doc) => {
+  exec: (doc) => {
     const res = {
       status: true,
       msg: 'Canonical reference is valid.',
     };
     const canon = doc.querySelector("link[rel='canonical']");
     const { href } = canon;
-    const resp = await fetch(href, { method: 'HEAD' });
-    if (!resp.ok) {
+    try {
+      const resp = fetch(href, { method: 'HEAD' });
+      if (!resp.ok) {
+        res.status = false;
+        res.msg = 'Error with canonical reference.';
+      }
+      if (resp.ok) {
+        if (resp.status >= 300 && resp.status <= 308) {
+          res.status = false;
+          res.msg = 'Canonical reference redirects.';
+        } else {
+          res.status = true;
+          res.msg = 'Canonical referenced is valid.';
+        }
+      }
+    } catch (e) {
       res.status = false;
       res.msg = 'Error with canonical reference.';
-    }
-    if (resp.ok) {
-      if (resp.status >= 300 && resp.status <= 308) {
-        res.status = false;
-        res.msg = 'Canonical reference redirects.';
-      } else {
-        res.status = true;
-        res.msg = 'Canonical referenced is valid.';
-      }
     }
 
     return res;
@@ -117,7 +122,7 @@ checks.push({
     const bodySize = doc.documentElement.innerText.replace(/\s/g, '').length;
     if (bodySize > 200) {
       res.status = true;
-      res.msg = 'Body content has a good length. 200 characters';
+      res.msg = 'Body content has a good length.';
     } else {
       res.status = false;
       res.msg = 'Body does not have enough content.';
@@ -130,19 +135,19 @@ checks.push({
 checks.push({
   name: 'Links',
   category: 'SEO',
-  exec: async (doc) => {
+  exec: (doc) => {
     const res = {
       status: true,
-      msg: 'Body size is good.',
+      msg: 'Links are valid.',
     };
-    const links = doc.querySelectorAll('a[href^="/"]');
+    const links = doc.querySelectorAll('body > main a[href]');
 
     let badLink;
     // eslint-disable-next-line no-restricted-syntax
     for (const link of links) {
       try {
-        // eslint-disable-next-line no-await-in-loop
-        const resp = await fetch(link.href, { method: 'HEAD' });
+        // use await fetch tbd
+        const resp = fetch(link.href, { method: 'HEAD' });
         if (!resp.ok) {
           badLink = true;
           break;
