@@ -88,20 +88,22 @@ checks.push({
     const canon = doc.querySelector("link[rel='canonical']");
     const { href } = canon;
     try {
-      const resp = fetch(href, { method: 'HEAD' });
-      if (!resp.ok) {
-        res.status = false;
-        res.msg = 'Error with canonical reference.';
-      }
-      if (resp.ok) {
-        if (resp.status >= 300 && resp.status <= 308) {
-          res.status = false;
-          res.msg = 'Canonical reference redirects.';
-        } else {
-          res.status = true;
-          res.msg = 'Canonical referenced is valid.';
-        }
-      }
+      fetch(href.replace('www.keysight.com', window.location.hostname), { method: 'HEAD' })
+        .then((resp) => {
+          if (!resp.ok) {
+            res.status = false;
+            res.msg = 'Error with canonical reference.';
+          }
+          if (resp.ok) {
+            if (resp.status >= 300 && resp.status <= 308) {
+              res.status = false;
+              res.msg = 'Canonical reference redirects.';
+            } else {
+              res.status = true;
+              res.msg = 'Canonical referenced is valid.';
+            }
+          }
+        });
     } catch (e) {
       res.status = false;
       res.msg = 'Error with canonical reference.';
