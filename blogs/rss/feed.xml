@@ -10558,4 +10558,12 @@
         <content type="html"><![CDATA[ABCs of Network Packet Brokers]]></content>
         <published>2016-06-17T00:00:00.000Z</published>
     </entry>
+    <entry>
+        <title type="html"><![CDATA[<post title>]]></title>
+        <id>https://www.keysight.com/blogs/blogs/post-template</id>
+        <link href="https://www.keysight.com/blogs/blogs/post-template"/>
+        <updated>1970-01-01T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[<post description, used for cards>]]></content>
+        <published>1970-01-01T00:00:00.000Z</published>
+    </entry>
 </feed>
