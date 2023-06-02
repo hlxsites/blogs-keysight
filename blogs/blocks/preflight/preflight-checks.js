@@ -1,6 +1,15 @@
 // eslint-disable-next-line import/prefer-default-export
 export const checks = [];
 
+function isBlogPost(doc) {
+  // tbd: add if there are variances of blog post pages
+  const templateMetaTag = doc.querySelector('meta[name="template"]');
+  if (templateMetaTag && templateMetaTag.content === 'post') {
+    return true;
+  }
+  return false;
+}
+
 checks.push({
   name: 'Has H1',
   category: 'SEO',
@@ -193,7 +202,7 @@ checks.push({
     const imgElements = doc.querySelectorAll('body > main img');
     for (let i = 0; i < imgElements.length; i += 1) {
       const altText = imgElements[i];
-      if (!blocksToExclude.includes(altText.closest('div').className) && altText.alt === "") {
+      if (!blocksToExclude.includes(altText.closest('div').className) && altText.alt === '') {
         invalidAltTextCount += 1;
       }
     }
@@ -203,6 +212,85 @@ checks.push({
     } else {
       res.status = true;
       res.msg = 'Image alt-text are valid.';
+    }
+
+    return res;
+  },
+});
+
+checks.push({
+  name: 'Hero Image',
+  category: 'Blog Post',
+  exec: (doc) => {
+    const res = {
+      status: true,
+      msg: 'Blog post has hero image.',
+    };
+
+    if (isBlogPost(doc)) {
+      const heroImg = doc.querySelector('body > main .hero img');
+      if (heroImg && heroImg.src !== '') {
+        res.status = true;
+        res.msg = 'Blog post has hero image.';
+      } else {
+        res.status = false;
+        res.msg = 'Blog post has no hero image.';
+      }
+    } else {
+      res.status = true;
+      res.msg = 'Page is not a blog post.';
+    }
+
+    return res;
+  },
+});
+
+checks.push({
+  name: 'Published date',
+  category: 'Blog Post',
+  exec: (doc) => {
+    const res = {
+      status: false,
+      msg: 'Blog post has published date',
+    };
+    if (isBlogPost(doc)) {
+      const publishedDateMetaTag = doc.querySelector('meta[name="publication-date"]');
+      if (publishedDateMetaTag && publishedDateMetaTag.content !== '' && publishedDateMetaTag.content !== '<yyyy-mm-dd>') {
+        res.status = true;
+        res.msg = 'Blog post has published date.';
+      } else {
+        res.status = false;
+        res.msg = 'Blog post has no valid published date.';
+      }
+    } else {
+      res.status = true;
+      res.msg = 'Page is not a blog post.';
+    }
+
+    return res;
+  },
+});
+
+checks.push({
+  name: 'Read time',
+  category: 'Blog Post',
+  exec: (doc) => {
+    const res = {
+      status: false,
+      msg: 'Blog post has read time',
+    };
+    if (isBlogPost(doc)) {
+      const readTimeMetaTag = doc.querySelector('meta[name="read-time"]');
+      if (readTimeMetaTag && readTimeMetaTag.content !== '' && !readTimeMetaTag.content.startsWith('<n>')) {
+        res.status = true;
+        res.msg = 'Blog post has read time.';
+      } else {
+        res.status = false;
+        res.msg = 'Blog post has no valid read time.';
+      }
+    } else {
+      res.status = true;
+      res.msg = 'Page is not a blog post.';
     }
 
     return res;
