@@ -144,19 +144,26 @@ checks.push({
     };
     const links = doc.querySelectorAll('body > main a[href]');
 
-    let badLink;
+    let badLink = false;
     // eslint-disable-next-line no-restricted-syntax
     for (const link of links) {
+      const { href } = link;
       try {
-        // use await fetch tbd
-        const resp = fetch(link.href, { method: 'HEAD' });
-        if (!resp.ok) {
-          badLink = true;
-          break;
-        }
+        fetch(href.replace('www.keysight.com', window.location.hostname), { method: 'HEAD' })
+          // eslint-disable-next-line no-loop-func
+          .then((resp) => {
+            if (!resp.ok) {
+              badLink = true;
+            }
+          })
+          .catch((error) => {
+            console.log('error is', error);
+            res.status = false;
+            res.msg = 'There are seriously broken links.';
+            return res;
+          });
       } catch (e) {
         badLink = true;
-        break;
       }
     }
 
@@ -166,6 +173,36 @@ checks.push({
     } else {
       res.status = true;
       res.msg = 'Links are valid.';
+    }
+
+    return res;
+  },
+});
+
+checks.push({
+  name: 'Image Alt-Text',
+  category: 'SEO',
+  exec: (doc) => {
+    const res = {
+      status: true,
+      msg: 'All Images have alt-text.',
+    };
+    let invalidAltTextCount = 0;
+    // if img is a child of these blocks then ignore check
+    const blocksToExclude = ['post-card'];
+    const imgElements = doc.querySelectorAll('body > main img');
+    for (let i = 0; i < imgElements.length; i += 1) {
+      const altText = imgElements[i];
+      if (!blocksToExclude.includes(altText.closest('div').className) && altText.alt === "") {
+        invalidAltTextCount += 1;
+      }
+    }
+    if (invalidAltTextCount > 0) {
+      res.status = false;
+      res.msg = `${invalidAltTextCount} image(s) have no alt-text.`;
+    } else {
+      res.status = true;
+      res.msg = 'Image alt-text are valid.';
     }
 
     return res;
