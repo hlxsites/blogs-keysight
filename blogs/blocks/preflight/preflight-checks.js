@@ -307,37 +307,42 @@ checks.push({
       status: true,
       msg: 'Author is valid.',
     };
-    const author = doc.querySelector('.post-sidebar > .author-details > .author-name > a');
-    if (!author) {
-      res.status = false;
-      res.msg = "Author's name is missing.";
-      return res;
-    }
-    if (author.innerText === '') {
-      res.status = false;
-      res.msg = "Author's name is missing.";
-      return res;
-    }
-    const { href } = author;
-    if (href !== '' && href !== `${window.location.href}#`) {
-      try {
-        fetch(href, { method: 'HEAD' })
-          .then((resp) => {
-            if (!resp.ok) {
-              res.status = false;
-              res.msg = "Error with the author's page url.";
-            } else {
-              res.status = true;
-              res.msg = 'Author name and url are valid.';
-            }
-          });
-      } catch (e) {
+    if (isBlogPost(doc)) {
+      const author = doc.querySelector('.post-sidebar > .author-details > .author-name > a');
+      if (!author) {
         res.status = false;
-        res.msg = 'Error with author page url.';
+        res.msg = "Author's name is missing.";
+        return res;
+      }
+      if (author.innerText === '') {
+        res.status = false;
+        res.msg = "Author's name is missing.";
+        return res;
+      }
+      const { href } = author;
+      if (href !== '' && href !== `${window.location.href}#`) {
+        try {
+          fetch(href, { method: 'HEAD' })
+            .then((resp) => {
+              if (!resp.ok) {
+                res.status = false;
+                res.msg = "Error with the author's page url.";
+              } else {
+                res.status = true;
+                res.msg = 'Author name and url are valid.';
+              }
+            });
+        } catch (e) {
+          res.status = false;
+          res.msg = 'Error with author page url.';
+        }
+      } else {
+        res.status = false;
+        res.msg = "Author's page url is missing.";
       }
     } else {
-      res.status = false;
-      res.msg = "Author's page url is missing.";
+      res.status = true;
+      res.msg = 'Page is not a blog post.';
     }
 
     return res;
@@ -356,7 +361,7 @@ checks.push({
       res.status = false;
       res.msg = 'Debug scenario';
     } else {
-      res.status = true;
+      res.status = false;
       res.msg = 'Page is not a blog post.';
     }
 
