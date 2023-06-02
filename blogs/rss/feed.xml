@@ -1983,6 +1983,14 @@
         <published>2022-06-02T00:00:00.000Z</published>
     </entry>
     <entry>
+        <title type="html"><![CDATA[How to Create Power Supply Output Sequences with Data Logging]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/06/how-to-create-power-supply-output-sequence-with-data-longging</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/bench/2023/06/how-to-create-power-supply-output-sequence-with-data-longging"/>
+        <updated>2022-06-02T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Bench power supplies have a built-in output sequencing function that enables programmability. By using the test sequence feature, you can program voltage values, current limit values, and time per step. Using the bench power supply with the test sequences feature enables precise control over power-up and power-down sequences and reduces test setup complexity.]]></content>
+        <published>2022-06-02T00:00:00.000Z</published>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Detecting Near Short Defects in IC Wire Bonds with VTEP Technology]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/2022/06/01/detecting-near-short-defects-in-ic-wire-bonds-with-vtep-technology</id>
         <link href="https://www.keysight.com/blogs/blogs/tech/2022/06/01/detecting-near-short-defects-in-ic-wire-bonds-with-vtep-technology"/>
