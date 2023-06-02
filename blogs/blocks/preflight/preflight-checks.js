@@ -300,6 +300,46 @@ checks.push({
 });
 
 checks.push({
+  name: 'Author',
+  category: 'Blog Post',
+  exec: (doc) => {
+    const res = {
+      status: true,
+      msg: 'Author is valid.',
+    };
+    const author = doc.querySelector('.post-sidebar > .author-details > .author-name > a');
+    if (author && author.innerText === '') {
+      res.status = false;
+      res.msg = "Author's name is missing.";
+      return res;
+    }
+    const { href } = author;
+    if (href !== '' && href !== `${window.location.href}#`) {
+      try {
+        fetch(href, { method: 'HEAD' })
+          .then((resp) => {
+            if (!resp.ok) {
+              res.status = false;
+              res.msg = "Error with the author's page url.";
+            } else {
+              res.status = true;
+              res.msg = 'Author name and url are valid.';
+            }
+          });
+      } catch (e) {
+        res.status = false;
+        res.msg = 'Error with author page url.';
+      }
+    } else {
+      res.status = false;
+      res.msg = "Author's page url is missing.";
+    }
+
+    return res;
+  },
+});
+
+checks.push({
   name: 'Ignore',
   category: 'Blog Post',
   exec: (doc) => {
