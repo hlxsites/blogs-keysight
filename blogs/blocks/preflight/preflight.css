@@ -1,4 +1,4 @@
-.preflight #preflight-dialog {
+.preflight #preflight-dialog[open] {
   width: 800px;
   height: 600px;
   border: none;
