@@ -52,8 +52,9 @@ async function runChecks(dialog) {
         </div>
       `;
 
-      categoryWrapper.querySelector('.preflight-category-trigger').addEventListener('click', () => {
-        toggle(categoryWrapper);
+      categoryWrapper.querySelector('.preflight-category-trigger').addEventListener('click', (e) => {
+        const wrapper = e.target.parentElement;
+        toggle(wrapper);
       });
       categoryPanel = categoryWrapper.querySelector('.preflight-category-panel');
       body.append(categoryWrapper);
