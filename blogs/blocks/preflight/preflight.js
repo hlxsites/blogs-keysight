@@ -1,4 +1,5 @@
 import { checks } from './preflight-checks.js';
+import { toClassName } from '../../scripts/lib-franklin.js';
 
 const toggle = (item, forceOpen) => {
   const trigger = item.querySelector('.preflight-category-trigger');
@@ -35,18 +36,19 @@ async function runChecks(dialog) {
   checksByCat.forEach((check) => {
     if (curCategory !== check.category) {
       curCategory = check.category;
+      const catProp = toClassName(curCategory);
       categoryWrapper = document.createElement('div');
       categoryWrapper.classList.add('preflight-category', 'preflight-category-success');
       categoryWrapper.innerHTML = `
         <button class="preflight-category-trigger" aria-expanded="false" 
-          aria-controls="preflight-category-panel-${curCategory}" 
-          id="preflight-category-trigger-${curCategory}">
+          aria-controls="preflight-category-panel-${catProp}" 
+          id="preflight-category-trigger-${catProp}">
           <span class="preflight-category-title">${curCategory}</span>
         </button>
         <div class="preflight-category-panel" 
-          id="preflight-category-panel-${curCategory}"
+          id="preflight-category-panel-${catProp}"
           role="region"
-          aria-labelledby="preflight-category-trigger-${curCategory}" hidden>
+          aria-labelledby="preflight-category-trigger-${catProp}" hidden>
         </div>
       `;
 
