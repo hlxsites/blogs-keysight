@@ -51,7 +51,8 @@
 }
 
 .preflight #preflight-dialog .preflight-body {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 3.2rem;
   overflow-y: scroll;
   padding-block: 3.2rem;
