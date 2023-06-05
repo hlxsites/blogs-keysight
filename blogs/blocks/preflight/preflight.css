@@ -133,6 +133,10 @@
   position: relative;
 }
 
+.preflight #preflight-dialog .preflight-category-panel .preflight-check:last-of-type {
+  border-bottom: none;
+}
+
 .preflight #preflight-dialog .preflight-category-panel .preflight-check::before {
   left: 0;
 }
