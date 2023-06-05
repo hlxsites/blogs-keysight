@@ -161,5 +161,6 @@
 }
 
 .preflight #preflight-dialog .hide {
-  display: none;
+  visibility: hidden;
+  max-height: 0;
 }
