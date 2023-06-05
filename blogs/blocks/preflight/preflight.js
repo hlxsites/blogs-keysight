@@ -1,7 +1,5 @@
 import { checks } from './preflight-checks.js';
 
-// todo add more checks
-
 const toggle = (item, forceOpen) => {
   const trigger = item.querySelector('.preflight-category-trigger');
   const panel = item.querySelector('.preflight-category-panel');
