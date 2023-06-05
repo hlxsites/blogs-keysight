@@ -96,7 +96,7 @@ export default async function decorate(block) {
       </div>
       <div class="preflight-footer">
         <input type="checkbox" id="preflight-hidePassed" name="preflight-hidePassed" value="yes">
-        <label for="preflight-hidePassed">Show only Failures?</label><br>
+        <label for="preflight-hidePassed">Show only Failures?</label>
       </div>
     </dialog>
   `;
