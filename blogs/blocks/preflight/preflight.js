@@ -53,7 +53,7 @@ async function runChecks(dialog) {
       `;
 
       categoryWrapper.querySelector('.preflight-category-trigger').addEventListener('click', (e) => {
-        const wrapper = e.target.parentElement;
+        const wrapper = e.target.closest('.preflight-category');
         toggle(wrapper);
       });
       categoryPanel = categoryWrapper.querySelector('.preflight-category-panel');
