@@ -50,9 +50,10 @@
 
 .preflight #preflight-dialog .preflight-body {
   display: grid;
-  gap: 2rem;
+  gap: 3.2rem;
   overflow-y: scroll;
   padding-block: 3.2rem;
+  scroll-margin: 3.2rem;
 }
 
 .preflight #preflight-dialog .preflight-category-trigger {
