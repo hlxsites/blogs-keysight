@@ -4,17 +4,17 @@ import {
   buildBlock,
   decorateBlock,
 } from '../../scripts/lib-franklin.js';
-import { createElement, getNavPages } from '../../scripts/scripts.js';
+import { createElement } from '../../scripts/scripts.js';
+import ffetch from '../../scripts/ffetch.js';
 
 async function buildPostData(h1) {
-  const pages = await getNavPages();
-  const topic = getMetadata('subtopic') !== '' ? getMetadata('subtopic') : getMetadata('topic');
-  let topicPath = '#';
-  pages.forEach((page) => {
-    if (page.topic === topic || page.subtopic === topic) {
-      topicPath = page.path;
-    }
-  });
+  const topic = getMetadata('subtopic') ? getMetadata('subtopic') : getMetadata('topic');
+  const topicPath = await ffetch('/blogs/query-index.json')
+    .sheet('nav')
+    .filter((page) => page.topic === topic || page.subtopic === topic)
+    .map((page) => page.path)
+    .first();
+
   const pubdate = getMetadata('publication-date');
   const readtime = getMetadata('read-time');
 

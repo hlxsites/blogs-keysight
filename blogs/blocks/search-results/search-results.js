@@ -5,10 +5,9 @@ import {
   loadBlock,
 } from '../../scripts/lib-franklin.js';
 import {
-  getPosts,
-  loadPosts,
   splitTags,
   createElement,
+  getPostsFfetch,
 } from '../../scripts/scripts.js';
 import ffetch from '../../scripts/ffetch.js';
 import { validateTags } from '../../scripts/taxonomy.js';
@@ -55,35 +54,25 @@ async function getTagsLinks(post) {
   return undefined;
 }
 
-async function executeSearch(q) {
-  while (!window.keysight.postData.allLoaded) {
-    // eslint-disable-next-line no-await-in-loop
-    await loadPosts(true);
-  }
-  const posts = await getPosts('none', -1);
+function executeSearch(q) {
+  const posts = getPostsFfetch();
   const terms = q.toLowerCase().split(' ').map((e) => e.trim()).filter((e) => !!e);
   const stopWords = ['a', 'an', 'the', 'and', 'to', 'for', 'i', 'of', 'on', 'into'];
-  const results = posts.map((post) => {
-    let score = 0;
+  const results = posts.filter((post) => {
     const title = post.title.toLowerCase();
     const text = [post.description, post.author].join(' ').toLowerCase();
     const tags = splitTags(post.tags).join(' ').toLowerCase();
 
+    let matchesQuery = false;
     terms.forEach((term) => {
       if (!stopWords.includes(term)) {
         const regex = new RegExp(term, 'g');
-        score += ((title.match(regex) || []).length) * 4;
-        score += (text.match(regex) || []).length;
-        score += ((tags.match(regex) || []).length) * 2;
+        matchesQuery = title.match(regex) || text.match(regex) || tags.match(regex);
       }
     });
 
-    return {
-      post,
-      score,
-    };
-  }).filter((postObj) => postObj.score > 0)
-    .sort((postA, postB) => postB.score - postA.score);
+    return matchesQuery;
+  });
 
   return results;
 }
@@ -137,7 +126,6 @@ async function buildPostCard(post, index) {
     postCard.querySelector('.post-card-text').append(tagsLinks);
   }
 
-  // decorateIcons(postCard);
   return postCard;
 }
 
@@ -146,41 +134,61 @@ export default async function decorate(block) {
   const params = url.searchParams;
   const q = params.get('q').toLowerCase();
 
-  const results = await executeSearch(q);
+  const initResults = executeSearch(q).slice(0, initLoad);
+  const deferredPosts = executeSearch(q).slice(initLoad);
   const grid = createElement('div', 'post-cards-grid');
-  let primaryPosts;
-  let deferredPosts;
-  if (results.length > initLoad) {
-    primaryPosts = results.slice(0, initLoad);
-    deferredPosts = results.slice(initLoad);
-  } else {
-    primaryPosts = results;
-    deferredPosts = [];
-  }
 
   let counter = 0;
-  for (let i = 0; i < primaryPosts.length; i += 1) {
-    const postCard = await buildPostCard(primaryPosts[i].post, counter);
+  // eslint-disable-next-line no-restricted-syntax
+  for await (const post of initResults) {
+    const postCard = buildPostCard(post, counter);
     grid.append(postCard);
     counter += 1;
   }
 
+  let resultsLength;
+  if (counter === initLoad) {
+    resultsLength = `${counter}+`;
+  } else {
+    resultsLength = `${counter}`;
+  }
+
+  // let primaryPosts;
+  // let deferredPosts;
+  // if (results.length > initLoad) {
+  //   primaryPosts = results.slice(0, initLoad);
+  //   deferredPosts = results.slice(initLoad);
+  // } else {
+  //   primaryPosts = results;
+  //   deferredPosts = [];
+  // }
+
+  // let counter = 0;
+  // for (let i = 0; i < primaryPosts.length; i += 1) {
+  //   const postCard = buildPostCard(primaryPosts[i].post, counter);
+  //   grid.append(postCard);
+  //   counter += 1;
+  // }
+
   let deferredLoaded = false;
-  const loadDeferred = () => {
+  const loadDeferred = async () => {
     if (!deferredLoaded) {
       deferredLoaded = true;
-      for (let i = 0; i < deferredPosts.length; i += 1) {
-        const postCard = buildPostCard(deferredPosts[i].post, counter);
+      // eslint-disable-next-line no-restricted-syntax
+      for await (const post of deferredPosts) {
+        const postCard = buildPostCard(post, counter);
         grid.append(postCard);
         counter += 1;
       }
+
+      block.querySelector('.results-count').textContent = `${counter} Results`;
     }
   };
 
   block.innerHTML = '';
 
   const resultCount = createElement('h2');
-  resultCount.textContent = `${results.length} Results`;
+  resultCount.textContent = `${resultsLength} Results`;
   resultCount.classList.add('results-count');
   block.append(resultCount);
 
@@ -191,21 +199,23 @@ export default async function decorate(block) {
     const moreButton = createElement('button', 'show-more-cards');
     moreButton.innerText = 'Show More';
     moreButton.addEventListener('click', () => {
-      if (!deferredLoaded) {
-        loadDeferred();
-      }
-
       for (let i = 0; i < pageSize; i += 1) {
         const nextPost = grid.querySelector('.post-card.hidden');
         if (nextPost) {
           nextPost.classList.remove('hidden');
         }
       }
-      hasHidden = grid.querySelector('.post-card.hidden');
-      if (!hasHidden) {
-        // no more hidden, so hide show more button
-        moreButton.style.display = 'none';
-      }
+      setTimeout(async () => {
+        if (!deferredLoaded) {
+          await loadDeferred();
+        }
+
+        hasHidden = grid.querySelector('.post-card.hidden');
+        if (!hasHidden) {
+          // no more hidden, so hide show more button
+          moreButton.style.display = 'none';
+        }
+      }, 250);
     });
 
     const moreContainer = createElement('div', 'show-more-cards-container');

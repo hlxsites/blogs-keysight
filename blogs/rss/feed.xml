@@ -2,17 +2,73 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-08-05T00:00:00.000Z</updated>
+    <updated>2023-06-02T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
     <entry>
+        <title type="html"><![CDATA[How to Create Power Supply Output Sequences with Data Logging]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/06/how-to-create-power-supply-output-sequence-with-data-logging</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/bench/2023/06/how-to-create-power-supply-output-sequence-with-data-logging"/>
+        <updated>2023-06-02T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Bench power supplies have a built-in output sequencing function that enables programmability. By using the test sequence feature, you can program voltage values, current limit values, and time per step. Using the bench power supply with the test sequences feature enables precise control over power-up and power-down sequences and reduces test setup complexity.]]></content>
+        <published>2023-06-02T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[World Environment Day: Solutions for Plastic Pollution]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/kcsr/2023/05/31/world-environment-day-2023</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/kcsr/2023/05/31/world-environment-day-2023"/>
+        <updated>2023-06-01T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Keysight’s Director of Sustainability & EHS reflects on World Environment Day and on the company’s action to support reduction of plastic pollution.]]></content>
+        <published>2023-06-01T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Mission Impossible: Manual Software Testing for Every User Journey]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/5/31/manual-software-testing-user-journey</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/5/31/manual-software-testing-user-journey"/>
+        <updated>2023-05-31T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Manually testing every user journey across your applications, websites, and devices is impossible. Discover how Keysight makes the impossible possible with intelligent automated software testing.]]></content>
+        <published>2023-05-31T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Overcoming QA Testing Challenges in Financial Systems: Delivering Compliance, Security and Performance]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/5/31/overcoming-qa-challenges-financial-enterprise</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/5/31/overcoming-qa-challenges-financial-enterprise"/>
+        <updated>2023-05-31T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[<post description, used for cards>]]></content>
+        <published>2023-05-31T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Volunteering Together Builds Community]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/kcsr/2023/05/31/may-2023-volunteer-blog</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/kcsr/2023/05/31/may-2023-volunteer-blog"/>
+        <updated>2023-05-31T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Team of volunteers]]></content>
+        <published>2023-05-31T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[High Power Amplifier Test Enhancements with the ENA-X VNA]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/rfmw/2023/05/25/high-power-amplifier-test-enhancements-with-the-ena-x-vna</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/rfmw/2023/05/25/high-power-amplifier-test-enhancements-with-the-ena-x-vna"/>
+        <updated>2023-05-25T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[5G power amplifier tests requires wideband signals and complex modulation schemes at high power. Learn how the ENA-X network analyzer simplifies your test setup while improving measurement accuracy.]]></content>
+        <published>2023-05-25T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[4 Strategies to Help a Multigenerational Workforce Thrive]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/exec/2023/05/4-strategies-to-help-a-multigenerational-workforce-thrive</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/exec/2023/05/4-strategies-to-help-a-multigenerational-workforce-thrive"/>
+        <updated>2023-05-25T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[One of Keysight’s unique differentiators is that our workforce spans five generations. Our diverse perspective combines the knowledge and resources of our experienced employees with the cutting-edge ideas and thinking of the next generation.]]></content>
+        <published>2023-05-25T00:00:00.000Z</published>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Keysight: A Company as Diverse as the World We Live In]]></title>
-        <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/09/keysight-a-company-as-diverse-as-the-world-we-live-in</id>
-        <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/09/keysight-a-company-as-diverse-as-the-world-we-live-in"/>
-        <updated>2023-08-05T00:00:00.000Z</updated>
+        <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/05/24/keysight-a-company-as-diverse-as-the-world-we-live-in</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/05/24/keysight-a-company-as-diverse-as-the-world-we-live-in"/>
+        <updated>2023-05-24T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Keysight shares notable accomplishments and ongoing DEI focus areas with release of its 2022 Diversity, Equity, and Inclusion Report]]></content>
-        <published>2023-08-05T00:00:00.000Z</published>
+        <published>2023-05-24T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[How AI-Driven User Experience Testing Enhances Digital Healthcare Accessibility]]></title>
@@ -23,12 +79,20 @@
         <published>2023-05-22T00:00:00.000Z</published>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Introducing Keyisght’s APS-M8400 8 x 400GE Application and Security Test Appliance: Powering Network Application and Security Testing at Hyperscale]]></title>
-        <id>https://www.keysight.com/blogs/blogs/tech/2023/05/22/introducing-keyisght-s-aps-m8400-8x400ge-application-and-security-test-appliance</id>
-        <link href="https://www.keysight.com/blogs/blogs/tech/2023/05/22/introducing-keyisght-s-aps-m8400-8x400ge-application-and-security-test-appliance"/>
+        <title type="html"><![CDATA[Introducing Keysight’s APS-M8400 8 x 400GE Application and Security Test Appliance: Powering Network Application and Security Testing at Hyperscale]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/2023/05/22/introducing-keysight-s-aps-m8400-8x400ge-application-and-security-test-appliance</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/2023/05/22/introducing-keysight-s-aps-m8400-8x400ge-application-and-security-test-appliance"/>
         <updated>2023-05-22T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Unlocking Hyperscale, 400GE Capable, Network Application and Security Testing]]></content>
         <published>2023-05-22T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Reasons to Transform Your Current Software Test Approach]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/05/09/reasons-to-transform-your-current-software-test-approach</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/05/09/reasons-to-transform-your-current-software-test-approach"/>
+        <updated>2023-05-20T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Commercial software testing solutions are designed to help organizations improve the quality of their software and reduce time-to-market. By leveraging the latest testing tools, methodologies, and best practices, these solutions can help organizations identify defects and bugs earlier in the software development lifecycle.]]></content>
+        <published>2023-05-20T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[Automated Testing Using PathWave Test Executive for Manufacturing]]></title>
@@ -85,14 +149,6 @@
         <updated>2023-05-10T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Threat Simulator allows you to proactively assess your People, Processes, and Security controls before the threat actor does.]]></content>
         <published>2023-05-10T00:00:00.000Z</published>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Reasons to Transform Your Current Software Test Approach]]></title>
-        <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/05/09/reasons-to-transform-your-current-software-test-approach</id>
-        <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/05/09/reasons-to-transform-your-current-software-test-approach"/>
-        <updated>2023-05-09T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[Commercial software testing solutions are designed to help organizations improve the quality of their software and reduce time-to-market. By leveraging the latest testing tools, methodologies, and best practices, these solutions can help organizations identify defects and bugs earlier in the software development lifecycle.]]></content>
-        <published>2023-05-09T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[Will an AI ever become conscious?]]></title>
@@ -10501,5 +10557,13 @@
         <updated>2016-06-17T00:00:00.000Z</updated>
         <content type="html"><![CDATA[ABCs of Network Packet Brokers]]></content>
         <published>2016-06-17T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[<post title>]]></title>
+        <id>https://www.keysight.com/blogs/blogs/post-template</id>
+        <link href="https://www.keysight.com/blogs/blogs/post-template"/>
+        <updated>1970-01-01T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[<post description, used for cards>]]></content>
+        <published>1970-01-01T00:00:00.000Z</published>
     </entry>
 </feed>

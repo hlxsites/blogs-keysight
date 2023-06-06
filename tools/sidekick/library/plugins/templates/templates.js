@@ -9,7 +9,184 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { createElement } from '../utils/utils.js';
+import { createElement, createCopy } from '../utils/utils.js';
+
+export async function fetchTemplate(path) {
+  if (!window.templates) {
+    window.templates = {};
+  }
+  if (!window.templates[path]) {
+    const resp = await fetch(`${path}?view-doc-source=true`);
+    if (!resp.ok) return '';
+
+    const html = await resp.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    window.templates[path] = doc;
+  }
+
+  return window.templates[path];
+}
+
+function createTag(tag, attributes = {}, html = undefined) {
+  const el = document.createElement(tag);
+  if (html) {
+    if (html instanceof HTMLElement || html instanceof SVGElement) {
+      el.append(html);
+    } else {
+      el.insertAdjacentHTML('beforeend', html);
+    }
+  }
+  if (attributes) {
+    Object.entries(attributes).forEach(([key, val]) => {
+      el.setAttribute(key, val);
+    });
+  }
+  el.style.textAlign = 'left';
+  return el;
+}
+
+function decorateImages(templateSection, path) {
+  const url = new URL(path);
+  templateSection.querySelectorAll('img').forEach((img) => {
+    const srcSplit = img.src.split('/');
+    const mediaPath = srcSplit.pop();
+    img.src = `${url.origin}/${mediaPath}`;
+    const { width, height } = img;
+    const ratio = 1;
+    img.width = width * ratio;
+    img.height = height * ratio;
+  });
+
+  return [templateSection.innerHTML];
+}
+
+function createTable(block, name, path) {
+  decorateImages(block, path);
+  const rows = [...block.children];
+  const maxCols = rows.reduce((cols, row) => (
+    row.children.length > cols ? row.children.length : cols), 0);
+  const table = document.createElement('table');
+  table.setAttribute('border', 1);
+  const headerRow = document.createElement('tr');
+  headerRow.append(createTag('th', { colspan: maxCols, style: 'background-color:#f4cccd;' }, name));
+  table.append(headerRow);
+  rows.forEach((row) => {
+    const tr = document.createElement('tr');
+    [...row.children].forEach((col) => {
+      const td = document.createElement('td');
+      if (row.children.length < maxCols) {
+        td.setAttribute('colspan', maxCols);
+      }
+      td.innerHTML = col.innerHTML;
+      tr.append(td);
+    });
+    table.append(tr);
+  });
+  return table.outerHTML;
+}
+
+function createImgElement(src, width, height) {
+  const imgEl = document.createElement('img');
+  imgEl.setAttribute('src', src);
+  imgEl.setAttribute('alt', '<replace with your hero image>');
+  imgEl.loading = 'lazy';
+  imgEl.width = width;
+  imgEl.height = height;
+  return imgEl;
+}
+
+function createMetadataTable(headSection, path) {
+  decorateImages(headSection, path);
+  // meta tags to include and their docx translation
+  const validMetaMap = {
+    template: 'Template', 'og:title': 'Title', description: 'Description', 'og:image': 'Image', author: 'Author', 'article:tag': 'Tags', 'publication-date': 'Publication Date', 'read-time': 'Read Time',
+  };
+  // stuff relevant template meta tags into array
+  const metadataArray = [];
+  headSection.querySelectorAll('meta').forEach((row) => {
+    const headMetaTag = row.getAttributeNames()[0] === 'property' ? row.getAttribute('property') : row.getAttribute('name');
+    const metaTagValue = validMetaMap[headMetaTag];
+    if (metaTagValue !== undefined) {
+      const metaObj = { attrib: metaTagValue, value: row.getAttribute('content') };
+      metadataArray.push(metaObj);
+    }
+  });
+  // resolve duplicates
+  const compactedMetaArray = Array.from(new Set(metadataArray.map((set) => set.attrib)))
+    .map((attrib) => ({
+      attrib,
+      value: metadataArray.filter((set) => set.attrib === attrib).map((attribute) => attribute.value).join(', '),
+    }));
+
+  const maxCols = 2;
+  const table = document.createElement('table');
+  table.setAttribute('border', 1);
+  const headerRow = document.createElement('tr');
+  headerRow.append(createTag('th', { colspan: maxCols, style: 'background-color:#f4cccd;' }, 'metadata'));
+  table.append(headerRow);
+  compactedMetaArray.forEach((row) => {
+    const tr = document.createElement('tr');
+    const tdName = document.createElement('td');
+    tdName.innerText = row.attrib;
+    tr.append(tdName);
+    const tdValue = document.createElement('td');
+    if (row.attrib === 'Image') {
+      // use this image url to avoid 404
+      const templateImgUrl = 'https://main--blogs-keysight--hlxsites.hlx.page/block-library/templates/media_110be40889e2176c09e36ef4c3ce1b3ad82eaa7d3.png?optimize=medium';
+      tdValue.appendChild(createImgElement(templateImgUrl, '280', '200'));
+      tdValue.appendChild(document.createTextNode('<replace with your hero image>'));
+    } else {
+      tdValue.innerText = row.value;
+    }
+    tr.append(tdValue);
+    table.append(tr);
+  });
+
+  return table.outerHTML;
+}
+
+function createSection(section, path) {
+  decorateImages(section, path);
+  let output = '';
+  [...section.children].forEach((row) => {
+    if (row.nodeName === 'DIV') {
+      const blockName = row.classList[0];
+      output = output.concat(createTable(row, blockName, path));
+    } else if (row.nodeName === 'H1') {
+      // add font-size and text color to blog post title and h1 element
+      row.setAttribute('style', 'color:blue; font-size: 20px;');
+      output = output.concat(row.outerHTML);
+      output = output.replace('<p>', "<p style='font-size: 36px;'>");
+    } else if (row.nodeName === 'H2') {
+      // add font-size to h2 element
+      row.setAttribute('style', 'color:black; font-size: 20px;');
+      output = output.concat(row.outerHTML);
+    } else {
+      output = output.concat(row.outerHTML);
+    }
+  });
+  return output;
+}
+
+function processMarkup(template, path) {
+  decorateImages(template, path);
+  let output = '';
+  // process template body
+  template.body.querySelector('main').querySelectorAll(':scope > div').forEach((row, i) => {
+    if (row.nodeName === 'DIV') {
+      if (i > 0) output = output.concat('---');
+      output = output.concat(createSection(row, path));
+    } else {
+      output = output.concat(row.outerHTML);
+    }
+  });
+  // process template head to derive meta tags
+  output = output.concat('<br/>');
+  output = output.concat(createMetadataTable(template.head, path));
+
+  return output;
+}
 
 /**
  * Called when a user tries to load the plugin
@@ -17,9 +194,45 @@ import { createElement } from '../utils/utils.js';
  * @param {Object} data The data contained in the plugin sheet
  * @param {String} query If search is active, the current search query
  */
-export async function decorate(container, data, query) {
+export async function decorate(container, data, _query) {
   container.dispatchEvent(new CustomEvent('ShowLoader'));
-  const sideNav = createElement('sp-sidenav', '', { variant: 'multilevel', 'data-testid': 'autoblocks' });
+  const sideNav = createElement('sp-sidenav', '', { variant: 'multilevel', 'data-testid': 'templates' });
+
+  const promises = data.map(async (item) => {
+    const { name, path } = item;
+    const templatePromise = fetchTemplate(path);
+
+    try {
+      const res = await templatePromise;
+      if (!res) {
+        throw new Error(`An error occurred fetching ${name}`);
+      }
+
+      const templateVariant = createElement('sp-sidenav-item', '', { label: name, preview: false });
+      sideNav.append(templateVariant);
+
+      const childNavItem = createElement('sp-sidenav-item', '', { label: name, 'data-testid': 'item' });
+      childNavItem.setAttribute('data-info', name); // TBD: this is template description
+      templateVariant.append(childNavItem);
+
+      childNavItem.addEventListener('click', () => {
+        const blobInput = processMarkup(res, path);
+        const blob = new Blob([blobInput], { type: 'text/html' });
+        createCopy(blob);
+
+        // Show toast
+        container.dispatchEvent(new CustomEvent('Toast', { detail: { message: 'Copied Template' } }));
+      });
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e.message);
+      container.dispatchEvent(new CustomEvent('Toast', { detail: { message: e.message, variant: 'negative' } }));
+    }
+
+    return templatePromise;
+  });
+
+  await Promise.all(promises);
 
   // Show blocks and hide loader
   container.append(sideNav);
