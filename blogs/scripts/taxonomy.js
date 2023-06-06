@@ -1,5 +1,4 @@
 import { toClassName } from './lib-franklin.js';
-import ffetch from './ffetch.js';
 
 /**
  * Find the second-level list items and put them into a single array.
@@ -51,6 +50,7 @@ export async function validateTag(tag) {
   } catch (e) {
     // fail
     // console.log('Error:', e);
+    return null;
   }
 }
 
@@ -73,6 +73,7 @@ export async function validateTagObjs(tagsObjArray) {
   } catch (e) {
     // fail
     // console.log('Error:', e);
+    return null;
   }
 }
 
@@ -86,8 +87,8 @@ export async function validateTags(tagsArray) {
   let allowedTags;
   try {
     allowedTags = await getFranklinTags();
-    let validTags = [];
-    let invalidTags = [];
+    const validTags = [];
+    const invalidTags = [];
     tagsArray.forEach((tag) => {
       // const match = allowedTags.hits.find((item) => item.TAG_NAME === tag);
       if (allowedTags.includes(toClassName(tag))) {
@@ -100,5 +101,6 @@ export async function validateTags(tagsArray) {
   } catch (e) {
     // fail
     // console.log('Error:', e);
+    return null;
   }
 }

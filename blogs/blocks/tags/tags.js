@@ -6,7 +6,6 @@ import {
   filterPosts,
 } from '../../scripts/scripts.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
-import { validateTagObjs } from '../../scripts/taxonomy.js';
 
 function buildSearch(block) {
   const wrapper = createElement('div', 'find-tag');
