@@ -20,7 +20,7 @@ async function getFranklinTags() {
   let resp;
   try {
     // Fetch the HTML content of the webpage
-    resp = await ffetch(`${origin}/blogs/tags.plain.html`);
+    resp = await fetch(`${origin}/blogs/tags.plain.html`);
     if (resp && resp.ok) {
       const text = await resp.text();
       const tempElement = document.createElement('div');
@@ -63,8 +63,38 @@ async function getAEMTags() {
  * @param {String} tag The string to validate.
  * @returns {boolean}
  */
-export function validateTag(tag) {
+export async function validateTag(tag) {
+  let allowedTags;
+  try {
+    allowedTags = await getFranklinTags();
+    const good = allowedTags.includes(toClassName(tag));
+    return good;
+  } catch (e) {
+    // fail
+    console.log('Error:', e);
+  }
+}
 
+/**
+ * Validate an array of tag objects against a source.
+ * @param {Array} tagObjArray The object array to validate.
+ * @returns {Array} Array containing the valid tags.
+ */
+export async function validateTagObjs(tagsObjArray) {
+  let allowedTags;
+  try {
+      allowedTags = await getFranklinTags();
+      let result;
+      tagsObjArray.forEach((obj) => {       
+        if (allowedTags.includes(toClassName(obj.tag))) {
+          result.push(obj);
+        }
+      });
+      return result;
+  } catch (e) {
+    // fail
+    console.log('Error:', e);
+  }
 }
 
 /**
@@ -73,29 +103,23 @@ export function validateTag(tag) {
  * @returns {Array} Array containing two arrays. The first array being only the valid tags,
  * the second one being the tags that are invalid
  */
-export default async function validateTags(tagsArray) {
-  let resp;
+export async function validateTags(tagsArray) {
   let allowedTags;
   try {
-    resp = await fetch(`https://www.keysight.com/clientapi/search/aemtags/en`);
-    if (resp && resp.ok) {
-      allowedTags = await resp.json();
+      allowedTags = await getFranklinTags();
       let validTags = [];
       let invalidTags = [];
 
-      tagsArray.forEach((tag) => {
-        
-        console.log(allowedTags);
-
-        const match = allowedTags.hits.find((item) => item.TAG_NAME === tag);
-        if (match) {
+      tagsArray.forEach((tag) => {       
+        // const match = allowedTags.hits.find((item) => item.TAG_NAME === tag);
+        if (allowedTags.includes(toClassName(tag))) {
           validTags.push(tag);
         } else {
           invalidTags.push(tag);
         }
       });
       return [validTags, invalidTags];
-    }
+    
   } catch (e) {
     // fail
     console.log('Error:', e);

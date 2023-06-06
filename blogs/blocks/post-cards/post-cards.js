@@ -14,6 +14,7 @@ import {
   buildBlock,
 } from '../../scripts/lib-franklin.js';
 import ffetch from '../../scripts/ffetch.js';
+import { validateTags } from '../../scripts/taxonomy.js';
 
 let pageSize = 7;
 
@@ -67,11 +68,12 @@ async function getAuthorLink(post) {
   return notLink;
 }
 
-function getTagsLinks(post) {
+async function getTagsLinks(post) {
   const tags = splitTags(post.tags);
   if (tags.length > 0) {
+    const validTags = await validateTags(tags);
     const list = createElement('ul', 'card-tags');
-    tags.forEach((tag) => {
+    validTags[0].forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
       link.innerText = `#${tag}`;
@@ -87,7 +89,7 @@ function getTagsLinks(post) {
   return undefined;
 }
 
-function buildPostCard(post, index) {
+async function buildPostCard(post, index) {
   const classes = ['post-card', 'hidden'];
   const isAnAuthorPage = getMetadata('template') === 'author';
   if (!isAnAuthorPage && index % 7 === 3) {
@@ -158,7 +160,7 @@ function buildPostCard(post, index) {
     }
   });
 
-  const tagsLinks = getTagsLinks(post);
+  const tagsLinks = await getTagsLinks(post);
   if (tagsLinks) {
     postCard.querySelector('.post-card-text').append(tagsLinks);
   }
@@ -183,7 +185,7 @@ async function loadPage(grid) {
   for (let i = 0;
     counter < posts.length && i < pageSize && (limit < 0 || counter < limit);
     i += 1) {
-    const postCard = buildPostCard(posts[counter], hasCta ? counter + 1 : counter);
+    const postCard = await buildPostCard(posts[counter], hasCta ? counter + 1 : counter);
     grid.append(postCard);
     counter += 1;
   }

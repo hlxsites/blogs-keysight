@@ -11,7 +11,7 @@ import {
   createElement,
 } from '../../scripts/scripts.js';
 import ffetch from '../../scripts/ffetch.js';
-import validateTags from '../../scripts/taxonomy.js';
+import { validateTags } from '../../scripts/taxonomy.js';
 
 const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
 const tags = getMetadata('article:tag').split(', ');

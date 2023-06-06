@@ -11,6 +11,7 @@ import {
   createElement,
 } from '../../scripts/scripts.js';
 import ffetch from '../../scripts/ffetch.js';
+import { validateTags } from '../../scripts/taxonomy.js';
 
 const pageSize = 10;
 const initLoad = pageSize * 2;
@@ -33,11 +34,12 @@ async function getAuthorLink(post) {
   return notLink;
 }
 
-function getTagsLinks(post) {
+async function getTagsLinks(post) {
   const tags = splitTags(post.tags);
   if (tags.length > 0) {
+    const validTags = await validateTags(tags);
     const list = createElement('ul', 'card-tags');
-    tags.forEach((tag) => {
+    validTags[0].forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
       link.innerText = `#${tag}`;
@@ -86,7 +88,7 @@ async function executeSearch(q) {
   return results;
 }
 
-function buildPostCard(post, index) {
+async function buildPostCard(post, index) {
   const classes = ['post-card'];
   if (index >= pageSize) {
     classes.push('hidden');
@@ -130,7 +132,7 @@ function buildPostCard(post, index) {
     }
   });
 
-  const tagsLinks = getTagsLinks(post);
+  const tagsLinks = await getTagsLinks(post);
   if (tagsLinks) {
     postCard.querySelector('.post-card-text').append(tagsLinks);
   }
@@ -158,7 +160,7 @@ export default async function decorate(block) {
 
   let counter = 0;
   for (let i = 0; i < primaryPosts.length; i += 1) {
-    const postCard = buildPostCard(primaryPosts[i].post, counter);
+    const postCard = await buildPostCard(primaryPosts[i].post, counter);
     grid.append(postCard);
     counter += 1;
   }

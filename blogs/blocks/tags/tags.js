@@ -6,6 +6,7 @@ import {
   loadPosts,
 } from '../../scripts/scripts.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
+import { validateTagObjs } from '../../scripts/taxonomy.js';
 
 function buildSearch(block) {
   const wrapper = createElement('div', 'find-tag');
@@ -91,6 +92,7 @@ async function loadBlock(block) {
     return true;
   });
   tagsAsArray.sort((a, b) => b.count - a.count);
+  const validObjTags = await validateTagObjs(tagsAsArray);
   const isAll = block.classList.contains('all');
   block.innerHTML = '';
   block.append(getTagsLinks(tagsAsArray, isAll ? -1 : 15));
