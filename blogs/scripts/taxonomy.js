@@ -38,27 +38,6 @@ async function getFranklinTags() {
 }
 
 /**
- * Retrieve tags from API.
- * @returns {Array} An array of tag objects
- */
-async function getAEMTags() {
-  let resp;
-  try {
-    // Fetch the HTML content of the webpage
-    //resp = await ffetch(`${origin}/clientapi/search/aemtags/en`);
-    resp = await ffetch(`https://www.keysight.com/clientapi/search/aemtags/en`);
-    if (resp && resp.ok) {
-      const json = await resp.json();
-      return json;
-    } else console.log(resp)
-  } catch (e) {
-    // fail
-    console.log('Error:', e);
-  }
-  return null;
-}
-
-/**
  * Validate a single tag string against a source.
  * @param {String} tag The string to validate.
  * @returns {boolean}
@@ -71,7 +50,7 @@ export async function validateTag(tag) {
     return good;
   } catch (e) {
     // fail
-    console.log('Error:', e);
+    // console.log('Error:', e);
   }
 }
 
@@ -83,17 +62,17 @@ export async function validateTag(tag) {
 export async function validateTagObjs(tagsObjArray) {
   let allowedTags;
   try {
-      allowedTags = await getFranklinTags();
-      let result;
-      tagsObjArray.forEach((obj) => {       
-        if (allowedTags.includes(toClassName(obj.tag))) {
-          result.push(obj);
-        }
-      });
-      return result;
+    allowedTags = await getFranklinTags();
+    let result;
+    tagsObjArray.forEach((obj) => {
+      if (allowedTags.includes(toClassName(obj.tag))) {
+        result.push(obj);
+      }
+    });
+    return result;
   } catch (e) {
     // fail
-    console.log('Error:', e);
+    // console.log('Error:', e);
   }
 }
 
@@ -106,22 +85,20 @@ export async function validateTagObjs(tagsObjArray) {
 export async function validateTags(tagsArray) {
   let allowedTags;
   try {
-      allowedTags = await getFranklinTags();
-      let validTags = [];
-      let invalidTags = [];
-
-      tagsArray.forEach((tag) => {       
-        // const match = allowedTags.hits.find((item) => item.TAG_NAME === tag);
-        if (allowedTags.includes(toClassName(tag))) {
-          validTags.push(tag);
-        } else {
-          invalidTags.push(tag);
-        }
-      });
-      return [validTags, invalidTags];
-    
+    allowedTags = await getFranklinTags();
+    let validTags = [];
+    let invalidTags = [];
+    tagsArray.forEach((tag) => {
+      // const match = allowedTags.hits.find((item) => item.TAG_NAME === tag);
+      if (allowedTags.includes(toClassName(tag))) {
+        validTags.push(tag);
+      } else {
+        invalidTags.push(tag);
+      }
+    });
+    return [validTags, invalidTags];
   } catch (e) {
     // fail
-    console.log('Error:', e);
+    // console.log('Error:', e);
   }
 }

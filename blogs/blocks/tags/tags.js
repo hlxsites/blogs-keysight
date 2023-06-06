@@ -107,7 +107,6 @@ async function loadTags(block, isAll) {
     return true;
   });
   tagsAsArray.sort((a, b) => b.count - a.count);
-  const isAll = block.classList.contains('all');
   block.innerHTML = '';
   block.append(getTagsLinks(tagsAsArray, isAll ? -1 : 15));
   if (isAll) {

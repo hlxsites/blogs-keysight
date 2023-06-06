@@ -73,7 +73,7 @@ async function getTagsLinks(post) {
   if (tags.length > 0) {
     const validTags = await validateTags(tags);
     const list = createElement('ul', 'card-tags');
-    validTags[0].forEach((tag) => {
+    validTags.forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
       link.innerText = `#${tag}`;
@@ -184,7 +184,7 @@ async function loadPage(grid) {
   const hasCta = grid.dataset.hasCta === 'true';
   // eslint-disable-next-line no-restricted-syntax
   for await (const post of postsGenerator) {
-    const postCard = buildPostCard(post, hasCta ? counter + 1 : counter);
+    const postCard = await buildPostCard(post, hasCta ? counter + 1 : counter);
     grid.append(postCard);
     counter += 1;
   }

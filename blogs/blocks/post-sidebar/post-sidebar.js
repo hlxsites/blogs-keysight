@@ -5,7 +5,6 @@ import {
   decorateBlock,
   loadBlock,
   buildBlock,
-  toClassName,
 } from '../../scripts/lib-franklin.js';
 import {
   createElement,
@@ -36,12 +35,12 @@ async function buildTags(sidebar) {
     const validTags = await validateTags(tags);
     tagsContainer.append(list);
     validTags[0].forEach((tag) => {
-        const item = createElement('li');
-        const link = createElement('a');
-        link.innerHTML = `<span class="tag-name">#${tag}</span>`;
-        link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag)}`;
-        item.append(link);
-        list.append(item);
+      const item = createElement('li');
+      const link = createElement('a');
+      link.innerHTML = `<span class="tag-name">#${tag}</span>`;
+      link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag)}`;
+      item.append(link);
+      list.append(item);
     });
     tagsContainer.id = 'blogs_related_tags';
     sidebar.append(tagsContainer);
