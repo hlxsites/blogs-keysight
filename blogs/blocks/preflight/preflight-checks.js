@@ -165,25 +165,34 @@ checks.push({
     const links = doc.querySelectorAll('body > main a[href]');
 
     let badLink = false;
+    const sectionClassNamesToIgnore = ['post-sidebar block', 'author-details', 'social', 'tags-container'];
     // eslint-disable-next-line no-restricted-syntax
     for (const link of links) {
-      const { href } = link;
-      try {
-        fetch(href.replace('www.keysight.com', window.location.hostname), { method: 'HEAD' })
+      // ignore links that are part of the template
+      if (!sectionClassNamesToIgnore.includes(link.parentElement.closest('div').className)) {
+        const { href } = link;
+        try {
+          fetch(href.replace('www.keysight.com', window.location.hostname), { method: 'HEAD' })
           // eslint-disable-next-line no-loop-func
-          .then((resp) => {
-            if (!resp.ok) {
-              badLink = true;
-            }
-          })
-          .catch((error) => {
-            console.log('error is', error);
-            res.status = false;
-            res.msg = 'There are seriously broken links.';
-            return res;
-          });
-      } catch (e) {
-        badLink = true;
+            .then((resp) => {
+              if (!resp.ok) {
+                badLink = true;
+              }
+            })
+            .catch((error) => {
+              res.status = false;
+              res.msg = `${error.name}: ${error.message}. Invalid link(s)`;
+              // "return res" does not update html anymore at this point hence below code
+              [...doc.querySelector('#preflight-category-panel-SEO').children].forEach((item) => {
+                if (item.innerText.startsWith('Links')) {
+                  item.className = 'preflight-check preflight-check-failed';
+                  item.getElementsByClassName('preflight-check-msg').item(0).innerText = res.msg;
+                }
+              });
+            });
+        } catch (e) {
+          badLink = true;
+        }
       }
     }
 
@@ -454,26 +463,6 @@ checks.push({
       }
     } else {
       res.status = true;
-      res.msg = 'Page is not a blog post.';
-    }
-
-    return res;
-  },
-});
-
-checks.push({
-  name: 'Ignore',
-  category: 'Blog Post',
-  exec: (doc) => {
-    const res = {
-      status: false,
-      msg: 'Blog post has read time',
-    };
-    if (isBlogPost(doc)) {
-      res.status = false;
-      res.msg = 'Debug scenario';
-    } else {
-      res.status = false;
       res.msg = 'Page is not a blog post.';
     }
 
