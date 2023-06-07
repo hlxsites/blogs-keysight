@@ -460,23 +460,3 @@ checks.push({
     return res;
   },
 });
-
-checks.push({
-  name: 'Ignore',
-  category: 'Blog Post',
-  exec: (doc) => {
-    const res = {
-      status: false,
-      msg: 'Blog post has read time',
-    };
-    if (isBlogPost(doc)) {
-      res.status = false;
-      res.msg = 'Debug scenario';
-    } else {
-      res.status = false;
-      res.msg = 'Page is not a blog post.';
-    }
-
-    return res;
-  },
-});
