@@ -10,6 +10,7 @@ import {
   createElement,
 } from '../../scripts/scripts.js';
 import ffetch from '../../scripts/ffetch.js';
+import { validateTags } from '../../scripts/taxonomy.js';
 
 const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
 const tags = getMetadata('article:tag').split(', ');
@@ -27,19 +28,20 @@ async function buildCta(sidebar) {
   }
 }
 
-function buildTags(sidebar) {
+async function buildTags(sidebar) {
   if (getMetadata('article:tag') !== '') {
+    const validatedTags = await validateTags(tags);
     const tagsContainer = createElement('div', 'tags-container');
     const list = createElement('ul', 'tags-list');
     tagsContainer.append(list);
-    tags.forEach((tag) => {
+    for (const tag of validatedTags[0]) {
       const item = createElement('li');
       const link = createElement('a');
       link.innerHTML = `<span class="tag-name">#${tag}</span>`;
       link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag)}`;
       item.append(link);
       list.append(item);
-    });
+    };
     tagsContainer.id = 'blogs_related_tags';
     sidebar.append(tagsContainer);
   }

@@ -10,6 +10,7 @@ import {
   getPostsFfetch,
 } from '../../scripts/scripts.js';
 import ffetch from '../../scripts/ffetch.js';
+import { validateTags } from '../../scripts/taxonomy.js';
 
 const pageSize = 10;
 const initLoad = pageSize * 2;
@@ -32,11 +33,12 @@ async function getAuthorLink(post) {
   return notLink;
 }
 
-function getTagsLinks(post) {
+async function getTagsLinks(post) {
   const tags = splitTags(post.tags);
   if (tags.length > 0) {
+    const validatedTags = await validateTags(tags);
     const list = createElement('ul', 'card-tags');
-    tags.forEach((tag) => {
+    for (const tag of validatedTags[0]) {
       const item = createElement('li');
       const link = createElement('a');
       link.innerText = `#${tag}`;
@@ -44,7 +46,7 @@ function getTagsLinks(post) {
 
       item.append(link);
       list.append(item);
-    });
+    };
 
     return list;
   }
@@ -75,7 +77,7 @@ function executeSearch(q) {
   return results;
 }
 
-function buildPostCard(post, index) {
+async function buildPostCard(post, index) {
   const classes = ['post-card'];
   if (index >= pageSize) {
     classes.push('hidden');
@@ -119,7 +121,7 @@ function buildPostCard(post, index) {
     }
   });
 
-  const tagsLinks = getTagsLinks(post);
+  const tagsLinks = await getTagsLinks(post);
   if (tagsLinks) {
     postCard.querySelector('.post-card-text').append(tagsLinks);
   }
@@ -139,7 +141,7 @@ export default async function decorate(block) {
   let counter = 0;
   // eslint-disable-next-line no-restricted-syntax
   for await (const post of initResults) {
-    const postCard = buildPostCard(post, counter);
+    const postCard = await buildPostCard(post, counter);
     grid.append(postCard);
     counter += 1;
   }
@@ -174,7 +176,7 @@ export default async function decorate(block) {
       deferredLoaded = true;
       // eslint-disable-next-line no-restricted-syntax
       for await (const post of deferredPosts) {
-        const postCard = buildPostCard(post, counter);
+        const postCard = await buildPostCard(post, counter);
         grid.append(postCard);
         counter += 1;
       }
