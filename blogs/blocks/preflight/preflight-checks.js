@@ -183,7 +183,7 @@ checks.push({
               res.status = false;
               res.msg = `${error.name}: ${error.message}. Invalid link(s)`;
               // "return res" does not update html anymore at this point hence below code
-              [...doc.querySelector('#preflight-category-panel-SEO').children].forEach((item) => {
+              [...doc.querySelector('#preflight-category-panel-seo').children].forEach((item) => {
                 if (item.innerText.startsWith('Links')) {
                   item.className = 'preflight-check preflight-check-failed';
                   item.getElementsByClassName('preflight-check-msg').item(0).innerText = res.msg;
@@ -317,7 +317,7 @@ checks.push({
                 res.msg = 'Tags are valid.';
               }
               // "return res" does not update html anymore at this point hence below code
-              [...doc.querySelector('#preflight-category-panel-SEO').children].forEach((item) => {
+              [...doc.querySelector('#preflight-category-panel-seo').children].forEach((item) => {
                 if (item.innerText.startsWith('Tags')) {
                   if (res.status) {
                     item.className = 'preflight-check preflight-check-success';
