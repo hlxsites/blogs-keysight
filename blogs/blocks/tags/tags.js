@@ -46,7 +46,9 @@ function buildSearch(block) {
 async function getTagsLinks(tags, limit) {
   const list = createElement('ul', 'tags-list');
   const validatedTags = await validateTagObjs(tags);
-  await Promise.all(validatedTags.slice(0, limit > 0 ? limit : validatedTags.length).map(async (tag) => {
+  await Promise.all(validatedTags
+    .slice(0, limit > 0 ? limit : validatedTags.length)
+    .map(async (tag) => {
     const item = createElement('li');
     const link = createElement('a');
     link.innerHTML = `<span class="tag-name">#${tag.tag}</span><span class="tag-count">${tag.count}</span>`;

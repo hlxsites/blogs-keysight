@@ -44,7 +44,7 @@ async function getFranklinTags() {
 export async function validateTagObjs(tagsObjArray) {
   try {
     const allowedTags = await getFranklinTags();
-    let result = [];
+    const result = [];
     await Promise.all(tagsObjArray.map(async (obj) => {
       if (allowedTags.includes(toClassName(obj.tag))) {
         result.push(obj);
@@ -66,8 +66,8 @@ export async function validateTagObjs(tagsObjArray) {
 export async function validateTags(tagsArray) {
   try {
     const allowedTags = await getFranklinTags();
-    let validTags = [];
-    let invalidTags = [];
+    const validTags = [];
+    const invalidTags = [];
 
     await Promise.all(tagsArray.map(async (tag) => {
       if (allowedTags.includes(toClassName(tag))) {

@@ -73,7 +73,7 @@ async function getTagsLinks(post) {
   if (tags.length > 0) {
     const validatedTags = await validateTags(tags);
     const list = createElement('ul', 'card-tags');
-    for (const tag of validatedTags[0]) {
+    await Promise.all(validatedTags[0].map(async (tag) => {
       const item = createElement('li');
       const link = createElement('a');
       link.innerText = `#${tag}`;
@@ -81,11 +81,9 @@ async function getTagsLinks(post) {
 
       item.append(link);
       list.append(item);
-    };
-
+    }));
     return list;
   }
-
   return undefined;
 }
 
