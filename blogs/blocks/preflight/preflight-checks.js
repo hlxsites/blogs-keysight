@@ -244,7 +244,7 @@ checks.push({
   exec: (doc) => {
     const res = {
       status: true,
-      msg: '',
+      msg: 'Headings are valid.',
     };
     const sectionIDsToIgnore = ['related-content', 'related-posts'];
     const headerTags = [];
