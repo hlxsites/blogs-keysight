@@ -10,6 +10,17 @@ function isBlogPost(doc) {
   return false;
 }
 
+/**
+ * Find the second-level list items and put them into a single array.
+ * @returns {Array} An array of tag strings
+ */
+function getTags(ul) {
+  const tagList = ul.querySelectorAll('ul li ul li');
+  const tagArray = [...tagList];
+  const textArray = tagArray.map((li) => (li.textContent));
+  return textArray;
+}
+
 checks.push({
   name: 'Has H1',
   category: 'SEO',
@@ -212,6 +223,107 @@ checks.push({
     } else {
       res.status = true;
       res.msg = 'Image alt-text are valid.';
+    }
+
+    return res;
+  },
+});
+
+checks.push({
+  name: 'Headings',
+  category: 'SEO',
+  exec: (doc) => {
+    const res = {
+      status: true,
+      msg: '',
+    };
+    const sectionIDsToIgnore = ['related-content', 'related-posts'];
+    const headerTags = [];
+    const headerElements = doc.body.querySelectorAll('h1, h2, h3, h4, h5, h6');
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const element of headerElements) {
+      // ignore author post side container, preflight, & sectionIDsToIgnore
+      if (!element.className.startsWith('author') && !element.innerText.startsWith('Pre-Flight') && !sectionIDsToIgnore.includes(element.id)) {
+        headerTags.push(element.nodeName);
+      }
+    }
+
+    if (headerTags.length === 1 && headerTags[0] !== 'h1') {
+      res.status = false;
+      res.msg = 'No H1 on the page.';
+    }
+
+    for (let i = 1; i < headerTags.length; i += 1) {
+      const previousTag = headerTags[i - 1];
+      const currentTag = headerTags[i];
+
+      if (previousTag.charAt(1) > currentTag.charAt(1)) {
+        res.status = false;
+        res.msg = `Heading tags are out of order:  ${currentTag} came after ${previousTag}`;
+      }
+    }
+
+    return res;
+  },
+});
+
+checks.push({
+  name: 'Tags',
+  category: 'SEO',
+  exec: (doc) => {
+    const res = {
+      status: false,
+      msg: 'No tags found.',
+    };
+    const articleTags = doc.head.querySelectorAll('meta[property="article:tag"]');
+    if (articleTags.length > 0) {
+      const href = (`${origin}/blogs/tags.plain.html`);
+      try {
+        fetch(href)
+          .then(async (resp) => {
+            if (!resp.ok) {
+              res.status = false;
+              res.msg = 'Error with canonical reference.';
+            }
+            if (resp && resp.ok) {
+              const text = await resp.text();
+              const tempElement = document.createElement('div');
+              tempElement.innerHTML = text;
+              // Get the root <ul> element
+              const rootUlElement = tempElement.querySelector('ul');
+              // Create the JavaScript array from the nested <ul>
+              const tagArray = getTags(rootUlElement);
+              let invalidTagCount = 0;
+              articleTags.forEach((tag) => {
+                if (!tagArray.includes(tag.content)) {
+                  invalidTagCount += 1;
+                }
+              });
+              if (invalidTagCount > 0) {
+                res.status = false;
+                res.msg = `${invalidTagCount} invalid tag(s).`;
+              } else {
+                res.status = true;
+                res.msg = 'Tags are valid.';
+              }
+              // "return res" does not update html anymore at this point hence below code
+              [...doc.querySelector('#preflight-category-panel-SEO').children].forEach((item) => {
+                if (item.innerText.startsWith('Tags')) {
+                  if (res.status) {
+                    item.className = 'preflight-check preflight-check-success';
+                  } else {
+                    item.className = 'preflight-check preflight-check-failed';
+                  }
+                  item.getElementsByClassName('preflight-check-msg').item(0).innerText = res.msg;
+                }
+              });
+            }
+          });
+      } catch (e) {
+        res.status = false;
+        res.msg = 'Error with tags.';
+      }
     }
 
     return res;
