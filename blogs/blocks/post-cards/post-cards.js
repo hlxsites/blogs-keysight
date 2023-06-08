@@ -90,7 +90,6 @@ function getTagsLinks(post) {
 
 function buildPostCard(post, index) {
   const classes = ['post-card', 'hidden'];
-  const isAnAuthorPage = getMetadata('template') === 'author';
   if (!isAnAuthorPage && index % 7 === 3) {
     classes.push('featured');
   }
@@ -240,7 +239,6 @@ async function loadPostCards(block) {
  * @param {Element} block The featured posts block element
  */
 export default function decorate(block) {
-  const isAnAuthorPage = getMetadata('template') === 'author';
   if (isAnAuthorPage) pageSize = 9;
   const conf = readBlockConfig(block);
   const { limit, filter } = conf;
