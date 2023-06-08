@@ -145,16 +145,14 @@ function buildPostCard(post, index) {
   const topicLinkPromise = getTopicLink(post);
   topicLinkPromise.then((topicLink) => {
     if (topicLink) {
-      postCard.querySelector('.card-topic')
-        .replaceChild(topicLink, postCard.querySelector('.card-topic .topic-text'));
+      postCard.querySelector('.card-topic .topic-text').replaceWith(topicLink);
     }
   });
 
   const authorLinkPromise = getAuthorLink(post);
   authorLinkPromise.then((authorLink) => {
     if (authorLink) {
-      postCard.querySelector('.card-author')
-        .replaceChild(authorLink, postCard.querySelector('.card-author .author-text'));
+      postCard.querySelector('.card-author .author-text').replaceWith(authorLink);
     }
   });
 
