@@ -16,6 +16,7 @@ import {
 import ffetch from '../../scripts/ffetch.js';
 
 let pageSize = 7;
+const isAnAuthorPage = getMetadata('template') === 'author';
 
 function showHideMore(grid, moreContainer) {
   const hidden = grid.querySelector('.post-card.hidden');
@@ -183,6 +184,10 @@ async function loadPage(grid) {
   // eslint-disable-next-line no-restricted-syntax
   for await (const post of postsGenerator) {
     const postCard = buildPostCard(post, hasCta ? counter + 1 : counter);
+    if (!counter && isAnAuthorPage) {
+      const firstImage = postCard.querySelector('.post-card-image picture img');
+      if (firstImage) firstImage.loading = 'eager';
+    }
     grid.append(postCard);
     counter += 1;
   }
