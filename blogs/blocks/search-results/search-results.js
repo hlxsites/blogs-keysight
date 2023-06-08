@@ -36,17 +36,16 @@ async function getAuthorLink(post) {
 async function getTagsLinks(post) {
   const tags = splitTags(post.tags);
   if (tags.length > 0) {
-    const validatedTags = await validateTags(tags);
+    const [validTags] = await validateTags(tags);
     const list = createElement('ul', 'card-tags');
-    await Promise.all(validatedTags[0].map(async (tag) => {
+    validTags.forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
       link.innerText = `#${tag}`;
       link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag)}`;
-
       item.append(link);
       list.append(item);
-    }));
+    });
     return list;
   }
   return undefined;

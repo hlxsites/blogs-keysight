@@ -45,11 +45,11 @@ export async function validateTagObjs(tagsObjArray) {
   try {
     const allowedTags = await getFranklinTags();
     const result = [];
-    await Promise.all(tagsObjArray.map(async (obj) => {
+    tagsObjArray.forEach((obj) => {
       if (allowedTags.includes(toClassName(obj.tag))) {
         result.push(obj);
-      }
-    }));
+      }      
+    });
     return result;
   } catch (e) {
     // console.log('Error:', e);
@@ -68,14 +68,13 @@ export async function validateTags(tagsArray) {
     const allowedTags = await getFranklinTags();
     const validTags = [];
     const invalidTags = [];
-
-    await Promise.all(tagsArray.map(async (tag) => {
+    tagsArray.forEach((tag) => {
       if (allowedTags.includes(toClassName(tag))) {
         validTags.push(tag);
       } else {
         invalidTags.push(tag);
       }
-    }));
+    });
     return [validTags, invalidTags];
   } catch (e) {
     // console.log('Error:', e);
