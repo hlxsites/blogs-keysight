@@ -72,10 +72,12 @@ export async function validateTags(tagsArray) {
       if (allowedTags.includes(toClassName(tag))) {
         validTags.push(tag);
       } else {
+        console.warn('Tag warning:', tag); // warn for tag cleanup
         invalidTags.push(tag);
       }
     });
-    return [validTags, invalidTags];
+    return [tagsArray, invalidTags]; // return original tags for now
+    // return [validTags, invalidTags];
   } catch (e) {
     // console.log('Error:', e);
   }
