@@ -48,7 +48,7 @@ export async function validateTagObjs(tagsObjArray) {
     tagsObjArray.forEach((obj) => {
       if (allowedTags.includes(toClassName(obj.tag))) {
         result.push(obj);
-      }      
+      }
     });
     return result;
   } catch (e) {
