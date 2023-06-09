@@ -119,7 +119,7 @@ function buildPostCard(post, index) {
   if (classes.includes('featured')) {
     picMedia = [{ media: '(min-width: 900px)', width: '1200' }, { width: '600' }];
   }
-  const pic = createOptimizedPicture(post.image, '', false, picMedia);
+  const pic = createOptimizedPicture(post.image, '', index === 0, picMedia);
   const { topic, subtopic } = post;
   let topicText = topic;
   if (subtopic && subtopic !== '0') {
@@ -181,13 +181,6 @@ async function loadPage(grid) {
   // eslint-disable-next-line no-restricted-syntax
   for await (const post of postsGenerator) {
     const postCard = buildPostCard(post, hasCta ? counter + 1 : counter);
-    if (counter < 3 && isAnAuthorPage) {
-      const firstImage = postCard.querySelector('.post-card-image picture img');
-      if (firstImage) {
-        firstImage.loading = 'eager';
-        firstImage.fetchPriority = 'high';
-      }
-    }
     grid.append(postCard);
     counter += 1;
   }
