@@ -20,7 +20,7 @@ async function getAEMTags() {
   let resp;
   try {
     // Fetch the HTML content of the webpage
-    resp = await ffetch('https://www.keysight.com/clientapi/search/aemtags/en');
+    resp = await fetch('https://www.keysight.com/clientapi/search/aemtags/en');
     if (resp && resp.ok) {
       const json = await resp.json();
       console.log(json.hits);
