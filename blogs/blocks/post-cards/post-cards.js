@@ -16,6 +16,7 @@ import {
 import ffetch from '../../scripts/ffetch.js';
 
 let pageSize = 7;
+const isAnAuthorPage = getMetadata('template') === 'author';
 
 function showHideMore(grid, moreContainer) {
   const hidden = grid.querySelector('.post-card.hidden');
@@ -89,7 +90,6 @@ function getTagsLinks(post) {
 
 function buildPostCard(post, index) {
   const classes = ['post-card', 'hidden'];
-  const isAnAuthorPage = getMetadata('template') === 'author';
   if (!isAnAuthorPage && index % 7 === 3) {
     classes.push('featured');
   }
@@ -119,7 +119,7 @@ function buildPostCard(post, index) {
   if (classes.includes('featured')) {
     picMedia = [{ media: '(min-width: 900px)', width: '1200' }, { width: '600' }];
   }
-  const pic = createOptimizedPicture(post.image, '', false, picMedia);
+  const pic = createOptimizedPicture(post.image, '', index === 0, picMedia);
   const { topic, subtopic } = post;
   let topicText = topic;
   if (subtopic && subtopic !== '0') {
@@ -145,16 +145,14 @@ function buildPostCard(post, index) {
   const topicLinkPromise = getTopicLink(post);
   topicLinkPromise.then((topicLink) => {
     if (topicLink) {
-      postCard.querySelector('.card-topic')
-        .replaceChild(topicLink, postCard.querySelector('.card-topic .topic-text'));
+      postCard.querySelector('.card-topic .topic-text').replaceWith(topicLink);
     }
   });
 
   const authorLinkPromise = getAuthorLink(post);
   authorLinkPromise.then((authorLink) => {
     if (authorLink) {
-      postCard.querySelector('.card-author')
-        .replaceChild(authorLink, postCard.querySelector('.card-author .author-text'));
+      postCard.querySelector('.card-author .author-text').replaceWith(authorLink);
     }
   });
 
@@ -235,7 +233,6 @@ async function loadPostCards(block) {
  * @param {Element} block The featured posts block element
  */
 export default function decorate(block) {
-  const isAnAuthorPage = getMetadata('template') === 'author';
   if (isAnAuthorPage) pageSize = 9;
   const conf = readBlockConfig(block);
   const { limit, filter } = conf;

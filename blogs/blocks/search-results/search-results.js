@@ -115,7 +115,7 @@ function buildPostCard(post, index) {
   const authorLinkPromise = getAuthorLink(post);
   authorLinkPromise.then((authorLink) => {
     if (authorLink) {
-      postCard.querySelector('.card-author').replaceChild(authorLink, postCard.querySelector('.card-author .author-text'));
+      postCard.querySelector('.card-author .author-text').replaceWith(authorLink);
     }
   });
 
