@@ -1,4 +1,5 @@
 import { toClassName } from './lib-franklin.js';
+import ffetch from './ffetch.js';
 
 /**
  * Find the second-level list items and put them into a single array.
@@ -9,6 +10,27 @@ async function getTags(ul) {
   const tagArray = [...tagList];
   const textArray = tagArray.map((li) => toClassName(li.textContent));
   return textArray;
+}
+
+/**
+ * Retrieve tags from API.
+ * @returns {Array} An array of tag objects
+ */
+async function getAEMTags() {
+  let resp;
+  try {
+    // Fetch the HTML content of the webpage
+    resp = await ffetch('https://www.keysight.com/clientapi/search/aemtags/en');
+    if (resp && resp.ok) {
+      const json = await resp.json();
+      console.log(json.hits);
+      return json.hits;
+    }
+  } catch (e) {
+    // fail
+    console.log('Error:', e);
+  }
+  return null;
 }
 
 /**
@@ -65,11 +87,13 @@ export async function validateTagObjs(tagsObjArray) {
  */
 export async function validateTags(tagsArray) {
   try {
-    const allowedTags = await getFranklinTags();
+    // const allowedTags = await getFranklinTags();
+    const allowedTags = await getAEMTags();
     const validTags = [];
     const invalidTags = [];
     tagsArray.forEach((tag) => {
-      if (allowedTags.includes(toClassName(tag))) {
+      // if (allowedTags.includes(toClassName(tag))) {
+      if (allowedTags.some((item) => item.TAG_NAME === tag)) {
         validTags.push(tag);
       } else {
         console.warn('Tag warning:', tag); // warn for tag cleanup
