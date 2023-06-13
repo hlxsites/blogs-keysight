@@ -5,7 +5,7 @@ import {
   getPostsFfetch,
   filterPosts,
 } from '../../scripts/scripts.js';
-import { readBlockConfig } from '../../scripts/lib-franklin.js';
+import { getOrigin, readBlockConfig } from '../../scripts/lib-franklin.js';
 import { validateTagObjs } from '../../scripts/taxonomy.js';
 
 function buildSearch(block) {
@@ -139,7 +139,7 @@ export default async function decorate(block) {
       message would never be received.
     */
     window.addEventListener('message', (msg) => {
-      if (msg.origin === window.location.origin && msg.data && msg.data.postCardsLoaded) {
+      if (msg.origin === getOrigin() && msg.data && msg.data.postCardsLoaded) {
         loadTags(block, isAll);
       }
     });
