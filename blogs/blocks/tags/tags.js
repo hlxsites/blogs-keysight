@@ -6,6 +6,8 @@ import {
   filterPosts,
 } from '../../scripts/scripts.js';
 import { getOrigin, readBlockConfig } from '../../scripts/lib-franklin.js';
+import { readBlockConfig } from '../../scripts/lib-franklin.js';
+import { validateTagObjs } from '../../scripts/taxonomy.js';
 
 function buildSearch(block) {
   const wrapper = createElement('div', 'find-tag');
@@ -42,18 +44,17 @@ function buildSearch(block) {
   return wrapper;
 }
 
-function getTagsLinks(tags, limit) {
+async function getTagsLinks(tags, limit) {
   const list = createElement('ul', 'tags-list');
-  tags.slice(0, limit > 0 ? limit : tags.length).forEach((tag) => {
+  const validatedTags = await validateTagObjs(tags);
+  validatedTags.slice(0, limit).forEach((tag) => {
     const item = createElement('li');
     const link = createElement('a');
     link.innerHTML = `<span class="tag-name">#${tag.tag}</span><span class="tag-count">${tag.count}</span>`;
     link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag.tag)}`;
-
     item.append(link);
     list.append(item);
   });
-
   return list;
 }
 
@@ -107,7 +108,7 @@ async function loadTags(block, isAll) {
   });
   tagsAsArray.sort((a, b) => b.count - a.count);
   block.innerHTML = '';
-  block.append(getTagsLinks(tagsAsArray, isAll ? -1 : 15));
+  block.append(await getTagsLinks(tagsAsArray, isAll ? -1 : 15));
   if (isAll) {
     block.prepend(buildSearch(block));
   }

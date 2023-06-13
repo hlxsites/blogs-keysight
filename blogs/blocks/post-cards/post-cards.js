@@ -15,8 +15,10 @@ import {
   getOrigin,
 } from '../../scripts/lib-franklin.js';
 import ffetch from '../../scripts/ffetch.js';
+import { validateTags } from '../../scripts/taxonomy.js';
 
 let pageSize = 7;
+const isAnAuthorPage = getMetadata('template') === 'author';
 
 function showHideMore(grid, moreContainer) {
   const hidden = grid.querySelector('.post-card.hidden');
@@ -68,29 +70,26 @@ async function getAuthorLink(post) {
   return notLink;
 }
 
-function getTagsLinks(post) {
+async function getTagsLinks(post) {
   const tags = splitTags(post.tags);
   if (tags.length > 0) {
+    const [validTags] = await validateTags(tags);
     const list = createElement('ul', 'card-tags');
-    tags.forEach((tag) => {
+    validTags.forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
       link.innerText = `#${tag}`;
       link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag)}`;
-
       item.append(link);
       list.append(item);
     });
-
     return list;
   }
-
   return undefined;
 }
 
-function buildPostCard(post, index) {
+async function buildPostCard(post, index) {
   const classes = ['post-card', 'hidden'];
-  const isAnAuthorPage = getMetadata('template') === 'author';
   if (!isAnAuthorPage && index % 7 === 3) {
     classes.push('featured');
   }
@@ -120,7 +119,7 @@ function buildPostCard(post, index) {
   if (classes.includes('featured')) {
     picMedia = [{ media: '(min-width: 900px)', width: '1200' }, { width: '600' }];
   }
-  const pic = createOptimizedPicture(post.image, '', false, picMedia);
+  const pic = createOptimizedPicture(post.image, '', index === 0, picMedia);
   const { topic, subtopic } = post;
   let topicText = topic;
   if (subtopic && subtopic !== '0') {
@@ -146,20 +145,18 @@ function buildPostCard(post, index) {
   const topicLinkPromise = getTopicLink(post);
   topicLinkPromise.then((topicLink) => {
     if (topicLink) {
-      postCard.querySelector('.card-topic')
-        .replaceChild(topicLink, postCard.querySelector('.card-topic .topic-text'));
+      postCard.querySelector('.card-topic .topic-text').replaceWith(topicLink);
     }
   });
 
   const authorLinkPromise = getAuthorLink(post);
   authorLinkPromise.then((authorLink) => {
     if (authorLink) {
-      postCard.querySelector('.card-author')
-        .replaceChild(authorLink, postCard.querySelector('.card-author .author-text'));
+      postCard.querySelector('.card-author .author-text').replaceWith(authorLink);
     }
   });
 
-  const tagsLinks = getTagsLinks(post);
+  const tagsLinks = await getTagsLinks(post);
   if (tagsLinks) {
     postCard.querySelector('.post-card-text').append(tagsLinks);
   }
@@ -183,7 +180,7 @@ async function loadPage(grid) {
   const hasCta = grid.dataset.hasCta === 'true';
   // eslint-disable-next-line no-restricted-syntax
   for await (const post of postsGenerator) {
-    const postCard = buildPostCard(post, hasCta ? counter + 1 : counter);
+    const postCard = await buildPostCard(post, hasCta ? counter + 1 : counter);
     grid.append(postCard);
     counter += 1;
   }
@@ -236,7 +233,6 @@ async function loadPostCards(block) {
  * @param {Element} block The featured posts block element
  */
 export default function decorate(block) {
-  const isAnAuthorPage = getMetadata('template') === 'author';
   if (isAnAuthorPage) pageSize = 9;
   const conf = readBlockConfig(block);
   const { limit, filter } = conf;
