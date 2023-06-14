@@ -7,11 +7,6 @@ import { createElement, loadScript } from '../../scripts/scripts.js';
 
 let videoIdx = '0';
 
-window.SetElqContent = () => {
-  // eslint-disable-next-line max-len, no-undef
-  window.Keysight.elq_u_email = GetElqContentPersonalizationValue(window.Keysight.VisitorUniqueField);
-};
-
 async function blindSend(qstr) {
   const elqurl = 'https://connectlp.keysight.com/e/f2.aspx';
   const elqFormName = 'AEMBlindformtesting';
@@ -88,26 +83,11 @@ function playerReady(id, block) {
     });
   });
 
-  window.Keysight = window.Keysight || {};
-  window.Keysight.EloquaSiteID = '609785623';
-  window.Keysight.EloquaScript = 'https://img03.en25.com/i/elqCfg.min.js';
-  window.Keysight.FirstPartyCookieDomain = 'elq.keysight.com';
-  window.Keysight.LookupIdVisitor = '2c87fa21899d42ee804c59d83b50ba46';
-  window.Keysight.VisitorUniqueField = 'V_ElqEmailAddress';
-  if (window.location.hostname.endsWith('.cn')) {
-    window.Keysight.FirstPartyCookieDomain = 'elq.keysight.com.cn';
-  }
-  window.Keysight.elq_u_email = '';
-
-  /* eslint-disable no-underscore-dangle */
-  window._elqQ = window._elqQ || [];
-  window._elqQ.push(['elqSetSiteId', window.Keysight.EloquaSiteID]);
-  window._elqQ.push(['elqUseFirstPartyCookie', window.Keysight.FirstPartyCookieDomain]);
-  window._elqQ.push(['elqTrackPageView', window.location.href]);
-  loadScript(window.Keysight.EloquaScript, 'text/javascript', () => {
-    window._elqQ.push(['elqDataLookup', escape(window.Keysight.LookupIdVisitor), '']);
+  loadScript(`${window.hlx.codeBasePath}/blocks/video/video-elq.js`, 'text/javascript', () => {
+    loadScript(Keysight.EloquaScript, 'text/javascript', () => {
+      _elqQ.push(['elqDataLookup', escape(Keysight.LookupIdVisitor), '']);
+    });
   });
-  /* eslint-enable no-underscore-dangle */
 
   player.ready(() => {
     const srcpath = player.src();
