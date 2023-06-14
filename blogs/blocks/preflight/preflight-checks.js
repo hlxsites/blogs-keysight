@@ -25,38 +25,10 @@ function getTags(ul) {
   return textArray;
 }
 
-/**
- * Updates the modal item validation entry. Called by fetch callback promise.
- * 'Tags' & 'Links' string needs to match name property of checks[] array
- */
-function updateModalResult(doc, res, check, arrURLSummaryErrors) {
-  [...doc.querySelector('#preflight-category-panel-seo').children].forEach((item) => {
-    if (check === 'Tags' && item.innerText.startsWith('Tags')) {
-      if (res.status) {
-        item.className = 'preflight-check preflight-check-success';
-      } else {
-        item.className = 'preflight-check preflight-check-failed';
-      }
-      item.getElementsByClassName('preflight-check-msg').item(0).innerText = res.msg;
-    } else if (check === 'Links' && item.innerText.startsWith('Links')) {
-      // this only gets executed on errors (res.status=false)
-      item.className = 'preflight-check preflight-check-failed';
-      let msg = 'Invalid Links:';
-      if (arrURLSummaryErrors.length === 2 && arrURLSummaryErrors[0] > 0) {
-        msg += ` ${arrURLSummaryErrors[0]} http-404 error(s).`;
-      }
-      if (arrURLSummaryErrors.length === 2 && arrURLSummaryErrors[1] > 0) {
-        msg += ` ${arrURLSummaryErrors[1]} url(s) cannot be validated.`;
-      }
-      item.getElementsByClassName('preflight-check-msg').item(0).innerText = msg;
-    }
-  });
-}
-
 checks.push({
   name: 'Has H1',
   category: 'SEO',
-  exec: (doc) => {
+  exec: async (doc) => {
     const res = {
       status: true,
       msg: '',
@@ -83,7 +55,7 @@ checks.push({
 checks.push({
   name: 'Page Title',
   category: 'SEO',
-  exec: (doc) => {
+  exec: async (doc) => {
     const res = {
       status: true,
       msg: 'Title size is good.',
@@ -105,7 +77,7 @@ checks.push({
 checks.push({
   name: 'Meta Description',
   category: 'SEO',
-  exec: (doc) => {
+  exec: async (doc) => {
     const res = {
       status: true,
       msg: 'Meta description size is good.',
@@ -118,10 +90,10 @@ checks.push({
       const descSize = metaDesc.content.replace(/\s/g, '').length;
       if (descSize < 50) {
         res.status = false;
-        res.msg = 'Reason: Meta description too short.';
+        res.msg = 'Meta description too short (<50 characters).';
       } else if (descSize > 150) {
         res.status = false;
-        res.msg = 'Reason: Meta description too long.';
+        res.msg = 'Meta description too long (>150 characters).';
       }
     }
 
@@ -132,7 +104,7 @@ checks.push({
 checks.push({
   name: 'Canonical',
   category: 'SEO',
-  exec: (doc) => {
+  exec: async (doc) => {
     const res = {
       status: true,
       msg: 'Canonical reference is valid.',
@@ -140,25 +112,20 @@ checks.push({
     const canon = doc.querySelector("link[rel='canonical']");
     const { href } = canon;
     try {
-      fetch(href.replace('www.keysight.com', window.location.hostname), { method: 'HEAD' })
-        .then((resp) => {
-          if (!resp.ok) {
-            res.status = false;
-            res.msg = 'Error with canonical reference.';
-          }
-          if (resp.ok) {
-            if (resp.status >= 300 && resp.status <= 308) {
-              res.status = false;
-              res.msg = 'Canonical reference redirects.';
-            } else {
-              res.status = true;
-              res.msg = 'Canonical referenced is valid.';
-            }
-          }
-        });
+      const resp = await fetch(href.replace('www.keysight.com', window.location.hostname), { method: 'HEAD' });
+      if (!resp.ok) {
+        res.status = false;
+        res.msg = 'Error with canonical reference.';
+      } else if (resp.status >= 300 && resp.status <= 308) {
+        res.status = false;
+        res.msg = 'Canonical reference redirects.';
+      } else {
+        res.status = true;
+        res.msg = 'Canonical referenced is valid.';
+      }
     } catch (e) {
       res.status = false;
-      res.msg = 'Error with canonical reference.';
+      res.msg = 'Error loading the canonical reference.';
     }
 
     return res;
@@ -168,7 +135,7 @@ checks.push({
 checks.push({
   name: 'Body Size',
   category: 'SEO',
-  exec: (doc) => {
+  exec: async (doc) => {
     const res = {
       status: true,
       msg: 'Body size is good.',
@@ -179,7 +146,7 @@ checks.push({
       res.msg = 'Body content has a good length.';
     } else {
       res.status = false;
-      res.msg = 'Body does not have enough content.';
+      res.msg = 'Body does not have enough content, Must be at least 200 characters.';
     }
 
     return res;
@@ -189,53 +156,47 @@ checks.push({
 checks.push({
   name: 'Links',
   category: 'SEO',
-  exec: (doc) => {
+  exec: async (doc) => {
     const res = {
       status: true,
-      msg: 'Links are valid.',
+      msg: 'All Links are valid.',
+    };
+    // using array for less code. arr[0] for 404 count; arr[1] for fetch exception error count
+    const errorSummary = {
+
+      notFoundCount: 0,
+      exceptionCount: 0,
     };
     const links = doc.querySelectorAll('body > main a[href]');
-    // using array for less code. arr[0] for 404 count; arr[1] for fetch exception error count
-    const arrURLSummaryErrors = [0, 0];
-
-    const sectionClassNamesToIgnore = ['post-sidebar block', 'author-details', 'social', 'tags-container'];
-    // eslint-disable-next-line no-restricted-syntax
-    for (const link of links) {
-      // ignore links that are part of the template and only validate keysight/blogs/ urls
-      if (link.href.includes('/blogs/') && !sectionClassNamesToIgnore.includes(link.parentElement.closest('div').className)) {
-        const { href } = link;
+    await Promise.all(links.map(async (link) => {
+      const { href } = link;
+      if (href.includes('/blogs/')) {
         try {
-          fetch(href.replace('www.keysight.com', window.location.hostname), { method: 'HEAD' })
-          // eslint-disable-next-line no-loop-func
-            .then((resp) => {
-              if (!resp.ok) {
-                arrURLSummaryErrors[0] += 1;
-                res.status = false;
-                res.msg = 'HTTP-404 error(s).';
-                updateModalResult(doc, res, 'Links', arrURLSummaryErrors);
-              }
-            })
-            // eslint-disable-next-line no-loop-func
-            .catch((error) => {
-              arrURLSummaryErrors[1] += 1;
-              res.status = false;
-              res.msg = `Invalid link(s). ${error}`;
-              // "return res" does not update html anymore at this point hence below code
-              updateModalResult(doc, res, 'Links', arrURLSummaryErrors);
-            });
-        } catch (e) {
-          console.log(e); // not needed unless other scenarios come up
+          // eslint-disable-next-line no-await-in-loop
+          const resp = await fetch(href, { method: 'HEAD' });
+          if (!resp.ok) {
+            errorSummary.notFoundCount += 1;
+            res.status = false;
+          }
+        } catch {
+          errorSummary.exceptionCount += 1;
+          res.status = false;
         }
       }
+    }));
+
+    if (!res.status) {
+      res.msg = `Page contains invalid links: ${errorSummary.notFoundCount} returned a 404; ${errorSummary.exceptionCount} cannot be validated`;
     }
+
     return res;
   },
 });
 
 checks.push({
   name: 'Image Alt-Text',
-  category: 'SEO',
-  exec: (doc) => {
+  category: 'A11Y',
+  exec: async (doc) => {
     const res = {
       status: true,
       msg: 'All Images have alt-text.',
@@ -265,7 +226,7 @@ checks.push({
 checks.push({
   name: 'Headings',
   category: 'SEO',
-  exec: (doc) => {
+  exec: async (doc) => {
     const res = {
       status: true,
       msg: 'Headings are valid.',
@@ -303,8 +264,8 @@ checks.push({
 
 checks.push({
   name: 'Tags',
-  category: 'SEO',
-  exec: (doc) => {
+  category: 'Metadata',
+  exec: async (doc) => {
     const res = {
       status: false,
       msg: 'No tags found.',
@@ -356,8 +317,8 @@ checks.push({
 
 checks.push({
   name: 'Hero Image',
-  category: 'Blog Post',
-  exec: (doc) => {
+  category: 'Content',
+  exec: async (doc) => {
     const res = {
       status: true,
       msg: 'Blog post has hero image.',
@@ -383,8 +344,8 @@ checks.push({
 
 checks.push({
   name: 'Published date',
-  category: 'Blog Post',
-  exec: (doc) => {
+  category: 'Metadata',
+  exec: async (doc) => {
     const res = {
       status: false,
       msg: 'Blog post has published date',
@@ -410,8 +371,8 @@ checks.push({
 
 checks.push({
   name: 'Read time',
-  category: 'Blog Post',
-  exec: (doc) => {
+  category: 'Metadata',
+  exec: async (doc) => {
     const res = {
       status: false,
       msg: 'Blog post has read time',
@@ -437,8 +398,8 @@ checks.push({
 
 checks.push({
   name: 'Author',
-  category: 'Blog Post',
-  exec: (doc) => {
+  category: 'Metadata',
+  exec: async (doc) => {
     const res = {
       status: true,
       msg: 'Author is valid.',
@@ -458,16 +419,14 @@ checks.push({
       const { href } = author;
       if (href !== '' && href !== `${window.location.href}#`) {
         try {
-          fetch(href, { method: 'HEAD' })
-            .then((resp) => {
-              if (!resp.ok) {
-                res.status = false;
-                res.msg = "Error with the author's page url.";
-              } else {
-                res.status = true;
-                res.msg = 'Author name and url are valid.';
-              }
-            });
+          const resp = await fetch(href, { method: 'HEAD' });
+          if (!resp.ok) {
+            res.status = false;
+            res.msg = "Error with the author's page url.";
+          } else {
+            res.status = true;
+            res.msg = 'Author name and url are valid.';
+          }
         } catch (e) {
           res.status = false;
           res.msg = 'Error with author page url.';

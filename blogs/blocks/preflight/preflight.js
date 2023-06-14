@@ -60,23 +60,35 @@ async function runChecks(dialog) {
       body.append(categoryWrapper);
     }
 
-    const { status, msg } = check.exec(document);
-
-    if (!status) {
-      categoryWrapper.classList.remove('preflight-category-success');
-      categoryWrapper.classList.add('preflight-category-failed');
-      toggle(categoryWrapper, true);
-    }
     const checkEl = document.createElement('div');
     checkEl.classList.add(
       'preflight-check',
-      `${status ? 'preflight-check-success' : 'preflight-check-failed'}`,
+      'preflight-check-running',
     );
     checkEl.innerHTML = `
         <p class="preflight-check-title">${check.name}</p>
-        <p class="preflight-check-msg">${msg}</p>
+        <p class="preflight-check-msg"></p>
     `;
     categoryPanel.append(checkEl);
+    check.exec(document).then((res) => {
+      const { status, msg } = res;
+
+      checkEl.querySelector('.preflight-check-msg').textContent = msg;
+      checkEl.classList.remove('preflight-check-running');
+      checkEl.classList.add(status ? 'preflight-check-success' : 'preflight-check-failed');
+      if (!status) {
+        categoryWrapper.classList.remove('preflight-category-success');
+        categoryWrapper.classList.add('preflight-category-failed');
+        toggle(categoryWrapper, true);
+      }
+    }).catch(() => {
+      checkEl.querySelector('.preflight-check-msg').textContent = 'Error occurred while checking';
+      checkEl.classList.remove('preflight-check-running');
+      checkEl.classList.add('preflight-check-failed');
+      categoryWrapper.classList.remove('preflight-category-success');
+      categoryWrapper.classList.add('preflight-category-failed');
+      toggle(categoryWrapper, true);
+    });
   });
 }
 
