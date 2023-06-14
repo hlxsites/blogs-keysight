@@ -16,6 +16,7 @@
 .preflight #preflight-dialog .preflight-footer {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   border-top: 1px solid rgba(0, 0, 0, 0.2);
 }
 
