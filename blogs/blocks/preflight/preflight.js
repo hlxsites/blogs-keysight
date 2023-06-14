@@ -96,8 +96,11 @@ export default async function decorate(block) {
       <div class="preflight-body">
       </div>
       <div class="preflight-footer">
-        <input type="checkbox" id="preflight-hidePassed" name="preflight-hidePassed" value="yes">
-        <label for="preflight-hidePassed">Show only Failures?</label>
+        <div class="hide-wrapper">
+          <input type="checkbox" id="preflight-hidePassed" name="preflight-hidePassed" value="yes">
+          <label for="preflight-hidePassed">Show only Failures?</label>
+        </div>
+        <a href="https://main--blogs-keysight--hlxsites.hlx.page/blogs/drafts/documentation/preflight-guide">Pre-flight Guide</a>
       </div>
     </dialog>
   `;
