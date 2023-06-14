@@ -2,10 +2,90 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-05-25T00:00:00.000Z</updated>
+    <updated>2023-06-12T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Unique Challenges of Healthcare Application Testing: Why It Is So Different]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/12/unique-challenges-of-healthcare-application-testing</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/12/unique-challenges-of-healthcare-application-testing"/>
+        <updated>2023-06-12T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Healthcare QA teams are confronting a welter of uncertainties. Learn how they home in on what matters—and begin making the most of automation and AI.]]></content>
+        <published>2023-06-12T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Digital Twins in Engineering: Evolutionary or Revolutionary?]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/sim-des/2023/06/09/digital-twins-engineering-revolutionary-evolutionary</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/sim-des/2023/06/09/digital-twins-engineering-revolutionary-evolutionary"/>
+        <updated>2023-06-09T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Are digital twins going to change the world? If you’re an engineer, there’s a good chance you’ll be using them in the next five years — if you aren’t already.]]></content>
+        <published>2023-06-09T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Vital Signs: The Rise of Automated Healthcare Software Testing]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/06/07/the-rise-of-automated-healthcare-software-testing</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/06/07/the-rise-of-automated-healthcare-software-testing"/>
+        <updated>2023-06-07T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[We collaborated with HIMSS to survey key challenges in software tetsing and drivers for test automation across major U.S. healthcare providers.]]></content>
+        <published>2023-06-07T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Find Out What the Tech Future Means for You]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/culture/2023/06/07/future-av-5g-6g-ntn-digital-healthcare-keysight-world-innovate-2023</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/culture/2023/06/07/future-av-5g-6g-ntn-digital-healthcare-keysight-world-innovate-2023"/>
+        <updated>2023-06-06T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Virtual, expert-led sessions cover engineering in emerging technologies, like the 5G and 6G metaverse, software-defined vehicles, extraterrestrial communications, and digital healthcare, at Keysight World: Innovate.]]></content>
+        <published>2023-06-06T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Revolutionizing Education: Navigating Digital Transformation in Higher Learning]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/6/digital-transformation-in-education-blog</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/6/digital-transformation-in-education-blog"/>
+        <updated>2023-06-05T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Learn about the transformative power of digital transformation in higher education with Keysight's Eggplant.]]></content>
+        <published>2023-06-05T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Create Power Supply Output Sequences with Data Logging]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/06/how-to-create-power-supply-output-sequence-with-data-logging</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/bench/2023/06/how-to-create-power-supply-output-sequence-with-data-logging"/>
+        <updated>2023-06-02T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Bench power supplies have a built-in output sequencing function that enables programmability. By using the test sequence feature, you can program voltage values, current limit values, and time per step. Using the bench power supply with the test sequences feature enables precise control over power-up and power-down sequences and reduces test setup complexity.]]></content>
+        <published>2023-06-02T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[World Environment Day: Solutions for Plastic Pollution]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/kcsr/2023/05/31/world-environment-day-2023</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/kcsr/2023/05/31/world-environment-day-2023"/>
+        <updated>2023-06-01T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Keysight’s Director of Sustainability & EHS reflects on World Environment Day and on the company’s action to support reduction of plastic pollution.]]></content>
+        <published>2023-06-01T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Mission Impossible: Manual Software Testing for Every User Journey]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/5/31/manual-software-testing-user-journey</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/5/31/manual-software-testing-user-journey"/>
+        <updated>2023-05-31T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Manually testing every user journey across your applications, websites, and devices is impossible. Discover how Keysight makes the impossible possible with intelligent automated software testing.]]></content>
+        <published>2023-05-31T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Overcoming QA Testing Challenges in Financial Systems: Delivering Compliance, Security and Performance]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/5/31/overcoming-qa-challenges-financial-enterprise</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/5/31/overcoming-qa-challenges-financial-enterprise"/>
+        <updated>2023-05-31T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[<post description, used for cards>]]></content>
+        <published>2023-05-31T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Volunteering Together Builds Community]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/kcsr/2023/05/31/may-2023-volunteer-blog</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/kcsr/2023/05/31/may-2023-volunteer-blog"/>
+        <updated>2023-05-31T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Team of volunteers]]></content>
+        <published>2023-05-31T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[High Power Amplifier Test Enhancements with the ENA-X VNA]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/rfmw/2023/05/25/high-power-amplifier-test-enhancements-with-the-ena-x-vna</id>
@@ -24,8 +104,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[Keysight: A Company as Diverse as the World We Live In]]></title>
-        <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/09/keysight-a-company-as-diverse-as-the-world-we-live-in</id>
-        <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/09/keysight-a-company-as-diverse-as-the-world-we-live-in"/>
+        <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/05/24/keysight-a-company-as-diverse-as-the-world-we-live-in</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/05/24/keysight-a-company-as-diverse-as-the-world-we-live-in"/>
         <updated>2023-05-24T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Keysight shares notable accomplishments and ongoing DEI focus areas with release of its 2022 Diversity, Equity, and Inclusion Report]]></content>
         <published>2023-05-24T00:00:00.000Z</published>
@@ -503,11 +583,11 @@
         <published>2023-03-07T00:00:00.000Z</published>
     </entry>
     <entry>
-        <title type="html"><![CDATA[High-Volume Manufacturing Testing for Low-Cost Boards: Navigating the Challenges]]></title>
+        <title type="html"><![CDATA[High-Volume Manufacturing Testing for Low-Cost Boards: Navigating the Challenges and Solutions]]></title>
         <id>https://www.keysight.com/blogs/blogs/inds/2023/02/27/high-volume-manufacturing-testing-for-low-cost-boards-navigating-the-challenges</id>
         <link href="https://www.keysight.com/blogs/blogs/inds/2023/02/27/high-volume-manufacturing-testing-for-low-cost-boards-navigating-the-challenges"/>
         <updated>2023-03-05T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[High-Volume Manufacturing Testing for Low-Cost Boards: Navigating the Challenges]]></content>
+        <content type="html"><![CDATA[High-Volume Manufacturing Testing for Low-Cost Boards: Navigating the Challenges and Solutions]]></content>
         <published>2023-03-05T00:00:00.000Z</published>
     </entry>
     <entry>
@@ -10517,5 +10597,13 @@
         <updated>2016-06-17T00:00:00.000Z</updated>
         <content type="html"><![CDATA[ABCs of Network Packet Brokers]]></content>
         <published>2016-06-17T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[<post title>]]></title>
+        <id>https://www.keysight.com/blogs/blogs/post-template</id>
+        <link href="https://www.keysight.com/blogs/blogs/post-template"/>
+        <updated>1970-01-01T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[<post description, used for cards>]]></content>
+        <published>1970-01-01T00:00:00.000Z</published>
     </entry>
 </feed>

@@ -48,6 +48,7 @@
 /* Author Bio  */
 .author .author-bio {
   padding-top: 0px;
+  min-height: 300px;
 }
 
 @media (min-width: 600px) {

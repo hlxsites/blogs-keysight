@@ -10,6 +10,7 @@ import {
   getPostsFfetch,
 } from '../../scripts/scripts.js';
 import ffetch from '../../scripts/ffetch.js';
+import { validateTags } from '../../scripts/taxonomy.js';
 
 const pageSize = 10;
 const initLoad = pageSize * 2;
@@ -32,23 +33,21 @@ async function getAuthorLink(post) {
   return notLink;
 }
 
-function getTagsLinks(post) {
+async function getTagsLinks(post) {
   const tags = splitTags(post.tags);
   if (tags.length > 0) {
+    const [validTags] = await validateTags(tags);
     const list = createElement('ul', 'card-tags');
-    tags.forEach((tag) => {
+    validTags.forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
       link.innerText = `#${tag}`;
       link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag)}`;
-
       item.append(link);
       list.append(item);
     });
-
     return list;
   }
-
   return undefined;
 }
 
@@ -75,7 +74,7 @@ function executeSearch(q) {
   return results;
 }
 
-function buildPostCard(post, index) {
+async function buildPostCard(post, index) {
   const classes = ['post-card'];
   if (index >= pageSize) {
     classes.push('hidden');
@@ -115,11 +114,11 @@ function buildPostCard(post, index) {
   const authorLinkPromise = getAuthorLink(post);
   authorLinkPromise.then((authorLink) => {
     if (authorLink) {
-      postCard.querySelector('.card-author').replaceChild(authorLink, postCard.querySelector('.card-author .author-text'));
+      postCard.querySelector('.card-author .author-text').replaceWith(authorLink);
     }
   });
 
-  const tagsLinks = getTagsLinks(post);
+  const tagsLinks = await getTagsLinks(post);
   if (tagsLinks) {
     postCard.querySelector('.post-card-text').append(tagsLinks);
   }
@@ -139,7 +138,7 @@ export default async function decorate(block) {
   let counter = 0;
   // eslint-disable-next-line no-restricted-syntax
   for await (const post of initResults) {
-    const postCard = buildPostCard(post, counter);
+    const postCard = await buildPostCard(post, counter);
     grid.append(postCard);
     counter += 1;
   }
@@ -174,7 +173,7 @@ export default async function decorate(block) {
       deferredLoaded = true;
       // eslint-disable-next-line no-restricted-syntax
       for await (const post of deferredPosts) {
-        const postCard = buildPostCard(post, counter);
+        const postCard = await buildPostCard(post, counter);
         grid.append(postCard);
         counter += 1;
       }
