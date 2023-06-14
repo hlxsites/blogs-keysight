@@ -7,7 +7,7 @@ import { createElement, loadScript } from '../../scripts/scripts.js';
 
 let videoIdx = '0';
 
-Window.SetElqContent = () => {
+window.SetElqContent = () => {
   // eslint-disable-next-line max-len, no-undef
   window.Keysight.elq_u_email = GetElqContentPersonalizationValue(window.Keysight.VisitorUniqueField);
 };
@@ -105,7 +105,7 @@ function playerReady(id, block) {
   window._elqQ.push(['elqUseFirstPartyCookie', window.Keysight.FirstPartyCookieDomain]);
   window._elqQ.push(['elqTrackPageView', window.location.href]);
   loadScript(window.Keysight.EloquaScript, 'text/javascript', () => {
-    window._elqQ.push(['elqDataLookup', encodeURIComponent(window.Keysight.LookupIdVisitor), '']);
+    window._elqQ.push(['elqDataLookup', escape(window.Keysight.LookupIdVisitor), '']);
   });
   /* eslint-enable no-underscore-dangle */
 
