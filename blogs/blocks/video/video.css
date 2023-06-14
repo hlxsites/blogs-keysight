@@ -1,3 +1,5 @@
+@import url('./videojs/video-js-8.3.0.css');
+
 .video video {
   max-width: 100%;
 }
@@ -6,6 +8,10 @@
   width: 100%;
   aspect-ratio: 16 / 9;
   position: relative;
+}
+
+.video.video-loaded .video-placeholder {
+  display: none;
 }
 
 .video .video-placeholder > * {
@@ -49,4 +55,81 @@
   border-left: 6px solid;
   top: 4px;
   left: 7px;
+}
+
+/* vjs customizations */
+.video .video-js, 
+.video .vjs-menu .vjs-menu-content, 
+.video .vjs-social-overlay {
+  font-family: var(--body-font-family);
+}
+
+
+.video .vjs-subtitles-menu-item , 
+.vjs-subs-caps-button .vjs-menu-item {
+  text-transform: capitalize;
+}
+
+.video .vjs-menu-item:hover, 
+.video .vjs-menu li.vjs-selected,
+.vido .vjs-menu li.vjs-selected:focus, 
+.video .vjs-menu li.vjs-selected:hover, 
+.video .js-focus-visible .vjs-menu li.vjs-selected:hover {
+  font-weight: bold;
+}
+
+.video .vjs-menu .vjs-menu-content {
+  padding: 5px;
+  width: auto;
+  background-color: #2B333F;
+  max-height: 20em;
+}
+
+.video .vjs-menu-button-popup .vjs-menu {
+  width: 14em;
+}
+
+/* hide the captions settings item from the captions menu */
+.video .vjs-texttrack-settings {
+  display: none;
+}
+
+.video .vjs-text-track-display div.vjs-text-track-cue.vjs-text-track-cue-en {
+  font: 14px "Graphik LC Web", sans-serif;
+}
+
+.video .vjs-paused .vjs-text-track-display {
+  visibility: hidden;
+  display: inline-block;
+}
+
+.video .vjs-has-started .vjs-text-track-display {
+  visibility: visible;
+  display: inline-block;
+}
+
+/* rounded corner css */
+.video .custom-rounded-corner {
+  border-radius: 25px;
+  background-color: #dee2e9 !important;
+  overflow: hidden;
+}
+
+.video .custom-rounded-corner .vjs-big-play-button {
+  background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODYiIGhlaWdodD0iODYiIHZpZXdCb3g9IjAgMCA4NiA4NiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iNDMuMTg0IiBjeT0iNDIuNjg0IiByPSI0Mi42ODQiIGZpbGw9IiNFOTAwMjkiLz4KPHBhdGggZD0iTTUzLjE3OTggNDIuNzI3OEM1NC41MTMyIDQzLjQ5NzYgNTQuNTEzMiA0NS40MjIxIDUzLjE3OTggNDYuMTkxOUw0MS4zMTg4IDUzLjAzOThDMzkuOTg1NSA1My44MDk2IDM4LjMxODggNTIuODQ3NCAzOC4zMTg4IDUxLjMwNzhMMzguMzE4OCAzNy42MTE5QzM4LjMxODggMzYuMDcyMyAzOS45ODU1IDM1LjExIDQxLjMxODggMzUuODc5OEw1My4xNzk4IDQyLjcyNzhaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4=') no-repeat center center !important;
+  background-size: contain !important;
+  transition: background-image 0.2s ease-in-out !important;
+  border-radius: 50% !important;
+}
+
+.video .custom-rounded-corner .vjs-big-play-button .vjs-icon-placeholder::before {
+  display: none;
+}
+
+.video .custom-rounded-corner .vjs-fullscreen-control {
+  margin-right: 5px;
+}
+
+.video .custom-rounded-corner .vjs-play-control {
+  margin-left: 5px;
 }
