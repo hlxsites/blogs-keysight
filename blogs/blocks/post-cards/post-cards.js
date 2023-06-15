@@ -12,6 +12,7 @@ import {
   decorateBlock,
   loadBlock,
   buildBlock,
+  getOrigin,
 } from '../../scripts/lib-franklin.js';
 import ffetch from '../../scripts/ffetch.js';
 import { validateTags } from '../../scripts/taxonomy.js';
@@ -224,7 +225,7 @@ async function loadPostCards(block) {
   // post a message indicating cards are loaded, this triggers the tags block to load
   // see comment there for more details
   block.dataset.postsLoaded = 'true';
-  window.postMessage({ postCardsLoaded: true }, window.location.origin);
+  window.postMessage({ postCardsLoaded: true }, getOrigin());
 }
 
 /**
