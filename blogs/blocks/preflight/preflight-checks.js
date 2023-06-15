@@ -54,11 +54,11 @@ checks.push({
     const titleSize = doc.title.replace(/\s/g, '').length;
     if (titleSize < 15) {
       res.status = false;
-      res.msg = 'Title size is too short (<15 characters).';
+      res.msg = 'Title size is too short (must be at least 15 characters).';
     }
     if (titleSize > 70) {
       res.status = false;
-      res.msg = 'Title size is too long (>70 characters).';
+      res.msg = 'Title size is too long (must be no more than 70 characters).';
     }
 
     return res;
@@ -81,10 +81,10 @@ checks.push({
       const descSize = metaDesc.content.replace(/\s/g, '').length;
       if (descSize < 50) {
         res.status = false;
-        res.msg = 'Meta description too short (<50 characters).';
+        res.msg = 'Meta description too short (must be at least 50 characters).';
       } else if (descSize > 150) {
         res.status = false;
-        res.msg = 'Meta description too long (>150 characters).';
+        res.msg = 'Meta description too long (must be no more than 150 characters).';
       }
     }
 
@@ -198,24 +198,30 @@ checks.push({
   exec: async (doc) => {
     const res = {
       status: true,
-      msg: 'All Images have alt-text.',
+      msg: 'All Images have alt text.',
     };
     let invalidAltTextCount = 0;
     // if img is a child of these blocks then ignore check
-    const blocksToExclude = ['post-card'];
+    const ignoredBlocks = ['post-cards'];
     const imgElements = doc.querySelectorAll('body > main img');
     for (let i = 0; i < imgElements.length; i += 1) {
       const altText = imgElements[i];
-      if (!blocksToExclude.includes(altText.closest('div').className) && altText.alt === '') {
+      const block = altText.closest('.block');
+      let isIgnored = false;
+      if (block) {
+        isIgnored = [...block.classList]
+          .some((blockName) => ignoredBlocks.includes(blockName));
+      }
+      if (!isIgnored && altText.alt === '') {
         invalidAltTextCount += 1;
       }
     }
     if (invalidAltTextCount > 0) {
       res.status = false;
-      res.msg = `${invalidAltTextCount} image(s) have no alt-text.`;
+      res.msg = `${invalidAltTextCount} image(s) have no alt text.`;
     } else {
       res.status = true;
-      res.msg = 'Image alt-text are valid.';
+      res.msg = 'All images have alt text.';
     }
 
     return res;
@@ -239,6 +245,9 @@ checks.push({
         res.status = false;
         res.msg = `${invalid.length} Invalid tags. ${invalid.join(', ')}`;
       }
+    } else if (isBlogPost(doc)) {
+      res.status = false;
+      res.msg = 'Blog posts must have at least 1 tag.';
     }
 
     return res;
