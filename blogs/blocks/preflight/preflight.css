@@ -6,7 +6,9 @@
   grid-template-rows: 75px 1fr 50px;
   padding: 0;
 
-  --color-green: #4BB543;
+  --color-success: #4BB543;
+  --color-pending: #3066c5;
+  --color-failed: var(--color-red);
 }
 
 .preflight #preflight-dialog > * {
@@ -17,14 +19,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(0 0 0 / 20%);
 }
 
 .preflight #preflight-dialog .preflight-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0 0 0 / 20%);
 }
 
 .preflight #preflight-dialog .preflight-header .preflight-close {
@@ -68,7 +70,7 @@
   color: var(--color-black);
   padding: 10px 40px;
   border-radius: 28px;
-  border: 1px solid var(--color-green);
+  border: 1px solid var(--color-success);
   background-color: var(--color-white);
   text-align: center;
   position: relative;
@@ -83,15 +85,22 @@
   width: 14px;
   height: 14px;
   display: inline-block;
-  border-top: 3px solid var(--color-green);
-  border-left: 3px solid var(--color-green);
+  border-top: 3px solid var(--color-success);
+  border-left: 3px solid var(--color-success);
   transition: transform .3s;
+}
+
+.preflight #preflight-dialog .preflight-category-pending .preflight-category-trigger,
+.preflight #preflight-dialog .preflight-category-pending .preflight-category-trigger::after {
+  border-color: var(--color-pending);
+  color: var(--color-pending);
+  font-weight: 500;
 }
 
 .preflight #preflight-dialog .preflight-category-failed .preflight-category-trigger,
 .preflight #preflight-dialog .preflight-category-failed .preflight-category-trigger::after {
-  border-color: var(--color-red);
-  color: var(--color-red);
+  border-color: var(--color-failed);
+  color: var(--color-failed);
   font-weight: 500;
 }
 
@@ -102,7 +111,7 @@
 .preflight #preflight-dialog .preflight-category-panel .preflight-check::before,
 .preflight #preflight-dialog .preflight-category-trigger::before {
   content: '';
-  background-color: var(--color-green);
+  background-color: var(--color-success);
   mask:url("./icons/success.svg") no-repeat;
   /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-mask:url("./icons/success.svg") no-repeat;  
@@ -120,7 +129,15 @@
   mask:url("./icons/fail.svg") no-repeat;
   /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-mask:url("./icons/fail.svg") no-repeat;  
-  background-color: var(--color-red);
+  background-color: var(--color-failed);
+}
+
+.preflight #preflight-dialog .preflight-category-panel .preflight-check.preflight-check-pending::before,
+.preflight #preflight-dialog .preflight-category-pending .preflight-category-trigger::before {
+  mask:url("../../icons/clock.svg") no-repeat;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-mask:url("../../icons/clock.svg") no-repeat;  
+  background-color: var(--color-pending);
 }
 
 .preflight #preflight-dialog .preflight-category-panel {
@@ -149,7 +166,7 @@
 }
 
 .preflight #preflight-dialog .preflight-category-panel .preflight-check.preflight-check-failed > p {
-  color: var(--color-red);
+  color: var(--color-failed);
   font-weight: 500;
 }
 
@@ -166,6 +183,5 @@
 }
 
 .preflight #preflight-dialog .hide {
-  visibility: hidden;
-  max-height: 0;
+  display: none !important;
 }

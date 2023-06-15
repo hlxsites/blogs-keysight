@@ -10,6 +10,7 @@ export default function decorate(block) {
     a.href = `#${h2.id}`;
     a.textContent = h2.textContent;
     li.append(a);
+    ul.append(li);
 
     const h3s = h2.querySelectorAll('h3');
     if (h3s.length > 0) {

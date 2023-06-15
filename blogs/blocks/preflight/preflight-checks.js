@@ -1,3 +1,5 @@
+import { PRODUCTION_DOMAINS, PRODUCTION_PATHS } from '../../scripts/scripts.js';
+import { validateTags } from '../../scripts/taxonomy.js';
 // eslint-disable-next-line import/prefer-default-export
 export const checks = [];
 
@@ -12,17 +14,6 @@ function isBlogPost(doc) {
     return true;
   }
   return false;
-}
-
-/**
- * Find the second-level list items and put them into a single array.
- * @returns {Array} An array of tag strings
- */
-function getTags(ul) {
-  const tagList = ul.querySelectorAll('ul li ul li');
-  const tagArray = [...tagList];
-  const textArray = tagArray.map((li) => (li.textContent));
-  return textArray;
 }
 
 checks.push({
@@ -102,37 +93,6 @@ checks.push({
 });
 
 checks.push({
-  name: 'Canonical',
-  category: 'SEO',
-  exec: async (doc) => {
-    const res = {
-      status: true,
-      msg: 'Canonical reference is valid.',
-    };
-    const canon = doc.querySelector("link[rel='canonical']");
-    const { href } = canon;
-    try {
-      const resp = await fetch(href.replace('www.keysight.com', window.location.hostname), { method: 'HEAD' });
-      if (!resp.ok) {
-        res.status = false;
-        res.msg = 'Error with canonical reference.';
-      } else if (resp.status >= 300 && resp.status <= 308) {
-        res.status = false;
-        res.msg = 'Canonical reference redirects.';
-      } else {
-        res.status = true;
-        res.msg = 'Canonical referenced is valid.';
-      }
-    } catch (e) {
-      res.status = false;
-      res.msg = 'Error loading the canonical reference.';
-    }
-
-    return res;
-  },
-});
-
-checks.push({
   name: 'Body Size',
   category: 'SEO',
   exec: async (doc) => {
@@ -155,7 +115,7 @@ checks.push({
 
 checks.push({
   name: 'Links',
-  category: 'SEO',
+  category: 'Content & Metadata',
   exec: async (doc) => {
     const res = {
       status: true,
@@ -163,17 +123,28 @@ checks.push({
     };
     // using array for less code. arr[0] for 404 count; arr[1] for fetch exception error count
     const errorSummary = {
-
       notFoundCount: 0,
       exceptionCount: 0,
     };
     const links = doc.querySelectorAll('body > main a[href]');
-    await Promise.all(links.map(async (link) => {
-      const { href } = link;
-      if (href.includes('/blogs/')) {
+    const ignoredBlocks = ['post-sidebar', 'post-cards', 'tags', 'preflight', 'topics'];
+    await Promise.all([...links].map(async (link) => {
+      const block = link.closest('.block');
+      if (block) {
+        const isIngored = [...block.classList]
+          .some((blockName) => ignoredBlocks.includes(blockName));
+        if (isIngored) {
+          return;
+        }
+      }
+      const url = new URL(link.href);
+      const hosts = ['hlx.page', 'hlx.live', ...PRODUCTION_DOMAINS];
+      const hostMatch = hosts.some((host) => url.hostname.includes(host));
+      const pathMatch = PRODUCTION_PATHS.some((path) => url.pathname.startsWith(path));
+      if (hostMatch && pathMatch) {
         try {
           // eslint-disable-next-line no-await-in-loop
-          const resp = await fetch(href, { method: 'HEAD' });
+          const resp = await fetch(url, { method: 'HEAD' });
           if (!resp.ok) {
             errorSummary.notFoundCount += 1;
             res.status = false;
@@ -194,8 +165,36 @@ checks.push({
 });
 
 checks.push({
+  name: 'Headings',
+  category: 'SEO',
+  exec: async (doc) => {
+    const res = {
+      status: true,
+      msg: 'Headings are valid.',
+    };
+    const headerElements = doc.body.querySelectorAll('h1, h2, h3, h4, h5, h6');
+
+    let prevLevel;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const element of headerElements) {
+      const elemLevel = Number(element.tagName.substring(1));
+      if (prevLevel) {
+        if (elemLevel > prevLevel && prevLevel + 1 !== elemLevel) {
+          res.status = false;
+          res.msg = `Headings are out of order: ${element.textContent} (${element.tagName}) came after H${prevLevel}`;
+        }
+      }
+
+      prevLevel = elemLevel;
+    }
+
+    return res;
+  },
+});
+
+checks.push({
   name: 'Image Alt-Text',
-  category: 'A11Y',
+  category: 'Accessibilty',
   exec: async (doc) => {
     const res = {
       status: true,
@@ -224,90 +223,21 @@ checks.push({
 });
 
 checks.push({
-  name: 'Headings',
-  category: 'SEO',
+  name: 'Tags',
+  category: 'Content & Metadata',
   exec: async (doc) => {
     const res = {
       status: true,
-      msg: 'Headings are valid.',
-    };
-    const sectionIDsToIgnore = ['related-content', 'related-posts'];
-    const headerTags = [];
-    const headerElements = doc.body.querySelectorAll('h1, h2, h3, h4, h5, h6');
-
-    // eslint-disable-next-line no-restricted-syntax
-    for (const element of headerElements) {
-      // ignore author post side container, preflight, & sectionIDsToIgnore
-      if (!element.className.startsWith('author') && !element.innerText.startsWith('Pre-Flight') && !sectionIDsToIgnore.includes(element.id)) {
-        headerTags.push(element.nodeName);
-      }
-    }
-
-    if (headerTags.length === 1 && headerTags[0] !== 'h1') {
-      res.status = false;
-      res.msg = 'No H1 on the page.';
-    }
-
-    for (let i = 1; i < headerTags.length; i += 1) {
-      const previousTag = headerTags[i - 1];
-      const currentTag = headerTags[i];
-
-      if (previousTag.charAt(1) > currentTag.charAt(1)) {
-        res.status = false;
-        res.msg = `Heading tags are out of order:  ${currentTag} came after ${previousTag}`;
-      }
-    }
-
-    return res;
-  },
-});
-
-checks.push({
-  name: 'Tags',
-  category: 'Metadata',
-  exec: async (doc) => {
-    const res = {
-      status: false,
       msg: 'No tags found.',
     };
-    const articleTags = doc.head.querySelectorAll('meta[property="article:tag"]');
+    const articleTags = [...doc.head.querySelectorAll('meta[property="article:tag"]')].map((tagMeta) => tagMeta.content);
     if (articleTags.length > 0) {
-      const href = (`${origin}/blogs/tags.plain.html`);
-      try {
-        fetch(href)
-          .then(async (resp) => {
-            if (!resp.ok) {
-              res.status = false;
-              res.msg = 'Error with canonical reference.';
-            }
-            if (resp && resp.ok) {
-              const text = await resp.text();
-              const tempElement = document.createElement('div');
-              tempElement.innerHTML = text;
-              // Get the root <ul> element
-              const rootUlElement = tempElement.querySelector('ul');
-              // Create the JavaScript array from the nested <ul>
-              const tagArray = getTags(rootUlElement);
-              let invalidTagCount = 0;
-              articleTags.forEach((tag) => {
-                if (!tagArray.includes(tag.content)) {
-                  invalidTagCount += 1;
-                }
-              });
-              if (invalidTagCount > 0) {
-                res.status = false;
-                res.msg = `${invalidTagCount} invalid tag(s).`;
-              } else {
-                res.status = true;
-                res.msg = 'Tags are valid.';
-              }
-              // "return res" does not update html anymore at this point hence below code
-              updateModalResult(doc, res, 'Tags', [0, 0]);
-            }
-          });
-      } catch (e) {
+      const [, invalid] = await validateTags(articleTags);
+      if (invalid.length === 0) {
+        res.msg = 'All tags are valid';
+      } else {
         res.status = false;
-        res.msg = 'Error with tags.';
+        res.msg = `${invalid.length} Invalid tags. ${invalid.join(', ')}`;
       }
     }
 
@@ -317,25 +247,20 @@ checks.push({
 
 checks.push({
   name: 'Hero Image',
-  category: 'Content',
+  category: 'Content & Metadata',
   exec: async (doc) => {
     const res = {
       status: true,
-      msg: 'Blog post has hero image.',
+      msg: 'Page has a hero image.',
     };
 
-    if (isBlogPost(doc)) {
-      const heroImg = doc.querySelector('body > main .hero img');
-      if (heroImg && heroImg.src !== '') {
-        res.status = true;
-        res.msg = 'Blog post has hero image.';
-      } else {
-        res.status = false;
-        res.msg = 'Blog post has no hero image.';
-      }
-    } else {
+    const heroImg = doc.querySelector('body > main .hero img');
+    if (heroImg && heroImg.src !== '') {
       res.status = true;
-      res.msg = 'Page is not a blog post.';
+      res.msg = 'Page has a hero image.';
+    } else {
+      res.status = false;
+      res.msg = 'Page has no hero image.';
     }
 
     return res;
@@ -344,7 +269,7 @@ checks.push({
 
 checks.push({
   name: 'Published date',
-  category: 'Metadata',
+  category: 'Content & Metadata',
   exec: async (doc) => {
     const res = {
       status: false,
@@ -358,7 +283,7 @@ checks.push({
         res.msg = 'Blog post has a valid published date.';
       } else {
         res.status = false;
-        res.msg = 'Blog post has an invalid published date.';
+        res.msg = 'Blog post has an invalid published date (should be YYYY-MM-DD).';
       }
     } else {
       res.status = true;
@@ -371,7 +296,7 @@ checks.push({
 
 checks.push({
   name: 'Read time',
-  category: 'Metadata',
+  category: 'Content & Metadata',
   exec: async (doc) => {
     const res = {
       status: false,
@@ -398,7 +323,7 @@ checks.push({
 
 checks.push({
   name: 'Author',
-  category: 'Metadata',
+  category: 'Content & Metadata',
   exec: async (doc) => {
     const res = {
       status: true,

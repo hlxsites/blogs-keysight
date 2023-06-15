@@ -13,6 +13,17 @@ const toggle = (item, forceOpen) => {
   }
 };
 
+function hidePassed(elem) {
+  const { checked } = elem.querySelector('#preflight-hidePassed');
+  elem.querySelectorAll('.preflight-check-success, .preflight-category-success').forEach((item) => {
+    if (checked) {
+      item.classList.remove('hide');
+    } else {
+      item.classList.add('hide');
+    }
+  });
+}
+
 async function runChecks(dialog) {
   const checksByCat = checks.sort((c1, c2) => {
     const cat1 = c1.category.toUpperCase();
@@ -33,12 +44,14 @@ async function runChecks(dialog) {
   let curCategory = '';
   let categoryPanel;
   let categoryWrapper;
+  const checkPromises = {};
   checksByCat.forEach((check) => {
     if (curCategory !== check.category) {
       curCategory = check.category;
       const catProp = toClassName(curCategory);
       categoryWrapper = document.createElement('div');
-      categoryWrapper.classList.add('preflight-category', 'preflight-category-success');
+      categoryWrapper.classList.add('preflight-category', 'preflight-category-pending');
+      categoryWrapper.dataset.category = curCategory;
       categoryWrapper.innerHTML = `
         <button class="preflight-category-trigger" aria-expanded="false" 
           aria-controls="preflight-category-panel-${catProp}" 
@@ -58,36 +71,43 @@ async function runChecks(dialog) {
       });
       categoryPanel = categoryWrapper.querySelector('.preflight-category-panel');
       body.append(categoryWrapper);
+
+      checkPromises[curCategory] = [];
     }
 
     const checkEl = document.createElement('div');
     checkEl.classList.add(
       'preflight-check',
-      'preflight-check-running',
+      'preflight-check-pending',
     );
     checkEl.innerHTML = `
         <p class="preflight-check-title">${check.name}</p>
-        <p class="preflight-check-msg"></p>
+        <p class="preflight-check-msg">Checking...</p>
     `;
     categoryPanel.append(checkEl);
-    check.exec(document).then((res) => {
+    const p = check.exec(document);
+    checkPromises[curCategory].push(p);
+    p.then((res) => {
       const { status, msg } = res;
-
       checkEl.querySelector('.preflight-check-msg').textContent = msg;
-      checkEl.classList.remove('preflight-check-running');
+      checkEl.classList.remove('preflight-check-pending');
       checkEl.classList.add(status ? 'preflight-check-success' : 'preflight-check-failed');
-      if (!status) {
-        categoryWrapper.classList.remove('preflight-category-success');
-        categoryWrapper.classList.add('preflight-category-failed');
-        toggle(categoryWrapper, true);
+    });
+  });
+
+  Object.keys(checkPromises).forEach((catKey) => {
+    const catPromises = checkPromises[catKey];
+    Promise.all(catPromises).then(() => {
+      const preflightCat = dialog.querySelector(`.preflight-category[data-category="${catKey}"]`);
+      const categoryFailed = preflightCat.querySelector('.preflight-check-failed');
+      preflightCat.classList.remove('preflight-category-pending');
+      if (categoryFailed) {
+        preflightCat.classList.add('preflight-category-failed');
+        toggle(preflightCat, true);
+      } else {
+        preflightCat.classList.add('preflight-category-success');
       }
-    }).catch(() => {
-      checkEl.querySelector('.preflight-check-msg').textContent = 'Error occurred while checking';
-      checkEl.classList.remove('preflight-check-running');
-      checkEl.classList.add('preflight-check-failed');
-      categoryWrapper.classList.remove('preflight-category-success');
-      categoryWrapper.classList.add('preflight-category-failed');
-      toggle(categoryWrapper, true);
+      hidePassed(dialog);
     });
   });
 }
@@ -110,7 +130,7 @@ export default async function decorate(block) {
       <div class="preflight-footer">
         <div class="hide-wrapper">
           <input type="checkbox" id="preflight-hidePassed" name="preflight-hidePassed" value="yes">
-          <label for="preflight-hidePassed">Show only Failures?</label>
+          <label for="preflight-hidePassed">Show All?</label>
         </div>
         <a target="_blank" href="https://main--blogs-keysight--hlxsites.hlx.page/blogs/drafts/documentation/preflight-guide">Pre-flight Guide</a>
       </div>
@@ -122,14 +142,8 @@ export default async function decorate(block) {
     dialog.close();
   });
 
-  block.querySelector('#preflight-dialog #preflight-hidePassed').addEventListener('change', (evt) => {
-    block.querySelectorAll('#preflight-dialog .preflight-check-success, #preflight-dialog .preflight-category-success').forEach((item) => {
-      if (evt.target.checked) {
-        item.classList.add('hide');
-      } else {
-        item.classList.remove('hide');
-      }
-    });
+  block.querySelector('#preflight-dialog #preflight-hidePassed').addEventListener('change', () => {
+    hidePassed(block);
   });
 
   window.addEventListener('message', (msg) => {

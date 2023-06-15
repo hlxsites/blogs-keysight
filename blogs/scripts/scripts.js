@@ -21,8 +21,8 @@ import {
 
 const LCP_BLOCKS = ['hero', 'featured-posts']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
-const PRODUCTION_DOMAINS = ['www.keysight.com', 'stgwww.keysight.com'];
-const PRODUCTION_PATHS = ['/blogs/'];
+export const PRODUCTION_DOMAINS = ['www.keysight.com', 'stgwww.keysight.com'];
+export const PRODUCTION_PATHS = ['/blogs/'];
 
 /**
  * Create an element with the given id and classes.
