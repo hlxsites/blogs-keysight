@@ -34,9 +34,9 @@ export default function decorate(block) {
           subLi.append(subA);
           subUl.append(subLi);
           subUl.classList.remove('toc-list-empty');
+          h3Idx = j;
         }
       }
-      h3Idx = j;
     }
   }
 }
