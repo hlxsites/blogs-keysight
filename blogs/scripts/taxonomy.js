@@ -50,7 +50,7 @@ async function getAEMTags(category, lang) {
     resp = await fetch(`https://www.keysight.com/clientapi/search/aemtags/${lang}`);
     if (resp && resp.ok) {
       const json = await resp.json();
-      const tagObjs = json.hits.filter((entry) => entry.TAG_PATH.contains(`/${category}/`));
+      const tagObjs = json.hits.filter((entry) => entry.TAG_PATH.includes(`/${category}/`));
       console.log('Tags:', tagObjs);
       return tagObjs;
     }
