@@ -1,52 +1,13 @@
 import { toClassName } from './lib-franklin.js';
 
 /**
- * Find the second-level list items and put them into a single array.
- * @param {HTMLElement} ul The list of tags
- * @returns {Array} An array of tag strings
- */
-async function getTags(ul) {
-  const tagList = ul.querySelectorAll('ul li ul li');
-  const tagArray = [...tagList];
-  const textArray = tagArray.map((li) => toClassName(li.textContent));
-  return textArray;
-}
-
-/**
- * May be used later, keeping for now.
- * Retrieve Franklin Tags HTML from tags.docx.
- * @returns {Array} An array of tag strings
- */
-async function getFranklinTags() {
-  let resp;
-  try {
-    resp = await fetch(`${origin}/blogs/tags.plain.html`);
-    if (resp && resp.ok) {
-      const text = await resp.text();
-      const tempElement = document.createElement('div');
-      tempElement.innerHTML = text;
-      // Get the root <ul> element
-      const rootUlElement = tempElement.querySelector('ul');
-      // Create the JavaScript array from the nested <ul>
-      const result = await getTags(rootUlElement);
-      return result;
-    }
-  } catch (e) {
-    // console.log('Error:', e);
-  }
-  return null;
-}
-
-/**
  * Retrieve tags from API.
  * @param {String} [category] The category of tags to be returned (keysight|segmentation)
  * @param {String} [lang] The language of the tags to be returned
  * @returns {Array} An array of tag objects
  */
-async function getAEMTags(category, lang) {
+async function getAEMTags(category = 'keysight', lang = 'en') {
   let resp;
-  if (category === undefined) category = 'keysight';
-  if (lang === undefined) lang = 'en';
   try {
     resp = await fetch(`https://www.keysight.com/clientapi/search/aemtags/${lang}`);
     if (resp && resp.ok) {
@@ -66,7 +27,7 @@ async function getAEMTags(category, lang) {
  * @returns {Array} Array containing two arrays. The first array being only the valid tags,
  * the second one being the tags that are invalid
  */
-export async function validateTags(tagsArray) {
+export default async function validateTags(tagsArray) {
   try {
     // const allowedTags = await getFranklinTags();
     const allowedTags = await getAEMTags();
