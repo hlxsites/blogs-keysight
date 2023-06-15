@@ -1,5 +1,4 @@
 import { toClassName } from './lib-franklin.js';
-import ffetch from './ffetch.js';
 
 /**
  * Find the second-level list items and put them into a single array.
@@ -10,27 +9,6 @@ async function getTags(ul) {
   const tagArray = [...tagList];
   const textArray = tagArray.map((li) => toClassName(li.textContent));
   return textArray;
-}
-
-/**
- * Retrieve tags from API.
- * @returns {Array} An array of tag objects
- */
-async function getAEMTags() {
-  let resp;
-  try {
-    // Fetch the HTML content of the webpage
-    resp = await fetch('https://www.keysight.com/clientapi/search/aemtags/en');
-    if (resp && resp.ok) {
-      const json = await resp.json();
-      console.log(json.hits);
-      return json.hits;
-    }
-  } catch (e) {
-    // fail
-    console.log('Error:', e);
-  }
-  return null;
 }
 
 /**
@@ -59,20 +37,23 @@ async function getFranklinTags() {
 }
 
 /**
- * Validate an array of tag objects against a source.
- * @param {Array} tagObjArray The object array to validate.
- * @returns {Array} Array containing the valid tag objects.
+ * Retrieve tags from API.
+ * @param {String} [category] The category of tags to be returned (keysight|segmentation)
+ * @param {String} [lang] The language of the tags to be returned
+ * @returns {Array} An array of tag objects
  */
-export async function validateTagObjs(tagsObjArray) {
+async function getAEMTags(category, lang) {
+  let resp;
+  if (category === undefined) category = 'keysight';
+  if (lang === undefined) lang = 'en';
   try {
-    const allowedTags = await getFranklinTags();
-    const result = [];
-    tagsObjArray.forEach((obj) => {
-      if (allowedTags.includes(toClassName(obj.tag))) {
-        result.push(obj);
-      }
-    });
-    return result;
+    resp = await fetch(`https://www.keysight.com/clientapi/search/aemtags/${lang}`);
+    if (resp && resp.ok) {
+      const json = await resp.json();
+      const tagObjs = json.hits.filter((entry) => entry.TAG_PATH.contains(`/${category}/`));
+      console.log('Tags:', tagObjs);
+      return tagObjs;
+    }
   } catch (e) {
     // console.log('Error:', e);
   }
@@ -91,13 +72,23 @@ export async function validateTags(tagsArray) {
     const allowedTags = await getAEMTags();
     const validTags = [];
     const invalidTags = [];
-    tagsArray.forEach((tag) => {
-      // if (allowedTags.includes(toClassName(tag))) {
-      if (allowedTags.some((item) => item.TAG_NAME === tag)) {
-        validTags.push(tag);
-      } else {
-        console.warn('Tag warning:', tag); // warn for tag cleanup
-        invalidTags.push(tag);
+    tagsArray.forEach((element) => {
+      if (typeof tagsArray[0] === 'string') {
+        const matchTag = allowedTags.find((item) => item.TAG_NAME === element);
+        if (matchTag) {
+          validTags.push(matchTag);
+        } else {
+          console.warn('Tag warning:', element); // warn for tag cleanup
+          invalidTags.push(element);
+        }
+      } else if (typeof tagsArray[0] === 'object') {
+        const matchObj = allowedTags.find((item) => item.TAG_NAME === toClassName(element.tag));
+        if (matchObj) {
+          validTags.push(matchObj);
+        } else {
+          console.warn('Tag warning:', element); // warn for tag cleanup
+          invalidTags.push(element);
+        }
       }
     });
     return [tagsArray, invalidTags]; // return original tags for now

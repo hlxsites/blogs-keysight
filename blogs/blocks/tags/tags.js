@@ -6,7 +6,7 @@ import {
   filterPosts,
 } from '../../scripts/scripts.js';
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
-import { validateTagObjs } from '../../scripts/taxonomy.js';
+import { validateTags } from '../../scripts/taxonomy.js';
 
 function buildSearch(block) {
   const wrapper = createElement('div', 'find-tag');
@@ -45,7 +45,7 @@ function buildSearch(block) {
 
 async function getTagsLinks(tags, limit) {
   const list = createElement('ul', 'tags-list');
-  const validatedTags = await validateTagObjs(tags);
+  const [validatedTags] = await validateTags(tags);
   validatedTags.slice(0, limit).forEach((tag) => {
     const item = createElement('li');
     const link = createElement('a');
