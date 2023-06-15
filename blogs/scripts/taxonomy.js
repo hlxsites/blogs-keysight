@@ -2,6 +2,7 @@ import { toClassName } from './lib-franklin.js';
 
 /**
  * Find the second-level list items and put them into a single array.
+ * @param {HTMLElement} ul The list of tags
  * @returns {Array} An array of tag strings
  */
 async function getTags(ul) {
@@ -12,13 +13,13 @@ async function getTags(ul) {
 }
 
 /**
- * Retrieve HTML from tags.docx.
+ * May be used later, keeping for now.
+ * Retrieve Franklin Tags HTML from tags.docx.
  * @returns {Array} An array of tag strings
  */
 async function getFranklinTags() {
   let resp;
   try {
-    // Fetch the HTML content of the webpage
     resp = await fetch(`${origin}/blogs/tags.plain.html`);
     if (resp && resp.ok) {
       const text = await resp.text();
@@ -51,7 +52,6 @@ async function getAEMTags(category, lang) {
     if (resp && resp.ok) {
       const json = await resp.json();
       const tagObjs = json.hits.filter((entry) => entry.TAG_PATH.includes(`/${category}/`));
-      console.log('Tags:', tagObjs);
       return tagObjs;
     }
   } catch (e) {
@@ -76,7 +76,7 @@ export async function validateTags(tagsArray) {
       if (typeof tagsArray[0] === 'string') {
         const matchTag = allowedTags.find((item) => item.TAG_NAME === element);
         if (matchTag) {
-          validTags.push(matchTag);
+          validTags.push(matchTag); // put the AEM tag object in the array - to be used later
         } else {
           console.warn('Tag warning:', element); // warn for tag cleanup
           invalidTags.push(element);
@@ -84,15 +84,14 @@ export async function validateTags(tagsArray) {
       } else if (typeof tagsArray[0] === 'object') {
         const matchObj = allowedTags.find((item) => item.TAG_NAME === toClassName(element.tag));
         if (matchObj) {
-          validTags.push(matchObj);
+          validTags.push(matchObj); // put the AEM tag object in the array - to be used later
         } else {
           console.warn('Tag warning:', element); // warn for tag cleanup
           invalidTags.push(element);
         }
       }
     });
-    return [tagsArray, invalidTags]; // return original tags for now
-    // return [validTags, invalidTags];
+    return [tagsArray, invalidTags]; // return original tagsArray for now instead of validTags
   } catch (e) {
     // console.log('Error:', e);
   }
