@@ -3,6 +3,7 @@
  * Show a video referenced by a link
  * https://www.hlx.live/developer/block-collection/video
  */
+/* global Keysight, _elqQ */
 import { createElement, loadScript } from '../../scripts/scripts.js';
 
 let videoIdx = '0';
@@ -14,10 +15,11 @@ async function blindSend(qstr) {
   const evsrcpg = encodeURIComponent(window.location.href);
   // eslint-disable-next-line no-undef
   const fullelqurl = `${elqurl}?elqFormName=${elqFormName}&elqSiteID=${window.Keysight.EloquaSiteID}&evsrcobj=${evsrcobj}&evsrcpg=${evsrcpg}&${qstr}`;
-  fetch(fullelqurl);
-  // const resp = await fetch(fullelqurl);
-  // const text = await resp.text();
-  // console.debug(text);
+  // fetch(fullelqurl);
+  const resp = await fetch(fullelqurl);
+  const text = await resp.text();
+  // eslint-disable-next-line no-console
+  console.debug(text);
 }
 
 function getCookieValue(name) {
@@ -83,7 +85,7 @@ function playerReady(id, block) {
     });
   });
 
-  loadScript(`${window.hlx.codeBasePath}/blocks/video/video-elq.js`, 'text/javascript', () => {
+  loadScript(`${window.hlx.codeBasePath}/blocks/video/video-globals.js`, 'text/javascript', () => {
     loadScript(Keysight.EloquaScript, 'text/javascript', () => {
       _elqQ.push(['elqDataLookup', escape(Keysight.LookupIdVisitor), '']);
     });
