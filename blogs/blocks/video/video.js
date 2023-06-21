@@ -14,7 +14,7 @@ async function blindSend(qstr) {
   const evsrcobj = 'VideoPlayer';
   const evsrcpg = encodeURIComponent(window.location.href);
   // eslint-disable-next-line no-undef
-  const fullelqurl = `${elqurl}?elqFormName=${elqFormName}&elqSiteID=${window.Keysight.EloquaSiteID}&evsrcobj=${evsrcobj}&evsrcpg=${evsrcpg}&${qstr}`;
+  const fullelqurl = `${elqurl}?elqFormName=${elqFormName}&elqSiteID=${Keysight.EloquaSiteID}&evsrcobj=${evsrcobj}&evsrcpg=${evsrcpg}&${qstr}`;
   // fetch(fullelqurl);
   const resp = await fetch(fullelqurl);
   const text = await resp.text();
@@ -104,8 +104,8 @@ function playerReady(id, block) {
       });
     }
     let qstr = `evsrcastpth=${encodeURIComponent(srcpath)}`;
-    if ((window.Keysight.elq_u_email && window.Keysight.elq_u_email.length !== 0)) {
-      qstr += `&email=${window.Keysight.elq_u_email}`;
+    if ((Keysight.elq_u_email && Keysight.elq_u_email.length !== 0)) {
+      qstr += `&email=${Keysight.elq_u_email}`;
       qstr += `&guid=${elqguid}`;
     } else {
       qstr += '&email=noreply@keysight.com';

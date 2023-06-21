@@ -20,13 +20,6 @@ _elqQ.push(['elqSetSiteId', Keysight.EloquaSiteID]);
 _elqQ.push(['elqUseFirstPartyCookie', Keysight.FirstPartyCookieDomain]);
 _elqQ.push(['elqTrackPageView', window.location.href]);
 
-const elqcfgscript = document.createElement('script');
-elqcfgscript.setAttribute('src', Keysight.EloquaScript);
-document.head.appendChild(elqcfgscript);
-elqcfgscript.onload = () => {
-  _elqQ.push(['elqDataLookup', escape(Keysight.LookupIdVisitor), '']);
-};
-
 // eslint-disable-next-line no-unused-vars
 function SetElqContent() {
   // eslint-disable-next-line no-undef
