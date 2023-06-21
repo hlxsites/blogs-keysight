@@ -132,7 +132,7 @@ export default async function decorate(block) {
           <input type="checkbox" id="preflight-hidePassed" name="preflight-hidePassed" value="yes">
           <label for="preflight-hidePassed">Show All?</label>
         </div>
-        <a target="_blank" href="https://main--blogs-keysight--hlxsites.hlx.page/blogs/drafts/documentation/preflight-guide">Pre-flight Guide</a>
+        <a target="_blank" href="/blogs/drafts/documentation/preflight-guide">Pre-flight Guide</a>
       </div>
     </dialog>
   `;
