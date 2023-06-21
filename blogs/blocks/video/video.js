@@ -85,12 +85,6 @@ function playerReady(id, block) {
     });
   });
 
-  loadScript(`${window.hlx.codeBasePath}/blocks/video/video-globals.js`, 'text/javascript', () => {
-    loadScript(Keysight.EloquaScript, 'text/javascript', () => {
-      _elqQ.push(['elqDataLookup', escape(Keysight.LookupIdVisitor), '']);
-    });
-  });
-
   player.ready(() => {
     const srcpath = player.src();
     let elqguid = '';
@@ -236,6 +230,12 @@ async function renderVideo(block, source, autoplay) {
 }
 
 export default async function decorate(block) {
+  loadScript(`${window.hlx.codeBasePath}/blocks/video/video-globals.js`, 'text/javascript', () => {
+    loadScript(Keysight.EloquaScript, 'text/javascript', () => {
+      _elqQ.push(['elqDataLookup', escape(Keysight.LookupIdVisitor), '']);
+    });
+  });
+
   const a = block.querySelector('a');
   if (a) {
     const source = a.href;
