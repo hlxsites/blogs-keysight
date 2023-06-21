@@ -207,18 +207,18 @@ async function renderVideo(block, source, autoplay) {
   ], videoAttrs);
   block.append(vid);
 
-  fetch(`${source}/_jcr_content/metadata.json`).then((resp) => {
-    if (resp.ok) {
-      resp.json().then((json) => {
-        vid.dataset.value = json['dc:title'];
-        vid.dataset.description = json['dc:description'];
-        vid.dataset['pub-key'] = json['ks:pubKey'];
-        vid.dataset['pub-number'] = `${json['ks:pubKey']}.${json['ks:pubSuffix']}`;
-        vid.dataset['pub-date'] = json['ks:pubDate']; // 2022.08.08"
-        vid.dataset['content-type-name'] = json['ks:contentTypeName'];
-      });
-    }
-  });
+  // fetch(`${source}/_jcr_content/metadata.json`).then((resp) => {
+  //   if (resp.ok) {
+  //     resp.json().then((json) => {
+  //       vid.dataset.value = json['dc:title'];
+  //       vid.dataset.description = json['dc:description'];
+  //       vid.dataset['pub-key'] = json['ks:pubKey'];
+  //       vid.dataset['pub-number'] = `${json['ks:pubKey']}.${json['ks:pubSuffix']}`;
+  //       vid.dataset['pub-date'] = json['ks:pubDate']; // 2022.08.08"
+  //       vid.dataset['content-type-name'] = json['ks:contentTypeName'];
+  //     });
+  //   }
+  // });
 
   if (typeof videojs === 'function') {
     playerReady(`video-${videoIdx}`, block);
