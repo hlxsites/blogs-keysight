@@ -8,13 +8,18 @@ import { createElement, loadScript } from '../../scripts/scripts.js';
 
 let videoIdx = '0';
 
-async function blindSend(qstr) {
+async function blindSend(qstrParams) {
   const elqurl = 'https://connectlp.keysight.com/e/f2.aspx';
-  const elqFormName = 'AEMBlindformtesting';
-  const evsrcobj = 'VideoPlayer';
-  const evsrcpg = encodeURIComponent(window.location.href);
-  // eslint-disable-next-line no-undef
-  const fullelqurl = `${elqurl}?elqFormName=${elqFormName}&elqSiteID=${Keysight.EloquaSiteID}&evsrcobj=${evsrcobj}&evsrcpg=${evsrcpg}&${qstr}`;
+
+  const fullUrlParams = {
+    ...qstrParams,
+    elqFormName: 'AEMBlindformtesting',
+    elqSiteID: Keysight.EloquaSiteID,
+    evsrcobj: 'VideoPlayer',
+    evsrcpg: window.location.href,
+  };
+  const usp = new URLSearchParams(fullUrlParams);
+  const fullelqurl = `${elqurl}?${usp}`;
   // fetch(fullelqurl);
   const resp = await fetch(fullelqurl);
   const text = await resp.text();
@@ -97,34 +102,46 @@ function playerReady(id, block) {
         }
       });
     }
-    let qstr = `evsrcastpth=${encodeURIComponent(srcpath)}`;
+    const qstrParams = {
+      evsrcastpth: srcpath,
+      guid: elqguid,
+      email: 'noreply@keysight.com',
+    };
     if ((Keysight.elq_u_email && Keysight.elq_u_email.length !== 0)) {
-      qstr += `&email=${Keysight.elq_u_email}`;
-      qstr += `&guid=${elqguid}`;
-    } else {
-      qstr += '&email=noreply@keysight.com';
-      qstr += `&guid=${elqguid}`;
+      qstrParams.email = Keysight.elq_u_email;
     }
 
     player.on('pause', () => {
       if (!player.seeking()) {
-        qstr += `&evcurplaytime=${Math.floor(player.currentTime())}&evname=pause`;
-        blindSend(qstr);
+        blindSend({
+          ...qstrParams,
+          evcurplaytime: Math.floor(player.currentTime()),
+          evname: 'pause',
+        });
       }
     });
     player.on('play', () => {
       if (!player.seeking()) {
-        qstr += `&evcurplaytime=${Math.floor(player.currentTime())}&evname=play`;
-        blindSend(qstr);
+        blindSend({
+          ...qstrParams,
+          evcurplaytime: Math.floor(player.currentTime()),
+          evname: 'play',
+        });
       }
     });
     player.on('seeked', () => {
-      qstr += `&evcurplaytime=${Math.floor(player.currentTime())}&evname=skipto`;
-      blindSend(qstr);
+      blindSend({
+        ...qstrParams,
+        evcurplaytime: Math.floor(player.currentTime()),
+        evname: 'skipto',
+      });
     });
     player.on('ended', () => {
-      qstr += `&evcurplaytime=${Math.floor(player.currentTime())}&evname=end`;
-      blindSend(qstr);
+      blindSend({
+        ...qstrParams,
+        evcurplaytime: Math.floor(player.currentTime()),
+        evname: 'end',
+      });
     });
     let stop25 = false;
     let stop50 = false;
@@ -135,18 +152,27 @@ function playerReady(id, block) {
       const pct = curTime / duration;
       if (!stop25 && pct > 0.25) {
         stop25 = true;
-        qstr += `&evcurplaytime=${Math.floor(player.currentTime())}&evname=watch25`;
-        blindSend(qstr);
+        blindSend({
+          ...qstrParams,
+          evcurplaytime: Math.floor(player.currentTime()),
+          evname: 'watch25',
+        });
       }
       if (!stop50 && pct > 0.5) {
         stop50 = true;
-        qstr += `&evcurplaytime=${Math.floor(player.currentTime())}&evname=watch50`;
-        blindSend(qstr);
+        blindSend({
+          ...qstrParams,
+          evcurplaytime: Math.floor(player.currentTime()),
+          evname: 'watch50',
+        });
       }
-      if (!stop75 && pct > 0.25) {
+      if (!stop75 && pct > 0.75) {
         stop75 = true;
-        qstr += `&evcurplaytime=${Math.floor(player.currentTime())}&evname=watch75`;
-        blindSend(qstr);
+        blindSend({
+          ...qstrParams,
+          evcurplaytime: Math.floor(player.currentTime()),
+          evname: 'watch75',
+        });
       }
     });
   });
