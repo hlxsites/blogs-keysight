@@ -76,6 +76,7 @@ async function buildMetadataTable(path) {
       description: 'Description',
       'og:image': 'Image',
       author: 'Author',
+      'author-title': 'Author Title',
       'article:tag': 'Tags',
       'publication-date': 'Publication Date',
       'read-time': 'Read Time',
