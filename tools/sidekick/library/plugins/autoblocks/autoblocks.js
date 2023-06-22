@@ -43,7 +43,15 @@ function processMarkup(pageBlock, path) {
 
   copy.querySelector('div.library-metadata').remove();
 
-  return [copy.innerHTML];
+  return copy;
+}
+
+function copyBlock(pageBlock, path, container) {
+  const blob = new Blob([processMarkup(pageBlock, path).innerHTML], { type: 'text/html' });
+  createCopy(blob);
+
+  // Show toast
+  container.dispatchEvent(new CustomEvent('Toast', { detail: { message: 'Copied Block' } }));
 }
 
 /**
@@ -108,11 +116,7 @@ async function loadBlocks(data, container, sideNav) {
         });
 
         childNavItem.addEventListener('OnAction', () => {
-          const blob = new Blob(processMarkup(pageBlock, path), { type: 'text/html' });
-          createCopy(blob);
-
-          // Show toast
-          container.dispatchEvent(new CustomEvent('Toast', { detail: { message: 'Copied Block' } }));
+          copyBlock(pageBlock, path, container);
         });
       });
     } catch (e) {
@@ -131,13 +135,13 @@ function filterBlocks() {
   // todo
 }
 
-let splitFrameLoaded = false;
 function initSplitFrame(content) {
-  if (splitFrameLoaded) {
+  const contentContainer = content.querySelector('.content');
+  if (contentContainer.querySelector('sp-split-view')) {
+    // already initialized
     return;
   }
 
-  const contentContainer = content.querySelector('.content');
   contentContainer.append(createElement('sp-split-view', '', {
     vertical: '',
     resizable: '',
@@ -163,7 +167,7 @@ function initSplitFrame(content) {
         ]),
         createElement('sp-divider', '', { size: 's' }),
       ]),
-      createElement('div', 'frame-view'),
+      createElement('div', 'frame-view', {}),
     ]),
     createElement('div', 'details-container', {}, [
       createElement('div', 'action-bar', {}, [
@@ -193,10 +197,37 @@ function initSplitFrame(content) {
   desktopViewButton?.addEventListener('click', () => {
     frameView.style.width = '100%';
   });
-
-  splitFrameLoaded = true;
 }
 
+async function renderPreview(pageBlock, path, previewContainer) {
+  const frame = createElement('iframe');
+
+  const blockPageResp = await fetch(path);
+  if (!blockPageResp.ok) {
+    return;
+  }
+
+  const html = await blockPageResp.text();
+  const parser = new DOMParser();
+  const blockPage = parser.parseFromString(html, 'text/html');
+
+  const blockPageDoc = blockPage.documentElement;
+  const blockPageMain = blockPageDoc.querySelector('main');
+
+  blockPageDoc.querySelector('header').style.display = 'none';
+  blockPageDoc.querySelector('footer').style.display = 'none';
+  blockPageMain.replaceChildren(processMarkup(pageBlock, path));
+
+  frame.srcdoc = blockPageDoc.outerHTML;
+  frame.style.display = 'block';
+
+  frame.addEventListener('load', () => {
+    // todo
+  });
+
+  previewContainer.innerHTML = '';
+  previewContainer.append(frame);
+}
 /**
  * Called when a user tries to load the plugin
  * @param {HTMLElement} container The container to render the plugin in
@@ -249,15 +280,11 @@ export async function decorate(container, data, _query) {
       details.append(description);
     }
 
-    // todo render preview, update url
+    renderPreview(pageBlock, path, content.querySelector('.frame-view'));
 
     const copyButton = content.querySelector('.copy-button');
     copyButton?.addEventListener('click', () => {
-      const blob = new Blob(processMarkup(pageBlock, path), { type: 'text/html' });
-      createCopy(blob);
-
-      // Show toast
-      container.dispatchEvent(new CustomEvent('Toast', { detail: { message: 'Copied Block' } }));
+      copyBlock(pageBlock, path, container);
     });
   });
 
