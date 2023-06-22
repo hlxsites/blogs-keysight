@@ -32,9 +32,10 @@ function createBlockTable(block) {
       row.children.length > cols ? row.children.length : cols), 0);
     const table = createElement('table', '', {
       border: 1,
-    }, createElement('tr', '', {
+    }, createElement('tr', '', {}, createElement('td', '', {
+      colspan: maxCols,
       style: 'background-color:#f4cccd;',
-    }, createElement('td', '', { colspan: maxCols }, blockName)));
+    }, blockName)));
 
     rows.forEach((row) => {
       const tableRow = createElement('tr');
@@ -55,9 +56,10 @@ function createBlockTable(block) {
 async function buildMetadataTable(path) {
   const table = createElement('table', '', {
     border: 1,
-  }, createElement('tr', '', {
+  }, createElement('tr', '', {}, createElement('td', '', {
+    colspan: 2,
     style: 'background-color:#f4cccd;',
-  }, createElement('td', '', { colspan: 2 }, 'Metadata')));
+  }, 'Metadata')));
 
   const pageResp = await fetch(path);
   if (pageResp.ok) {
@@ -98,7 +100,16 @@ async function buildMetadataTable(path) {
     Object.keys(metadata).forEach((mdKey) => {
       const tableRow = createElement('tr', '', {}, createElement('td', '', {}, mdKey));
       const valTd = createElement('td', '', {});
-      valTd.textContent = metadata[mdKey].join(', ');
+      if (mdKey === 'Image') {
+        // hard coding to make image work
+        valTd.append(createElement('img', '', {
+          src: 'https://main--blogs-keysight--hlxsites.hlx.page/blogs/media_1cee1854266356b0a542d05d0e65d109e58907687.jpeg',
+          width: 400,
+        }));
+        valTd.append(createElement('p', '', {}, '&lt;replace this with your image&gt;'));
+      } else {
+        valTd.textContent = metadata[mdKey].join(', ');
+      }
       tableRow.append(valTd);
       table.append(tableRow);
     });
