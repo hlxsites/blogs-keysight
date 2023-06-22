@@ -9,50 +9,15 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { createElement, createCopy, getLibraryMetadata } from '../utils/utils.js';
-
-export async function fetchBlock(path) {
-  if (!window.autoblocks) {
-    window.autoblocks = {};
-  }
-  if (!window.autoblocks[path]) {
-    const resp = await fetch(`${path}.plain.html`);
-    if (!resp.ok) return '';
-
-    const html = await resp.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    window.autoblocks[path] = doc;
-  }
-
-  return window.autoblocks[path];
-}
-
-function processMarkup(pageBlock, path) {
-  const copy = pageBlock.cloneNode(true);
-  const url = new URL(path);
-  copy.querySelectorAll('img').forEach((img) => {
-    const srcSplit = img.src.split('/');
-    const mediaPath = srcSplit.pop();
-    img.src = `${url.origin}/${mediaPath}`;
-    const { width, height } = img;
-    const ratio = width > 450 ? 450 / width : 1;
-    img.width = width * ratio;
-    img.height = height * ratio;
-  });
-
-  copy.querySelector('div.library-metadata').remove();
-
-  return copy;
-}
-
-function copyBlock(pageBlock, path, container) {
-  const blob = new Blob([processMarkup(pageBlock, path).innerHTML], { type: 'text/html' });
-  createCopy(blob);
-
-  // Show toast
-  container.dispatchEvent(new CustomEvent('Toast', { detail: { message: 'Copied Block' } }));
-}
+import {
+  createElement,
+  getLibraryMetadata,
+  renderScaffolding,
+  fetchBlockPage,
+  copyBlock,
+  renderPreview,
+  initSplitFrame,
+} from '../utils/utils.js';
 
 /**
    * Called when the user clicks attempts to view the preview a block
@@ -67,7 +32,7 @@ function onPreview(container, path) {
 async function loadBlocks(data, container, sideNav) {
   const promises = data.map(async (item) => {
     const { name, path } = item;
-    const blockPromise = fetchBlock(path);
+    const blockPromise = fetchBlockPage(path);
 
     try {
       const res = await blockPromise;
@@ -131,103 +96,6 @@ async function loadBlocks(data, container, sideNav) {
   await Promise.all(promises);
 }
 
-function filterBlocks() {
-  // todo
-}
-
-function initSplitFrame(content) {
-  const contentContainer = content.querySelector('.content');
-  if (contentContainer.querySelector('sp-split-view')) {
-    // already initialized
-    return;
-  }
-
-  contentContainer.append(createElement('sp-split-view', '', {
-    vertical: '',
-    resizable: '',
-    'primary-size': '2600',
-    'secondary-min': '200',
-    'splitter-pos': '250',
-  }, [
-    createElement('div', 'view', {}, [
-      createElement('div', 'action-bar', {}, [
-        createElement('sp-action-group', '', { compact: '', selects: 'single', selected: 'desktop' }, [
-          createElement('sp-action-button', '', { value: 'mobile' }, [
-            createElement('sp-icon-device-phone', '', { slot: 'icon' }),
-            'Mobile',
-          ]),
-          createElement('sp-action-button', '', { value: 'tablet' }, [
-            createElement('sp-icon-device-tablet', '', { slot: 'icon' }),
-            'Tablet',
-          ]),
-          createElement('sp-action-button', '', { value: 'desktop' }, [
-            createElement('sp-icon-device-desktop', '', { slot: 'icon' }),
-            'Desktop',
-          ]),
-        ]),
-        createElement('sp-divider', '', { size: 's' }),
-      ]),
-      createElement('div', 'frame-view', {}),
-    ]),
-    createElement('div', 'details-container', {}, [
-      createElement('div', 'action-bar', {}, [
-        createElement('h3', 'block-title'),
-        createElement('div', 'actions', {}, createElement('sp-button', 'copy-button', {}, 'Copy Block')),
-      ]),
-      createElement('sp-divider', '', { size: 's' }),
-      createElement('div', 'details'),
-    ]),
-  ]));
-
-  const actionGroup = content.querySelector('sp-action-group');
-  actionGroup.selected = 'desktop';
-
-  const frameView = content.querySelector('.frame-view');
-  const mobileViewButton = content.querySelector('sp-action-button[value="mobile"]');
-  mobileViewButton?.addEventListener('click', () => {
-    frameView.style.width = '480px';
-  });
-
-  const tabletViewButton = content.querySelector('sp-action-button[value="tablet"]');
-  tabletViewButton?.addEventListener('click', () => {
-    frameView.style.width = '768px';
-  });
-
-  const desktopViewButton = content.querySelector('sp-action-button[value="desktop"]');
-  desktopViewButton?.addEventListener('click', () => {
-    frameView.style.width = '100%';
-  });
-}
-
-async function renderPreview(pageBlock, path, previewContainer) {
-  const frame = createElement('iframe');
-
-  const blockPageResp = await fetch(path);
-  if (!blockPageResp.ok) {
-    return;
-  }
-
-  const html = await blockPageResp.text();
-  const parser = new DOMParser();
-  const blockPage = parser.parseFromString(html, 'text/html');
-
-  const blockPageDoc = blockPage.documentElement;
-  const blockPageMain = blockPageDoc.querySelector('main');
-
-  blockPageDoc.querySelector('header').style.display = 'none';
-  blockPageDoc.querySelector('footer').style.display = 'none';
-  blockPageMain.replaceChildren(processMarkup(pageBlock, path));
-
-  frame.srcdoc = blockPageDoc.outerHTML;
-  frame.style.display = 'block';
-
-  frame.addEventListener('load', () => {
-    // todo
-  });
-
-  previewContainer.innerHTML = '';
-  previewContainer.append(frame);
-}
 /**
  * Called when a user tries to load the plugin
  * @param {HTMLElement} container The container to render the plugin in
@@ -236,30 +104,13 @@ async function renderPreview(pageBlock, path, previewContainer) {
  */
 export async function decorate(container, data, _query) {
   container.dispatchEvent(new CustomEvent('ShowLoader'));
-  const content = createElement('div', 'autoblock-library', {}, createElement('sp-split-view', '', {
-    'primary-size': '350',
-    dir: 'ltr',
-    'splitter-pos': '250',
-    resizable: '',
-  }, [
-    createElement('div', 'menu', {}, [
-      createElement('div', 'search', {}, createElement('sp-search')),
-      createElement('div', 'list-container'),
-    ]),
-    createElement('div', 'content'),
-  ]));
+  const content = renderScaffolding();
   const sideNav = createElement('sp-sidenav', '', { variant: 'multilevel', 'data-testid': 'autoblocks' });
 
   await loadBlocks(data, container, sideNav);
 
-  // Show blocks and hide loader
   const listContainer = content.querySelector('.list-container');
   listContainer.append(sideNav);
-
-  const search = content.querySelector('sp-search');
-  search.addEventListener('input', (e) => {
-    filterBlocks(e.target.value);
-  });
 
   container.addEventListener('LoadBlock', (e) => {
     const {
