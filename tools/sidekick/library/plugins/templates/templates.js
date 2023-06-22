@@ -9,183 +9,183 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { createElement, createCopy } from '../utils/utils.js';
+import {
+  createElement,
+  renderScaffolding,
+  fetchBlockPage,
+  copyBlock,
+  getLibraryMetadata,
+  initSplitFrame,
+  renderPreview,
+} from '../utils/utils.js';
 
-export async function fetchTemplate(path) {
-  if (!window.templates) {
-    window.templates = {};
+function createBlockTable(block) {
+  let blockName = block.classList[0];
+  if (blockName !== 'library-metadata') {
+    blockName = blockName
+      .replace('-', ' ')
+      .split(' ')
+      .map((word) => `${word.charAt(0).toUpperCase()}${word.slice(1)}`)
+      .join(' ');
+    const rows = [...block.children];
+    const maxCols = rows.reduce((cols, row) => (
+      row.children.length > cols ? row.children.length : cols), 0);
+    const table = createElement('table', '', {
+      border: 1,
+    }, createElement('tr', '', {}, createElement('td', '', {
+      colspan: maxCols,
+      style: 'background-color:#f4cccd;',
+    }, blockName)));
+
+    rows.forEach((row) => {
+      const tableRow = createElement('tr');
+      [...row.children].forEach((col) => {
+        const td = createElement('td');
+        td.innerHTML = col.innerHTML;
+        tableRow.append(td);
+      });
+      table.append(tableRow);
+    });
+
+    return table;
   }
-  if (!window.templates[path]) {
-    const resp = await fetch(`${path}?view-doc-source=true`);
-    if (!resp.ok) return '';
 
-    const html = await resp.text();
+  return block;
+}
+
+async function buildMetadataTable(path) {
+  const table = createElement('table', '', {
+    border: 1,
+  }, createElement('tr', '', {}, createElement('td', '', {
+    colspan: 2,
+    style: 'background-color:#f4cccd;',
+  }, 'Metadata')));
+
+  const pageResp = await fetch(path);
+  if (pageResp.ok) {
+    const html = await pageResp.text();
     const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    window.templates[path] = doc;
-  }
+    const page = parser.parseFromString(html, 'text/html');
 
-  return window.templates[path];
-}
+    const pageDoc = page.documentElement;
+    const headSection = pageDoc.querySelector('head');
 
-function createTag(tag, attributes = {}, html = undefined) {
-  const el = document.createElement(tag);
-  if (html) {
-    if (html instanceof HTMLElement || html instanceof SVGElement) {
-      el.append(html);
-    } else {
-      el.insertAdjacentHTML('beforeend', html);
-    }
-  }
-  if (attributes) {
-    Object.entries(attributes).forEach(([key, val]) => {
-      el.setAttribute(key, val);
-    });
-  }
-  el.style.textAlign = 'left';
-  return el;
-}
+    const validMetaMap = {
+      template: 'Template',
+      'og:title': 'Title',
+      description: 'Description',
+      'og:image': 'Image',
+      author: 'Author',
+      'author-title': 'Author Title',
+      'article:tag': 'Tags',
+      'publication-date': 'Publication Date',
+      'read-time': 'Read Time',
+    };
 
-function decorateImages(templateSection, path) {
-  const url = new URL(path);
-  templateSection.querySelectorAll('img').forEach((img) => {
-    const srcSplit = img.src.split('/');
-    const mediaPath = srcSplit.pop();
-    img.src = `${url.origin}/${mediaPath}`;
-    const { width, height } = img;
-    const ratio = 1;
-    img.width = width * ratio;
-    img.height = height * ratio;
-  });
+    const metadata = {};
+    headSection.querySelectorAll('meta').forEach((metaEl) => {
+      const name = metaEl.getAttribute('property') ?? metaEl.getAttribute('name');
+      const content = metaEl.getAttribute('content');
 
-  return [templateSection.innerHTML];
-}
-
-function createTable(block, name, path) {
-  decorateImages(block, path);
-  const rows = [...block.children];
-  const maxCols = rows.reduce((cols, row) => (
-    row.children.length > cols ? row.children.length : cols), 0);
-  const table = document.createElement('table');
-  table.setAttribute('border', 1);
-  const headerRow = document.createElement('tr');
-  headerRow.append(createTag('th', { colspan: maxCols, style: 'background-color:#f4cccd;' }, name));
-  table.append(headerRow);
-  rows.forEach((row) => {
-    const tr = document.createElement('tr');
-    [...row.children].forEach((col) => {
-      const td = document.createElement('td');
-      if (row.children.length < maxCols) {
-        td.setAttribute('colspan', maxCols);
+      const metaPropName = validMetaMap[name];
+      if (metaPropName) {
+        const metaVal = metadata[metaPropName];
+        if (metaVal) {
+          metaVal.push(content);
+        } else {
+          metadata[metaPropName] = [content];
+        }
       }
-      td.innerHTML = col.innerHTML;
-      tr.append(td);
     });
-    table.append(tr);
-  });
-  return table.outerHTML;
+
+    Object.keys(metadata).forEach((mdKey) => {
+      const tableRow = createElement('tr', '', {}, createElement('td', '', {}, mdKey));
+      const valTd = createElement('td', '', {});
+      if (mdKey === 'Image') {
+        // hard coding to make image work
+        valTd.append(createElement('img', '', {
+          src: 'https://main--blogs-keysight--hlxsites.hlx.page/blogs/media_1cee1854266356b0a542d05d0e65d109e58907687.jpeg',
+          width: 400,
+        }));
+        valTd.append(createElement('p', '', {}, '&lt;replace this with your image&gt;'));
+      } else {
+        valTd.textContent = metadata[mdKey].join(', ');
+      }
+      tableRow.append(valTd);
+      table.append(tableRow);
+    });
+  }
+
+  return table;
 }
 
-function createImgElement(src, width, height) {
-  const imgEl = document.createElement('img');
-  imgEl.setAttribute('src', src);
-  imgEl.setAttribute('alt', '<replace with your hero image>');
-  imgEl.loading = 'lazy';
-  imgEl.width = width;
-  imgEl.height = height;
-  return imgEl;
+function preCopy(docBody, mdTable) {
+  const doc = docBody.cloneNode(true);
+
+  const sectionBreak = createElement('p', '', {}, '---');
+  const sections = doc.querySelectorAll(':scope > div');
+  sections.forEach((section, i) => {
+    if (i < (sections.length - 1)) {
+      section.insertAdjacentElement('beforeend', sectionBreak.cloneNode(true));
+    }
+
+    const blocks = section.querySelectorAll(':scope > div');
+    blocks.forEach((block) => {
+      const blockTable = createBlockTable(block);
+      block.replaceWith(blockTable);
+    });
+  });
+
+  // add spacer before md table
+  doc.insertAdjacentHTML('beforeend', '<p>&nbsp;</p><p></p>');
+  doc.append(mdTable);
+
+  return doc;
 }
 
-function createMetadataTable(headSection, path) {
-  decorateImages(headSection, path);
-  // meta tags to include and their docx translation
-  const validMetaMap = {
-    template: 'Template', 'og:title': 'Title', description: 'Description', 'og:image': 'Image', author: 'Author', 'article:tag': 'Tags', 'publication-date': 'Publication Date', 'read-time': 'Read Time',
-  };
-  // stuff relevant template meta tags into array
-  const metadataArray = [];
-  headSection.querySelectorAll('meta').forEach((row) => {
-    const headMetaTag = row.getAttributeNames()[0] === 'property' ? row.getAttribute('property') : row.getAttribute('name');
-    const metaTagValue = validMetaMap[headMetaTag];
-    if (metaTagValue !== undefined) {
-      const metaObj = { attrib: metaTagValue, value: row.getAttribute('content') };
-      metadataArray.push(metaObj);
+async function loadTemplates(data, container, sideNav) {
+  const promises = data.map(async (item) => {
+    const { name, path } = item;
+    const templatePromise = fetchBlockPage(path);
+    try {
+      const res = await templatePromise;
+      if (!res) {
+        throw new Error(`An error occurred fetching ${name}`);
+      }
+      const blockInfo = getLibraryMetadata(res.body);
+
+      const templateNavItem = createElement('sp-sidenav-item', '', {
+        label: name,
+        action: true,
+      }, [
+        createElement('sp-icon-file-template', '', { slot: 'icon', size: 's' }),
+        createElement('sp-icon-copy', '', { slot: 'action-icon' }),
+      ]);
+
+      const mdTable = await buildMetadataTable(path);
+      templateNavItem.addEventListener('OnAction', () => {
+        const toCopy = preCopy(res.body, mdTable);
+        copyBlock(toCopy, path, container);
+      }, false);
+      templateNavItem.addEventListener('click', () => {
+        container.dispatchEvent(new CustomEvent('LoadTemplate', {
+          detail: {
+            path,
+            page: res.body,
+            blockInfo,
+            mdTable,
+          },
+        }));
+      });
+      sideNav.append(templateNavItem);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e.message);
+      container.dispatchEvent(new CustomEvent('Toast', { detail: { message: e.message, variant: 'negative' } }));
     }
   });
-  // resolve duplicates
-  const compactedMetaArray = Array.from(new Set(metadataArray.map((set) => set.attrib)))
-    .map((attrib) => ({
-      attrib,
-      value: metadataArray.filter((set) => set.attrib === attrib).map((attribute) => attribute.value).join(', '),
-    }));
 
-  const maxCols = 2;
-  const table = document.createElement('table');
-  table.setAttribute('border', 1);
-  const headerRow = document.createElement('tr');
-  headerRow.append(createTag('th', { colspan: maxCols, style: 'background-color:#f4cccd;' }, 'metadata'));
-  table.append(headerRow);
-  compactedMetaArray.forEach((row) => {
-    const tr = document.createElement('tr');
-    const tdName = document.createElement('td');
-    tdName.innerText = row.attrib;
-    tr.append(tdName);
-    const tdValue = document.createElement('td');
-    if (row.attrib === 'Image') {
-      // use this image url to avoid 404
-      const templateImgUrl = 'https://main--blogs-keysight--hlxsites.hlx.page/block-library/templates/media_110be40889e2176c09e36ef4c3ce1b3ad82eaa7d3.png?optimize=medium';
-      tdValue.appendChild(createImgElement(templateImgUrl, '280', '200'));
-      tdValue.appendChild(document.createTextNode('<replace with your hero image>'));
-    } else {
-      tdValue.innerText = row.value;
-    }
-    tr.append(tdValue);
-    table.append(tr);
-  });
-
-  return table.outerHTML;
-}
-
-function createSection(section, path) {
-  decorateImages(section, path);
-  let output = '';
-  [...section.children].forEach((row) => {
-    if (row.nodeName === 'DIV') {
-      const blockName = row.classList[0];
-      output = output.concat(createTable(row, blockName, path));
-    } else if (row.nodeName === 'H1') {
-      // add font-size and text color to blog post title and h1 element
-      row.setAttribute('style', 'color:blue; font-size: 20px;');
-      output = output.concat(row.outerHTML);
-      output = output.replace('<p>', "<p style='font-size: 36px;'>");
-    } else if (row.nodeName === 'H2') {
-      // add font-size to h2 element
-      row.setAttribute('style', 'color:black; font-size: 20px;');
-      output = output.concat(row.outerHTML);
-    } else {
-      output = output.concat(row.outerHTML);
-    }
-  });
-  return output;
-}
-
-function processMarkup(template, path) {
-  decorateImages(template, path);
-  let output = '';
-  // process template body
-  template.body.querySelector('main').querySelectorAll(':scope > div').forEach((row, i) => {
-    if (row.nodeName === 'DIV') {
-      if (i > 0) output = output.concat('---');
-      output = output.concat(createSection(row, path));
-    } else {
-      output = output.concat(row.outerHTML);
-    }
-  });
-  // process template head to derive meta tags
-  output = output.concat('<br/>');
-  output = output.concat(createMetadataTable(template.head, path));
-
-  return output;
+  await Promise.all(promises);
 }
 
 /**
@@ -196,46 +196,45 @@ function processMarkup(template, path) {
  */
 export async function decorate(container, data, _query) {
   container.dispatchEvent(new CustomEvent('ShowLoader'));
-  const sideNav = createElement('sp-sidenav', '', { variant: 'multilevel', 'data-testid': 'templates' });
+  const content = renderScaffolding();
+  const sideNav = createElement('sp-sidenav', '', { 'data-testid': 'templates' });
 
-  const promises = data.map(async (item) => {
-    const { name, path } = item;
-    const templatePromise = fetchTemplate(path);
+  await loadTemplates(data, container, sideNav);
 
-    try {
-      const res = await templatePromise;
-      if (!res) {
-        throw new Error(`An error occurred fetching ${name}`);
-      }
+  const listContainer = content.querySelector('.list-container');
+  listContainer.append(sideNav);
 
-      const templateVariant = createElement('sp-sidenav-item', '', { label: name, preview: false });
-      sideNav.append(templateVariant);
+  container.addEventListener('LoadTemplate', (e) => {
+    const {
+      path,
+      page,
+      blockInfo,
+      mdTable,
+    } = e.detail;
 
-      const childNavItem = createElement('sp-sidenav-item', '', { label: name, 'data-testid': 'item' });
-      childNavItem.setAttribute('data-info', name); // TBD: this is template description
-      templateVariant.append(childNavItem);
+    initSplitFrame(content);
 
-      childNavItem.addEventListener('click', () => {
-        const blobInput = processMarkup(res, path);
-        const blob = new Blob([blobInput], { type: 'text/html' });
-        createCopy(blob);
+    const blockTitle = content.querySelector('.block-title');
+    blockTitle.textContent = blockInfo.name;
 
-        // Show toast
-        container.dispatchEvent(new CustomEvent('Toast', { detail: { message: 'Copied Template' } }));
-      });
-    } catch (e) {
-      // eslint-disable-next-line no-console
-      console.error(e.message);
-      container.dispatchEvent(new CustomEvent('Toast', { detail: { message: e.message, variant: 'negative' } }));
+    const details = content.querySelector('.details');
+    details.innerHTML = '';
+    if (blockInfo.description) {
+      const description = createElement('p', '', {}, blockInfo.description);
+      details.append(description);
     }
 
-    return templatePromise;
+    renderPreview(page, path, content.querySelector('.frame-view'));
+
+    const copyButton = content.querySelector('.copy-button');
+    copyButton?.addEventListener('click', () => {
+      const toCopy = preCopy(page, mdTable);
+      copyBlock(toCopy, path, container);
+    });
   });
 
-  await Promise.all(promises);
-
   // Show blocks and hide loader
-  container.append(sideNav);
+  container.append(content);
   container.dispatchEvent(new CustomEvent('HideLoader'));
 }
 
