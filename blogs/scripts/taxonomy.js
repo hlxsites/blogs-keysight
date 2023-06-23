@@ -46,12 +46,9 @@ export async function getAEMTagsHierarchy(category = 'keysight', lang = 'en') {
       }
       workingHierarchy = workingHierarchy[part];
       if (i === pathParts.length - 1) {
-        workingHierarchy = {
-          ...workingHierarchy,
-          tagName,
-          tagPath,
-          tagTitle,
-        };
+        workingHierarchy.tagName = tagName;
+        workingHierarchy.tagPath = tagPath;
+        workingHierarchy.tagTitle = tagTitle;
       }
     }
   });
