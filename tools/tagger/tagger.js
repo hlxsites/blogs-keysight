@@ -43,6 +43,7 @@ async function initTaxonomy() {
     const ul = createElement('ul', 'category-list');
     catElem.append(ul);
     renderItems(cat, ul, idx);
+    results.append(catElem);
   });
 }
 
