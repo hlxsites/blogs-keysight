@@ -55,12 +55,7 @@ main #selected button {
 
 #results > .category ul {
   list-style: none;
-}
-
-main > div > span,
-main > div > div > span {
-  white-space: nowrap;
-  margin: 6px 4px;
+  padding-inline-start: 20px;
 }
 
 main {
