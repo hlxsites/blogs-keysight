@@ -64,35 +64,30 @@ main {
   line-height: 1.2em;
 }
 
-span.tag {
+.tag {
+  --tag-bg-color: #0d66d0;
+
+  background-color: var(--tag-bg-color);
   color: lightgrey;
-  padding: 2px 20px;
+  padding: 5px 20px 2px;
   border-radius: 10px;
   font-size: 16px;
 }
 
-.tag {
-  padding-top: 5px;
-}
-
-.selected.tag {
-  background-color: #888888;
-  color: lightgrey;
-}
-
-.tag.cat-0 {
-  background-color: #0d66d0;
-}
-
 .tag.cat-1 {
-  background-color: #d7373f;
+  --tag-bg-color: #d7373f;
 }
 
 .tag.cat-2 {
-  background-color: #12805c;
+  --tag-bg-color: #12805c;
 }
+
 .tag.cat-3 {
-  background-color: #d2b200;
+  --tag-bg-color: #d2b200;
+}
+
+.tag.selected {
+  box-shadow:  10px 5px 5px var(--tag-bg-color);
 }
 
 span.tag .highlight {

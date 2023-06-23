@@ -62,6 +62,13 @@ function filter() {
       tag.closest('.path').classList.add('filtered');
     }
   });
+
+  document.querySelectorAll('#results .tag .path.filtered').forEach((filteredTag) => {
+    const unfilteredChild = filteredTag.querySelector('.tag .path:not(.filtered)');
+    if (unfilteredChild) {
+      filteredTag.classList.remove('filtered');
+    }
+  });
 }
 
 function toggleTag(target) {
