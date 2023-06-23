@@ -73,7 +73,8 @@ main {
   color: var(--tag-selection-color);
   padding: 4px 20px;
   border-radius: 10px;
-  font-size: 16px;
+  font-size: 20px;
+  line-height: 1.5;
 }
 
 .tag.cat-1 {
@@ -93,6 +94,7 @@ main {
   color: var(--tag-bg-color);
   background-color: lightgrey;
   outline: 2px ridge var(--tag-bg-color);
+  font-weight: 700;
 }
 
 span.tag .highlight {
