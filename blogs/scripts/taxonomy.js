@@ -38,10 +38,15 @@ export async function getAEMTagsHierarchy(category = 'keysight', lang = 'en') {
 
     const pathParts = tagPath.split('/');
     let workingHierarchy = tagsHierarchy;
+    let workingPath = '';
     for (let i = 0; i < pathParts.length; i += 1) {
       const part = pathParts[i];
+      workingPath += part;
       if (!workingHierarchy[part]) {
         workingHierarchy[part] = {
+          tagPath: workingPath,
+          tagName: part,
+          tagTitle: part,
         };
       }
       workingHierarchy = workingHierarchy[part];
@@ -50,6 +55,7 @@ export async function getAEMTagsHierarchy(category = 'keysight', lang = 'en') {
         workingHierarchy.tagPath = tagPath;
         workingHierarchy.tagTitle = tagTitle;
       }
+      workingPath += '/';
     }
   });
 
