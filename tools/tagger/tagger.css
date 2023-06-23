@@ -15,8 +15,19 @@ main input {
   font-family: inherit;
 }
 
+main select {
+  width: 100%;
+  font-size: 1.5rem;
+  border: none;
+  padding-top: 5px;
+  font-family: inherit;
+}
+
 main .filter {
   padding: 20px 10px 20px 10px;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 3rem;
 }
 
 main #selected {

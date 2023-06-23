@@ -6,19 +6,53 @@ import { toClassName } from './lib-franklin.js';
  * @param {String} [lang] The language of the tags to be returned
  * @returns {Array} An array of tag objects
  */
-async function getAEMTags(category = 'keysight', lang = 'en') {
+export async function getAEMTags(category = 'keysight', lang = 'en') {
   let resp;
   try {
     resp = await fetch(`https://www.keysight.com/clientapi/search/aemtags/${lang}`);
     if (resp && resp.ok) {
       const json = await resp.json();
-      const tagObjs = json.hits.filter((entry) => entry.TAG_PATH.includes(`/${category}/`));
+      const tagObjs = json.hits.filter((entry) => entry.TAG_PATH.startsWith(`/content/cq:tags/${category}/`));
       return tagObjs;
     }
   } catch (e) {
     // console.log('Error:', e);
   }
   return null;
+}
+
+/**
+ * Retrieve tags from API as a hierarchical object
+ * @param {String} [category] The category of tags to be returned (keysight|segmentation)
+ * @param {String} [lang] The language of the tags to be returned
+ * @returns {Object} hierarchical object of all tags
+ */
+export async function getAEMTagsHierarchy(category = 'keysight', lang = 'en') {
+  const aemTags = await getAEMTags(category, lang);
+  const tagsHierarchy = {};
+
+  aemTags.forEach((tag) => {
+    const tagPath = tag.TAG_PATH.replace(`/content/cq:tags/${category}`, '');
+    const tagName = tag.TAG_NAME;
+    const tagTitle = tag.TAG_TITLE;
+
+    const pathParts = tagPath.split('/');
+    let workingHierarchy = tagsHierarchy;
+    for (let i = 0; i < pathParts.length; i += 1) {
+      const part = pathParts[i];
+      if (!workingHierarchy[part]) {
+        workingHierarchy[part] = {};
+      }
+      workingHierarchy = workingHierarchy[part];
+    }
+    workingHierarchy = {
+      tagPath,
+      tagName,
+      tagTitle,
+    };
+  });
+
+  return tagsHierarchy;
 }
 
 /**
