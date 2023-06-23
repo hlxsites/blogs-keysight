@@ -8,15 +8,16 @@ function renderItems(items, ul, catId) {
     .map((k) => items[k])
     .forEach((item) => {
       const { tagName, tagTitle, tagPath } = item;
+      const effectiveTitle = tagTitle || tagName || 'un-titled';
       const pathItem = createElement(
         'li',
         'path',
         {},
         createElement('span', ['tag', `cat-${catId % 4}`], {
-          'data-title': tagTitle || tagName,
+          'data-title': effectiveTitle,
           'data-name': tagName,
           'data-path': tagPath,
-        }, tagTitle || tagName),
+        }, effectiveTitle),
       );
       ul.classList.remove('hidden');
       ul.append(pathItem);
