@@ -50,7 +50,7 @@ async function initTaxonomy() {
 function filter() {
   const searchTerm = document.getElementById('search').value.toLowerCase();
   document.querySelectorAll('#results .tag').forEach((tag) => {
-    const { title } = tag.dataset;
+    const title = tag.dataset.title || tag.dataset.name;
     const offset = title.toLowerCase().indexOf(searchTerm);
     if (offset >= 0) {
       const before = title.substring(0, offset);
