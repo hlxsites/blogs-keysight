@@ -8,20 +8,22 @@ function renderItems(items, ul, catId) {
     .map((k) => items[k])
     .forEach((item) => {
       const { tagName, tagTitle, tagPath } = item;
+      const pathItem = createElement('li', '', {}, createElement('span', 'path'));
+
       const effectiveTitle = tagTitle || tagName || 'un-titled';
-      const pathItem = createElement(
-        'li',
-        '',
-        {},
-        createElement('span', 'path', {}, [
-          tagPath,
-          createElement('span', ['tag', `cat-${catId % 4}`], {
-            'data-title': effectiveTitle,
-            'data-name': tagName,
-            'data-path': tagPath,
-          }, effectiveTitle),
-        ]),
-      );
+      const pathSpan = pathItem.querySelector('.path');
+      const displayPath = tagPath
+        .split('/')
+        .slice(1, -1)
+        .joint('<span class="psep>/</span>');
+      pathSpan.insertAdjacentHTML('beforebegin', displayPath);
+      const tagSpan = createElement('span', ['tag', `cat-${catId % 4}`], {
+        'data-title': effectiveTitle,
+        'data-name': tagName,
+        'data-path': tagPath,
+      }, effectiveTitle);
+
+      pathSpan.append(tagSpan);
       ul.append(pathItem);
       renderItems(item, ul, catId);
     });
