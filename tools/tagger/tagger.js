@@ -16,7 +16,7 @@ function renderItems(items, ul, catId) {
           'data-title': tagTitle,
           'data-name': tagName,
           'data-path': tagPath,
-        }, tagTitle),
+        }, tagTitle || tagName),
       );
       ul.classList.remove('hidden');
       ul.append(pathItem);
