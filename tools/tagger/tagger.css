@@ -69,7 +69,7 @@ main {
 
   background-color: var(--tag-bg-color);
   color: lightgrey;
-  padding: 5px 20px 2px;
+  padding: 4px 20px;
   border-radius: 10px;
   font-size: 16px;
 }
@@ -87,7 +87,8 @@ main {
 }
 
 .tag.selected {
-  box-shadow:  10px 5px 5px var(--tag-bg-color);
+  color: var(--tag-bg-color);
+  background-color: lightgrey;
 }
 
 span.tag .highlight {
