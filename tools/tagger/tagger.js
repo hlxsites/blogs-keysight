@@ -40,7 +40,7 @@ async function initTaxonomy() {
   results.innerHTML = '';
   Object.values(taxonomy).forEach((cat, idx) => {
     const catElem = createElement('div', 'category', {}, createElement('h2', '', {}, cat.tagTitle));
-    const ul = createElement('ul', 'category-list');
+    const ul = createElement('ul');
     catElem.append(ul);
     renderItems(cat, ul, idx);
     results.append(catElem);

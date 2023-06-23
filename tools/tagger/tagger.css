@@ -53,6 +53,10 @@ main #selected button {
   flex-wrap: wrap;
 }
 
+#results > .category ul {
+  list-style: none;
+}
+
 main > div > span,
 main > div > div > span {
   white-space: nowrap;
