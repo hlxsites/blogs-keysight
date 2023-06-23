@@ -38,7 +38,7 @@ export async function getAEMTagsHierarchy(category = 'keysight', lang = 'en') {
 
     const pathParts = tagPath.split('/');
     let workingHierarchy = tagsHierarchy;
-    for (let i = 1; i < pathParts.length; i += 1) {
+    for (let i = 0; i < pathParts.length; i += 1) {
       const part = pathParts[i];
       if (!workingHierarchy[part]) {
         workingHierarchy[part] = {};
