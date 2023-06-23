@@ -11,19 +11,19 @@ function renderItems(items, ul, catId) {
       const effectiveTitle = tagTitle || tagName || 'un-titled';
       const pathItem = createElement(
         'li',
-        'path',
+        '',
         {},
-        createElement('span', ['tag', `cat-${catId % 4}`], {
-          'data-title': effectiveTitle,
-          'data-name': tagName,
-          'data-path': tagPath,
-        }, effectiveTitle),
+        createElement('span', 'path', {}, [
+          tagPath,
+          createElement('span', ['tag', `cat-${catId % 4}`], {
+            'data-title': effectiveTitle,
+            'data-name': tagName,
+            'data-path': tagPath,
+          }, effectiveTitle),
+        ]),
       );
-      ul.classList.remove('hidden');
       ul.append(pathItem);
-      const subUl = createElement('ul', 'hidden');
-      pathItem.append(subUl);
-      renderItems(item, subUl, catId);
+      renderItems(item, ul, catId);
     });
 }
 
