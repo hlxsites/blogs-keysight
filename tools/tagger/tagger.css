@@ -73,7 +73,7 @@ main {
   color: var(--tag-selection-color);
   padding: 4px 20px;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.5;
 }
 
@@ -154,6 +154,10 @@ span.psep {
   flex-wrap: wrap;
   height: min-content;
   gap: 1rem;
+}
+
+.selected-tags .tag {
+  font-weight: 700;
 }
 
 .hidden {
