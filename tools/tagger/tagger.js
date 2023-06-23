@@ -41,13 +41,16 @@ async function initTaxonomy() {
   const taxonomy = await getTaxonomy();
   const results = document.getElementById('results');
   results.innerHTML = '';
-  Object.values(taxonomy).forEach((cat, idx) => {
-    const catElem = createElement('div', 'category', {}, createElement('h2', '', {}, cat.tagTitle));
-    const ul = createElement('ul');
-    catElem.append(ul);
-    renderItems(cat, ul, idx);
-    results.append(catElem);
-  });
+  Object.keys(taxonomy)
+    .filter((k) => !['tagName', 'tagTitle', 'tagPath'].includes(k))
+    .map((k) => taxonomy[k])
+    .forEach((cat, idx) => {
+      const catElem = createElement('div', 'category', {}, createElement('h2', '', {}, cat.tagTitle));
+      const ul = createElement('ul');
+      catElem.append(ul);
+      renderItems(cat, ul, idx);
+      results.append(catElem);
+    });
 }
 
 function filter() {
