@@ -63,8 +63,8 @@ function filter() {
     }
   });
 
-  document.querySelectorAll('#results .tag .path.filtered').forEach((filteredTag) => {
-    const unfilteredChild = filteredTag.querySelector('.tag .path:not(.filtered)');
+  document.querySelectorAll('#results .path.filtered').forEach((filteredTag) => {
+    const unfilteredChild = filteredTag.querySelector('.path:not(.filtered)');
     if (unfilteredChild) {
       filteredTag.classList.remove('filtered');
     }
