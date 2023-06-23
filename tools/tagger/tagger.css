@@ -75,7 +75,7 @@ span.tag {
   padding-top: 5px;
 }
 
-.selected span.tag {
+.selected.tag {
   background-color: #888888;
   color: lightgrey;
 }
@@ -152,6 +152,7 @@ span.psep {
   display: flex;
   flex-wrap: wrap;
   height: min-content;
+  gap: 1rem;
 }
 
 .hidden {
