@@ -50,14 +50,17 @@ async function initTaxonomy() {
 function filter() {
   const searchTerm = document.getElementById('search').value.toLowerCase();
   document.querySelectorAll('#results .tag').forEach((tag) => {
-    const { title } = tag.dataset;
-    const offset = title.toLowerCase().indexOf(searchTerm);
-    if (offset >= 0) {
-      const before = title.substring(0, offset);
-      const term = title.substring(offset, offset + searchTerm.length);
-      const after = title.substring(offset + searchTerm.length);
-      tag.innerHTML = `${before}<span class="highlight">${term}</span>${after}`;
+    const { title, name, path } = tag.dataset;
+    const match = [title, name, path].find((val) => val.toLowerCase().indexOf(searchTerm) >= 0);
+    if (match) {
       tag.closest('.path').classList.remove('filtered');
+      const offset = title.toLowerCase().indexOf(searchTerm);
+      if (offset >= 0) {
+        const before = title.substring(0, offset);
+        const term = title.substring(offset, offset + searchTerm.length);
+        const after = title.substring(offset + searchTerm.length);
+        tag.innerHTML = `${before}<span class="highlight">${term}</span>${after}`;
+      }
     } else {
       tag.closest('.path').classList.add('filtered');
       tag.textContent = tag.dataset.title;
