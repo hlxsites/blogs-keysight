@@ -13,7 +13,7 @@ function renderItems(items, ul, catId) {
         'path',
         {},
         createElement('span', ['tag', `cat-${catId % 4}`], {
-          'data-title': tagTitle,
+          'data-title': tagTitle || tagName,
           'data-name': tagName,
           'data-path': tagPath,
         }, tagTitle || tagName),
@@ -50,7 +50,7 @@ async function initTaxonomy() {
 function filter() {
   const searchTerm = document.getElementById('search').value.toLowerCase();
   document.querySelectorAll('#results .tag').forEach((tag) => {
-    const title = tag.dataset.title || tag.dataset.name;
+    const { title } = tag.dataset;
     const offset = title.toLowerCase().indexOf(searchTerm);
     if (offset >= 0) {
       const before = title.substring(0, offset);
@@ -88,7 +88,7 @@ function displaySelected() {
     selectedTags.forEach((selectedTag) => {
       const clone = selectedTag.cloneNode(true);
       clone.classList.remove('selected');
-      clone.textContent = selectedTag.dataset.title || selectedTag.dataset.name;
+      clone.textContent = selectedTag.dataset.title;
       clone.addEventListener('click', () => {
         toggleTag(selectedTag);
       });
