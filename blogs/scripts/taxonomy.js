@@ -32,7 +32,7 @@ export async function getAEMTagsHierarchy(category = 'keysight', lang = 'en') {
   const tagsHierarchy = {};
 
   aemTags.forEach((tag) => {
-    const tagPath = tag.TAG_PATH.replace(`/content/cq:tags/${category}`, '');
+    const tagPath = tag.TAG_PATH.replace(`/content/cq:tags/${category}/`, '');
     const tagName = tag.TAG_NAME;
     const tagTitle = tag.TAG_TITLE;
 
