@@ -1,50 +1,49 @@
-function renderItems(items, catId) {
-  let html = '';
-  items.forEach((tag) => {
-    const { title, path } = tag;
-    html += `
-      <span class="path">${path}
-        <span data-title="${title}" class="tag cat-${catId % 4}">${title}</span>
-      </span>
-    `;
-    html += renderItems(tag.children, catId);
-  });
-  return html;
-}
+import { getAEMTagsHierarchy } from '../../blogs/scripts/taxonomy.js';
+import { createElement } from '../sidekick/library/plugins/utils/utils.js';
 
-function initTaxonomy(taxonomy) {
-  let html = '';
-  Object.values(taxonomy).forEach((cat, idx) => {
-    html += '<div class="category">';
-    html += `<h2>${cat.title}</h2>`;
-    const items = cat.children;
-    html += renderItems(items, idx);
-    html += '</div>';
-  });
-  const results = document.getElementById('results');
-  results.innerHTML = html;
+function renderItems(items, ul, catId) {
+  const tagKeys = Object.keys(items);
+  tagKeys
+    .filter((k) => !['tagName', 'tagTitle', 'tagPath'].includes(k))
+    .map((k) => items[k])
+    .forEach((item) => {
+      const { tagName, tagTitle, tagPath } = item;
+      const pathItem = createElement(
+        'li',
+        'path',
+        {},
+        createElement('span', ['tag', `cat-${catId % 4}`], {
+          'data-title': tagTitle,
+          'data-name': tagName,
+          'data-path': tagPath,
+        }, tagTitle),
+      );
+      ul.classList.remove('hidden');
+      ul.append(pathItem);
+      const subUl = createElement('ul', 'hidden');
+      pathItem.append(subUl);
+      renderItems(item, subUl, catId);
+    });
 }
 
 async function getTaxonomy() {
-  const resp = await fetch('/blogs/tags.plain.html');
-  const markup = await resp.text();
-  const div = document.createElement('div');
-  div.innerHTML = markup;
-  const level1 = div.querySelector('ul').querySelectorAll(':scope > li');
+  const tagTypeSelect = document.querySelector('#tag-type');
+  const category = tagTypeSelect?.selectedOptions[0]?.value || 'keysight-blogs';
+  const aemTags = await getAEMTagsHierarchy(category, 'en');
 
-  const mapChildren = (li, parentPath) => {
-    const title = li.childNodes[0].textContent.trim();
-    const childrenLis = li.querySelectorAll(':scope > ul > li');
-    const path = `${parentPath}${title}`;
-    return {
-      title,
-      path: parentPath,
-      children: [...childrenLis].map((childLi) => mapChildren(childLi, `${path}<span class="psep"> / </span>`)),
-    };
-  };
+  return aemTags;
+}
 
-  const data = [...level1].map((li) => mapChildren(li, ''));
-  return data;
+async function initTaxonomy() {
+  const taxonomy = await getTaxonomy();
+  const results = document.getElementById('results');
+  results.innerHTML = '';
+  Object.values(taxonomy).forEach((cat, idx) => {
+    const catElem = createElement('div', 'category', {}, createElement('h2', '', {}, cat.tagTitle));
+    const ul = createElement('ul', 'category-list');
+    catElem.append(ul);
+    renderItems(cat, ul, idx);
+  });
 }
 
 function filter() {
@@ -97,12 +96,14 @@ function displaySelected() {
 
   const copybuffer = document.getElementById('copybuffer');
   copybuffer.value = toCopyBuffer.join(', ');
+
+  const copyButton = document.querySelector('button.copy');
+  copyButton.removeAttribute('disabled');
+  copyButton.textContent = 'Copy';
 }
 
 async function init() {
-  const tax = await getTaxonomy();
-
-  initTaxonomy(tax);
+  await initTaxonomy();
 
   const selEl = document.getElementById('selected');
   const copyButton = selEl.querySelector('button.copy');
@@ -110,6 +111,7 @@ async function init() {
     const copyText = document.getElementById('copybuffer');
     navigator.clipboard.writeText(copyText.value);
 
+    copyButton.textContent = 'Copied!';
     copyButton.disabled = true;
   });
 
@@ -121,7 +123,7 @@ async function init() {
   });
 
   document.querySelector('#search').addEventListener('keyup', filter);
-
+  document.querySelector('#tag-type').addEventListener('change', initTaxonomy);
   document.addEventListener('click', (e) => {
     const target = e.target.closest('.category .path');
     if (target) {
