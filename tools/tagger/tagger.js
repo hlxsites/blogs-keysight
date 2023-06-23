@@ -88,7 +88,7 @@ function displaySelected() {
     selectedTags.forEach((selectedTag) => {
       const clone = selectedTag.cloneNode(true);
       clone.classList.remove('selected');
-      clone.textContent = selectedTag.dataset.title;
+      clone.textContent = selectedTag.dataset.title || selectedTag.dataset.name;
       clone.addEventListener('click', () => {
         toggleTag(selectedTag);
       });
