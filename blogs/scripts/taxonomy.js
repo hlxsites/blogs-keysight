@@ -46,6 +46,7 @@ export async function getAEMTagsHierarchy(category = 'keysight', lang = 'en') {
       workingHierarchy = workingHierarchy[part];
     }
     workingHierarchy = {
+      ...workingHierarchy,
       tagPath,
       tagName,
       tagTitle,
