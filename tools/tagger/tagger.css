@@ -92,7 +92,7 @@ main {
 
 .tag.selected {
   color: var(--tag-bg-color);
-  background-color: lightgrey;
+  background-color: var(--tag-selection-color);
   outline: 2px ridge var(--tag-bg-color);
   font-weight: 700;
 }
