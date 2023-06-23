@@ -106,6 +106,7 @@ span.tag .highlight {
   border: 1px dashed black;
   padding: 4px 10px 2px 10px;
   font-size: 12px;
+  margin-block: 6px;
 }
 
 .path.filtered {

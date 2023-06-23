@@ -117,7 +117,7 @@ async function init() {
   });
 
   selEl.querySelector('button.clear').addEventListener('click', () => {
-    const selectedTags = document.querySelectorAll('#results .path.selected');
+    const selectedTags = document.querySelectorAll('#results .tag.selected');
     selectedTags.forEach((tag) => {
       toggleTag(tag);
     });
@@ -126,7 +126,7 @@ async function init() {
   document.querySelector('#search').addEventListener('keyup', filter);
   document.querySelector('#tag-type').addEventListener('change', initTaxonomy);
   document.addEventListener('click', (e) => {
-    const target = e.target.closest('.category .path');
+    const target = e.target.closest('.category .tag');
     if (target) {
       toggleTag(target);
     }
