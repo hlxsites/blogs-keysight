@@ -63,10 +63,21 @@ function filter() {
     }
   });
 
+  // unhide hidden parents if they have visible children
   document.querySelectorAll('#results .path.filtered').forEach((filteredTag) => {
     const unfilteredChild = filteredTag.querySelector('.path:not(.filtered)');
     if (unfilteredChild) {
       filteredTag.classList.remove('filtered');
+    }
+  });
+
+  // hide categories with no visible results
+  document.querySelectorAll('#results .category').forEach((category) => {
+    const unfilteredChild = category.querySelector('.path:not(.filtered)');
+    if (unfilteredChild) {
+      category.classList.remove('hidden');
+    } else {
+      category.classList.add('hidden');
     }
   });
 }
