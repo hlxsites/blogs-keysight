@@ -42,12 +42,17 @@ export async function getAEMTagsHierarchy(category = 'keysight', lang = 'en') {
       const part = pathParts[i];
       if (!workingHierarchy[part]) {
         workingHierarchy[part] = {
-          tagPath,
-          tagName,
-          tagTitle,
         };
       }
       workingHierarchy = workingHierarchy[part];
+      if (i === pathParts.length - 1) {
+        workingHierarchy[part] = {
+          ...workingHierarchy,
+          tagName,
+          tagPath,
+          tagTitle,
+        };
+      }
     }
   });
 
