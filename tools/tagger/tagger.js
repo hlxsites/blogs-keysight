@@ -31,7 +31,7 @@ async function getTaxonomy() {
   const category = tagTypeSelect?.selectedOptions[0]?.value || 'keysight-blogs';
   const aemTags = await getAEMTagsHierarchy(category, 'en');
 
-  return aemTags[category];
+  return aemTags[category] || {};
 }
 
 async function initTaxonomy() {
