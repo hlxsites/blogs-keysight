@@ -60,6 +60,8 @@ function filter() {
         const term = title.substring(offset, offset + searchTerm.length);
         const after = title.substring(offset + searchTerm.length);
         tag.innerHTML = `${before}<span class="highlight">${term}</span>${after}`;
+      } else {
+        tag.textContent = tag.dataset.title;
       }
     } else {
       tag.closest('.path').classList.add('filtered');
