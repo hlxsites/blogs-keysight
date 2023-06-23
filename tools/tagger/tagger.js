@@ -76,17 +76,16 @@ function displaySelected() {
   const toCopyBuffer = [];
 
   selTagsEl.innerHTML = '';
-  const selectedTags = document.querySelectorAll('#results .path.selected');
+  const selectedTags = document.querySelectorAll('#results .tag.selected');
   if (selectedTags.length > 0) {
-    selectedTags.forEach((path) => {
-      const clone = path.cloneNode(true);
-      clone.classList.remove('filtered', 'selected');
-      const tag = clone.querySelector('.tag');
-      tag.innerHTML = tag.dataset.title;
+    selectedTags.forEach((selectedTag) => {
+      const clone = selectedTag.cloneNode(true);
+      clone.classList.remove('selected');
+      clone.textContent = selectedTag.dataset.title;
       clone.addEventListener('click', () => {
-        toggleTag(path);
+        toggleTag(selectedTag);
       });
-      toCopyBuffer.push(tag.dataset.title);
+      toCopyBuffer.push(selectedTag.dataset.path);
       selTagsEl.append(clone);
     });
 
