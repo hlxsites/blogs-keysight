@@ -60,6 +60,7 @@ function filter() {
       tag.closest('.path').classList.remove('filtered');
     } else {
       tag.closest('.path').classList.add('filtered');
+      tag.textContent = tag.dataset.title;
     }
   });
 
