@@ -66,10 +66,11 @@ main {
 
 .tag {
   --tag-bg-color: #0d66d0;
+  --tag-selection-color: lightgrey;
 
   cursor: pointer;
   background-color: var(--tag-bg-color);
-  color: lightgrey;
+  color: var(--tag-selection-color);
   padding: 4px 20px;
   border-radius: 10px;
   font-size: 16px;
@@ -85,6 +86,7 @@ main {
 
 .tag.cat-3 {
   --tag-bg-color: #d2b200;
+  --tag-selection-color: dimgrey;
 }
 
 .tag.selected {
