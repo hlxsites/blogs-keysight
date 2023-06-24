@@ -57,8 +57,8 @@ async function initTaxonomy() {
 function filter() {
   const searchTerm = document.getElementById('search').value.toLowerCase();
   document.querySelectorAll('#results .tag').forEach((tag) => {
-    const { title, name, path } = tag.dataset;
-    const match = [title, name, path].find((val) => val.toLowerCase().indexOf(searchTerm) >= 0);
+    const { title, path } = tag.dataset;
+    const match = [title, path].find((val) => val.toLowerCase().indexOf(searchTerm) >= 0);
     if (match) {
       tag.closest('.path').classList.remove('filtered');
       const offset = title.toLowerCase().indexOf(searchTerm);
