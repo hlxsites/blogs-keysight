@@ -26,8 +26,13 @@ main select {
 main .filter {
   padding: 20px 10px 20px 10px;
   display: grid;
-  grid-template-columns: 300px 1fr;
   gap: 3rem;
+}
+
+@media(min-width: 900px) {
+  main .filter {
+    grid-template-columns: 300px 1fr;
+  }
 }
 
 main #selected {
