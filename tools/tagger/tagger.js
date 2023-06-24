@@ -16,7 +16,7 @@ function renderItems(items, ul, catId) {
         .split('/')
         .slice(1, -1)
         .join('<span class="psep>/</span>');
-      pathSpan.insertAdjacentHTML('beforebegin', displayPath);
+      pathSpan.innerHTML = displayPath;
       const tagSpan = createElement('span', ['tag', `cat-${catId % 4}`], {
         'data-title': effectiveTitle,
         'data-name': tagName,
