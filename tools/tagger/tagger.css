@@ -91,7 +91,7 @@ main {
   --tag-selection-color: dimgrey;
 }
 
-.tag.selected {
+.path.selected .tag {
   color: var(--tag-bg-color);
   background-color: var(--tag-selection-color);
   outline: 2px ridge var(--tag-bg-color);
