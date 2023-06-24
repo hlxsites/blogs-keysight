@@ -15,7 +15,8 @@ function renderItems(items, ul, catId) {
       const displayPath = tagPath
         .split('/')
         .slice(1, -1)
-        .join('<span class="psep>/</span>');
+        .join('<span class="psep">/</span>')
+        .concat('<span class="psep">/</span>');
       pathSpan.innerHTML = displayPath;
       const tagSpan = createElement('span', ['tag', `cat-${catId % 4}`], {
         'data-title': effectiveTitle,
