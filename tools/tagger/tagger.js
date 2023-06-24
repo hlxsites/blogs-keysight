@@ -117,7 +117,7 @@ function displaySelected() {
       });
 
       const selectedTag = clone.querySelector('.tag');
-      clone.textContent = selectedTag.dataset.title;
+      selectedTag.textContent = selectedTag.dataset.title;
       toCopyBuffer.push(selectedTag.dataset.path);
       selTagsEl.append(clone);
     });
