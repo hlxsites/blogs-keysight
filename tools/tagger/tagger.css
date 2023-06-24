@@ -58,6 +58,10 @@ main #selected button {
   padding-inline-start: 20px;
 }
 
+#results > .category ul > li {
+  margin-block-end: 10px;
+}
+
 main {
   padding: 20px;
   font-size: 1.3rem;
