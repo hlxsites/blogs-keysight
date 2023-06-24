@@ -107,15 +107,17 @@ function displaySelected() {
   const toCopyBuffer = [];
 
   selTagsEl.innerHTML = '';
-  const selectedTags = document.querySelectorAll('#results .tag.selected');
+  const selectedTags = document.querySelectorAll('#results .path.selected');
   if (selectedTags.length > 0) {
-    selectedTags.forEach((selectedTag) => {
-      const clone = selectedTag.cloneNode(true);
+    selectedTags.forEach((selectedPath) => {
+      const clone = selectedPath.cloneNode(true);
       clone.classList.remove('selected');
-      clone.textContent = selectedTag.dataset.title;
       clone.addEventListener('click', () => {
-        toggleTag(selectedTag);
+        toggleTag(selectedPath);
       });
+
+      const selectedTag = clone.querySelector('.tag');
+      clone.textContent = selectedTag.dataset.title;
       toCopyBuffer.push(selectedTag.dataset.path);
       selTagsEl.append(clone);
     });
@@ -147,7 +149,7 @@ async function init() {
   });
 
   selEl.querySelector('button.clear').addEventListener('click', () => {
-    const selectedTags = document.querySelectorAll('#results .tag.selected');
+    const selectedTags = document.querySelectorAll('#results .path.selected');
     selectedTags.forEach((tag) => {
       toggleTag(tag);
     });
@@ -156,7 +158,7 @@ async function init() {
   document.querySelector('#search').addEventListener('keyup', filter);
   document.querySelector('#tag-type').addEventListener('change', initTaxonomy);
   document.addEventListener('click', (e) => {
-    const target = e.target.closest('.category .tag');
+    const target = e.target.closest('.category .path');
     if (target) {
       toggleTag(target);
     }
