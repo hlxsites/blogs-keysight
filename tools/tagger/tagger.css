@@ -53,9 +53,6 @@ main #selected button {
 
 #results > .category {
   user-select: none;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
 }
 
 #results > .category ul {
