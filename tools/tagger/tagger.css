@@ -115,6 +115,7 @@ span.tag .highlight {
   padding: 6px 10px;
   font-size: 18px;
   line-height: 1.5;
+  text-wrap: nowrap;
 }
 
 .path.filtered {
