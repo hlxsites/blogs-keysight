@@ -1,0 +1,18 @@
+aside .block-modal a.button.primary {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  padding: 12px 32px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  background: var(--color-off-white);
+  color: var(--text-color);
+  border: none;
+  margin-bottom: 30px;
+  width: auto;
+}
+
+aside .block-modal a.button.primary::after {
+  content: unset;
+}
