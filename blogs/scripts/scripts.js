@@ -374,6 +374,25 @@ export function decorateLinks(element) {
 }
 
 /**
+ * Decorate links that end with -block-modal to open a modal window
+ * @param {Element} main The main element
+ */
+function decorateModalLinks(main) {
+  async function openBModal(event) {
+    event.preventDefault();
+    const module = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
+    if (module.showModal) {
+      await module.showModal(event.target);
+    }
+  }
+  main.querySelectorAll('a[href*="modal"]').forEach((a) => {
+    if (a.href.endsWith('-block-modal')) {
+      a.addEventListener('click', openBModal);
+    }
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -388,6 +407,7 @@ export function decorateMain(main, isFragment) {
   }
   decorateSections(main);
   decorateBlocks(main);
+  decorateModalLinks(main);
 }
 
 async function loadTemplate(doc, templateName) {
