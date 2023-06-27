@@ -504,24 +504,27 @@ async function loadLazy(doc) {
   if (templateName) {
     await loadTemplate(doc, templateName);
   }
+  // add back office tags to head
   const backoffice = getMetadata('back-office-tags');
   if (backoffice) {
-    const urls = backoffice.split(",");
-    const head = document.head;
-    const metaTags = {};
-
-    urls.forEach((url) => {
-      const [segment, group, tag] = url.split('/');
-
-      if (metaTags.hasOwnProperty(group)) {
-        const content = `${metaTags[group].getAttribute('content')},${tag}`;
-        metaTags[group].setAttribute('content', content);
+    const tags = backoffice.split(",");
+    tags.forEach((url) => {
+      const parts = url.split('/');
+      // remove 'segmentation'
+      parts.shift();
+      const group = parts.shift();
+      // return the rest as comma separated strings
+      const tag = parts.toString();
+      const existingTag = doc.querySelector(`meta[name="${group}`);
+      if (existingTag) {
+        const existingContent = existingTag.getAttribute('content');
+        const newContent = `${existingContent},${tag}`;
+        existingTag.setAttribute('content', newContent);
       } else {
         const metaTag = document.createElement('meta');
         metaTag.setAttribute('name', group);
         metaTag.setAttribute('content', tag);
-        head.append(metaTag);
-        metaTags[group] = metaTag;
+        document.head.append(metaTag);
       }
     });
   }
