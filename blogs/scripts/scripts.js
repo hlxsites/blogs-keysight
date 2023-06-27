@@ -507,7 +507,7 @@ async function loadLazy(doc) {
   // add back office tags to head
   const backoffice = getMetadata('back-office-tags');
   if (backoffice) {
-    const tags = backoffice.split(",");
+    const tags = backoffice.split(',');
     tags.forEach((url) => {
       const parts = url.split('/');
       // remove 'segmentation'
