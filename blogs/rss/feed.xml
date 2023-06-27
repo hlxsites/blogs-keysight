@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-06-23T00:00:00.000Z</updated>
+    <updated>2023-06-27T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Cracking the Code with Effortless Automated Regression Testing for POS]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/27/regression-testing-pos</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/27/regression-testing-pos"/>
+        <updated>2023-06-27T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Manual regression testing for POS slows everything down from software releases to queues at the checkout. Keysight Eggplant combined with robotics from IntelliQA automates POS testing to keep shoppers and software testers happy.]]></content>
+        <published>2023-06-27T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Datalogging for functional test using PathWave Test Executive for Manufacturing]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/06/23/datalogforfunctionaltestusingptem</id>
