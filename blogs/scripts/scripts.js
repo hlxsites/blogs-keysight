@@ -504,6 +504,27 @@ async function loadLazy(doc) {
   if (templateName) {
     await loadTemplate(doc, templateName);
   }
+  const backoffice = getMetadata('back-office-tags');
+  if (backoffice) {
+    const urls = backoffice.split(",");
+    const head = document.head;
+    const metaTags = {};
+
+    urls.forEach((url) => {
+      const [segment, group, tag] = url.split('/');
+
+      if (metaTags.hasOwnProperty(group)) {
+        const content = `${metaTags[group].getAttribute('content')},${tag}`;
+        metaTags[group].setAttribute('content', content);
+      } else {
+        const metaTag = document.createElement('meta');
+        metaTag.setAttribute('name', group);
+        metaTag.setAttribute('content', tag);
+        head.append(metaTag);
+        metaTags[group] = metaTag;
+      }
+    });
+  }
 
   const main = doc.querySelector('main');
   await loadBlocks(main);
