@@ -156,10 +156,12 @@ async function buildPostCard(post, index) {
     }
   });
 
-  const tagsLinks = await getTagsLinks(post);
-  if (tagsLinks) {
-    postCard.querySelector('.post-card-text').append(tagsLinks);
-  }
+  const tagsLinksPromise = getTagsLinks(post);
+  tagsLinksPromise.then((tagsLinks) => {
+    if (tagsLinks) {
+      postCard.querySelector('.post-card-text').append(tagsLinks);
+    }
+  });
 
   decorateIcons(postCard);
   return postCard;
