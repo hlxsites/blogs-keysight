@@ -113,8 +113,8 @@ export default async function decorate(block) {
 
   block.innerHTML = `<a class="author-image" href="${authorUrl}">${picHtml}</a>
     <div class="author-details">
-      <h3 class="author-name"><a href="${authorUrl}">${authorName}</a></h3>
-      <h4 class="author-title">${authorTitle}</h4>
+      <h2 class="author-name"><a href="${authorUrl}">${authorName}</a></h2>
+      <h3 class="author-title">${authorTitle}</h3>
     </div>`;
   buildSocial(block);
   buildTags(block);
