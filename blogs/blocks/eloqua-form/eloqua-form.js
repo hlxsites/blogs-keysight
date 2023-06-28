@@ -77,26 +77,9 @@ const addForm = async (block) => {
     await waitForLoad;
   }
 
-  // If an input has label elements, turn them into placeholders
-  block.querySelectorAll('.form-element-layout').forEach((el) => {
-    // displaying label content as input placeholder
-    const input = el.querySelector('input[type="text"], select, textarea');
-    const label = el.querySelector('label');
-
-    if (input && label) {
-      input.setAttribute('placeholder', label.innerText.replace(/\s+/g, ' ').trim());
-      label.remove();
-    }
-  });
-
   // adding class to the select parent element, so the select's arrow could be displayed.
   block.querySelectorAll('select').forEach((el) => {
     el.parentElement.classList.add('eloqua-select-wrapper');
-  });
-
-  // remove weird Eloqua elements
-  block.querySelectorAll('[value^="~~"], [value^="--"], [value^="<eloqua"]').forEach((el) => {
-    el.setAttribute('value', '');
   });
 
   block.style.display = displayValue;
