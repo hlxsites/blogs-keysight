@@ -247,7 +247,7 @@
           };
         };
 
-        document.getElementById('body_lookup').style.display = 'block';
+        // document.getElementById('body_lookup').style.display = 'block';
 
         display_div();
 
@@ -286,7 +286,7 @@
           document.getElementById('Submit').style.display = 'none';
         };
       };
-      document.getElementById('body_lookup').style.display = 'block';
+     // document.getElementById('body_lookup').style.display = 'block';
     };
 
     function redirect_to_assets() {
@@ -294,7 +294,7 @@
       var docUrl = document.getElementById('doc_Url').value;
 
       if ((url.indexOf('?' + 'success=true') !== -1) || (url.indexOf('&' + 'success=true') !== -1)) {
-        document.getElementById('body_lookup').style.display = 'block';
+        // document.getElementById('body_lookup').style.display = 'block';
         document.getElementById('form_body').style.display = 'none';
         document.getElementById('ty_div').style.display = 'block';
 
@@ -511,7 +511,7 @@
       //document.getElementById('field10').checked = false;
       $("#field10").attr("checked", false);
       document.getElementById('field10').value = 'True';
-      document.getElementById('body_lookup').style.display = 'block';
+      // document.getElementById('body_lookup').style.display = 'block';
       document.getElementById('outer_spn').style.display = 'none';
     };
 
@@ -544,7 +544,7 @@
 
 </head>
 
-<body id="body_lookup" style="display: none">
+<body id="body_lookup">
 
   <div id="form_body">
     <form method="post" name="ProgressiveProfiling-AEM_07_09_2019Responsive" 
