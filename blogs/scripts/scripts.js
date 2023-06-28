@@ -495,15 +495,9 @@ async function updatePlaceholders() {
 }
 
 /**
- * loads everything that doesn't need to be delayed.
+ * Validate and add Back Office Tags to the page
  */
-async function loadLazy(doc) {
-  updatePlaceholders();
-
-  const templateName = getMetadata('template');
-  if (templateName) {
-    await loadTemplate(doc, templateName);
-  }
+export async function addBackOfficeMetaTags() {
   // add back office tags to head
   const backoffice = getMetadata('back-office-tags');
   if (backoffice) {
@@ -515,18 +509,31 @@ async function loadLazy(doc) {
       const group = parts.shift();
       // return the rest as comma separated strings
       const tag = parts.toString();
-      const existingTag = doc.querySelector(`meta[name="${group}`);
+      const existingTag = document.querySelector(`meta[name="${group}`);
       if (existingTag) {
         const existingContent = existingTag.getAttribute('content');
         const newContent = `${existingContent},${tag}`;
         existingTag.setAttribute('content', newContent);
       } else {
-        const metaTag = document.createElement('meta');
-        metaTag.setAttribute('name', group);
-        metaTag.setAttribute('content', tag);
+        const metaTag = createElement('meta', '', {
+          name: group,
+          content: tag,
+        });
         document.head.append(metaTag);
       }
     });
+  }
+}
+
+/**
+ * loads everything that doesn't need to be delayed.
+ */
+async function loadLazy(doc) {
+  updatePlaceholders();
+
+  const templateName = getMetadata('template');
+  if (templateName) {
+    await loadTemplate(doc, templateName);
   }
 
   const main = doc.querySelector('main');
