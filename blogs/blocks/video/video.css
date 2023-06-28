@@ -120,6 +120,8 @@
   background-size: contain !important;
   transition: background-image 0.2s ease-in-out !important;
   border-radius: 50% !important;
+  height: 50px;
+  width: 50px;
 }
 
 .video .custom-rounded-corner .vjs-big-play-button .vjs-icon-placeholder::before {

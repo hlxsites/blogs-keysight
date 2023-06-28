@@ -2,16 +2,40 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-06-21T00:00:00.000Z</updated>
+    <updated>2023-06-23T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Datalogging for functional test using PathWave Test Executive for Manufacturing]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/06/23/datalogforfunctionaltestusingptem</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/bench/2023/06/23/datalogforfunctionaltestusingptem"/>
+        <updated>2023-06-23T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Production data provides critical insights to the well-being of your manufacturing line in the factory. How the data is recorded varies between test systems and applications. Data logging need not be a complicated and tedious process. PTEM delivers a simple and effective data logging capablity that allows you the flexiblity to collect the data required.]]></content>
+        <published>2023-06-23T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[A Boost to Your Existing Manufacturing Analytic Approach]]></title>
+        <id>https://www.keysight.com/blogs/blogs/inds/2023/06/21/a-boost-to-your-existing-manufacturing-analytic-approach</id>
+        <link href="https://www.keysight.com/blogs/blogs/inds/2023/06/21/a-boost-to-your-existing-manufacturing-analytic-approach"/>
+        <updated>2023-06-21T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Most of the existing manufacturing analytics systems focus on operational Key Performance Index (KPI) such as Overall Equipment Efficiency (OEE), throughput, and yield.]]></content>
+        <published>2023-06-21T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[What’s the Buzz at The Battery Show?]]></title>
         <id>https://www.keysight.com/blogs/blogs/inds/2023/06/21/what-is-the-buzz-at-the-battery-show</id>
         <link href="https://www.keysight.com/blogs/blogs/inds/2023/06/21/what-is-the-buzz-at-the-battery-show"/>
         <updated>2023-06-21T00:00:00.000Z</updated>
         <content type="html"><![CDATA[From new research and development in Sodium ion cells to solid-state batteries, and the continued cost-down challenges to create better batteries affordably, Keysight’s battery test expert Christian Loew shares first-hand insights from The Battery Show 2023.]]></content>
+        <published>2023-06-21T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Unlocking Testing Efficiency and Reliability: A Case Study Anthology on EMR Test Automation]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/21/case-study-anthology-emr-test-automation</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/21/case-study-anthology-emr-test-automation"/>
+        <updated>2023-06-21T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Dive into real-world scenarios where organizations have leveraged automation to enhance efficiency and accuracy in their EMR system testing and elevate care delivery.]]></content>
         <published>2023-06-21T00:00:00.000Z</published>
     </entry>
     <entry>
@@ -53,14 +77,6 @@
         <updated>2023-06-15T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Benefits and challenges of Non-Terrestrial Networks (NTN)]]></content>
         <published>2023-06-15T00:00:00.000Z</published>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A Boost to Your Existing Manufacturing Analytic Approach]]></title>
-        <id>https://www.keysight.com/blogs/blogs/inds/2023/06/21/a-boost-to-your-existing-manufacturing-analytic-approach</id>
-        <link href="https://www.keysight.com/blogs/blogs/inds/2023/06/21/a-boost-to-your-existing-manufacturing-analytic-approach"/>
-        <updated>2023-06-13T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[Most of the existing manufacturing analytics systems focus on operational Key Performance Index (KPI) such as Overall Equipment Efficiency (OEE), throughput, and yield.]]></content>
-        <published>2023-06-13T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[Unique Challenges of Healthcare Application Testing: Why It Is So Different]]></title>
@@ -164,6 +180,14 @@
         <link href="https://www.keysight.com/blogs/blogs/keys/exec/2023/05/4-strategies-to-help-a-multigenerational-workforce-thrive"/>
         <updated>2023-05-25T00:00:00.000Z</updated>
         <content type="html"><![CDATA[One of Keysight’s unique differentiators is that our workforce spans five generations. Our diverse perspective combines the knowledge and resources of our experienced employees with the cutting-edge ideas and thinking of the next generation.]]></content>
+        <published>2023-05-25T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Reasons to Transform Your Current Software Test Approach]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/05/25/reasons-to-transform-your-current-software-test-approach</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/05/25/reasons-to-transform-your-current-software-test-approach"/>
+        <updated>2023-05-25T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Commercial software testing solutions are designed to help organizations improve the quality of their software and reduce time-to-market. By leveraging the latest testing tools, methodologies, and best practices, these solutions can help organizations identify defects and bugs earlier in the software development lifecycle.]]></content>
         <published>2023-05-25T00:00:00.000Z</published>
     </entry>
     <entry>
