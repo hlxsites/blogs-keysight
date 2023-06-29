@@ -49,7 +49,7 @@ async function getTagsLinks(tags, limit) {
     const item = createElement('li');
     const link = createElement('a');
     link.innerHTML = `<span class="tag-name">#${tag.tag.TAG_TITLE}</span><span class="tag-count">${tag.count}</span>`;
-    link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag.tag.TAG_PATH)}`;
+    link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag.tag.TAG_TITLE)}`;
     item.append(link);
     list.append(item);
   });
