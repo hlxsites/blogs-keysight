@@ -62,7 +62,7 @@ async function loadTags(block, isAll) {
   const { filter } = conf;
 
   const applicableFilter = filter || 'auto';
-  const pageTag = getPageTag();
+  const pageTag = await getPageTag();
   let postsGenerator = getPostsFfetch().filter(filterPosts(applicableFilter, pageTag));
   let posts;
   if (isAll) {
