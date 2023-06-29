@@ -76,11 +76,19 @@ export async function getAEMTagsHierarchy(category = TAG_CATEGORY_BLOGS, lang = 
  * check if the tag match (check path, title, and name)
  * @param {string} tag the tag to check
  * @param {object[]} allowedTags the set of tags to check against
+ * @param {boolean} [strict] indicates if matching is strict (must match path exactly) or
+ * loose (matches title name or path)
  */
-export function findTag(tag, allowedTags) {
-  return allowedTags.find((item) => item.TAG_NAME.toLowerCase() === tag.toLowerCase()
-    || item.TAG_TITLE.toLowerCase() === tag.toLowerCase()
-    || item.TAG_PATH.toLowerCase() === `/content/cq:tags/${tag.toLowerCase()}`);
+export function findTag(tag, allowedTags, strict = false) {
+  return allowedTags.find((item) => {
+    if (strict) {
+      return item.TAG_PATH === `/content/cq:tags/${tag}`;
+    }
+
+    return item.TAG_NAME.toLowerCase() === tag.toLowerCase()
+      || item.TAG_TITLE.toLowerCase() === tag.toLowerCase()
+      || item.TAG_PATH.toLowerCase() === `/content/cq:tags/${tag.toLowerCase()}`;
+  });
 }
 
 /**
@@ -90,10 +98,12 @@ export function findTag(tag, allowedTags) {
  * @param {String[]|object[]} tagArray The tags to validate.
  * @param {String} [category] The category of tags to be returned (keysight|segmentation)
  * @param {String} [lang] The language of the tags to be returned
+ * @param {boolean} [strict] indicates if matching is strict (must match path exactly) or
+ * loose (matches title name or path)
  * @returns {Array} Array containing two arrays. The first array being only the valid tags,
  * the second one being the tags that are invalid
  */
-export async function validateTags(tagsArray, category = TAG_CATEGORY_BLOGS, lang = 'en') {
+export async function validateTags(tagsArray, category = TAG_CATEGORY_BLOGS, lang = 'en', strict = false) {
   try {
     // const allowedTags = await getFranklinTags();
     const allowedTags = await getAEMTags(category, lang);
@@ -104,7 +114,7 @@ export async function validateTags(tagsArray, category = TAG_CATEGORY_BLOGS, lan
      * @param {string} tag the tag name, path, or title
      */
     const isValidTag = (tag) => {
-      const matchTag = findTag(tag, allowedTags);
+      const matchTag = findTag(tag, allowedTags, strict);
       if (matchTag) {
         validTags.push(matchTag); // put the AEM tag object in the array - to be used later
       } else {

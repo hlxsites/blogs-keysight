@@ -16,7 +16,7 @@ import {
   fetchPlaceholders,
   createOptimizedPicture,
 } from './lib-franklin.js';
-import { validateTags, findTag } from './taxonomy.js';
+import { validateTags, findTag, TAG_CATEGORY_BACK_OFFICE } from './taxonomy.js';
 
 const LCP_BLOCKS = ['hero', 'featured-posts']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
@@ -515,7 +515,7 @@ export async function addBackOfficeMetaTags() {
   const backoffice = getMetadata('back-office-tags');
   if (backoffice) {
     const tags = backoffice.split(',').map((t) => t.trim());
-    const [validTags] = await validateTags(tags, 'segmentation');
+    const [validTags] = await validateTags(tags, TAG_CATEGORY_BACK_OFFICE, 'en', true);
     validTags.forEach((tag) => {
       const { TAG_PATH } = tag;
       const parts = TAG_PATH.replace('/content/cq:tags/', '').split('/');
