@@ -85,6 +85,8 @@ export function checkTag(tag, allowedTags) {
 
 /**
  * Validate an array of tag strings against a source.
+ * Can also be used to convert an array of tag names/titles/paths to tag objects.
+ *
  * @param {String[]|object[]} tagArray The tags to validate.
  * @param {String} [category] The category of tags to be returned (keysight|segmentation)
  * @param {String} [lang] The language of the tags to be returned

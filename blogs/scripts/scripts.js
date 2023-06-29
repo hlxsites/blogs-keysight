@@ -223,6 +223,10 @@ function getApplicableFilter(filterName, pageTag) {
   return applicableFilter;
 }
 
+/**
+ * Get the pag passed to the page via query parameter
+ * @returns the tag object for the tag usp
+ */
 export async function getPageTag() {
   let pageTag;
   const url = new URL(window.location);

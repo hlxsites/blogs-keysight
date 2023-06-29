@@ -177,9 +177,14 @@ async function loadPage(grid) {
   }
   const end = limit > 0 ? (limit + counter) : (pageSize + counter);
   const pageTag = await getPageTag();
-  const tags = getMetadata('article:tag');
+  let postTags;
+  if (getMetadata('template') !== 'post') {
+    const tags = getMetadata('article:tag');
+    const [validTags] = await validateTags(tags.map((t) => t.trim()));
+    postTags = validTags;
+  }
   const postsGenerator = getPostsFfetch()
-    .filter(filterPosts(filter, pageTag))
+    .filter(filterPosts(filter, pageTag, postTags))
     .slice(counter, end);
 
   const hasCta = grid.dataset.hasCta === 'true';
