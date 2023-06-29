@@ -51,9 +51,9 @@ async function initTaxonomy() {
   const results = document.getElementById('results');
   results.innerHTML = '';
 
-  const renderCategories = (cats) => {
+  const renderCategories = (cats, namespace) => {
     getChildTags(cats).forEach((cat, idx) => {
-      const catElem = createElement('div', 'category', {}, createElement('h2', '', {}, cat.tagTitle));
+      const catElem = createElement('div', 'category', {}, createElement('h2', '', {}, `${namespace} - ${cat.tagTitle}`));
       const ul = createElement('ul');
       catElem.append(ul);
       renderItems(cat, ul, idx);
