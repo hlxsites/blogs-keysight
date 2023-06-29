@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-06-23T00:00:00.000Z</updated>
+    <updated>2023-06-27T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Cracking the Code with Effortless Automated Regression Testing for POS]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/27/regression-testing-pos</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/27/regression-testing-pos"/>
+        <updated>2023-06-27T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Manual regression testing for POS slows everything down from software releases to queues at the checkout. Keysight Eggplant combined with robotics from IntelliQA automates POS testing to keep shoppers and software testers happy.]]></content>
+        <published>2023-06-27T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Datalogging for functional test using PathWave Test Executive for Manufacturing]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/06/23/datalogforfunctionaltestusingptem</id>
@@ -627,7 +635,7 @@
         <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/03/08/testing-industry-standards</id>
         <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/03/08/testing-industry-standards"/>
         <updated>2023-03-08T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[As technologies converge and become more complex and interconnected, Keysight helps ensure that standards ecosystems are testable, so our customers don't lose momentum in innovating what's next.]]></content>
+        <content type="html"><![CDATA[As technologies converge and become more complex and interconnected, Keysight helps ensure that standards ecosystems are testable so our customers don't lose momentum in innovating what's next.]]></content>
         <published>2023-03-08T00:00:00.000Z</published>
     </entry>
     <entry>
@@ -1619,7 +1627,7 @@
         <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2022/09/13/building-a-more-sustainable-future-with-6g</id>
         <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2022/09/13/building-a-more-sustainable-future-with-6g"/>
         <updated>2022-09-13T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[6G technology will play a pivotal role in achieving the United Nations Sustainable Development Goals and shaping a healthier, more prosperous future.]]></content>
+        <content type="html"><![CDATA[6G technology will be pivotal in achieving the United Nations Sustainable Development Goals and shaping a healthier, more prosperous future.]]></content>
         <published>2022-09-13T00:00:00.000Z</published>
     </entry>
     <entry>
