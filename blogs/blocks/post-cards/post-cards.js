@@ -3,6 +3,7 @@ import {
   splitTags,
   getPostsFfetch,
   filterPosts,
+  getPageTag,
 } from '../../scripts/scripts.js';
 import {
   createOptimizedPicture,
@@ -175,8 +176,9 @@ async function loadPage(grid) {
     return;
   }
   const end = limit > 0 ? (limit + counter) : (pageSize + counter);
+  const pageTag = getPageTag();
   const postsGenerator = getPostsFfetch()
-    .filter(filterPosts(filter))
+    .filter(filterPosts(filter, pageTag))
     .slice(counter, end);
 
   const hasCta = grid.dataset.hasCta === 'true';

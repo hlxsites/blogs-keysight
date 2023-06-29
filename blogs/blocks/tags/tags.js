@@ -4,6 +4,7 @@ import {
   splitTags,
   getPostsFfetch,
   filterPosts,
+  getPageTag,
 } from '../../scripts/scripts.js';
 import { validateTags } from '../../scripts/taxonomy.js';
 import { getOrigin, readBlockConfig } from '../../scripts/lib-franklin.js';
@@ -61,7 +62,8 @@ async function loadTags(block, isAll) {
   const { filter } = conf;
 
   const applicableFilter = filter || 'auto';
-  let postsGenerator = getPostsFfetch().filter(filterPosts(applicableFilter));
+  const pageTag = getPageTag();
+  let postsGenerator = getPostsFfetch().filter(filterPosts(applicableFilter, pageTag));
   let posts;
   if (isAll) {
     posts = await postsGenerator.all();

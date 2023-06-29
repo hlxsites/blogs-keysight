@@ -199,16 +199,13 @@ export function getPostsFfetch() {
   return posts;
 }
 
-function getApplicableFilter(filterName) {
+function getApplicableFilter(filterName, pageTag) {
   let applicableFilter = filterName ? filterName.toLowerCase() : 'none';
   const topic = getMetadata('topic');
   const subTopic = getMetadata('subtopic');
-  const url = new URL(window.location);
-  const params = url.searchParams;
-  const tag = params.get('tag');
   const template = getMetadata('template');
   if (applicableFilter === 'auto') {
-    if (tag) {
+    if (pageTag) {
       applicableFilter = 'tag';
     } else if (template === 'author') {
       applicableFilter = 'author';
@@ -226,14 +223,28 @@ function getApplicableFilter(filterName) {
   return applicableFilter;
 }
 
+export async function getPageTag() {
+  let pageTag;
+  const url = new URL(window.location);
+  const params = url.searchParams;
+  const tag = params.get('tag');
+  if (tag) {
+    const [validTags] = await validateTags([tag]);
+    if (validTags.length > 0) {
+      [pageTag] = validTags;
+    }
+  }
+  return pageTag;
+}
+
 /**
  * get a function to use for filtering posts. To be used in conjunction with
  * getPostsFfetch()
  * @param {string} filterName the name of the filter to apply
  * @returns {function} a function for filtering posts based on the filter name
  */
-export function filterPosts(filterName) {
-  const applicableFilter = getApplicableFilter(filterName);
+export function filterPosts(filterName, pageTag) {
+  const applicableFilter = getApplicableFilter(filterName, pageTag);
   const filterFunc = (post) => {
     if (applicableFilter === 'post') {
       const isDiffPath = post.path !== window.location.pathname;
@@ -245,9 +256,6 @@ export function filterPosts(filterName) {
 
     const topic = getMetadata('topic');
     const subTopic = getMetadata('subtopic');
-    const url = new URL(window.location);
-    const params = url.searchParams;
-    const tag = params.get('tag');
     let matches = true;
     if (applicableFilter === 'topic') {
       matches = topic === post.topic;
@@ -263,8 +271,8 @@ export function filterPosts(filterName) {
     if (applicableFilter === 'tag') {
       // used for the tag-matches page, where tag is passed in a query param
       const postTags = splitTags(post.tags);
-      if (tag) {
-        matches = postTags.includes(tag);
+      if (pageTag) {
+        matches = postTags.some((t) => pageTag.TAG_NAME.toLowerCase() === t.toLowerCase() || pageTag.TAG_TITLE.toLowerCase() === t.toLowerCase() || pageTag.TAG_PATH.toLowerCase() === `/content/cq:tags/${t.toLowerCase()}`);
       }
     }
     return matches;
@@ -449,16 +457,14 @@ export function addFavIcon(href) {
 
 async function updatePlaceholders() {
   // replace the tag in body content and meta tags
-  const url = new URL(window.location);
-  const params = url.searchParams;
-  const tag = params.get('tag');
+  const tag = await getPageTag();
   if (tag) {
     const recurse = (el) => {
       if (el.nodeType === 3) {
         // text node
         const text = el.textContent;
         if (text.includes('__tag__')) {
-          const newText = text.replaceAll('__tag__', tag);
+          const newText = text.replaceAll('__tag__', tag.TAG_TITLE);
           el.textContent = newText;
         }
       } else {
