@@ -472,7 +472,7 @@ async function updatePlaceholders() {
         // text node
         const text = el.textContent;
         if (text.includes('__tag__')) {
-          const newText = text.replaceAll('__tag__', tag.TAG_TITLE);
+          const newText = text.replaceAll('__tag__', tag);
           el.textContent = newText;
         }
       } else {
