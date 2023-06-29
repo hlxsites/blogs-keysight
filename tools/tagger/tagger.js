@@ -1,11 +1,14 @@
 import { getAEMTagsHierarchy } from '../../blogs/scripts/taxonomy.js';
 import { createElement } from '../sidekick/library/plugins/utils/utils.js';
 
-function renderItems(items, ul, catId) {
-  const tagKeys = Object.keys(items);
-  tagKeys
+function getChildTags(tag) {
+  Object.keys(tag)
     .filter((k) => !['tagName', 'tagTitle', 'tagPath'].includes(k))
-    .map((k) => items[k])
+    .map((k) => tag[k]);
+}
+
+function renderItems(items, ul, catId) {
+  getChildTags(items)
     .forEach((item) => {
       const { tagName, tagTitle, tagPath } = item;
       const pathItem = createElement('li', '', {}, createElement('span', 'path'));
@@ -47,16 +50,26 @@ async function initTaxonomy() {
   const taxonomy = await getTaxonomy();
   const results = document.getElementById('results');
   results.innerHTML = '';
-  Object.keys(taxonomy)
-    .filter((k) => !['tagName', 'tagTitle', 'tagPath'].includes(k))
-    .map((k) => taxonomy[k])
-    .forEach((cat, idx) => {
+
+  const renderCategories = (cats) => {
+    getChildTags(cats).forEach((cat, idx) => {
       const catElem = createElement('div', 'category', {}, createElement('h2', '', {}, cat.tagTitle));
       const ul = createElement('ul');
       catElem.append(ul);
       renderItems(cat, ul, idx);
       results.append(catElem);
     });
+  };
+
+  const selectedNamespace = getSelectedCategory();
+  if (selectedNamespace === '') {
+    getChildTags(taxonomy)
+      .forEach((namespace) => {
+        renderCategories(namespace, namespace.tagTitle);
+      });
+  } else {
+    renderCategories(taxonomy, selectedNamespace);
+  }
 }
 
 function filter() {
