@@ -77,8 +77,8 @@ export async function getAEMTagsHierarchy(category = TAG_CATEGORY_BLOGS, lang = 
  * @param {string} tag the tag to check
  * @param {object[]} allowedTags the set of tags to check against
  */
-export function checkTag(tag, allowedTags) {
-  return allowedTags.some((item) => item.TAG_NAME.toLowerCase() === tag.toLowerCase()
+export function findTag(tag, allowedTags) {
+  return allowedTags.find((item) => item.TAG_NAME.toLowerCase() === tag.toLowerCase()
     || item.TAG_TITLE.toLowerCase() === tag.toLowerCase()
     || item.TAG_PATH.toLowerCase() === `/content/cq:tags/${tag.toLowerCase()}`);
 }
@@ -104,7 +104,7 @@ export async function validateTags(tagsArray, category = TAG_CATEGORY_BLOGS, lan
      * @param {string} tag the tag name, path, or title
      */
     const isValidTag = (tag) => {
-      const matchTag = checkTag(tag, allowedTags);
+      const matchTag = findTag(tag, allowedTags);
       if (matchTag) {
         validTags.push(matchTag); // put the AEM tag object in the array - to be used later
       } else {
