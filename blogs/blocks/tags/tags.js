@@ -49,8 +49,8 @@ async function getTagsLinks(tags, limit) {
   validatedTags.slice(0, limit).forEach((tag) => {
     const item = createElement('li');
     const link = createElement('a');
-    link.innerHTML = `<span class="tag-name">#${tag.tag}</span><span class="tag-count">${tag.count}</span>`;
-    link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag.tag)}`;
+    link.innerHTML = `<span class="tag-name">#${tag.TAG_TITLE}</span><span class="tag-count">${tag.count}</span>`;
+    link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag.TAG_PATH)}`;
     item.append(link);
     list.append(item);
   });

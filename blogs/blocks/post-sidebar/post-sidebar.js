@@ -37,8 +37,8 @@ async function buildTags(sidebar) {
     validTags.forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
-      link.innerHTML = `<span class="tag-name">#${tag}</span>`;
-      link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag)}`;
+      link.innerHTML = `<span class="tag-name">#${tag.TAG_TITLE}</span>`;
+      link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag.TAG_PATH)}`;
       item.append(link);
       list.append(item);
     });
