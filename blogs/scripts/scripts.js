@@ -514,7 +514,7 @@ export async function addBackOfficeMetaTags() {
   // add back office tags to head
   const backoffice = getMetadata('back-office-tags');
   if (backoffice) {
-    const tags = backoffice.split(',');
+    const tags = backoffice.split(',').map((t) => t.trim());
     const [validTags] = await validateTags(tags, 'segmentation');
     validTags.forEach((tag) => {
       const { TAG_PATH } = tag;
