@@ -178,7 +178,7 @@ async function loadPage(grid) {
   const end = limit > 0 ? (limit + counter) : (pageSize + counter);
   const pageTag = await getPageTag();
   let postTags = [];
-  if (getMetadata('template') !== 'post') {
+  if (getMetadata('template') === 'post') {
     const tags = getMetadata('article:tag');
     if (tags && tags.trim() !== '') {
       const [validTags] = await validateTags(tags.split(',').map((t) => t.trim()));
