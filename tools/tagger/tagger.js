@@ -35,7 +35,7 @@ async function getTaxonomy() {
   const category = tagTypeSelect.selectedOptions[0].value;
   const aemTags = await getAEMTagsHierarchy(category, 'en');
 
-  return aemTags[category] || {};
+  return aemTags || {};
 }
 
 async function initTaxonomy() {
