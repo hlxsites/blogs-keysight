@@ -15,7 +15,7 @@ import {
   getOrigin,
 } from '../../scripts/lib-franklin.js';
 import ffetch from '../../scripts/ffetch.js';
-import validateTags from '../../scripts/taxonomy.js';
+import { validateTags } from '../../scripts/taxonomy.js';
 
 let pageSize = 7;
 const isAnAuthorPage = getMetadata('template') === 'author';

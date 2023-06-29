@@ -5,7 +5,7 @@ import {
   getPostsFfetch,
   filterPosts,
 } from '../../scripts/scripts.js';
-import validateTags from '../../scripts/taxonomy.js';
+import { validateTags } from '../../scripts/taxonomy.js';
 import { getOrigin, readBlockConfig } from '../../scripts/lib-franklin.js';
 
 function buildSearch(block) {

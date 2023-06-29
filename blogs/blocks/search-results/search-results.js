@@ -10,7 +10,7 @@ import {
   getPostsFfetch,
 } from '../../scripts/scripts.js';
 import ffetch from '../../scripts/ffetch.js';
-import validateTags from '../../scripts/taxonomy.js';
+import { validateTags } from '../../scripts/taxonomy.js';
 
 const pageSize = 10;
 const initLoad = pageSize * 2;
