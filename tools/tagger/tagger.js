@@ -2,7 +2,7 @@ import { getAEMTagsHierarchy } from '../../blogs/scripts/taxonomy.js';
 import { createElement } from '../sidekick/library/plugins/utils/utils.js';
 
 function getChildTags(tag) {
-  Object.keys(tag)
+  return Object.keys(tag)
     .filter((k) => !['tagName', 'tagTitle', 'tagPath'].includes(k))
     .map((k) => tag[k]);
 }
