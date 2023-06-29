@@ -177,6 +177,7 @@ async function loadPage(grid) {
   }
   const end = limit > 0 ? (limit + counter) : (pageSize + counter);
   const pageTag = await getPageTag();
+  const tags = getMetadata('article:tag');
   const postsGenerator = getPostsFfetch()
     .filter(filterPosts(filter, pageTag))
     .slice(counter, end);

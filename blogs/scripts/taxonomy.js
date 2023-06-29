@@ -73,6 +73,17 @@ export async function getAEMTagsHierarchy(category = TAG_CATEGORY_BLOGS, lang = 
 }
 
 /**
+ * check if the tag match (check path, title, and name)
+ * @param {string} tag the tag to check
+ * @param {object[]} allowedTags the set of tags to check against
+ */
+export function checkTag(tag, allowedTags) {
+  return allowedTags.some((item) => item.TAG_NAME.toLowerCase() === tag.toLowerCase()
+    || item.TAG_TITLE.toLowerCase() === tag.toLowerCase()
+    || item.TAG_PATH.toLowerCase() === `/content/cq:tags/${tag.toLowerCase()}`);
+}
+
+/**
  * Validate an array of tag strings against a source.
  * @param {String[]|object[]} tagArray The tags to validate.
  * @param {String} [category] The category of tags to be returned (keysight|segmentation)
@@ -91,7 +102,7 @@ export async function validateTags(tagsArray, category = TAG_CATEGORY_BLOGS, lan
      * @param {string} tag the tag name, path, or title
      */
     const isValidTag = (tag) => {
-      const matchTag = allowedTags.find((item) => item.TAG_NAME.toLowerCase() === tag.toLowerCase() || item.TAG_TITLE.toLowerCase() === tag.toLowerCase() || item.TAG_PATH.toLowerCase() === `/content/cq:tags/${tag.toLowerCase()}`);
+      const matchTag = checkTag(tag, allowedTags);
       if (matchTag) {
         validTags.push(matchTag); // put the AEM tag object in the array - to be used later
       } else {
