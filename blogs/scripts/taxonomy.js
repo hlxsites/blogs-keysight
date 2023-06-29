@@ -19,7 +19,7 @@ export async function getAEMTags(category = TAG_CATEGORY_BLOGS, lang = 'en') {
   } catch (e) {
     // console.log('Error:', e);
   }
-  return null;
+  return [];
 }
 
 /**

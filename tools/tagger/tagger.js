@@ -30,12 +30,17 @@ function renderItems(items, ul, catId) {
     });
 }
 
-async function getTaxonomy() {
+function getSelectedCategory() {
   const tagTypeSelect = document.querySelector('#tag-type');
-  const category = tagTypeSelect.selectedOptions[0].value;
+  return tagTypeSelect.selectedOptions[0].value;
+}
+
+async function getTaxonomy() {
+  const category = getSelectedCategory();
   const aemTags = await getAEMTagsHierarchy(category, 'en');
 
-  return aemTags || {};
+  const finalTags = category ? aemTags[category] : aemTags;
+  return finalTags;
 }
 
 async function initTaxonomy() {
