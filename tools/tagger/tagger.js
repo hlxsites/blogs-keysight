@@ -32,7 +32,7 @@ function renderItems(items, ul, catId) {
 
 async function getTaxonomy() {
   const tagTypeSelect = document.querySelector('#tag-type');
-  const category = tagTypeSelect?.selectedOptions[0]?.value || 'keysight-blogs';
+  const category = tagTypeSelect.selectedOptions[0].value;
   const aemTags = await getAEMTagsHierarchy(category, 'en');
 
   return aemTags[category] || {};
