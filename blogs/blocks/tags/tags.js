@@ -45,12 +45,11 @@ function buildSearch(block) {
 
 async function getTagsLinks(tags, limit) {
   const list = createElement('ul', 'tags-list');
-  const [validatedTags] = await validateTags(tags);
-  validatedTags.slice(0, limit).forEach((tag) => {
+  tags.slice(0, limit).forEach((tag) => {
     const item = createElement('li');
     const link = createElement('a');
-    link.innerHTML = `<span class="tag-name">#${tag.TAG_TITLE}</span><span class="tag-count">${tag.count}</span>`;
-    link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag.TAG_PATH)}`;
+    link.innerHTML = `<span class="tag-name">#${tag.tag.TAG_TITLE}</span><span class="tag-count">${tag.count}</span>`;
+    link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag.tag.TAG_PATH)}`;
     item.append(link);
     list.append(item);
   });
@@ -81,9 +80,10 @@ async function loadTags(block, isAll) {
   const tags = {};
   posts.forEach((post) => {
     const postTags = splitTags(post.tags);
-    if (postTags.length > 0) {
-      postTags.forEach((tag) => {
-        let tagObj = tags[tag];
+    const [validTags] = validateTags(postTags);
+    if (validTags.length > 0) {
+      validTags.forEach((tag) => {
+        let tagObj = tags[tag.TAG_PATH];
         if (!tagObj) {
           tagObj = {
             count: 0,
@@ -91,17 +91,17 @@ async function loadTags(block, isAll) {
           };
         }
         tagObj.count += 1;
-        tags[tag] = tagObj;
+        tags[tag.TAG_PATH] = tagObj;
       });
     }
   });
-  const tagsAsArray = Object.values(tags).map((tagObj) => tagObj).filter((tagObj) => {
+  const tagsAsArray = Object.values(tags).filter((tagObj) => {
     const url = new URL(window.location);
     const params = url.searchParams;
-    const tag = params.get('tag');
-    if (tag) {
+    const tagPath = params.get('tag');
+    if (tagPath) {
       // hide current tag when on a tag page
-      return tag !== tagObj.tag;
+      return tagPath !== tagObj.tag.TAG_PATH;
     }
     return true;
   });
