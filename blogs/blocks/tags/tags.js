@@ -78,9 +78,9 @@ async function loadTags(block, isAll) {
   }
 
   const tags = {};
-  posts.forEach((post) => {
+  await Promise.all(posts.map(async (post) => {
     const postTags = splitTags(post.tags);
-    const [validTags] = validateTags(postTags);
+    const [validTags] = await validateTags(postTags);
     if (validTags.length > 0) {
       validTags.forEach((tag) => {
         let tagObj = tags[tag.TAG_PATH];
@@ -94,7 +94,7 @@ async function loadTags(block, isAll) {
         tags[tag.TAG_PATH] = tagObj;
       });
     }
-  });
+  }));
   const tagsAsArray = Object.values(tags).filter((tagObj) => {
     const url = new URL(window.location);
     const params = url.searchParams;
