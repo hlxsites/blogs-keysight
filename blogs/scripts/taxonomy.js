@@ -1,6 +1,7 @@
 export const TAG_CATEGORY_BACK_OFFICE = 'segmentation';
 export const TAG_CATEGORY_BLOGS = 'keysight-blogs';
 
+const tagsPromises = {};
 /**
  * Retrieve tags from API.
  * @param {String} [category] The category of tags to be returned (keysight|segmentation)
@@ -8,18 +9,26 @@ export const TAG_CATEGORY_BLOGS = 'keysight-blogs';
  * @returns {Array} An array of tag objects
  */
 export async function getAEMTags(category = TAG_CATEGORY_BLOGS, lang = 'en') {
-  let resp;
-  try {
-    resp = await fetch(`https://www.keysight.com/clientapi/search/aemtags/${lang}`);
-    if (resp && resp.ok) {
-      const json = await resp.json();
-      const tagObjs = json.hits.filter((entry) => entry.TAG_PATH.startsWith(`/content/cq:tags/${category ? `${category}/` : ''}`));
-      return tagObjs;
-    }
-  } catch (e) {
-    // console.log('Error:', e);
+  const key = `${category} - ${lang}`;
+  if (!tagsPromises[key]) {
+    const fetcher = async () => {
+      let resp;
+      try {
+        resp = await fetch(`https://www.keysight.com/clientapi/search/aemtags/${lang}`);
+        if (resp && resp.ok) {
+          const json = await resp.json();
+          const tagObjs = json.hits.filter((entry) => entry.TAG_PATH.startsWith(`/content/cq:tags/${category ? `${category}/` : ''}`));
+          return tagObjs;
+        }
+      } catch (e) {
+        // console.log('Error:', e);
+      }
+      return [];
+    };
+    tagsPromises[key] = fetcher();
   }
-  return [];
+
+  return tagsPromises[key];
 }
 
 /**
