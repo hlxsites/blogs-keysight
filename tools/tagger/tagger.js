@@ -40,7 +40,7 @@ async function getTaxonomy() {
   const aemTags = await getAEMTagsHierarchy(category, 'en');
 
   const finalTags = category ? aemTags[category] : aemTags;
-  return finalTags;
+  return finalTags || {};
 }
 
 async function initTaxonomy() {
