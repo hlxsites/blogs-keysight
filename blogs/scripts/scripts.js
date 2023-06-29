@@ -463,7 +463,9 @@ export function addFavIcon(href) {
 
 async function updatePlaceholders() {
   // replace the tag in body content and meta tags
-  const tag = await getPageTag();
+  const url = new URL(window.location);
+  const params = url.searchParams;
+  const tag = params.get('tag');
   if (tag) {
     const recurse = (el) => {
       if (el.nodeType === 3) {
