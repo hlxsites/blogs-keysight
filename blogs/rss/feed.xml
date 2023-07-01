@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-06-27T00:00:00.000Z</updated>
+    <updated>2023-06-28T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Cut Down Design Time by Moving EM Simulations to the Cloud]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/sim-des/2021/03/25/cut-down-design-time-by-moving-em-simulations-to-the-cloud</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/sim-des/2021/03/25/cut-down-design-time-by-moving-em-simulations-to-the-cloud"/>
+        <updated>2023-06-28T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[The latest innovations in cloud technology have advanced to the world of design and simulation. Using high-performance computing and cloud simulation, design teams are cutting their simulation times in half, or more! Could moving your simulations to the cloud improve your design times?]]></content>
+        <published>2023-06-28T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Cracking the Code with Effortless Automated Regression Testing for POS]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/27/regression-testing-pos</id>
@@ -5372,14 +5380,6 @@
         <link href="https://www.keysight.com/blogs/blogs/keys/exec/2021/03/26/womens-history-month-looking-back-to-move-forward"/>
         <updated>2021-03-26T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Women’s History Month highlights the contributions of women that paved the way for future generations. Keysight values a diverse and inclusive workplace for all employees and pledges to continue our support of STEM education programs for women and girls.]]></content>
-        <published>2021-03-26T00:00:00.000Z</published>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Cut Down Design Time by Moving EM Simulations to the Cloud]]></title>
-        <id>https://www.keysight.com/blogs/blogs/tech/sim-des/2021/03/25/cut-down-design-time-by-moving-em-simulations-to-the-cloud</id>
-        <link href="https://www.keysight.com/blogs/blogs/tech/sim-des/2021/03/25/cut-down-design-time-by-moving-em-simulations-to-the-cloud"/>
-        <updated>2021-03-26T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[The latest innovations in cloud technology have advanced to the world of design and simulation. Using high-performance computing and cloud simulation, design teams are cutting their simulation times in half, or more! Could moving your simulations to the cloud improve your design times?]]></content>
         <published>2021-03-26T00:00:00.000Z</published>
     </entry>
     <entry>
