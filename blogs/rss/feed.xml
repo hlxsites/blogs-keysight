@@ -10702,4 +10702,12 @@
         <content type="html"><![CDATA[<post description, used for cards>]]></content>
         <published>1970-01-01T00:00:00.000Z</published>
     </entry>
+    <entry>
+        <title type="html"><![CDATA[CVE-2023-2249: Wordpress Wpforo Plugin Root Cause Analysis]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/05/cve-2023-2249</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/05/cve-2023-2249"/>
+        <updated>1970-01-01T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blog does a root cause analysis of the vulnerability CVE-2023-2249 in Wordpress Wpforo Plugin and presents a proof-of-concept at the end.]]></content>
+        <published>1970-01-01T00:00:00.000Z</published>
+    </entry>
 </feed>
