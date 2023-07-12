@@ -1,5 +1,5 @@
 import { PRODUCTION_DOMAINS, PRODUCTION_PATHS } from '../../scripts/scripts.js';
-import { validateTags } from '../../scripts/taxonomy.js';
+// import { validateTags } from '../../scripts/taxonomy.js';
 // eslint-disable-next-line import/prefer-default-export
 export const checks = [];
 
