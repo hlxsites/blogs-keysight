@@ -15,12 +15,14 @@ import {
   loadCSS,
   fetchPlaceholders,
   createOptimizedPicture,
+  decorateBlock,
+  loadBlock,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = ['hero', 'featured-posts']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
-const PRODUCTION_DOMAINS = ['www.keysight.com', 'stgwww.keysight.com'];
-const PRODUCTION_PATHS = ['/blogs/'];
+export const PRODUCTION_DOMAINS = ['www.keysight.com', 'stgwww.keysight.com'];
+export const PRODUCTION_PATHS = ['/blogs/'];
 
 /**
  * Create an element with the given id and classes.
@@ -551,6 +553,31 @@ async function loadLazy(doc) {
   sampleRUM.observe(main.querySelectorAll('picture > img'));
 }
 
+function initSidekick() {
+  let sk = document.querySelector('helix-sidekick');
+  const preflightEventListener = () => {
+    const pfModel = document.querySelector('#preflight-dialog');
+    if (!pfModel) {
+      const pf = buildBlock('preflight', '');
+      document.querySelector('main').append(pf);
+      decorateBlock(pf);
+      loadBlock(pf);
+    } else {
+      window.postMessage({ preflightInit: true }, window.location.origin);
+    }
+  };
+
+  if (sk) {
+    sk.addEventListener('custom:preflight', preflightEventListener);
+  } else {
+    // wait for sidekick to be loaded
+    document.addEventListener('helix-sidekick-ready', () => {
+      sk = document.querySelector('helix-sidekick');
+      sk.addEventListener('custom:preflight', preflightEventListener);
+    }, { once: true });
+  }
+}
+
 /**
  * loads everything that happens a lot later, without impacting
  * the user experience.
@@ -569,6 +596,8 @@ function loadDelayed() {
       loadScript(delayedScript, 'module');
     }, ms);
   }
+
+  initSidekick();
 }
 
 async function loadPage() {
