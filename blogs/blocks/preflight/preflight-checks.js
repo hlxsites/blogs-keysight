@@ -228,6 +228,7 @@ checks.push({
   },
 });
 
+/* commenting out tags check for now, will re-add as part of aem-tags
 checks.push({
   name: 'Tags',
   category: 'Content & Metadata',
@@ -236,7 +237,8 @@ checks.push({
       status: true,
       msg: 'No tags found.',
     };
-    const articleTags = [...doc.head.querySelectorAll('meta[property="article:tag"]')].map((tagMeta) => tagMeta.content);
+    const articleTags = [...doc.head.querySelectorAll('meta[property="article:tag"]')]
+    .map((tagMeta) => tagMeta.content);
     if (articleTags.length > 0) {
       const [, invalid] = await validateTags(articleTags);
       if (invalid.length === 0) {
@@ -253,6 +255,7 @@ checks.push({
     return res;
   },
 });
+*/
 
 checks.push({
   name: 'Hero Image',
