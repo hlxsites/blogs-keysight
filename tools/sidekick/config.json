@@ -20,6 +20,15 @@
       "includePaths": [
         "**.docx**"
       ]
+    },
+    {
+      "title": "Preflight",
+      "id": "preflight",
+      "environments": [
+        "preview",
+        "live"
+      ],
+      "event": "preflight"
     }
   ]
 }

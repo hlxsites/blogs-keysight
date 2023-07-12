@@ -15,13 +15,15 @@ import {
   loadCSS,
   fetchPlaceholders,
   createOptimizedPicture,
+  decorateBlock,
+  loadBlock,
 } from './lib-franklin.js';
 import { validateTags, findTag, TAG_CATEGORY_BACK_OFFICE } from './taxonomy.js';
 
 const LCP_BLOCKS = ['hero', 'featured-posts']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
-const PRODUCTION_DOMAINS = ['www.keysight.com', 'stgwww.keysight.com'];
-const PRODUCTION_PATHS = ['/blogs/'];
+export const PRODUCTION_DOMAINS = ['www.keysight.com', 'stgwww.keysight.com'];
+export const PRODUCTION_PATHS = ['/blogs/'];
 
 /**
  * Create an element with the given id and classes.
@@ -389,6 +391,25 @@ export function decorateLinks(element) {
 }
 
 /**
+ * Decorate links that end with -block-modal to open a modal window
+ * @param {Element} main The main element
+ */
+function decorateModalLinks(main) {
+  async function openBModal(event) {
+    event.preventDefault();
+    const module = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
+    if (module.showModal) {
+      await module.showModal(event.target);
+    }
+  }
+  main.querySelectorAll('a[href*="modal"]').forEach((a) => {
+    if (a.href.endsWith('-block-modal')) {
+      a.addEventListener('click', openBModal);
+    }
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -403,6 +424,7 @@ export function decorateMain(main, isFragment) {
   }
   decorateSections(main);
   decorateBlocks(main);
+  decorateModalLinks(main);
 }
 
 async function loadTemplate(doc, templateName) {
@@ -579,6 +601,31 @@ async function loadLazy(doc) {
   sampleRUM.observe(main.querySelectorAll('picture > img'));
 }
 
+function initSidekick() {
+  let sk = document.querySelector('helix-sidekick');
+  const preflightEventListener = () => {
+    const pfModel = document.querySelector('#preflight-dialog');
+    if (!pfModel) {
+      const pf = buildBlock('preflight', '');
+      document.querySelector('main').append(pf);
+      decorateBlock(pf);
+      loadBlock(pf);
+    } else {
+      window.postMessage({ preflightInit: true }, window.location.origin);
+    }
+  };
+
+  if (sk) {
+    sk.addEventListener('custom:preflight', preflightEventListener);
+  } else {
+    // wait for sidekick to be loaded
+    document.addEventListener('helix-sidekick-ready', () => {
+      sk = document.querySelector('helix-sidekick');
+      sk.addEventListener('custom:preflight', preflightEventListener);
+    }, { once: true });
+  }
+}
+
 /**
  * loads everything that happens a lot later, without impacting
  * the user experience.
@@ -597,6 +644,8 @@ function loadDelayed() {
       loadScript(delayedScript, 'module');
     }, ms);
   }
+
+  initSidekick();
 }
 
 async function loadPage() {
