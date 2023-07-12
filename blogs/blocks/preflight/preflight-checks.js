@@ -1,5 +1,5 @@
 import { PRODUCTION_DOMAINS, PRODUCTION_PATHS } from '../../scripts/scripts.js';
-import { validateTags } from '../../scripts/taxonomy.js';
+// import { validateTags } from '../../scripts/taxonomy.js';
 // eslint-disable-next-line import/prefer-default-export
 export const checks = [];
 
@@ -202,7 +202,7 @@ checks.push({
     };
     let invalidAltTextCount = 0;
     // if img is a child of these blocks then ignore check
-    const ignoredBlocks = ['post-cards'];
+    const ignoredBlocks = ['post-cards', 'featured-posts'];
     const imgElements = doc.querySelectorAll('body > main img');
     for (let i = 0; i < imgElements.length; i += 1) {
       const altText = imgElements[i];
