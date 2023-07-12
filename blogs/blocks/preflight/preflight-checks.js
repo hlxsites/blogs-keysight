@@ -202,7 +202,7 @@ checks.push({
     };
     let invalidAltTextCount = 0;
     // if img is a child of these blocks then ignore check
-    const ignoredBlocks = ['post-cards'];
+    const ignoredBlocks = ['post-cards', 'featured-posts'];
     const imgElements = doc.querySelectorAll('body > main img');
     for (let i = 0; i < imgElements.length; i += 1) {
       const altText = imgElements[i];
