@@ -1,5 +1,5 @@
 import { PRODUCTION_DOMAINS, PRODUCTION_PATHS } from '../../scripts/scripts.js';
-// import { validateTags } from '../../scripts/taxonomy.js';
+import { validateTags, TAG_CATEGORY_BACK_OFFICE } from '../../scripts/taxonomy.js';
 // eslint-disable-next-line import/prefer-default-export
 export const checks = [];
 
@@ -228,7 +228,6 @@ checks.push({
   },
 });
 
-/* commenting out tags check for now, will re-add as part of aem-tags
 checks.push({
   name: 'Tags',
   category: 'Content & Metadata',
@@ -238,7 +237,7 @@ checks.push({
       msg: 'No tags found.',
     };
     const articleTags = [...doc.head.querySelectorAll('meta[property="article:tag"]')]
-    .map((tagMeta) => tagMeta.content);
+      .map((tagMeta) => tagMeta.content);
     if (articleTags.length > 0) {
       const [, invalid] = await validateTags(articleTags);
       if (invalid.length === 0) {
@@ -255,7 +254,30 @@ checks.push({
     return res;
   },
 });
-*/
+
+checks.push({
+  name: 'Back Office Tags',
+  category: 'Content & Metadata',
+  exec: async (doc) => {
+    const res = {
+      status: true,
+      msg: 'No tags found.',
+    };
+    const backOfficeTags = doc.head.querySelector('meta[property="back-office-tags"]');
+    if (backOfficeTags && backOfficeTags.content) {
+      const backOfficeTagsVals = backOfficeTags.content.split(',').map((t) => t.trim());
+      const [, invalid] = await validateTags(backOfficeTagsVals, TAG_CATEGORY_BACK_OFFICE, 'en', true);
+      if (invalid.length === 0) {
+        res.msg = 'All tags are valid';
+      } else {
+        res.status = false;
+        res.msg = `${invalid.length} Invalid tags. ${invalid.join(', ')}`;
+      }
+    }
+
+    return res;
+  },
+});
 
 checks.push({
   name: 'Hero Image',
