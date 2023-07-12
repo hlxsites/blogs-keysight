@@ -2,10 +2,58 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-06-23T00:00:00.000Z</updated>
+    <updated>2023-07-12T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Embrace Efficiency with Eggplant's New Git Integration]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/7/12/dai-7-0-epf-23-0-blog</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/7/12/dai-7-0-epf-23-0-blog"/>
+        <updated>2023-07-12T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Read about the latest release for Keysight’s Eggplant.]]></content>
+        <published>2023-07-12T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Improving patient outcomes in healthcare through test automation technology]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/kcsr/2023/07/06/improving-patient-outcomes-in-healthcare-through-test-automation-technology</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/kcsr/2023/07/06/improving-patient-outcomes-in-healthcare-through-test-automation-technology"/>
+        <updated>2023-07-11T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[In this blog post, Keysight's director of corporate social responsibility discusses the role of software testing in improving patient outcomes in healthcare management.]]></content>
+        <published>2023-07-11T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How do temperature, age, and discharge rate affect battery run time?]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/07/11/how-do-key-factors-affect-battery-run-time</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/bench/2023/07/11/how-do-key-factors-affect-battery-run-time"/>
+        <updated>2023-07-11T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Learn how age, temperature, and discharge rate impact battery characteristics and how battery models can be used to predict the impact on run time.]]></content>
+        <published>2023-07-11T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Threat Simulator: June 2023 Update]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/05/threat-simulator-june-2023-update</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/05/threat-simulator-june-2023-update"/>
+        <updated>2023-07-05T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Threat Simulator allows you to proactively assess your People, Processes, and Security controls before the threat actor does.]]></content>
+        <published>2023-07-05T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Cut Down Design Time by Moving EM Simulations to the Cloud]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/sim-des/2021/03/25/cut-down-design-time-by-moving-em-simulations-to-the-cloud</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/sim-des/2021/03/25/cut-down-design-time-by-moving-em-simulations-to-the-cloud"/>
+        <updated>2023-06-28T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[The latest innovations in cloud technology have advanced to the world of design and simulation. Using high-performance computing and cloud simulation, design teams are cutting their simulation times in half, or more! Could moving your simulations to the cloud improve your design times?]]></content>
+        <published>2023-06-28T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Cracking the Code with Effortless Automated Regression Testing for POS]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/27/regression-testing-pos</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/27/regression-testing-pos"/>
+        <updated>2023-06-27T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Manual regression testing for POS slows everything down from software releases to queues at the checkout. Keysight Eggplant combined with robotics from IntelliQA automates POS testing to keep shoppers and software testers happy.]]></content>
+        <published>2023-06-27T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Datalogging for functional test using PathWave Test Executive for Manufacturing]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/06/23/datalogforfunctionaltestusingptem</id>
@@ -213,14 +261,6 @@
         <updated>2023-05-22T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Unlocking Hyperscale, 400GE Capable, Network Application and Security Testing]]></content>
         <published>2023-05-22T00:00:00.000Z</published>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Reasons to Transform Your Current Software Test Approach]]></title>
-        <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/05/09/reasons-to-transform-your-current-software-test-approach</id>
-        <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/05/09/reasons-to-transform-your-current-software-test-approach"/>
-        <updated>2023-05-20T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[Commercial software testing solutions are designed to help organizations improve the quality of their software and reduce time-to-market. By leveraging the latest testing tools, methodologies, and best practices, these solutions can help organizations identify defects and bugs earlier in the software development lifecycle.]]></content>
-        <published>2023-05-20T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[Automated Testing Using PathWave Test Executive for Manufacturing]]></title>
@@ -627,7 +667,7 @@
         <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/03/08/testing-industry-standards</id>
         <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/03/08/testing-industry-standards"/>
         <updated>2023-03-08T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[As technologies converge and become more complex and interconnected, Keysight helps ensure that standards ecosystems are testable, so our customers don't lose momentum in innovating what's next.]]></content>
+        <content type="html"><![CDATA[As technologies converge and become more complex and interconnected, Keysight helps ensure that standards ecosystems are testable so our customers don't lose momentum in innovating what's next.]]></content>
         <published>2023-03-08T00:00:00.000Z</published>
     </entry>
     <entry>
@@ -1619,7 +1659,7 @@
         <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2022/09/13/building-a-more-sustainable-future-with-6g</id>
         <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2022/09/13/building-a-more-sustainable-future-with-6g"/>
         <updated>2022-09-13T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[6G technology will play a pivotal role in achieving the United Nations Sustainable Development Goals and shaping a healthier, more prosperous future.]]></content>
+        <content type="html"><![CDATA[6G technology will be pivotal in achieving the United Nations Sustainable Development Goals and shaping a healthier, more prosperous future.]]></content>
         <published>2022-09-13T00:00:00.000Z</published>
     </entry>
     <entry>
@@ -5364,14 +5404,6 @@
         <link href="https://www.keysight.com/blogs/blogs/keys/exec/2021/03/26/womens-history-month-looking-back-to-move-forward"/>
         <updated>2021-03-26T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Women’s History Month highlights the contributions of women that paved the way for future generations. Keysight values a diverse and inclusive workplace for all employees and pledges to continue our support of STEM education programs for women and girls.]]></content>
-        <published>2021-03-26T00:00:00.000Z</published>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Cut Down Design Time by Moving EM Simulations to the Cloud]]></title>
-        <id>https://www.keysight.com/blogs/blogs/tech/sim-des/2021/03/25/cut-down-design-time-by-moving-em-simulations-to-the-cloud</id>
-        <link href="https://www.keysight.com/blogs/blogs/tech/sim-des/2021/03/25/cut-down-design-time-by-moving-em-simulations-to-the-cloud"/>
-        <updated>2021-03-26T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[The latest innovations in cloud technology have advanced to the world of design and simulation. Using high-performance computing and cloud simulation, design teams are cutting their simulation times in half, or more! Could moving your simulations to the cloud improve your design times?]]></content>
         <published>2021-03-26T00:00:00.000Z</published>
     </entry>
     <entry>
@@ -10692,6 +10724,14 @@
         <link href="https://www.keysight.com/blogs/blogs/post-template"/>
         <updated>1970-01-01T00:00:00.000Z</updated>
         <content type="html"><![CDATA[<post description, used for cards>]]></content>
+        <published>1970-01-01T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CVE-2023-2249: Wordpress Wpforo Plugin Root Cause Analysis]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/05/cve-2023-2249</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/05/cve-2023-2249"/>
+        <updated>1970-01-01T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blog does a root cause analysis of the vulnerability CVE-2023-2249 in Wordpress Wpforo Plugin and presents a proof-of-concept at the end.]]></content>
         <published>1970-01-01T00:00:00.000Z</published>
     </entry>
 </feed>
