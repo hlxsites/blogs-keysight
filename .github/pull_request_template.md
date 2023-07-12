@@ -4,5 +4,5 @@ Fix #<gh-issue-id>
 
 Test URLs:
 
-- Before: https://main--blogs-keysight--hlxsites.hlx.live/blogs/
-- After: https://<branch>--blogs-keysight--hlxsites.hlx.live/blogs/
+- Before: https://main--blogs-keysight2--hlxsites.hlx.live/blogs/
+- After: https://<branch>--blogs-keysight2--hlxsites.hlx.live/blogs/
