@@ -35,7 +35,7 @@ function renderItems(items, ul, catId) {
 
 function getSelectedCategory() {
   const tagTypeSelect = document.querySelector('#tag-type');
-  return tagTypeSelect.selectedOptions[0].value;
+  return tagTypeSelect.value;
 }
 
 async function getTaxonomy() {
@@ -175,9 +175,10 @@ async function init() {
   const usp = new URLSearchParams(window.location.search);
   const tagType = usp.get('tagType');
   if (tagType) {
-    const opt = document.querySelector(`#tag-type option[value="${tagType}"]`);
+    const select = document.querySelector('#tag-type');
+    const opt = select.querySelector(`option[value="${tagType}"]`);
     if (opt) {
-      opt.setAttribute('selected', '');
+      select.value = opt.value;
     }
   }
   await initTaxonomy();
