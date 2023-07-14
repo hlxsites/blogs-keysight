@@ -85,6 +85,14 @@ function filter() {
       category.classList.add('hidden');
     }
   });
+
+  const visibleCat = document.querySelectorAll('#results .category:not(.hidden)');
+  const noRes = document.querySelector('#no-results');
+  if (!visibleCat) {
+    noRes.style.display = 'block';
+  } else {
+    noRes.style.display = 'none';
+  }
 }
 
 async function initTaxonomy() {
