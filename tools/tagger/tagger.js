@@ -172,6 +172,14 @@ async function initTaxonomy() {
 }
 
 async function init() {
+  const usp = new URLSearchParams(window.location.search);
+  const tagType = usp.get('tagType');
+  if (tagType) {
+    const opt = document.querySelector(`#tag-type option[value="${tagType}"]`);
+    if (opt) {
+      opt.setAttribute('selected', '');
+    }
+  }
   await initTaxonomy();
 
   const selEl = document.getElementById('selected');
