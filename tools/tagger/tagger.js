@@ -46,41 +46,6 @@ async function getTaxonomy() {
   return finalTags || {};
 }
 
-async function initTaxonomy() {
-  const taxonomy = await getTaxonomy();
-  const results = document.getElementById('results');
-  results.innerHTML = '';
-
-  const renderCategories = (cats, namespace) => {
-    getChildTags(cats).forEach((cat, idx) => {
-      const catElem = createElement('div', 'category', {}, createElement('h2', '', {}, `${namespace}: ${cat.tagTitle || cat.tagName}`));
-      const ul = createElement('ul');
-      catElem.append(ul);
-      renderItems(cat, ul, idx);
-      results.append(catElem);
-    });
-  };
-
-  const selectedNamespace = getSelectedCategory();
-  if (selectedNamespace === '') {
-    getChildTags(taxonomy)
-      .forEach((namespace) => {
-        renderCategories(namespace, namespace.tagTitle);
-      });
-  } else {
-    renderCategories(taxonomy, selectedNamespace);
-  }
-
-  // hide empty categories
-  results.querySelectorAll('.category').forEach((cat) => {
-    const ul = cat.querySelector(':scope > ul');
-    const items = ul.querySelector('li');
-    if (!items) {
-      cat.classList.add('empty');
-    }
-  });
-}
-
 function filter() {
   const searchTerm = document.getElementById('search').value.toLowerCase();
   document.querySelectorAll('#results .tag').forEach((tag) => {
@@ -120,6 +85,42 @@ function filter() {
       category.classList.add('hidden');
     }
   });
+}
+
+async function initTaxonomy() {
+  const taxonomy = await getTaxonomy();
+  const results = document.getElementById('results');
+  results.innerHTML = '';
+
+  const renderCategories = (cats, namespace) => {
+    getChildTags(cats).forEach((cat, idx) => {
+      const catElem = createElement('div', 'category', {}, createElement('h2', '', {}, `${namespace}: ${cat.tagTitle || cat.tagName}`));
+      const ul = createElement('ul');
+      catElem.append(ul);
+      renderItems(cat, ul, idx);
+      results.append(catElem);
+    });
+  };
+
+  const selectedNamespace = getSelectedCategory();
+  if (selectedNamespace === '') {
+    getChildTags(taxonomy)
+      .forEach((namespace) => {
+        renderCategories(namespace, namespace.tagTitle);
+      });
+  } else {
+    renderCategories(taxonomy, selectedNamespace);
+  }
+
+  // hide empty categories
+  results.querySelectorAll('.category').forEach((cat) => {
+    const ul = cat.querySelector(':scope > ul');
+    const items = ul.querySelector('li');
+    if (!items) {
+      cat.classList.add('empty');
+    }
+  });
+  filter();
 }
 
 function toggleTag(target) {
