@@ -53,7 +53,7 @@ async function initTaxonomy() {
 
   const renderCategories = (cats, namespace) => {
     getChildTags(cats).forEach((cat, idx) => {
-      const catElem = createElement('div', 'category', {}, createElement('h2', '', {}, `${namespace}: ${cat.tagTitle}`));
+      const catElem = createElement('div', 'category', {}, createElement('h2', '', {}, `${namespace}: ${cat.tagTitle || cat.tagName}`));
       const ul = createElement('ul');
       catElem.append(ul);
       renderItems(cat, ul, idx);
