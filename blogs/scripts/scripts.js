@@ -274,7 +274,7 @@ export function filterPosts(filterName, pageTag, pageTags) {
     if (applicableFilter === 'author') {
       // on author pages the author name is the title
       const author = getMetadata('originalTitle');
-      matches = author === post.author;
+      matches = author.toLowerCase() === post.author.toLowerCase();
     }
     if (applicableFilter === 'tag') {
       // used for the tag-matches page, where tag is passed in a query param
