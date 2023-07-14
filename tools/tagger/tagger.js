@@ -94,43 +94,6 @@ function filter() {
     noRes.style.display = 'none';
   }
 }
-
-async function initTaxonomy() {
-  const taxonomy = await getTaxonomy();
-  const results = document.getElementById('results');
-  results.innerHTML = '';
-
-  const renderCategories = (cats, namespace) => {
-    getChildTags(cats).forEach((cat, idx) => {
-      const catElem = createElement('div', 'category', {}, createElement('h2', '', {}, `${namespace}: ${cat.tagTitle || cat.tagName}`));
-      const ul = createElement('ul');
-      catElem.append(ul);
-      renderItems(cat, ul, idx);
-      results.append(catElem);
-    });
-  };
-
-  const selectedNamespace = getSelectedCategory();
-  if (selectedNamespace === '') {
-    getChildTags(taxonomy)
-      .forEach((namespace) => {
-        renderCategories(namespace, namespace.tagTitle);
-      });
-  } else {
-    renderCategories(taxonomy, selectedNamespace);
-  }
-
-  // hide empty categories
-  results.querySelectorAll('.category').forEach((cat) => {
-    const ul = cat.querySelector(':scope > ul');
-    const items = ul.querySelector('li');
-    if (!items) {
-      cat.classList.add('empty');
-    }
-  });
-  filter();
-}
-
 function toggleTag(target) {
   target.classList.toggle('selected');
   // eslint-disable-next-line no-use-before-define
@@ -169,6 +132,43 @@ function displaySelected() {
   const copyButton = document.querySelector('button.copy');
   copyButton.removeAttribute('disabled');
   copyButton.textContent = 'Copy';
+}
+
+async function initTaxonomy() {
+  const taxonomy = await getTaxonomy();
+  const results = document.getElementById('results');
+  results.innerHTML = '';
+
+  const renderCategories = (cats, namespace) => {
+    getChildTags(cats).forEach((cat, idx) => {
+      const catElem = createElement('div', 'category', {}, createElement('h2', '', {}, `${namespace}: ${cat.tagTitle || cat.tagName}`));
+      const ul = createElement('ul');
+      catElem.append(ul);
+      renderItems(cat, ul, idx);
+      results.append(catElem);
+    });
+  };
+
+  const selectedNamespace = getSelectedCategory();
+  if (selectedNamespace === '') {
+    getChildTags(taxonomy)
+      .forEach((namespace) => {
+        renderCategories(namespace, namespace.tagTitle);
+      });
+  } else {
+    renderCategories(taxonomy, selectedNamespace);
+  }
+
+  // hide empty categories
+  results.querySelectorAll('.category').forEach((cat) => {
+    const ul = cat.querySelector(':scope > ul');
+    const items = ul.querySelector('li');
+    if (!items) {
+      cat.classList.add('empty');
+    }
+  });
+  filter();
+  displaySelected();
 }
 
 async function init() {
