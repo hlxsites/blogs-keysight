@@ -86,7 +86,7 @@ function filter() {
     }
   });
 
-  const visibleCat = document.querySelectorAll('#results .category:not(.hidden)');
+  const visibleCat = document.querySelector('#results .category:not(.hidden)');
   const noRes = document.querySelector('#no-results');
   if (!visibleCat) {
     noRes.style.display = 'block';
