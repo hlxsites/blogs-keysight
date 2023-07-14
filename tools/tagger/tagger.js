@@ -70,6 +70,15 @@ async function initTaxonomy() {
   } else {
     renderCategories(taxonomy, selectedNamespace);
   }
+
+  // hide empty categories
+  results.querySelectorAll('.category').forEach((cat) => {
+    const ul = cat.querySelector(':scope > ul');
+    const items = ul.querySelector('li');
+    if (!items) {
+      cat.classList.add('empty');
+    }
+  });
 }
 
 function filter() {

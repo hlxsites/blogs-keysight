@@ -51,8 +51,8 @@ main #selected button {
   padding-bottom: 150px;
 }
 
-#results > .category {
-  user-select: none;
+#results > .category.empty {
+  display: none;
 }
 
 #results > .category ul {
