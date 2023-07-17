@@ -1,18 +1,34 @@
-aside .block-modal a.button.primary {
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.5;
-  padding: 12px 32px;
-  text-align: center;
-  vertical-align: middle;
-  white-space: nowrap;
-  background: var(--color-off-white);
-  color: var(--text-color);
-  border: none;
-  margin-bottom: 30px;
-  width: auto;
+.modal-dialog {
+  border-radius: 8px;
+  border: 0;
+  width: 95%;
+  max-width: 1400px;
 }
 
-aside .block-modal a.button.primary::after {
-  content: unset;
+.modal-dialog .dialog-header {
+  position: relative;
+}
+
+.modal-dialog .dialog-header .dialog-close {
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  right: 0;
+  cursor: pointer;
+}
+
+.modal-dialog .dialog-header .dialog-close::before,
+.modal-dialog .dialog-header .dialog-close::after {
+  content: '';
+  position: absolute;
+  right: 2rem;
+  width: 3px;
+  height: 22px;
+  display: inline-block;
+  background-color: var(--color-red);
+  rotate: 225deg;
+}
+
+.modal-dialog .dialog-header .dialog-close::before {
+  rotate: 135deg;
 }
