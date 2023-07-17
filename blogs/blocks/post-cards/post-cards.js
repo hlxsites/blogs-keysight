@@ -1,9 +1,8 @@
 import {
-  getPosts,
   createElement,
-  loadPosts,
   splitTags,
-  getNavPages,
+  getPostsFfetch,
+  filterPosts,
 } from '../../scripts/scripts.js';
 import {
   createOptimizedPicture,
@@ -11,11 +10,15 @@ import {
   decorateIcons,
   getMetadata,
   decorateBlock,
-  loadBlock as loadExtBlock,
+  loadBlock,
   buildBlock,
+  getOrigin,
 } from '../../scripts/lib-franklin.js';
+import ffetch from '../../scripts/ffetch.js';
+import { validateTags } from '../../scripts/taxonomy.js';
 
 let pageSize = 7;
+const isAnAuthorPage = getMetadata('template') === 'author';
 
 function showHideMore(grid, moreContainer) {
   const hidden = grid.querySelector('.post-card.hidden');
@@ -26,7 +29,7 @@ function showHideMore(grid, moreContainer) {
   }
 }
 
-function getTopicLink(post, navPages) {
+async function getTopicLink(post) {
   const { topic, subtopic } = post;
   let topicText = topic;
   if (subtopic && subtopic !== '0') {
@@ -36,64 +39,57 @@ function getTopicLink(post, navPages) {
   const notLink = createElement('span');
   notLink.innerText = topicText;
 
-  try {
-    const topicPage = navPages.find((page) => page.topic === topic && page.subtopic === subtopic);
-    if (topicPage) {
-      const link = createElement('a');
-      link.href = topicPage.path;
-      link.innerText = topicText;
-      return link;
-    }
-  } finally {
-    // no op, just fall through to return default
+  const topicPage = await ffetch('/blogs/query-index.json').sheet('nav')
+    .filter((page) => page.topic === topic && page.subtopic === subtopic).first();
+
+  if (topicPage) {
+    const link = createElement('a');
+    link.href = topicPage.path;
+    link.innerText = topicText;
+    return link;
   }
 
   return notLink;
 }
 
-function getAuthorLink(post, navPages) {
+async function getAuthorLink(post) {
   const { author } = post;
   const notLink = createElement('span');
   notLink.innerText = `${author}`;
 
-  try {
-    const authorPage = navPages.find((page) => page.title === author);
-    if (authorPage) {
-      const link = createElement('a');
-      link.href = authorPage.path;
-      link.innerText = `${author}`;
-      return link;
-    }
-  } finally {
-    // no op, just fall through to return default value
+  const authorPage = await ffetch('/blogs/query-index.json').sheet('nav')
+    .filter((page) => page.title.toLowerCase() === author?.toLowerCase()).first();
+
+  if (authorPage) {
+    const link = createElement('a');
+    link.href = authorPage.path;
+    link.innerText = `${author}`;
+    return link;
   }
 
   return notLink;
 }
 
-function getTagsLinks(post) {
+async function getTagsLinks(post) {
   const tags = splitTags(post.tags);
   if (tags.length > 0) {
+    const [validTags] = await validateTags(tags);
     const list = createElement('ul', 'card-tags');
-    tags.forEach((tag) => {
+    validTags.forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
       link.innerText = `#${tag}`;
       link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag)}`;
-
       item.append(link);
       list.append(item);
     });
-
     return list;
   }
-
   return undefined;
 }
 
-function buildPostCard(post, index, navPagesPromise) {
+async function buildPostCard(post, index) {
   const classes = ['post-card', 'hidden'];
-  const isAnAuthorPage = getMetadata('template') === 'author';
   if (!isAnAuthorPage && index % 7 === 3) {
     classes.push('featured');
   }
@@ -123,7 +119,7 @@ function buildPostCard(post, index, navPagesPromise) {
   if (classes.includes('featured')) {
     picMedia = [{ media: '(min-width: 900px)', width: '1200' }, { width: '600' }];
   }
-  const pic = createOptimizedPicture(post.image, '', false, picMedia);
+  const pic = createOptimizedPicture(post.image, '', index === 0, picMedia);
   const { topic, subtopic } = post;
   let topicText = topic;
   if (subtopic && subtopic !== '0') {
@@ -146,18 +142,21 @@ function buildPostCard(post, index, navPagesPromise) {
     postCard.querySelector('.post-card-text').insertAdjacentHTML('beforeend', `<p class="card-read"><span class="icon icon-clock"></span>${post.readtime}</p>`);
   }
 
-  navPagesPromise.then((navPages) => {
-    const topicLink = getTopicLink(post, navPages);
+  const topicLinkPromise = getTopicLink(post);
+  topicLinkPromise.then((topicLink) => {
     if (topicLink) {
-      postCard.querySelector('.card-topic').replaceChild(topicLink, postCard.querySelector('.card-topic .topic-text'));
-    }
-    const authorLink = getAuthorLink(post, navPages);
-    if (authorLink) {
-      postCard.querySelector('.card-author').replaceChild(authorLink, postCard.querySelector('.card-author .author-text'));
+      postCard.querySelector('.card-topic .topic-text').replaceWith(topicLink);
     }
   });
 
-  const tagsLinks = getTagsLinks(post);
+  const authorLinkPromise = getAuthorLink(post);
+  authorLinkPromise.then((authorLink) => {
+    if (authorLink) {
+      postCard.querySelector('.card-author .author-text').replaceWith(authorLink);
+    }
+  });
+
+  const tagsLinks = await getTagsLinks(post);
   if (tagsLinks) {
     postCard.querySelector('.post-card-text').append(tagsLinks);
   }
@@ -169,30 +168,23 @@ function buildPostCard(post, index, navPagesPromise) {
 async function loadPage(grid) {
   const { filter } = grid.dataset;
   const limit = Number(grid.dataset.limit);
-  let posts = await getPosts(filter, limit);
-  const loadMoreThreshold = limit > 0 && limit < pageSize ? limit : pageSize;
-  while (posts.length < loadMoreThreshold && !window.keysight.postData.allLoaded) {
-    // eslint-disable-next-line no-await-in-loop
-    await loadPosts(true);
-    // eslint-disable-next-line no-await-in-loop
-    posts = await getPosts(filter, limit);
-  }
   let counter = Number(grid.dataset.loadedCount);
+  if (limit > 0 && counter >= limit) {
+    return;
+  }
+  const end = limit > 0 ? (limit + counter) : (pageSize + counter);
+  const postsGenerator = getPostsFfetch()
+    .filter(filterPosts(filter))
+    .slice(counter, end);
+
   const hasCta = grid.dataset.hasCta === 'true';
-  const navPages = getNavPages();
-  for (let i = 0;
-    counter < posts.length && i < pageSize && (limit < 0 || counter < limit);
-    i += 1) {
-    const postCard = buildPostCard(posts[counter], hasCta ? counter + 1 : counter, navPages);
+  // eslint-disable-next-line no-restricted-syntax
+  for await (const post of postsGenerator) {
+    const postCard = await buildPostCard(post, hasCta ? counter + 1 : counter);
     grid.append(postCard);
     counter += 1;
   }
   grid.dataset.loadedCount = counter;
-
-  // if we get within 50 of the end, load more
-  if ((counter + 50) >= posts.length) {
-    await loadPosts(true);
-  }
 }
 
 function showPage(grid) {
@@ -204,7 +196,7 @@ function showPage(grid) {
   }
 }
 
-async function loadBlock(block) {
+async function loadPostCards(block) {
   const grid = block.querySelector('.post-cards-grid');
   const moreContainer = block.querySelector('.show-more-cards-container');
 
@@ -221,7 +213,7 @@ async function loadBlock(block) {
       decorateBlock(fragmentBlock);
       grid.dataset.hasCta = true;
       grid.append(ctaPostCard);
-      loadExtBlock(fragmentBlock);
+      loadBlock(fragmentBlock);
     }
   }
   // load the first 2 pages, show 1
@@ -233,7 +225,7 @@ async function loadBlock(block) {
   // post a message indicating cards are loaded, this triggers the tags block to load
   // see comment there for more details
   block.dataset.postsLoaded = 'true';
-  window.postMessage({ postCardsLoaded: true }, window.location.origin);
+  window.postMessage({ postCardsLoaded: true }, getOrigin());
 }
 
 /**
@@ -241,7 +233,6 @@ async function loadBlock(block) {
  * @param {Element} block The featured posts block element
  */
 export default function decorate(block) {
-  const isAnAuthorPage = getMetadata('template') === 'author';
   if (isAnAuthorPage) pageSize = 9;
   const conf = readBlockConfig(block);
   const { limit, filter } = conf;
@@ -272,7 +263,7 @@ export default function decorate(block) {
   const observer = new IntersectionObserver((entries) => {
     if (entries.some((e) => e.isIntersecting)) {
       observer.disconnect();
-      loadBlock(block);
+      loadPostCards(block);
     }
   }, { rootMargin: '100px' });
   if (getMetadata('template') === 'post') {

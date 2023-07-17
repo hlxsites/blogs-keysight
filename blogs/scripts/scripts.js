@@ -1,3 +1,4 @@
+import ffetch from './ffetch.js';
 import {
   sampleRUM,
   buildBlock,
@@ -14,28 +15,24 @@ import {
   loadCSS,
   fetchPlaceholders,
   createOptimizedPicture,
+  decorateBlock,
+  loadBlock,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = ['hero', 'featured-posts']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
-window.keysight = window.keysight || {};
-window.keysight.postData = window.keysight.postData || {
-  posts: [],
-  offset: 0,
-  allLoaded: false,
-};
-window.keysight.navPages = window.keysight.navPages || [];
-const PRODUCTION_DOMAINS = ['www.keysight.com', 'stgwww.keysight.com'];
-const PRODUCTION_PATHS = ['/blogs/'];
+export const PRODUCTION_DOMAINS = ['www.keysight.com', 'stgwww.keysight.com'];
+export const PRODUCTION_PATHS = ['/blogs/'];
 
 /**
  * Create an element with the given id and classes.
  * @param {string} tagName the tag
  * @param {string[]|string} classes the class or classes to add
  * @param {object} props any other attributes to add to the element
+ * @param {string|Element} html content to add
  * @returns the element
  */
-export function createElement(tagName, classes, props) {
+export function createElement(tagName, classes, props, html) {
   const elem = document.createElement(tagName);
   if (classes) {
     const classesArr = (typeof classes === 'string') ? [classes] : classes;
@@ -45,6 +42,21 @@ export function createElement(tagName, classes, props) {
     Object.keys(props).forEach((propName) => {
       elem.setAttribute(propName, props[propName]);
     });
+  }
+  if (html) {
+    const appendEl = (el) => {
+      if (el instanceof HTMLElement || el instanceof SVGElement) {
+        elem.append(el);
+      } else {
+        elem.insertAdjacentHTML('beforeend', el);
+      }
+    };
+
+    if (Array.isArray(html)) {
+      html.forEach(appendEl);
+    } else {
+      appendEl(html);
+    }
   }
 
   return elem;
@@ -120,46 +132,6 @@ export function wrapImgInLink(pic) {
 }
 
 /**
- * loads more data from the query index
- * */
-async function loadMorePosts() {
-  if (!window.keysight.postData.allLoaded) {
-    const queryLimit = 500;
-    /*
-      console.trace();
-      console
-      .log(`loading posts with offset ${window.keysight.postData.offset} and limit ${queryLimit}`);
-    */
-    const resp = await fetch(`/blogs/query-index.json?limit=${queryLimit}&offset=${window.keysight.postData.offset}`);
-    const json = await resp.json();
-    const { total, data } = json;
-    window.keysight.postData.posts.push(...data);
-    window.keysight.postData.allLoaded = total <= (window.keysight.postData.offset + queryLimit);
-    window.keysight.postData.offset += queryLimit;
-  }
-}
-
-export async function getNavPages() {
-  if (window.keysight.navPages.length === 0) {
-    let allLoaded = false;
-    const queryLimit = 1000;
-    let offset = 0;
-    while (!allLoaded) {
-      // eslint-disable-next-line no-await-in-loop
-      const resp = await fetch(`/blogs/query-index.json?sheet=nav&limit=${queryLimit}&offset=${offset}`);
-      // eslint-disable-next-line no-await-in-loop
-      const json = await resp.json();
-      const { total, data } = json;
-      window.keysight.navPages.push(...data);
-      allLoaded = total <= (offset + queryLimit);
-      offset += queryLimit;
-    }
-  }
-
-  return window.keysight.navPages;
-}
-
-/**
  * forward looking *.metadata.json experiment
  * fetches metadata.json of page
  * @param {path} path to *.metadata.json
@@ -200,17 +172,6 @@ export async function getMetadataJson(path) {
 }
 
 /**
- * @param {boolean} more indicates to force loading additional data from query index
- * @returns the currently loaded listed of posts from the query index pages
- */
-export async function loadPosts(more) {
-  if (window.keysight.postData.posts.length === 0 || more) {
-    await loadMorePosts();
-  }
-  return window.keysight.postData.posts;
-}
-
-/**
  * split the tags string into a string array
  * @param {string} tags the tags string from query index
  */
@@ -222,75 +183,31 @@ export function splitTags(tags) {
 }
 
 /**
- * A function for sorting an array of posts according to what is most cloesely related
+ * get the blog posts via ffetch
+ * @returns an ffetch generator, which can then be filtered, sliced, etc.
  */
-function sortRelatedPosts(postA, postB) {
-  let postAScore = 0;
-  let postBScore = 0;
+export function getPostsFfetch() {
+  const posts = ffetch('/blogs/query-index.json')
+    .chunks(500)
+    .filter((page) => page.template === 'post')
+    .map((p) => {
+      if (p.image.includes('/default-meta-image')) {
+        p.image = '/blogs/generic-post-image.jpg?width=1200&format=pjpg&optimize=medium';
+      }
+      return p;
+    });
 
-  const tags = getMetadata('article:tag');
-  if (tags) {
-    const postATags = splitTags(postA.tags);
-    if (postATags.length > 0) {
-      const commonTags = tags.split(',').filter((tag) => postATags.includes(tag));
-      postAScore += commonTags.length;
-    }
-
-    const postBTags = splitTags(postB.tags);
-    if (postBTags.length > 0) {
-      const commonTags = tags.split(',').filter((tag) => postBTags.includes(tag));
-      postBScore += commonTags.length;
-    }
-  }
-
-  // calc result
-  const result = postBScore - postAScore;
-  if (result === 0) {
-    // if they have the same score, sort by date
-    const aDate = Number(postA.date);
-    const bDate = Number(postB.date);
-    return bDate - aDate;
-  }
-
-  return result;
+  return posts;
 }
 
-/**
- * A function for sorting an array of posts by date
- */
-function sortPostsByDate(postA, postB) {
-  const aDate = Number(postA.date || postA.lastModified);
-  const bDate = Number(postB.date || postB.lastModified);
-  return bDate - aDate;
-}
-
-/**
- * Get the list of blog posts from the query index. Posts are auto-filtered based on page context
- * e.g topic, sub-topic, tags, etc. and sorted by date
- *
- * @param {string} filter the name of the filter to apply
- * one of: topic, subtopic, author, tag, post, auto, none
- * @param {number} limit the number of posts to return, or -1 for no limit
- * @returns the posts as an array
- */
-export async function getPosts(filter, limit) {
-  const pages = await loadPosts();
-  // filter out anything that isn't a blog post (eg. must have an author)
-  let finalPosts;
-  const allPosts = pages.filter((page) => page.template === 'post').map((p) => {
-    if (p.image.includes('/default-meta-image')) {
-      p.image = '/blogs/generic-post-image.jpg?width=1200&format=pjpg&optimize=medium';
-    }
-
-    return p;
-  });
+function getApplicableFilter(filterName) {
+  let applicableFilter = filterName ? filterName.toLowerCase() : 'none';
   const topic = getMetadata('topic');
   const subTopic = getMetadata('subtopic');
   const url = new URL(window.location);
   const params = url.searchParams;
   const tag = params.get('tag');
   const template = getMetadata('template');
-  let applicableFilter = filter ? filter.toLowerCase() : 'none';
   if (applicableFilter === 'auto') {
     if (tag) {
       applicableFilter = 'tag';
@@ -307,37 +224,54 @@ export async function getPosts(filter, limit) {
     }
   }
 
-  if (applicableFilter === 'post') {
-    finalPosts = allPosts
-      .filter((post) => post.path !== window.location.pathname)
-      .sort(sortRelatedPosts);
-  } else {
-    // first filter out anything with no-index
-    finalPosts = allPosts.filter((post) => {
-      let matches = true;
-      if (applicableFilter === 'topic') {
-        matches = topic === post.topic;
-      }
-      if (applicableFilter === 'subtopic') {
-        matches = topic === post.topic && subTopic === post.subtopic;
-      }
-      if (applicableFilter === 'author') {
-        // on author pages the author name is the title
-        const author = getMetadata('originalTitle');
-        matches = author === post.author;
-      }
-      if (applicableFilter === 'tag') {
-        // used for the tag-matches page, where tag is passed in a query param
-        const postTags = splitTags(post.tags);
-        if (tag) {
-          matches = postTags.includes(tag);
-        }
-      }
-      return matches;
-    }).sort(sortPostsByDate);
-  }
+  return applicableFilter;
+}
 
-  return limit < 0 ? finalPosts : finalPosts.slice(0, limit);
+/**
+ * get a function to use for filtering posts. To be used in conjunction with
+ * getPostsFfetch()
+ * @param {string} filterName the name of the filter to apply
+ * @returns {function} a function for filtering posts based on the filter name
+ */
+export function filterPosts(filterName) {
+  const applicableFilter = getApplicableFilter(filterName);
+  const filterFunc = (post) => {
+    if (applicableFilter === 'post') {
+      const isDiffPath = post.path !== window.location.pathname;
+      const tags = getMetadata('article:tag');
+      const postTags = splitTags(post.tags);
+      const hasCommonTags = tags.split(', ').some((tag) => postTags.includes(tag));
+      return isDiffPath && hasCommonTags;
+    }
+
+    const topic = getMetadata('topic');
+    const subTopic = getMetadata('subtopic');
+    const url = new URL(window.location);
+    const params = url.searchParams;
+    const tag = params.get('tag');
+    let matches = true;
+    if (applicableFilter === 'topic') {
+      matches = topic === post.topic;
+    }
+    if (applicableFilter === 'subtopic') {
+      matches = topic === post.topic && subTopic === post.subtopic;
+    }
+    if (applicableFilter === 'author') {
+      // on author pages the author name is the title
+      const author = getMetadata('originalTitle');
+      matches = author.toLowerCase() === post.author.toLowerCase();
+    }
+    if (applicableFilter === 'tag') {
+      // used for the tag-matches page, where tag is passed in a query param
+      const postTags = splitTags(post.tags);
+      if (tag) {
+        matches = postTags.includes(tag);
+      }
+    }
+    return matches;
+  };
+
+  return filterFunc;
 }
 
 function findImageCaption(img) {
@@ -384,18 +318,10 @@ function buildHeroBlock(main) {
     const h1Section = h1.closest('div');
     if (h1Section === section) {
       elems.push(h1);
-      const desc = h1.parentElement.querySelector('h1 + p');
-      if (desc) {
-        elems.push(desc);
-        const buttons = h1.parentElement.querySelector('h1 + p + .button-container');
-        if (buttons) {
-          elems.push(buttons);
-        }
-      } else {
-        const buttons = h1.parentElement.querySelector('h1 + .button-container');
-        if (buttons) {
-          elems.push(buttons);
-        }
+      let nextSib = h1.nextElementSibling;
+      while (nextSib && (nextSib.tagName === 'P' || nextSib.classList.contains('button-container'))) {
+        elems.push(nextSib);
+        nextSib = nextSib.nextElementSibling;
       }
     }
     section.append(buildBlock('hero', { elems }));
@@ -450,6 +376,25 @@ export function decorateLinks(element) {
 }
 
 /**
+ * Decorate links that end with -block-modal to open a modal window
+ * @param {Element} main The main element
+ */
+function decorateModalLinks(main) {
+  async function openBModal(event) {
+    event.preventDefault();
+    const module = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
+    if (module.showModal) {
+      await module.showModal(event.target);
+    }
+  }
+  main.querySelectorAll('a[href*="modal"]').forEach((a) => {
+    if (a.href.endsWith('-block-modal')) {
+      a.addEventListener('click', openBModal);
+    }
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -464,6 +409,7 @@ export function decorateMain(main, isFragment) {
   }
   decorateSections(main);
   decorateBlocks(main);
+  decorateModalLinks(main);
 }
 
 async function loadTemplate(doc, templateName) {
@@ -516,7 +462,7 @@ export function addFavIcon(href) {
   link.href = href;
   const existingLink = document.querySelector('head link[rel="icon"]');
   if (existingLink) {
-    existingLink.parentElement.replaceChild(link, existingLink);
+    existingLink.replaceWith(link);
   } else {
     document.getElementsByTagName('head')[0].appendChild(link);
   }
@@ -607,6 +553,31 @@ async function loadLazy(doc) {
   sampleRUM.observe(main.querySelectorAll('picture > img'));
 }
 
+function initSidekick() {
+  let sk = document.querySelector('helix-sidekick');
+  const preflightEventListener = () => {
+    const pfModel = document.querySelector('#preflight-dialog');
+    if (!pfModel) {
+      const pf = buildBlock('preflight', '');
+      document.querySelector('main').append(pf);
+      decorateBlock(pf);
+      loadBlock(pf);
+    } else {
+      window.postMessage({ preflightInit: true }, window.location.origin);
+    }
+  };
+
+  if (sk) {
+    sk.addEventListener('custom:preflight', preflightEventListener);
+  } else {
+    // wait for sidekick to be loaded
+    document.addEventListener('helix-sidekick-ready', () => {
+      sk = document.querySelector('helix-sidekick');
+      sk.addEventListener('custom:preflight', preflightEventListener);
+    }, { once: true });
+  }
+}
+
 /**
  * loads everything that happens a lot later, without impacting
  * the user experience.
@@ -625,6 +596,8 @@ function loadDelayed() {
       loadScript(delayedScript, 'module');
     }, ms);
   }
+
+  initSidekick();
 }
 
 async function loadPage() {

@@ -1,6 +1,6 @@
 import ffetch from '../../scripts/ffetch.js';
 import { getMetadataJson } from '../../scripts/scripts.js';
-import { createOptimizedPicture, getMetadata } from '../../scripts/lib-franklin.js';
+import { createOptimizedPicture, getMetadata, getOrigin } from '../../scripts/lib-franklin.js';
 
 function buildPost(isPlaceholder, entry) {
   return `
@@ -20,7 +20,7 @@ function buildPost(isPlaceholder, entry) {
  * @param {Element} block The featured posts block element
  */
 export default async function decorate(block) {
-  const indexUrl = new URL('/blogs/query-index.json', window.location.origin);
+  const indexUrl = new URL('/blogs/query-index.json', getOrigin());
   const postsGrid = block.querySelector('div');
   postsGrid.classList.add('featured-posts-grid');
 

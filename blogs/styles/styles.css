@@ -18,13 +18,12 @@
   --color-off-white: #f5f5f5;
   --color-gray-100: #edecee;
   --color-gray-200: #dbd9dd;
-  --color-gray-300: #524f56;
-  --color-gray-300-tranparent: #524f561A;
+  --color-gray-300: #a5a5a5;
   --color-gray-400: #595959;
-  --color-gray-500: #262626;
-  --color-gray-600: #a5a5a5;
-  --color-gray-700: #4A4B4A;
-  --color-gray-800: #c8c6cb;
+  --color-gray-500: #524f56;
+  --color-gray-500-tranparent: #524f561A;
+  --color-gray-600: #4A4B4A;
+  --color-gray-700: #262626;
   --color-red: #e90029;
   --color-dark-red: #740014;
   --background-color: var(--color-off-white);
@@ -99,7 +98,7 @@ h1, h2, h3, h4, h5, h6, .heading {
 }
 
 .default-content-wrapper > :is(h1, h2, h3, h4, h5, h6, .heading) {
-  color: var(--color-gray-500)
+  color: var(--color-gray-700)
 }
 
 h1, .heading-h1 { font-size: var(--heading-font-size-l); }
@@ -171,7 +170,7 @@ a.button.secondary, button.secondary {
 } 
 
 a.button.secondary:is(:hover, :focus), button.secondary:is(:hover, :focus) {
-  background-color: var(--color-gray-300);
+  background-color: var(--color-gray-500);
 }
 
 .icon {

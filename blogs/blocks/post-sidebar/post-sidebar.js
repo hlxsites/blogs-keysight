@@ -8,8 +8,9 @@ import {
 } from '../../scripts/lib-franklin.js';
 import {
   createElement,
-  getNavPages,
 } from '../../scripts/scripts.js';
+import ffetch from '../../scripts/ffetch.js';
+import { validateTags } from '../../scripts/taxonomy.js';
 
 const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
 const tags = getMetadata('article:tag').split(', ');
@@ -27,12 +28,13 @@ async function buildCta(sidebar) {
   }
 }
 
-function buildTags(sidebar) {
+async function buildTags(sidebar) {
   if (getMetadata('article:tag') !== '') {
+    const [validTags] = await validateTags(tags);
     const tagsContainer = createElement('div', 'tags-container');
     const list = createElement('ul', 'tags-list');
     tagsContainer.append(list);
-    tags.forEach((tag) => {
+    validTags.forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
       link.innerHTML = `<span class="tag-name">#${tag}</span>`;
@@ -73,6 +75,7 @@ function buildSocial(sidebar) {
   for (let i = 0; i < socialIcons.length; i += 1) {
     const link = createElement('a');
     link.target = '_blank';
+    link.title = `Share to ${socialIcons[i]}`;
     link.innerHTML = `<span class="icon icon-${socialIcons[i]}"></span>`;
     link.href = getSocialLinks(socialIcons[i], url, title);
     social.appendChild(link);
@@ -86,9 +89,9 @@ export default async function decorate(block) {
   let authorName;
   let authorTitle;
   let authorUrl;
-  const navPages = await getNavPages();
+  const authorPage = await ffetch('/blogs/query-index.json').sheet('nav')
+    .filter((page) => page.title.toLowerCase() === getMetadata('author')?.toLowerCase()).first();
 
-  const authorPage = navPages.find((page) => page.title.toLowerCase() === getMetadata('author')?.toLowerCase());
   if (authorPage) {
     authorImage = authorPage.image;
     authorName = authorPage.title;
@@ -104,14 +107,14 @@ export default async function decorate(block) {
   let picHtml = '<span class="icon icon-user"></span>';
   if (!authorImage.includes('/default-meta-image')) {
     const picMedia = [{ media: '(min-width: 160px)', width: '160' }];
-    const pic = createOptimizedPicture(authorImage, '', false, picMedia);
+    const pic = createOptimizedPicture(authorImage, `Author Image for ${authorName}`, false, picMedia);
     picHtml = pic.outerHTML;
   }
 
   block.innerHTML = `<a class="author-image" href="${authorUrl}">${picHtml}</a>
     <div class="author-details">
-      <h3 class="author-name"><a href="${authorUrl}">${authorName}</a></h3>
-      <h4 class="author-title">${authorTitle}</h4>
+      <h2 class="author-name"><a href="${authorUrl}">${authorName}</a></h2>
+      <h3 class="author-title">${authorTitle}</h3>
     </div>`;
   buildSocial(block);
   buildTags(block);
