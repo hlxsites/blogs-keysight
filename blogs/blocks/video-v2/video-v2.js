@@ -249,14 +249,14 @@ async function renderVideo(block, source, autoplay) {
   if (typeof videojs === 'function') {
     playerReady(`video-${videoIdx}`, block);
   } else {
-    loadScript(`${window.hlx.codeBasePath}/blocks/video-js/videojs/video-8.3.0.min.js`, 'text/javascript', () => {
+    loadScript(`${window.hlx.codeBasePath}/blocks/video-v2/videojs/video-8.3.0.min.js`, 'text/javascript', () => {
       playerReady(`video-${videoIdx}`, block);
     });
   }
 }
 
 export default async function decorate(block) {
-  loadScript(`${window.hlx.codeBasePath}/blocks/video-js/video-globals.js`, 'text/javascript', () => {
+  loadScript(`${window.hlx.codeBasePath}/blocks/video-v2/video-globals.js`, 'text/javascript', () => {
     loadScript(Keysight.EloquaScript, 'text/javascript', () => {
       _elqQ.push(['elqDataLookup', escape(Keysight.LookupIdVisitor), '']);
     });
