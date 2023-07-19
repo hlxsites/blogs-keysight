@@ -1,32 +1,46 @@
 .modal-dialog {
-  border-radius: 8px;
   border: 0;
   width: 95%;
   max-width: 670px;
+  background: transparent;
 }
 
-.modal-dialog .dialog-header {
+.modal-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-dialog-wrapper {
+  border-radius: 8px;
+  background: var(--background-color);
   position: relative;
+  padding: 8px;
 }
 
 .modal-dialog .dialog-header .dialog-close {
   position: absolute;
-  height: 22px;
-  width: 22px;
-  right: 0;
+  height: 32px;
+  width: 32px;
+  right: -16px;
+  top: -16px;
   cursor: pointer;
+  background-color: var(--color-gray-700);
+  border: 2px solid var(--color-gray-100);
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5)
 }
 
 .modal-dialog .dialog-header .dialog-close::before,
 .modal-dialog .dialog-header .dialog-close::after {
   content: '';
   position: absolute;
-  right: 2rem;
+  right: 12px;
+  top: 6px;
   width: 3px;
-  height: 22px;
+  height: 16px;
   display: inline-block;
-  background-color: var(--color-red);
+  background-color: var(--color-gray-100);
   rotate: 225deg;
+  border-radius: 2px;
 }
 
 .modal-dialog .dialog-header .dialog-close::before {

@@ -66,6 +66,8 @@ main .embed .embed-placeholder-play button::before {
 
 main .embed.embed-eloqua {
   max-width: 1400px;
+  margin: 0;
+  padding: 0;
 }
 
 main .embed.embed-eloqua iframe {
