@@ -15,13 +15,15 @@ export default async function decorate(block) {
     if (fragment) {
       const modalId = block.dataset.modalId || `modal-block-${idx}`;
       const dialog = createElement('dialog', 'modal-dialog', { id: modalId });
-      dialog.append(...fragment.children);
+      const dialogWrapper = createElement('div', 'modal-dialog-wrapper');
+      dialog.append(dialogWrapper);
+      dialogWrapper.append(...fragment.children);
       block.innerHTML = '';
       block.append(dialog);
-      dialog.insertAdjacentHTML('afterbegin', `<div class="dialog-header">
+      dialogWrapper.insertAdjacentHTML('afterbegin', `<div class="dialog-header">
         <span class="dialog-close"></span>
       </div>`);
-      dialog.querySelector('.dialog-close').addEventListener('click', () => {
+      dialogWrapper.querySelector('.dialog-close').addEventListener('click', () => {
         dialog.close();
       });
     }
@@ -34,7 +36,7 @@ window.addEventListener('message', (msg) => {
     const dialogToShow = document.querySelector(`dialog#${modalId}`);
     if (dialogToShow) {
       dialogToShow.showModal();
-      addOutsideClickListener(dialogToShow, () => {
+      addOutsideClickListener(dialogToShow.querySelector('.modal-dialog-wrapper'), () => {
         dialogToShow.close();
       });
     }
