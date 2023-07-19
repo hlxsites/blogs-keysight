@@ -1,5 +1,5 @@
 import { loadFragment } from '../fragment/fragment.js';
-import { createElement } from '../../scripts/scripts.js';
+import { createElement, addOutsideClickListener } from '../../scripts/scripts.js';
 
 let idx = 0;
 /**
@@ -34,6 +34,9 @@ window.addEventListener('message', (msg) => {
     const dialogToShow = document.querySelector(`dialog#${modalId}`);
     if (dialogToShow) {
       dialogToShow.showModal();
+      addOutsideClickListener(dialogToShow, () => {
+        dialogToShow.close();
+      });
     }
   }
 });
