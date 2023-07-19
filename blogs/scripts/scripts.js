@@ -59,22 +59,6 @@ export function createElement(tagName, classes, props, html) {
     }
   }
 
-  if (html) {
-    const appendEl = (el) => {
-      if (el instanceof HTMLElement || el instanceof SVGElement) {
-        elem.append(el);
-      } else {
-        elem.insertAdjacentHTML('beforeend', el);
-      }
-    };
-
-    if (Array.isArray(html)) {
-      html.forEach(appendEl);
-    } else {
-      appendEl(html);
-    }
-  }
-
   return elem;
 }
 
