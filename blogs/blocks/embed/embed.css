@@ -71,6 +71,7 @@ main .embed.embed-eloqua {
 main .embed.embed-eloqua iframe {
   border: 0;
   width: 100%;
-  height: 500px;
+  max-height: 640px;
+  height: 600px;
   overflow-y: scroll;
 }
