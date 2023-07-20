@@ -202,7 +202,7 @@ async function loadPostCards(block) {
 
   if (getMetadata('template') !== 'post') {
     // if not a blog post, check if we have a cta to load
-    const ctaPath = getMetadata('cta');
+    const ctaPath = ''; // getMetadata('cta');
     if (ctaPath) {
       const relLink = new URL(ctaPath).pathname;
       const link = createElement('a');
