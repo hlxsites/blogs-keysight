@@ -24,6 +24,7 @@ export default async function decorate(block) {
         <span class="dialog-close"></span>
       </div>`);
       dialogWrapper.querySelector('.dialog-close').addEventListener('click', () => {
+        document.body.style.overflowY = '';
         dialog.close();
       });
     }
@@ -36,7 +37,9 @@ window.addEventListener('message', (msg) => {
     const dialogToShow = document.querySelector(`dialog#${modalId}`);
     if (dialogToShow) {
       dialogToShow.showModal();
+      document.body.style.overflowY = 'hidden';
       addOutsideClickListener(dialogToShow.querySelector('.modal-dialog-wrapper'), () => {
+        document.body.style.overflowY = '';
         dialogToShow.close();
       });
     }
