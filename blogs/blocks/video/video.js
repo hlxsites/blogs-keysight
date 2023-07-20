@@ -178,18 +178,25 @@ function playerReady(id, block) {
   });
 }
 
-async function renderVideo(block, source, autoplay) {
+async function renderVideo(block, source, pic) {
   videoIdx += 1;
-  // todo custom player events
+  let preload = 'auto';
+  let poster = '';
+  if (pic) {
+    preload = 'none';
+    const img = pic.querySelector('img');
+    poster = img.currentSrc || img.src;
+  }
+
   const playerSetup = {
     controls: true,
     fluid: true,
-    preload: 'auto',
+    preload,
     playsinline: 'playsinline',
     playbackRates: [0.5, 1, 1.5, 2],
-    autoplay,
+    autoplay: false,
     muted: false,
-    poster: '',
+    poster,
     audioOnlyMode: false,
     liveui: false,
     loop: false,
@@ -267,23 +274,13 @@ export default async function decorate(block) {
     const source = a.href;
     const pic = block.querySelector('picture');
     block.innerHTML = '';
-    if (pic) {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'video-placeholder';
-      wrapper.innerHTML = '<div class="video-placeholder-play"><button title="Play"></button></div>';
-      wrapper.prepend(pic);
-      wrapper.addEventListener('click', () => {
-        renderVideo(block, source, true);
-      });
-      block.append(wrapper);
-    } else {
-      const observer = new IntersectionObserver((entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          observer.disconnect();
-          renderVideo(block, source, false);
-        }
-      });
-      observer.observe(block);
-    }
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        observer.disconnect();
+        renderVideo(block, source, pic);
+      }
+    });
+    observer.observe(block);
   }
 }
