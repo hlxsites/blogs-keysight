@@ -72,6 +72,7 @@ export async function validateTags(tagsArray) {
       if (allowedTags.includes(toClassName(tag))) {
         validTags.push(tag);
       } else {
+        // eslint-disable-next-line no-console
         console.warn('Tag warning:', tag); // warn for tag cleanup
         invalidTags.push(tag);
       }
