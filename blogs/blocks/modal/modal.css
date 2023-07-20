@@ -6,7 +6,7 @@
 }
 
 .modal-dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0 0 0 / 50%);
 }
 
 .modal-dialog-wrapper {
@@ -26,7 +26,7 @@
   background-color: var(--color-gray-700);
   border: 2px solid var(--color-gray-100);
   border-radius: 50%;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5)
+  box-shadow: 0 0 4px rgba(0 0 0 / 50%);
 }
 
 .modal-dialog .dialog-header .dialog-close::before,

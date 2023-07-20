@@ -9,13 +9,11 @@ import {
   readBlockConfig,
   decorateIcons,
   getMetadata,
-  decorateBlock,
-  loadBlock,
-  buildBlock,
   getOrigin,
 } from '../../scripts/lib-franklin.js';
 import ffetch from '../../scripts/ffetch.js';
 import { validateTags } from '../../scripts/taxonomy.js';
+import { buildCta } from '../post-sidebar/post-sidebar.js';
 
 let pageSize = 7;
 const isAnAuthorPage = getMetadata('template') === 'author';
@@ -202,18 +200,13 @@ async function loadPostCards(block) {
 
   if (getMetadata('template') !== 'post') {
     // if not a blog post, check if we have a cta to load
-    const ctaPath = ''; // getMetadata('cta');
-    if (ctaPath) {
-      const relLink = new URL(ctaPath).pathname;
-      const link = createElement('a');
-      link.href = relLink;
-      const fragmentBlock = buildBlock('fragment', [['Source', link]]);
-      const ctaPostCard = createElement('div', ['post-card', 'hidden']);
-      ctaPostCard.append(fragmentBlock);
-      decorateBlock(fragmentBlock);
+    const ctaPostCard = createElement('div', ['post-card', 'hidden']);
+    grid.append(ctaPostCard);
+    const cta = await buildCta(ctaPostCard);
+    if (cta) {
       grid.dataset.hasCta = true;
-      grid.append(ctaPostCard);
-      loadBlock(fragmentBlock);
+    } else {
+      ctaPostCard.remove();
     }
   }
   // load the first 2 pages, show 1

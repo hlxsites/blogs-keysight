@@ -15,17 +15,21 @@ import { validateTags } from '../../scripts/taxonomy.js';
 const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
 const tags = getMetadata('article:tag').split(', ');
 
-async function buildCta(sidebar) {
-  const ctaPath = ''; // getMetadata('cta');
+export async function buildCta(container) {
+  const ctaPath = getMetadata('cta');
   if (ctaPath) {
     const relLink = new URL(ctaPath).pathname;
     const link = createElement('a');
     link.href = relLink;
     const fragmentBlock = buildBlock('fragment', [['Source', link]]);
-    sidebar.append(fragmentBlock);
+    container.append(fragmentBlock);
     decorateBlock(fragmentBlock);
     await loadBlock(fragmentBlock);
+
+    return fragmentBlock;
   }
+
+  return null;
 }
 
 async function buildTags(sidebar) {
