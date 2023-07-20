@@ -200,7 +200,7 @@ async function loadPostCards(block) {
 
   if (getMetadata('template') !== 'post') {
     // if not a blog post, check if we have a cta to load
-    const ctaPostCard = createElement('div', ['post-card', 'hidden']);
+    const ctaPostCard = createElement('div', ['post-card', 'cta-post-card', 'hidden']);
     const ctaContainer = createElement('div');
     ctaPostCard.append(ctaContainer);
     grid.append(ctaPostCard);
