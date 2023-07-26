@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-07-24T00:00:00.000Z</updated>
+    <updated>2023-07-25T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[GravityRAT Analysis: Into the malware Targeting Android]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/25/android-gravityrat-malware-analysis</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/25/android-gravityrat-malware-analysis"/>
+        <updated>2023-07-25T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blogs looks in the GravityRAT android malware from the source code and network communication point of view.]]></content>
+        <published>2023-07-25T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Reimagine Your In-Vehicle Infotainment (IVI) Systems with Intelligent Testing]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/7/24/reimagine-in-vehicle-infotainment-intelligent-testing</id>
