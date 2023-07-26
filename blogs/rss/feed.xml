@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-07-25T00:00:00.000Z</updated>
+    <updated>2023-07-26T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Vulnerability Prioritization from the perspective of a Test Vendor.]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/26/cve-priotization-from-tester-perspective</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/26/cve-priotization-from-tester-perspective"/>
+        <updated>2023-07-26T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blog talks about how vulnerability prioritization can take place and what various factors are involved in the decision-making process.]]></content>
+        <published>2023-07-26T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[GravityRAT Analysis: Into the malware Targeting Android]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/25/android-gravityrat-malware-analysis</id>
@@ -10772,14 +10780,6 @@
         <link href="https://www.keysight.com/blogs/blogs/post-template"/>
         <updated>1970-01-01T00:00:00.000Z</updated>
         <content type="html"><![CDATA[<post description, used for cards>]]></content>
-        <published>1970-01-01T00:00:00.000Z</published>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Vulnerability Prioritization from the perspective of a Test Vendor.]]></title>
-        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/26/cve-priotization-from-tester-perspective</id>
-        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/26/cve-priotization-from-tester-perspective"/>
-        <updated>1970-01-01T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[This blog talks about how vulnerability prioritization can take place and what various factors are involved in the decision-making process.]]></content>
         <published>1970-01-01T00:00:00.000Z</published>
     </entry>
 </feed>
