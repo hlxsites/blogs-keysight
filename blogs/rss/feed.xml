@@ -10774,4 +10774,12 @@
         <content type="html"><![CDATA[<post description, used for cards>]]></content>
         <published>1970-01-01T00:00:00.000Z</published>
     </entry>
+    <entry>
+        <title type="html"><![CDATA[Vulnerability Prioritization from the perspective of a Test Vendor.]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/26/cve-priotization-from-tester-perspective</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/26/cve-priotization-from-tester-perspective"/>
+        <updated>1970-01-01T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blog talks about how vulnerability prioritization can take place and what various factors are involved in the decision-making process.]]></content>
+        <published>1970-01-01T00:00:00.000Z</published>
+    </entry>
 </feed>
