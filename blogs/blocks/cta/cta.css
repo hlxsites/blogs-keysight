@@ -24,6 +24,7 @@ main .cta > div .cta-text-container {
   justify-content: center;
   flex-direction: column;
   padding: 2rem 3.5rem;
+  line-height: 1.3;
 }
 
 main .cta:not(.cta-has-image) > div .cta-text-container {
