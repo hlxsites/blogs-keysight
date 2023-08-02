@@ -122,6 +122,10 @@ span.tag .highlight {
   width: 0;
 }
 
+.hidden {
+  display: none;
+}
+
 span.psep {
   font-size: 20px;
   font-weight: bold;
