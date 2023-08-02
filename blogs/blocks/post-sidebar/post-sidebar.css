@@ -6,6 +6,11 @@
   padding-inline: 2rem;
 }
 
+
+.post-sidebar > .cta-wrapper {
+  display: none;
+}
+
 @media (min-width: 900px) {
   .post-sidebar {
     grid-template-columns: 165px minmax(0, 1fr);
@@ -24,6 +29,15 @@
   .post-sidebar > .tags-container,
   .post-sidebar > .cta-wrapper {
     grid-column: 1 / -1;
+  }
+
+  .post-sidebar > .cta-wrapper {
+    display: unset;
+    min-height: 55rem;
+  }
+
+  .post-sidebar > .cta-wrapper .cta-text-container {
+    padding: 1rem;
   }
 }
 

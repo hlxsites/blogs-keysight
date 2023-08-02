@@ -34,10 +34,12 @@ export async function buildCta(container) {
 
 async function buildTags(sidebar) {
   if (getMetadata('article:tag') !== '') {
-    const [validTags] = await validateTags(tags);
     const tagsContainer = createElement('div', 'tags-container');
     const list = createElement('ul', 'tags-list');
     tagsContainer.append(list);
+    sidebar.append(tagsContainer);
+
+    const [validTags] = await validateTags(tags);
     validTags.forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
@@ -47,7 +49,6 @@ async function buildTags(sidebar) {
       list.append(item);
     });
     tagsContainer.id = 'blogs_related_tags';
-    sidebar.append(tagsContainer);
   }
 }
 
