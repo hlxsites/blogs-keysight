@@ -115,8 +115,11 @@ span.tag .highlight {
   text-wrap: nowrap;
 }
 
-.path.filtered {
-  display: none;
+.filtered {
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  width: 0;
 }
 
 span.psep {
@@ -164,10 +167,6 @@ span.psep {
 
 .selected-tags .tag {
   font-weight: 700;
-}
-
-.hidden {
-  display: none !important;
 }
 
 .offscreen {

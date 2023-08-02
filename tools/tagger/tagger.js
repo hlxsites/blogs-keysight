@@ -80,13 +80,13 @@ function filter() {
   document.querySelectorAll('#results .category').forEach((category) => {
     const unfilteredChild = category.querySelector('.path:not(.filtered)');
     if (unfilteredChild) {
-      category.classList.remove('hidden');
+      category.classList.remove('filtered');
     } else {
-      category.classList.add('hidden');
+      category.classList.add('filtered');
     }
   });
 
-  const visibleCat = document.querySelector('#results .category:not(.hidden)');
+  const visibleCat = document.querySelector('#results .category:not(.filtered)');
   const noRes = document.querySelector('#no-results');
   if (!visibleCat) {
     noRes.style.display = 'block';
