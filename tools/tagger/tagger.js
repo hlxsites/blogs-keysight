@@ -110,7 +110,7 @@ function displaySelected() {
   if (selectedTags.length > 0) {
     selectedTags.forEach((selectedPath) => {
       const clone = selectedPath.cloneNode(true);
-      clone.classList.remove('selected');
+      clone.classList.remove('selected', 'filtered');
       clone.addEventListener('click', () => {
         toggleTag(selectedPath);
       });
