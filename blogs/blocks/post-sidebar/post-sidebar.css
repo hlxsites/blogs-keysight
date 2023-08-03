@@ -23,7 +23,6 @@
 
 .post-sidebar > .cta-wrapper .cta-text-container h2 {
   font-size: var(--body-font-size-m);
-  line-height: 1.3;
 }
 
 .post-sidebar > .cta-wrapper a.button:any-link {
