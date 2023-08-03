@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-07-26T00:00:00.000Z</updated>
+    <updated>2023-08-01T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Testing LED with PathWave Test Executive for Manufacturing]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/08/01/testingledwithptem</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/bench/2023/08/01/testingledwithptem"/>
+        <updated>2023-08-01T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[LED lighting has taken over conventional lighting as it is efficient and energy saving. Being able to controlling the lighting sequence of the product that uses the LED allows you to conduct a more realistic functionality test on it. PTEM provides the perfect platform with it’s flexiblity in customized test sequencing and a wide collection of built-in instrument libraries. PTEM also supports a popular LED analyzer module that equipped it with the capablity to measure color and brightness intensity of a LED.]]></content>
+        <published>2023-08-01T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Vulnerability Prioritization from the perspective of a Test Vendor.]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/26/cve-priotization-from-tester-perspective</id>
@@ -879,7 +887,7 @@
         <published>2023-02-17T00:00:00.000Z</published>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Key Challenges and Innovations for 800G and 1.6T Networking]]></title>
+        <title type="html"><![CDATA[800G and 1.6T Networking | Key Challenges]]></title>
         <id>https://www.keysight.com/blogs/blogs/inds/2023/02/15/key-challenges-and-innovations-for-800g-and-16t-networking</id>
         <link href="https://www.keysight.com/blogs/blogs/inds/2023/02/15/key-challenges-and-innovations-for-800g-and-16t-networking"/>
         <updated>2023-02-15T00:00:00.000Z</updated>
