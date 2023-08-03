@@ -23,7 +23,7 @@ main .cta > div .cta-text-container {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 2rem 3.5rem;
+  padding: 2.5rem;
   line-height: 1.3;
 }
 

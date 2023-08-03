@@ -27,7 +27,7 @@
 @media (min-width: 600px) {
   .post main {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    grid-template-columns: minmax(225px, 1fr) minmax(0, 3fr);
     margin: 2rem auto;
     max-width: var(--section-max-width);
     padding: unset;
