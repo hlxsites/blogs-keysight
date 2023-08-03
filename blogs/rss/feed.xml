@@ -2,10 +2,90 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-07-12T00:00:00.000Z</updated>
+    <updated>2023-08-01T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Testing LED with PathWave Test Executive for Manufacturing]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/08/01/testingledwithptem</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/bench/2023/08/01/testingledwithptem"/>
+        <updated>2023-08-01T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[LED lighting has taken over conventional lighting as it is efficient and energy saving. Being able to controlling the lighting sequence of the product that uses the LED allows you to conduct a more realistic functionality test on it. PTEM provides the perfect platform with it’s flexiblity in customized test sequencing and a wide collection of built-in instrument libraries. PTEM also supports a popular LED analyzer module that equipped it with the capablity to measure color and brightness intensity of a LED.]]></content>
+        <published>2023-08-01T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Vulnerability Prioritization from the perspective of a Test Vendor.]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/26/cve-priotization-from-tester-perspective</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/26/cve-priotization-from-tester-perspective"/>
+        <updated>2023-07-26T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blog talks about how vulnerability prioritization can take place and what various factors are involved in the decision-making process.]]></content>
+        <published>2023-07-26T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Unlocking the Potential of PLM with Automated Software Testing]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/7/26/test-automation-for-plm</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/7/26/test-automation-for-plm"/>
+        <updated>2023-07-26T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Keysight’s Eggplant is a game-changer in PLM software testing. Automate your testing process, achieve comprehensive coverage, and free up resources for customer-facing software. Unleash your PLM's full potential and maximize efficiency with Eggplant.]]></content>
+        <published>2023-07-26T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[GravityRAT Analysis: Into the malware Targeting Android]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/25/android-gravityrat-malware-analysis</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/25/android-gravityrat-malware-analysis"/>
+        <updated>2023-07-25T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blogs looks in the GravityRAT android malware from the source code and network communication point of view.]]></content>
+        <published>2023-07-25T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Reimagine Your In-Vehicle Infotainment (IVI) Systems with Intelligent Testing]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/7/24/reimagine-in-vehicle-infotainment-intelligent-testing</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/7/24/reimagine-in-vehicle-infotainment-intelligent-testing"/>
+        <updated>2023-07-24T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Get to know your drivers with an AI-powered test automation platform like Eggplant Test and deliver a new standard for IVI performance.]]></content>
+        <published>2023-07-24T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[New IoT Cybersecurity Label for Electronics Manufacturers]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/07/21/white-house-launches-iot-cybersecurity-labeling-program</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/07/21/white-house-launches-iot-cybersecurity-labeling-program"/>
+        <updated>2023-07-21T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Keysight details the 2023 White House IoT Cybersecurity Labeling Program and its effect on electronics designers and manufacturers]]></content>
+        <published>2023-07-21T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What’s Hot at Intersolar?]]></title>
+        <id>https://www.keysight.com/blogs/blogs/inds/2023/07/20/what-is-hot-at-intersolar</id>
+        <link href="https://www.keysight.com/blogs/blogs/inds/2023/07/20/what-is-hot-at-intersolar"/>
+        <updated>2023-07-20T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[The recent Intersolar 2023 show in Munich saw a confluence of EV charging and grid-connected technologies as the world gears up for greater energy efficiencies with a vehicle-to-grid (V2G) future.]]></content>
+        <published>2023-07-20T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Three Essential Questions for QA Leaders to Ask about Automated Healthcare Software Testing]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/7/18/three-essential-questions-about-automated-software-testing-in-healthcare</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/7/18/three-essential-questions-about-automated-software-testing-in-healthcare"/>
+        <updated>2023-07-18T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[How are the largest health systems bridging sofwtare testing gaps during uncertain times? Join us for a panel in which industry experts discuss viable software testing solutions for data-driven, hyperconnected healthcare.]]></content>
+        <published>2023-07-18T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[IoT – the Internet of Testing]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/07/11/iot-the-internet-of-testing</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/bench/2023/07/11/iot-the-internet-of-testing"/>
+        <updated>2023-07-17T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Learn how the Internet of Things can be broken down into the five facets of testing: connectivity, continuity, coexistence, compliance, and cybersecurity.]]></content>
+        <published>2023-07-17T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CVE-2023-2249: Wordpress Wpforo Plugin Root Cause Analysis]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/05/cve-2023-2249</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/05/cve-2023-2249"/>
+        <updated>2023-07-13T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blog does a root cause analysis of the vulnerability CVE-2023-2249 in Wordpress Wpforo Plugin and presents a proof-of-concept at the end.]]></content>
+        <published>2023-07-13T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Embrace Efficiency with Eggplant's New Git Integration]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/7/12/dai-7-0-epf-23-0-blog</id>
@@ -807,7 +887,7 @@
         <published>2023-02-17T00:00:00.000Z</published>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Key Challenges and Innovations for 800G and 1.6T Networking]]></title>
+        <title type="html"><![CDATA[800G and 1.6T Networking | Key Challenges]]></title>
         <id>https://www.keysight.com/blogs/blogs/inds/2023/02/15/key-challenges-and-innovations-for-800g-and-16t-networking</id>
         <link href="https://www.keysight.com/blogs/blogs/inds/2023/02/15/key-challenges-and-innovations-for-800g-and-16t-networking"/>
         <updated>2023-02-15T00:00:00.000Z</updated>
@@ -5887,14 +5967,6 @@
         <published>2021-01-06T00:00:00.000Z</published>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Reimagine Your In-Vehicle Infotainment (IVI) Systems with Intelligent Testing]]></title>
-        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2021/1/05/reimagine-in-vehicle-infotainment-intelligent-testing</id>
-        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2021/1/05/reimagine-in-vehicle-infotainment-intelligent-testing"/>
-        <updated>2021-01-05T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[Get to know your drivers with an AI-powered test automation platform like Eggplant Test and deliver a new standard for IVI performance.]]></content>
-        <published>2021-01-05T00:00:00.000Z</published>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[Is parallel testing really faster?]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/2021/12/27/is-parallel-testing-really-faster</id>
         <link href="https://www.keysight.com/blogs/blogs/tech/2021/12/27/is-parallel-testing-really-faster"/>
@@ -10724,14 +10796,6 @@
         <link href="https://www.keysight.com/blogs/blogs/post-template"/>
         <updated>1970-01-01T00:00:00.000Z</updated>
         <content type="html"><![CDATA[<post description, used for cards>]]></content>
-        <published>1970-01-01T00:00:00.000Z</published>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CVE-2023-2249: Wordpress Wpforo Plugin Root Cause Analysis]]></title>
-        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/05/cve-2023-2249</id>
-        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/07/05/cve-2023-2249"/>
-        <updated>1970-01-01T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[This blog does a root cause analysis of the vulnerability CVE-2023-2249 in Wordpress Wpforo Plugin and presents a proof-of-concept at the end.]]></content>
         <published>1970-01-01T00:00:00.000Z</published>
     </entry>
 </feed>
