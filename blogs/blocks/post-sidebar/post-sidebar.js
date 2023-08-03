@@ -16,7 +16,7 @@ const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
 const tags = getMetadata('article:tag').split(', ');
 
 async function buildCta(sidebar) {
-  const ctaPath = getMetadata('cta');
+  const ctaPath = ''; // getMetadata('cta');
   if (ctaPath) {
     const relLink = new URL(ctaPath).pathname;
     const link = createElement('a');
