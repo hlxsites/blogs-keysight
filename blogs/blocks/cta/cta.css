@@ -52,24 +52,3 @@ main .cta a.button:any-link {
   background: var(--color-white);
   color: var(--color-black);
 }
-/* 
-
-main .cta.has-bg {
-  position: relative;
-}
-
-
-
-main .cta .button-container {
-  margin-block-start: 4rem;
-}
-
-main .cta a.button:any-link {
-  background: var(--color-white);
-  color: var(--color-red);
-}
-
-main .cta a.button:any-link:hover {
-  color: var(--color-dark-red);
-  text-decoration: underline
-} */
