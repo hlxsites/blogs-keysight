@@ -19,7 +19,7 @@ main .cta > div .cta-text-container {
   left: 0;
   bottom: 0;
   right: 0;
-  background: transparent linear-gradient(180deg, #26262615 0%, #262626FC 17%, var(--color-gray-700) 100%) 0% 0% no-repeat padding-box;
+  background: transparent linear-gradient(180deg, #26262615 0%, #32313D 17%, #373A36 100%) 0% 0% no-repeat padding-box;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -46,9 +46,4 @@ main .cta .cta-img-container picture img {
   object-fit: cover;
   width: 100%;
   height: 100%;
-}
-
-main .cta a.button:any-link {
-  background: var(--color-white);
-  color: var(--color-black);
 }
