@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-08-01T00:00:00.000Z</updated>
+    <updated>2023-08-03T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[PMA's DPAT Implementation Safeguards Against Potential Yield Losses]]></title>
+        <id>https://www.keysight.com/blogs/blogs/inds/2023/08/03/blog-version-using-dpat-in-pma</id>
+        <link href="https://www.keysight.com/blogs/blogs/inds/2023/08/03/blog-version-using-dpat-in-pma"/>
+        <updated>2023-08-03T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blog describes how PMA uses DPAT to improve production quality and yield.]]></content>
+        <published>2023-08-03T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Testing LED with PathWave Test Executive for Manufacturing]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/08/01/testingledwithptem</id>
