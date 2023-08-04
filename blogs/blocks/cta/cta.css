@@ -4,6 +4,7 @@ main .cta {
   color: var(--color-white);
   position: relative;
   min-height: 45rem;
+  max-width: 375px;
 }
 
 main .cta > div .cta-img-container {
