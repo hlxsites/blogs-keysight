@@ -145,8 +145,9 @@ async function initTaxonomy() {
 
   const renderCategories = (cats, namespace) => {
     const subCats = namespace.split('/');
+    const displayNamespace = subCats.length > 1 ? subCats[0] : namespace;
     getChildTags(cats).forEach((cat, idx) => {
-      const catElem = createElement('div', 'category', {}, createElement('h2', '', {}, `${namespace}: ${cat.tagTitle || cat.tagName}`));
+      const catElem = createElement('div', 'category', {}, createElement('h2', '', {}, `${displayNamespace}: ${cat.tagTitle || cat.tagName}`));
       const ul = createElement('ul');
       catElem.append(ul);
       renderItems(cat, ul, idx);
