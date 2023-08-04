@@ -1,5 +1,5 @@
 export const TAG_CATEGORY_BACK_OFFICE = 'segmentation';
-export const TAG_CATEGORY_BLOGS = 'keysight-blogs';
+export const TAG_CATEGORY_BLOGS = 'keysight-blogs/hashtag';
 
 const tagsPromises = {};
 /**
