@@ -3,6 +3,7 @@ main .cta {
   height: 100%;
   color: var(--color-white);
   position: relative;
+  min-height: 45rem;
 }
 
 main .cta > div .cta-img-container {
