@@ -45,10 +45,7 @@ async function getTaxonomy() {
   let finalTags = aemTags;
   if (category) {
     const subCats = category.split('/');
-    subCats.forEach((subCat) => {
-      const temp = finalTags[subCat];
-      if (temp) finalTags = temp;
-    });
+    finalTags = finalTags[subCats[0]];
   }
   return finalTags || {};
 }
@@ -147,6 +144,7 @@ async function initTaxonomy() {
   results.innerHTML = '';
 
   const renderCategories = (cats, namespace) => {
+    const subCats = namespace.split('/');
     getChildTags(cats).forEach((cat, idx) => {
       const catElem = createElement('div', 'category', {}, createElement('h2', '', {}, `${namespace}: ${cat.tagTitle || cat.tagName}`));
       const ul = createElement('ul');
