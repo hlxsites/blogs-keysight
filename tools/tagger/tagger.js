@@ -42,7 +42,14 @@ async function getTaxonomy() {
   const category = getSelectedCategory();
   const aemTags = await getAEMTagsHierarchy(category, 'en');
 
-  const finalTags = category ? aemTags[category] : aemTags;
+  let finalTags = aemTags;
+  if (category) {
+    const subCats = category.split('/');
+    subCats.forEach((subCat) => {
+      const temp = finalTags[subCat];
+      if (temp) finalTags = temp;
+    });
+  }
   return finalTags || {};
 }
 
