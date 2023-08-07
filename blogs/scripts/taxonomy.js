@@ -6,7 +6,7 @@ const tagsPromises = {};
  * Retrieve tags from API.
  * @param {String} [category] The category of tags to be returned (keysight|segmentation)
  * @param {String} [lang] The language of the tags to be returned
- * @returns {Array} An array of tag objects
+ * @returns {Promise<Array>} An array of tag objects
  */
 export async function getAEMTags(category = TAG_CATEGORY_BLOGS, lang = 'en') {
   const key = `${category} - ${lang}`;
@@ -100,12 +100,11 @@ export function findTag(tag, allowedTags, strict = false) {
  * @param {String} [lang] The language of the tags to be returned
  * @param {boolean} [strict] indicates if matching is strict (must match path exactly) or
  * loose (matches title name or path)
- * @returns {Array} Array containing two arrays. The first array being only the valid tags,
+ * @returns {Promise<Array>} Array containing two arrays. The first array being only the valid tags,
  * the second one being the tags that are invalid
  */
 export async function validateTags(tagsArray, category = TAG_CATEGORY_BLOGS, lang = 'en', strict = false) {
   try {
-    // const allowedTags = await getFranklinTags();
     const allowedTags = await getAEMTags(category, lang);
     const validTags = [];
     const invalidTags = [];
@@ -119,10 +118,10 @@ export async function validateTags(tagsArray, category = TAG_CATEGORY_BLOGS, lan
         validTags.push(matchTag); // put the AEM tag object in the array - to be used later
       } else {
         /* todo when we are ready to actually remove the invalid tags
-          take out pushing to the valid tags (and maybe remove the console.warn)
+          take out pushing to the valid tags (and remove the console.warn)
         */
         // eslint-disable-next-line no-console
-        console.warn('Invalid Tag:', tag); // warn for tag cleanup
+        console.warn('Invalid Tag: ', tag); // warn for tag cleanup
         validTags.push({
           TAG_NAME: tag,
           TAG_TITLE: tag,
