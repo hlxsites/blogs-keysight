@@ -11,7 +11,7 @@
         <id>https://www.keysight.com/blogs/blogs/inds/2023/08/07/iv-characterization-and-testing-considerations-for-low-power-integrated-circuits</id>
         <link href="https://www.keysight.com/blogs/blogs/inds/2023/08/07/iv-characterization-and-testing-considerations-for-low-power-integrated-circuits"/>
         <updated>2023-08-07T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[This post highlights the vital role of power-integrated circuits (ICs) in modern electronic devices and the growing demand for advanced functionalities. Meeting these demands requires comprehensive IV characterization during testing. However, testing low-power ICs poses unique challenges due to complex test sequences and the requirement for multiple instruments. The post discusses a solution: the utilization of advanced source measure units (SMUs) with integrated features like pulsers and digitizers. This streamlines IV characterizations, making the process more efficient and effective.]]></content>
+        <content type="html"><![CDATA[Explore the critical role of power-integrated circuits (ICs) in modern devices and the challenges of testing low-power ICs. Discover the efficiency of using advanced source measure units (SMUs) with integrated features for streamlined IV characterizations.]]></content>
         <published>2023-08-07T00:00:00.000Z</published>
     </entry>
     <entry>
