@@ -1,6 +1,6 @@
 {
   "project": "Keysight Blogs",
-  "host": "www.keysight.com",
+  "host": "stgwww.keysight.com",
   "plugins": [
     {
       "id": "tagger",
