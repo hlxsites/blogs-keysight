@@ -11,7 +11,7 @@
 
 .modal-dialog-wrapper {
   border-radius: 8px;
-  background: var(--background-color);
+  background: var(--color-white);
   position: relative;
   padding: 8px;
 }
