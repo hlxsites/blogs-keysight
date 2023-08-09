@@ -19,6 +19,10 @@ main .post-cards .post-cards-grid .post-card {
   min-height: 45rem;
 }
 
+main .post-cards .post-cards-grid .post-card.cta-post-card .cta-wrapper {
+  flex: 1 1 100%;
+}
+
 @supports (container-type: inline-size) {
   main .post-cards {
     container-type: inline-size;
