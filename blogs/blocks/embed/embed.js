@@ -55,6 +55,14 @@ const embedTwitter = (url) => {
   return embedHTML;
 };
 
+const embedEloquaForm = (url) => {
+  const html = `<div>
+  <iframe src="${url.href}" allow="encrypted-media" title="Content from ${url.hostname}" loading="lazy">
+  </iframe>
+</div>`;
+  return html;
+};
+
 const loadEmbed = (block, link, autoplay) => {
   if (block.classList.contains('embed-is-loaded')) {
     return;
@@ -72,6 +80,10 @@ const loadEmbed = (block, link, autoplay) => {
     {
       match: ['twitter'],
       embed: embedTwitter,
+    },
+    {
+      match: ['eloqua', 'connectlp.keysight.com'],
+      embed: embedEloquaForm,
     },
   ];
 
