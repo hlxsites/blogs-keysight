@@ -1,20 +1,54 @@
 main .cta {
-  background-color: var(--color-red);
-  color: var(--color-white);
   padding: 2rem;
   height: 100%;
+  color: var(--color-white);
+  position: relative;
+  min-height: 45rem;
+  max-width: 375px;
 }
 
-main .cta .button-container {
-  margin-block-start: 4rem;
+main .cta > div .cta-img-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 40%;
+  right: 0;
 }
 
-main .cta a.button:any-link {
-  background: var(--color-white);
-  color: var(--color-red);
+main .cta > div .cta-text-container {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: transparent linear-gradient(180deg, #26262615 0%, #32313D 17%, #373A36 100%) 0% 0% no-repeat padding-box;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 2.5rem;
 }
 
-main .cta a.button:any-link:hover {
-  color: var(--color-dark-red);
-  text-decoration: underline
+main .cta:not(.cta-has-image) > div .cta-text-container {
+  background: var(--color-gray-700);
+  top: 0;
+}
+
+main .cta > div .cta-text-container h2 {
+  line-height: 1.3;
+}
+
+main .cta .cta-img-container picture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  object-fit: cover;
+  box-sizing: border-box;
+}
+
+main .cta .cta-img-container picture img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }

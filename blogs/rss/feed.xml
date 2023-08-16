@@ -2,10 +2,34 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-08-08T00:00:00.000Z</updated>
+    <updated>2023-08-16T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Auto Tech Talks Podcast Season 1: The EV Battery Revolution]]></title>
+        <id>https://www.keysight.com/blogs/blogs/inds/2023/08/16/auto-tech-talks-season-1-the-ev-battery-revolution</id>
+        <link href="https://www.keysight.com/blogs/blogs/inds/2023/08/16/auto-tech-talks-season-1-the-ev-battery-revolution"/>
+        <updated>2023-08-16T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Join us for the first season of our Auto Tech Talks podcast, where we explore the most expensive part of the electric vehicle (EV): the EV battery. In each episode, host Hwee Yng interviews experts about the latest advancements in EV battery development that reduce development costs and deliver more powerful and longer-lasting EV batteries.]]></content>
+        <published>2023-08-16T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Wideband Gap Semiconductors: What Modeling Challenges Must We Overcome]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/sim-des/2023/08/11/wideband-gap-semiconductor-gan-modeling-challenges</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/sim-des/2023/08/11/wideband-gap-semiconductor-gan-modeling-challenges"/>
+        <updated>2023-08-11T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[In the rapidly advancing world of wide bandgap semiconductors, gallium nitride (GaN) is making waves. This article delves deep into the rising influence of GaN, the hurdles faced in device modeling, and the strategies device modeling engineers can adopt to balance high costs against the quest for accuracy.]]></content>
+        <published>2023-08-11T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building a Roadmap to Zero Manual Testing]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/8/10/building-a-roadmap-to-zero-manual-testing</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/8/10/building-a-roadmap-to-zero-manual-testing"/>
+        <updated>2023-08-09T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[How are the QA teams using Test Automation to eliminate risky and time-consuming manual testing? Join our panel of experts on August 29th to see the latest in test automation innovation with Eggplant Test]]></content>
+        <published>2023-08-09T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[MOSFET Threshold Voltage Extraction: How to Get Power Management Right from the Beginning]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/sim-des/2023/08/08/mosfet-threshold-voltage-extraction</id>

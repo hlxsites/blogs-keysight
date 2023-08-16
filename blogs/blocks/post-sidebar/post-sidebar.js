@@ -15,25 +15,31 @@ import { validateTags } from '../../scripts/taxonomy.js';
 const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
 const tags = getMetadata('article:tag').split(', ');
 
-async function buildCta(sidebar) {
-  const ctaPath = ''; // getMetadata('cta');
+export async function buildCta(container) {
+  const ctaPath = getMetadata('cta');
   if (ctaPath) {
     const relLink = new URL(ctaPath).pathname;
     const link = createElement('a');
     link.href = relLink;
     const fragmentBlock = buildBlock('fragment', [['Source', link]]);
-    sidebar.append(fragmentBlock);
+    container.append(fragmentBlock);
     decorateBlock(fragmentBlock);
     await loadBlock(fragmentBlock);
+
+    return fragmentBlock;
   }
+
+  return null;
 }
 
 async function buildTags(sidebar) {
   if (getMetadata('article:tag') !== '') {
-    const [validTags] = await validateTags(tags);
     const tagsContainer = createElement('div', 'tags-container');
     const list = createElement('ul', 'tags-list');
     tagsContainer.append(list);
+    sidebar.append(tagsContainer);
+
+    const [validTags] = await validateTags(tags);
     validTags.forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
@@ -43,7 +49,6 @@ async function buildTags(sidebar) {
       list.append(item);
     });
     tagsContainer.id = 'blogs_related_tags';
-    sidebar.append(tagsContainer);
   }
 }
 

@@ -333,13 +333,43 @@ function buildHeroBlock(main) {
 }
 
 /**
+ * Decorate links that end with -block-modal to open a modal window
+ * @param {Element} main The main element
+ */
+function buildModalBlocks(main) {
+  const section = createElement('div');
+  let hasModals = false;
+  main.querySelectorAll('a[href*="modal"]').forEach((a, i) => {
+    if (a.href.endsWith('-block-modal')) {
+      hasModals = true;
+      const modalBlock = buildBlock('modal', a.cloneNode(true));
+      const modalId = `modal-block-${i}`;
+      modalBlock.setAttribute('data-modal-id', modalId);
+      a.setAttribute('aria-controls', modalId);
+      section.append(modalBlock);
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.postMessage({ showModal: true, modalId }, window.location.origin);
+      });
+    }
+  });
+
+  if (hasModals) {
+    main.append(section);
+  }
+}
+
+/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
-function buildAutoBlocks(main) {
+function buildAutoBlocks(main, isFragment = false) {
   try {
-    buildHeroBlock(main);
+    if (!isFragment) {
+      buildHeroBlock(main);
+    }
     buildImageBlocks(main);
+    buildModalBlocks(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
@@ -376,40 +406,18 @@ export function decorateLinks(element) {
 }
 
 /**
- * Decorate links that end with -block-modal to open a modal window
- * @param {Element} main The main element
- */
-function decorateModalLinks(main) {
-  async function openBModal(event) {
-    event.preventDefault();
-    const module = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
-    if (module.showModal) {
-      await module.showModal(event.target);
-    }
-  }
-  main.querySelectorAll('a[href*="modal"]').forEach((a) => {
-    if (a.href.endsWith('-block-modal')) {
-      a.addEventListener('click', openBModal);
-    }
-  });
-}
-
-/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
 // eslint-disable-next-line import/prefer-default-export
-export function decorateMain(main, isFragment) {
+export function decorateMain(main, isFragment = false) {
   // hopefully forward compatible button decoration
   decorateButtons(main);
   decorateIcons(main);
   decorateLinks(main);
-  if (!isFragment) {
-    buildAutoBlocks(main);
-  }
+  buildAutoBlocks(main, isFragment);
   decorateSections(main);
   decorateBlocks(main);
-  decorateModalLinks(main);
 }
 
 async function loadTemplate(doc, templateName) {

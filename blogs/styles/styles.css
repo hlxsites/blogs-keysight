@@ -153,7 +153,8 @@ a.button:any-link, button {
   border: none;
   background: var(--color-red);
   color: var(--color-white);
-  padding: .8rem 1.6rem;
+  padding: 1.3rem 2rem;
+  min-height: 52px;
   text-decoration: none;
   outline: none;
   font-size: inherit;

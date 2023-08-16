@@ -63,3 +63,17 @@ main .embed .embed-placeholder-play button::before {
   top: 4px;
   left: 7px;
 }
+
+main .embed.embed-eloqua {
+  max-width: 1400px;
+  margin: 0;
+  padding: 0;
+}
+
+main .embed.embed-eloqua iframe {
+  border: 0;
+  width: 100%;
+  max-height: 640px;
+  height: 600px;
+  overflow-y: scroll;
+}
