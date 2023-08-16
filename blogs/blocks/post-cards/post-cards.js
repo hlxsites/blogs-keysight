@@ -179,8 +179,7 @@ async function loadPage(grid) {
   if (getMetadata('template') === 'post') {
     const tags = getMetadata('article:tag');
     if (tags && tags.trim() !== '') {
-      const [validTags] = await validateHashTags(tags.split(',').map((t) => t.trim()));
-      postTags = validTags;
+      postTags = await validateHashTags(tags.split(',').map((t) => t.trim()));
     }
   }
   const postsGenerator = getPostsFfetch()

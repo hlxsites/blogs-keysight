@@ -74,25 +74,6 @@ export async function getAEMTagsHierarchy(category = TAG_CATEGORY_BLOGS, lang = 
 }
 
 /**
- * check if the tag match (check path, title, and name)
- * @param {string} tag the tag to check
- * @param {object[]} allowedTags the set of tags to check against
- * @param {boolean} [strict] indicates if matching is strict (must match path exactly) or
- * loose (matches title name or path)
- */
-export function findTag(tag, allowedTags, strict = false) {
-  return allowedTags.find((item) => {
-    if (strict) {
-      return item.TAG_PATH === `/content/cq:tags/${tag}`;
-    }
-
-    return item.TAG_NAME.toLowerCase() === tag.toLowerCase()
-      || item.TAG_TITLE.toLowerCase() === tag.toLowerCase()
-      || item.TAG_PATH.toLowerCase() === `/content/cq:tags/${tag.toLowerCase()}`;
-  });
-}
-
-/**
  *
  * @param {String[]} tagsArray the tag paths to validate
  * @param {string} lang the language
@@ -116,6 +97,26 @@ export async function validateBackOfficeTags(tagsArray, lang = 'en') {
 }
 
 /**
+ * Check if a tag path or title exists in a set of tag objects
+ * @param {String} tagPathOrTitle a tag path or tittle
+ * @param {Object} tagObjects a set of hashtag objects,
+ * containing at least a tag title, and possibly a path as well
+ */
+export function checkTag(tagPathOrTitle, tagObjects) {
+  const found = tagObjects.find((tag) => {
+    const pathMatch = tag.TAG_PATH ? tag.TAG_PATH === `/content/cq:tags/keysight-blogs/${tagPathOrTitle}` : false;
+    const titleMatch = tag.TAG_TITLE
+      ? tag.TAG_TITLE.toLowerCase() === tagPathOrTitle.toLowerCase() : false;
+    const nameMatch = tag.TAG_NAME
+      ? tag.TAG_NAME.toLowerCase() === tagPathOrTitle.toLowerCase() : false;
+
+    return pathMatch || titleMatch || nameMatch;
+  });
+
+  return found;
+}
+
+/**
  * Validate an array of tag strings against a source.
  * Can also be used to convert an array of tag names/titles/paths to tag objects.
  *
@@ -131,13 +132,7 @@ export async function validateHashTags(tagsArray, lang = 'en') {
     const invalidTags = [];
 
     tagsArray.forEach((tag) => {
-      const foundTag = allowedTags.find((t) => {
-        const pathMatch = t.TAG_PATH === `/content/cq:tags/keysight-blogs/${tag}`;
-        const titleMatch = t.TAG_TITLE.toLowerCase() === tag.toLowerCase();
-        const nameMatch = t.TAG_NAME.toLowerCase() === tag.toLowerCase();
-
-        return pathMatch || titleMatch || nameMatch;
-      });
+      const foundTag = checkTag(tag, allowedTags);
       if (foundTag) {
         validTags.push(foundTag);
       } else {

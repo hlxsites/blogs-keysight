@@ -63,7 +63,7 @@ async function loadTags(block, isAll) {
 
   const applicableFilter = filter || 'auto';
   const pageTag = await getPageTag();
-  let postsGenerator = getPostsFfetch().filter(filterPosts(applicableFilter, pageTag));
+  let postsGenerator = getPostsFfetch().filter(filterPosts(applicableFilter, pageTag, []));
   let posts;
   if (isAll) {
     posts = await postsGenerator.all();
@@ -82,11 +82,10 @@ async function loadTags(block, isAll) {
   const tags = {};
   await Promise.all(posts.map(async (post) => {
     const postTags = splitTags(post.tags);
-    // todo tagging use of tagPath
     const [validTags] = await validateHashTags(postTags);
     if (validTags.length > 0) {
       validTags.forEach((tag) => {
-        let tagObj = tags[tag.TAG_PATH];
+        let tagObj = tags[tag.TAG_TITLE];
         if (!tagObj) {
           tagObj = {
             count: 0,
@@ -94,7 +93,7 @@ async function loadTags(block, isAll) {
           };
         }
         tagObj.count += 1;
-        tags[tag.TAG_PATH] = tagObj;
+        tags[tag.TAG_TITLE] = tagObj;
       });
     }
   }));
@@ -104,7 +103,7 @@ async function loadTags(block, isAll) {
     const tagPath = params.get('tag');
     if (tagPath) {
       // hide current tag when on a tag page
-      return tagPath !== tagObj.tag.TAG_PATH;
+      return tagPath !== tagObj.tag.TAG_TITLE;
     }
     return true;
   });

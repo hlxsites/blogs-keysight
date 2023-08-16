@@ -18,7 +18,7 @@ import {
   decorateBlock,
   loadBlock,
 } from './lib-franklin.js';
-import { validateBackOfficeTags, validateHashTags, findTag } from './taxonomy.js';
+import { validateBackOfficeTags, validateHashTags, checkTag } from './taxonomy.js';
 
 const LCP_BLOCKS = ['hero', 'featured-posts']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
@@ -258,7 +258,7 @@ export function filterPosts(filterName, pageTag, pageTags) {
     if (applicableFilter === 'post') {
       const isDiffPath = post.path !== window.location.pathname;
       const postTags = splitTags(post.tags);
-      const hasCommonTags = postTags.some((tag) => findTag(tag, pageTags) !== undefined);
+      const hasCommonTags = postTags.some((tag) => checkTag(tag, pageTags) !== undefined);
       return isDiffPath && hasCommonTags;
     }
 
@@ -280,7 +280,7 @@ export function filterPosts(filterName, pageTag, pageTags) {
       // used for the tag-matches page, where tag is passed in a query param
       const postTags = splitTags(post.tags);
       if (pageTag) {
-        matches = postTags.some((t) => findTag(t, [pageTag]) !== undefined);
+        matches = postTags.some((t) => checkTag(t, [pageTag]) !== undefined);
       }
     }
     return matches;
