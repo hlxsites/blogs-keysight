@@ -42,7 +42,8 @@ export async function getAEMTagsHierarchy(category = TAG_CATEGORY_BLOGS, lang = 
   const tagsHierarchy = {};
 
   aemTags.forEach((tag) => {
-    const tagPath = tag.TAG_PATH.replace('/content/cq:tags/', '');
+    // remove /content/cq:tags/category from tag path
+    const tagPath = tag.TAG_PATH.split('/').slice(4).join('/');
     const tagName = tag.TAG_NAME;
     const tagTitle = tag.TAG_TITLE;
 
@@ -96,7 +97,7 @@ export function findTag(tag, allowedTags, strict = false) {
  * Can also be used to convert an array of tag names/titles/paths to tag objects.
  *
  * @param {String[]|object[]} tagArray The tags to validate.
- * @param {String} [category] The category of tags to be returned (keysight|segmentation)
+ * @param {String} [category] The category of tags to be returned
  * @param {String} [lang] The language of the tags to be returned
  * @param {boolean} [strict] indicates if matching is strict (must match path exactly) or
  * loose (matches title name or path)
