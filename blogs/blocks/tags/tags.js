@@ -82,6 +82,7 @@ async function loadTags(block, isAll) {
   const tags = {};
   await Promise.all(posts.map(async (post) => {
     const postTags = splitTags(post.tags);
+    // todo tagging use of tagPath
     const [validTags] = await validateHashTags(postTags);
     if (validTags.length > 0) {
       validTags.forEach((tag) => {

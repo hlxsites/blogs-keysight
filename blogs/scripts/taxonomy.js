@@ -119,7 +119,7 @@ export async function validateBackOfficeTags(tagsArray, lang = 'en') {
  * Validate an array of tag strings against a source.
  * Can also be used to convert an array of tag names/titles/paths to tag objects.
  *
- * @param {String[]|object[]} tagArray The tags to validate.
+ * @param {String[]} tagArray The tags to validate.
  * @param {String} [lang] The language of the tags to be returned
  * @returns {Promise<Array>} Array containing two arrays. The first array being only the valid tags,
  * the second one being the tags that are invalid
@@ -130,33 +130,21 @@ export async function validateHashTags(tagsArray, lang = 'en') {
     const validTags = [];
     const invalidTags = [];
 
-    /**
-     * @param {string} tag the tag name, path, or title
-     */
-    const isValidTag = (tag) => {
-      const matchTag = findTag(tag, allowedTags, false);
-      if (matchTag) {
-        validTags.push(matchTag); // put the AEM tag object in the array - to be used later
-      } else {
-        /* todo when we are ready to actually remove the invalid tags
-          take out pushing to the valid tags (and remove the console.warn)
-        */
-        // eslint-disable-next-line no-console
-        console.warn('Invalid Tag: ', tag); // warn for tag cleanup
-        validTags.push({
-          TAG_NAME: tag,
-          TAG_TITLE: tag,
-          TAG_PATH: `/content/cq:tags/${tag}`,
-        });
-        invalidTags.push(tag);
-      }
-    };
+    tagsArray.forEach((tag) => {
+      const foundTag = allowedTags.find((t) => {
+        const pathMatch = t.TAG_PATH === `/content/cq:tags/keysight-blogs/${tag}`;
+        const titleMatch = t.TAG_TITLE.toLowerCase() === tag.toLowerCase();
+        const nameMatch = t.TAG_NAME.toLowerCase() === tag.toLowerCase();
 
-    tagsArray.forEach((element) => {
-      if (typeof element === 'string') {
-        isValidTag(element);
-      } else if (typeof element === 'object' && element.tag) {
-        isValidTag(element.tag);
+        return pathMatch || titleMatch || nameMatch;
+      });
+      if (foundTag) {
+        validTags.push(foundTag);
+      } else {
+        // todo for now, no hashtags are ever considered invalid
+        // in the future, remove this
+        validTags.push({ TAG_TITLE: tag });
+        invalidTags.push({ TAG_TITLE: tag });
       }
     });
     return [validTags, invalidTags]; // return original tagsArray for now instead of validTags

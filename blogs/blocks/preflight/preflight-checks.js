@@ -244,7 +244,7 @@ checks.push({
         res.msg = 'All tags are valid';
       } else {
         res.status = false;
-        res.msg = `${invalid.length} Invalid tags. ${invalid.join(', ')}`;
+        res.msg = `${invalid.length} Invalid tags. ${invalid.map((t) => t.TAG_TITLE).join(', ')}`;
       }
     } else if (isBlogPost(doc)) {
       res.status = false;
