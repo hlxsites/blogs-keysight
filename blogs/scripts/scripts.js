@@ -18,7 +18,7 @@ import {
   decorateBlock,
   loadBlock,
 } from './lib-franklin.js';
-import { validateTags, findTag, TAG_CATEGORY_BACK_OFFICE } from './taxonomy.js';
+import { validateBackOfficeTags, validateTags, findTag } from './taxonomy.js';
 
 const LCP_BLOCKS = ['hero', 'featured-posts']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
@@ -547,15 +547,12 @@ export async function addBackOfficeMetaTags() {
   const backoffice = getMetadata('back-office-tags');
   if (backoffice) {
     const tags = backoffice.split(',').map((t) => t.trim());
-    const [validTags] = await validateTags(tags, TAG_CATEGORY_BACK_OFFICE, 'en', true);
+    const [validTags] = await validateBackOfficeTags(tags, 'en');
     validTags.forEach((tag) => {
       const { TAG_PATH } = tag;
-      const parts = TAG_PATH.replace('/content/cq:tags/', '').split('/');
-      // remove 'segmentation'
-      parts.shift();
+      const parts = TAG_PATH.replace('/content/cq:tags/segmentation/', '').split('/');
       const group = parts.shift();
-      // return the rest as comma separated strings
-      const tagVal = parts.toString();
+      const tagVal = parts.pop();
       const existingTag = document.querySelector(`meta[name="${group}`);
       if (existingTag) {
         const existingContent = existingTag.getAttribute('content');

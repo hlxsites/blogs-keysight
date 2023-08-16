@@ -93,6 +93,29 @@ export function findTag(tag, allowedTags, strict = false) {
 }
 
 /**
+ *
+ * @param {String[]} tagsArray the tag paths to validate
+ * @param {string} lang the language
+ * @returns {Promise<Array>} Array containing two arrays. The first array being only the valid tags,
+ * the second one being the tags that are invalid
+ */
+export async function validateBackOfficeTags(tagsArray, lang = 'en') {
+  const allowedTags = await getAEMTags(TAG_CATEGORY_BACK_OFFICE, lang);
+  const validTags = [];
+  const invalidTags = [];
+
+  tagsArray.forEach((tagPath) => {
+    const foundTag = allowedTags.find((t) => t.TAG_PATH === `/content/cq:tags/segmentation/${tagPath}`);
+    if (foundTag) {
+      validTags.push(foundTag);
+    } else {
+      invalidTags.push(tagPath);
+    }
+  });
+  return [validTags, invalidTags];
+}
+
+/**
  * Validate an array of tag strings against a source.
  * Can also be used to convert an array of tag names/titles/paths to tag objects.
  *
