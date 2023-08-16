@@ -43,10 +43,10 @@ async function getTaxonomy() {
   const aemTags = await getAEMTagsHierarchy(category, 'en');
 
   let finalTags = aemTags;
-  if (category) {
-    const subCats = category.split('/');
-    finalTags = finalTags[subCats[0]];
-  }
+  // if (category) {
+  //   const subCats = category.split('/');
+  //   finalTags = finalTags[subCats[0]];
+  // }
   return finalTags || {};
 }
 
