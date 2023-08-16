@@ -17,6 +17,7 @@ function renderItems(items, ul, catId) {
       const pathSpan = pathItem.querySelector('.path');
       const displayPath = tagPath
         .split('/')
+        .slice(0, -1)
         .join('<span class="psep">/</span>')
         .concat('<span class="psep">/</span>');
       pathSpan.innerHTML = displayPath;
