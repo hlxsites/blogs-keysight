@@ -1,5 +1,5 @@
 import { PRODUCTION_DOMAINS, PRODUCTION_PATHS } from '../../scripts/scripts.js';
-import { validateTags, validateBackOfficeTags, TAG_CATEGORY_BLOGS } from '../../scripts/taxonomy.js';
+import { validateHashTags, validateBackOfficeTags } from '../../scripts/taxonomy.js';
 // eslint-disable-next-line import/prefer-default-export
 export const checks = [];
 
@@ -239,7 +239,7 @@ checks.push({
     const articleTags = [...doc.head.querySelectorAll('meta[property="article:tag"]')]
       .map((tagMeta) => tagMeta.content);
     if (articleTags.length > 0) {
-      const [, invalid] = await validateTags(articleTags, TAG_CATEGORY_BLOGS, 'en', true);
+      const [, invalid] = await validateHashTags(articleTags, 'en');
       if (invalid.length === 0) {
         res.msg = 'All tags are valid';
       } else {

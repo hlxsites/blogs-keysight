@@ -13,7 +13,7 @@ import {
   getOrigin,
 } from '../../scripts/lib-franklin.js';
 import ffetch from '../../scripts/ffetch.js';
-import { validateTags } from '../../scripts/taxonomy.js';
+import { validateHashTags } from '../../scripts/taxonomy.js';
 import { buildCta } from '../post-sidebar/post-sidebar.js';
 
 let pageSize = 7;
@@ -72,7 +72,7 @@ async function getAuthorLink(post) {
 async function getTagsLinks(post) {
   const tags = splitTags(post.tags);
   if (tags.length > 0) {
-    const [validTags] = await validateTags(tags);
+    const [validTags] = await validateHashTags(tags);
     const list = createElement('ul', 'card-tags');
     validTags.forEach((tag) => {
       const item = createElement('li');
@@ -179,7 +179,7 @@ async function loadPage(grid) {
   if (getMetadata('template') === 'post') {
     const tags = getMetadata('article:tag');
     if (tags && tags.trim() !== '') {
-      const [validTags] = await validateTags(tags.split(',').map((t) => t.trim()));
+      const [validTags] = await validateHashTags(tags.split(',').map((t) => t.trim()));
       postTags = validTags;
     }
   }

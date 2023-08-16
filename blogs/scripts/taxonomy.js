@@ -120,16 +120,13 @@ export async function validateBackOfficeTags(tagsArray, lang = 'en') {
  * Can also be used to convert an array of tag names/titles/paths to tag objects.
  *
  * @param {String[]|object[]} tagArray The tags to validate.
- * @param {String} [category] The category of tags to be returned
  * @param {String} [lang] The language of the tags to be returned
- * @param {boolean} [strict] indicates if matching is strict (must match path exactly) or
- * loose (matches title name or path)
  * @returns {Promise<Array>} Array containing two arrays. The first array being only the valid tags,
  * the second one being the tags that are invalid
  */
-export async function validateTags(tagsArray, category = TAG_CATEGORY_BLOGS, lang = 'en', strict = false) {
+export async function validateHashTags(tagsArray, lang = 'en') {
   try {
-    const allowedTags = await getAEMTags(category, lang);
+    const allowedTags = await getAEMTags(TAG_CATEGORY_BLOGS, lang);
     const validTags = [];
     const invalidTags = [];
 
@@ -137,7 +134,7 @@ export async function validateTags(tagsArray, category = TAG_CATEGORY_BLOGS, lan
      * @param {string} tag the tag name, path, or title
      */
     const isValidTag = (tag) => {
-      const matchTag = findTag(tag, allowedTags, strict);
+      const matchTag = findTag(tag, allowedTags, false);
       if (matchTag) {
         validTags.push(matchTag); // put the AEM tag object in the array - to be used later
       } else {

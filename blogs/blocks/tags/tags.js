@@ -6,7 +6,7 @@ import {
   filterPosts,
   getPageTag,
 } from '../../scripts/scripts.js';
-import { validateTags } from '../../scripts/taxonomy.js';
+import { validateHashTags } from '../../scripts/taxonomy.js';
 import { getOrigin, readBlockConfig } from '../../scripts/lib-franklin.js';
 
 function buildSearch(block) {
@@ -82,7 +82,7 @@ async function loadTags(block, isAll) {
   const tags = {};
   await Promise.all(posts.map(async (post) => {
     const postTags = splitTags(post.tags);
-    const [validTags] = await validateTags(postTags);
+    const [validTags] = await validateHashTags(postTags);
     if (validTags.length > 0) {
       validTags.forEach((tag) => {
         let tagObj = tags[tag.TAG_PATH];

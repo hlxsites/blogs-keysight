@@ -10,7 +10,7 @@ import {
   createElement,
 } from '../../scripts/scripts.js';
 import ffetch from '../../scripts/ffetch.js';
-import { validateTags } from '../../scripts/taxonomy.js';
+import { validateHashTags } from '../../scripts/taxonomy.js';
 
 const socialIcons = ['facebook', 'twitter', 'linkedin', 'email'];
 const tags = getMetadata('article:tag').split(', ');
@@ -39,7 +39,7 @@ async function buildTags(sidebar) {
     tagsContainer.append(list);
     sidebar.append(tagsContainer);
 
-    const [validTags] = await validateTags(tags);
+    const [validTags] = await validateHashTags(tags);
     validTags.forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');

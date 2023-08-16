@@ -18,7 +18,7 @@ import {
   decorateBlock,
   loadBlock,
 } from './lib-franklin.js';
-import { validateBackOfficeTags, validateTags, findTag } from './taxonomy.js';
+import { validateBackOfficeTags, validateHashTags, findTag } from './taxonomy.js';
 
 const LCP_BLOCKS = ['hero', 'featured-posts']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
@@ -226,7 +226,7 @@ function getApplicableFilter(filterName, pageTag) {
 }
 
 /**
- * Get the pag passed to the page via query parameter
+ * Get the tag passed to the page via query parameter
  * @returns the tag object for the tag usp
  */
 export async function getPageTag() {
@@ -235,7 +235,7 @@ export async function getPageTag() {
   const params = url.searchParams;
   const tag = params.get('tag');
   if (tag) {
-    const [validTags] = await validateTags([tag]);
+    const [validTags] = await validateHashTags([tag]);
     if (validTags.length > 0) {
       [pageTag] = validTags;
     }
