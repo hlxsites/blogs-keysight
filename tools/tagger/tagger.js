@@ -17,7 +17,6 @@ function renderItems(items, ul, catId) {
       const pathSpan = pathItem.querySelector('.path');
       const displayPath = tagPath
         .split('/')
-        .slice(1, -1)
         .join('<span class="psep">/</span>')
         .concat('<span class="psep">/</span>');
       pathSpan.innerHTML = displayPath;
@@ -42,11 +41,7 @@ async function getTaxonomy() {
   const category = getSelectedCategory();
   const aemTags = await getAEMTagsHierarchy(category, 'en');
 
-  let finalTags = aemTags;
-  // if (category) {
-  //   const subCats = category.split('/');
-  //   finalTags = finalTags[subCats[0]];
-  // }
+  const finalTags = aemTags;
   return finalTags || {};
 }
 
