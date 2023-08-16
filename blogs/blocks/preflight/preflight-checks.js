@@ -1,5 +1,5 @@
 import { PRODUCTION_DOMAINS, PRODUCTION_PATHS } from '../../scripts/scripts.js';
-import { validateTags, TAG_CATEGORY_BACK_OFFICE, TAG_CATEGORY_BLOGS } from '../../scripts/taxonomy.js';
+import { validateTags, validateBackOfficeTags, TAG_CATEGORY_BLOGS } from '../../scripts/taxonomy.js';
 // eslint-disable-next-line import/prefer-default-export
 export const checks = [];
 
@@ -266,12 +266,12 @@ checks.push({
     const backOfficeTags = doc.head.querySelector('meta[property="back-office-tags"]');
     if (backOfficeTags && backOfficeTags.content) {
       const backOfficeTagsVals = backOfficeTags.content.split(',').map((t) => t.trim());
-      const [, invalid] = await validateTags(backOfficeTagsVals, TAG_CATEGORY_BACK_OFFICE, 'en', true);
+      const [, invalid] = await validateBackOfficeTags(backOfficeTagsVals, 'en');
       if (invalid.length === 0) {
-        res.msg = 'All tags are valid';
+        res.msg = 'All Back-Office Tags are valid';
       } else {
         res.status = false;
-        res.msg = `${invalid.length} Invalid tags. ${invalid.join(', ')}`;
+        res.msg = `${invalid.length} Invalid Back-Office Tags. ${invalid.join(', ')}`;
       }
     }
 
