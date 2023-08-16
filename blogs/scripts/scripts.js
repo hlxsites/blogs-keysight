@@ -552,16 +552,17 @@ export async function addBackOfficeMetaTags() {
       const { TAG_PATH } = tag;
       const parts = TAG_PATH.replace('/content/cq:tags/segmentation/', '').split('/');
       const group = parts.shift();
-      const tagVal = parts.pop();
+      const tagVal = new Set(parts);
       const existingTag = document.querySelector(`meta[name="${group}`);
       if (existingTag) {
-        const existingContent = existingTag.getAttribute('content');
-        const newContent = `${existingContent},${tagVal}`;
+        const existingContent = existingTag.getAttribute('content').split(',');
+        tagVal.add(...existingContent);
+        const newContent = [...tagVal].join(',');
         existingTag.setAttribute('content', newContent);
       } else {
         const metaTag = createElement('meta', '', {
           name: group,
-          content: tagVal,
+          content: [...tagVal].join(','),
         });
         document.head.append(metaTag);
       }
