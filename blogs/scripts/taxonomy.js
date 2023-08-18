@@ -12,12 +12,18 @@ export async function getAEMTags(category = TAG_CATEGORY_BLOGS, lang = 'en') {
   const key = `${category} - ${lang}`;
   if (!tagsPromises[key]) {
     const fetcher = async () => {
+      const fromStorage = sessionStorage.getItem(`aemTags-${key}`);
+      if (fromStorage) {
+        return JSON.parse(fromStorage);
+      }
+
       let resp;
       try {
         resp = await fetch(`https://www.keysight.com/clientapi/search/aemtags/${lang}`);
         if (resp && resp.ok) {
           const json = await resp.json();
           const tagObjs = json.hits.filter((entry) => entry.TAG_PATH.startsWith(`/content/cq:tags/${category ? `${category}/` : ''}`));
+          sessionStorage.setItem(`aemTags-${key}`, JSON.stringify(tagObjs));
           return tagObjs;
         }
       } catch (e) {
