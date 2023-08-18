@@ -99,8 +99,9 @@ export async function validateBackOfficeTags(tagsArray, lang = 'en') {
 /**
  * Check if a tag path or title exists in a set of tag objects
  * @param {String} tagPathOrTitle a tag path or tittle
- * @param {Object} tagObjects a set of hashtag objects,
+ * @param {Array<Object>} tagObjects a set of hashtag objects,
  * containing at least a tag title, and possibly a path as well
+ * @returns {Object|undefined} the found tag object
  */
 export function checkTag(tagPathOrTitle, tagObjects) {
   const found = tagObjects.find((tag) => {
