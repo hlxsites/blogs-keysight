@@ -3,6 +3,7 @@ import {
   buildBlock,
   decorateBlock,
   loadBlock,
+  sampleRUM,
 } from '../../scripts/lib-franklin.js';
 import {
   splitTags,
@@ -10,7 +11,7 @@ import {
   getPostsFfetch,
 } from '../../scripts/scripts.js';
 import ffetch from '../../scripts/ffetch.js';
-import { validateTags } from '../../scripts/taxonomy.js';
+import { validateHashTags } from '../../scripts/taxonomy.js';
 
 const pageSize = 10;
 const initLoad = pageSize * 2;
@@ -36,13 +37,13 @@ async function getAuthorLink(post) {
 async function getTagsLinks(post) {
   const tags = splitTags(post.tags);
   if (tags.length > 0) {
-    const [validTags] = await validateTags(tags);
+    const [validTags] = await validateHashTags(tags);
     const list = createElement('ul', 'card-tags');
     validTags.forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
-      link.innerText = `#${tag}`;
-      link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag)}`;
+      link.innerText = `#${tag.TAG_TITLE}`;
+      link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag.TAG_TITLE)}`;
       item.append(link);
       list.append(item);
     });
@@ -118,10 +119,12 @@ async function buildPostCard(post, index) {
     }
   });
 
-  const tagsLinks = await getTagsLinks(post);
-  if (tagsLinks) {
-    postCard.querySelector('.post-card-text').append(tagsLinks);
-  }
+  const tagsLinksPromise = getTagsLinks(post);
+  tagsLinksPromise.then((tagsLinks) => {
+    if (tagsLinks) {
+      postCard.querySelector('.post-card-text').append(tagsLinks);
+    }
+  });
 
   return postCard;
 }
@@ -130,6 +133,7 @@ export default async function decorate(block) {
   const url = new URL(window.location);
   const params = url.searchParams;
   const q = params.get('q').toLowerCase();
+  if (q) sampleRUM('search', { source: '.search-form #header-search-text', target: q });
 
   const initResults = executeSearch(q).slice(0, initLoad);
   const deferredPosts = executeSearch(q).slice(initLoad);
@@ -149,23 +153,6 @@ export default async function decorate(block) {
   } else {
     resultsLength = `${counter}`;
   }
-
-  // let primaryPosts;
-  // let deferredPosts;
-  // if (results.length > initLoad) {
-  //   primaryPosts = results.slice(0, initLoad);
-  //   deferredPosts = results.slice(initLoad);
-  // } else {
-  //   primaryPosts = results;
-  //   deferredPosts = [];
-  // }
-
-  // let counter = 0;
-  // for (let i = 0; i < primaryPosts.length; i += 1) {
-  //   const postCard = buildPostCard(primaryPosts[i].post, counter);
-  //   grid.append(postCard);
-  //   counter += 1;
-  // }
 
   let deferredLoaded = false;
   const loadDeferred = async () => {
@@ -188,6 +175,10 @@ export default async function decorate(block) {
   resultCount.textContent = `${resultsLength} Results`;
   resultCount.classList.add('results-count');
   block.append(resultCount);
+
+  if (counter === 0) {
+    sampleRUM('nullsearch', { source: '.search-form #header-search-text', target: q });
+  }
 
   block.append(grid);
 

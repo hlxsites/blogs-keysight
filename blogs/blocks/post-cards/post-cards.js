@@ -3,6 +3,7 @@ import {
   splitTags,
   getPostsFfetch,
   filterPosts,
+  getPageTag,
 } from '../../scripts/scripts.js';
 import {
   createOptimizedPicture,
@@ -12,7 +13,7 @@ import {
   getOrigin,
 } from '../../scripts/lib-franklin.js';
 import ffetch from '../../scripts/ffetch.js';
-import { validateTags } from '../../scripts/taxonomy.js';
+import { validateHashTags } from '../../scripts/taxonomy.js';
 import { buildCta } from '../post-sidebar/post-sidebar.js';
 
 let pageSize = 7;
@@ -71,13 +72,13 @@ async function getAuthorLink(post) {
 async function getTagsLinks(post) {
   const tags = splitTags(post.tags);
   if (tags.length > 0) {
-    const [validTags] = await validateTags(tags);
+    const [validTags] = await validateHashTags(tags);
     const list = createElement('ul', 'card-tags');
     validTags.forEach((tag) => {
       const item = createElement('li');
       const link = createElement('a');
-      link.innerText = `#${tag}`;
-      link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag)}`;
+      link.innerText = `#${tag.TAG_TITLE}`;
+      link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag.TAG_TITLE)}`;
       item.append(link);
       list.append(item);
     });
@@ -154,10 +155,12 @@ async function buildPostCard(post, index) {
     }
   });
 
-  const tagsLinks = await getTagsLinks(post);
-  if (tagsLinks) {
-    postCard.querySelector('.post-card-text').append(tagsLinks);
-  }
+  const tagsLinksPromise = getTagsLinks(post);
+  tagsLinksPromise.then((tagsLinks) => {
+    if (tagsLinks) {
+      postCard.querySelector('.post-card-text').append(tagsLinks);
+    }
+  });
 
   decorateIcons(postCard);
   return postCard;
@@ -171,8 +174,17 @@ async function loadPage(grid) {
     return;
   }
   const end = limit > 0 ? (limit + counter) : (pageSize + counter);
+  const pageTag = await getPageTag();
+  let postTags = [];
+  if (getMetadata('template') === 'post') {
+    const tags = getMetadata('article:tag');
+    if (tags && tags.trim() !== '') {
+      const [validTags] = await validateHashTags(tags.split(',').map((t) => t.trim()));
+      postTags = validTags;
+    }
+  }
   const postsGenerator = getPostsFfetch()
-    .filter(filterPosts(filter))
+    .filter(filterPosts(filter, pageTag, postTags))
     .slice(counter, end);
 
   const hasCta = grid.dataset.hasCta === 'true';

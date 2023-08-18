@@ -15,8 +15,24 @@ main input {
   font-family: inherit;
 }
 
+main select {
+  width: 100%;
+  font-size: 1.5rem;
+  border: none;
+  padding-top: 5px;
+  font-family: inherit;
+}
+
 main .filter {
   padding: 20px 10px 20px 10px;
+  display: grid;
+  gap: 3rem;
+}
+
+@media(min-width: 900px) {
+  main .filter {
+    grid-template-columns: 300px 1fr;
+  }
 }
 
 main #selected {
@@ -35,17 +51,17 @@ main #selected button {
   padding-bottom: 150px;
 }
 
-#results > .category {
-  user-select: none;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+#results > .category.empty {
+  display: none;
 }
 
-main > div > span,
-main > div > div > span {
-  white-space: nowrap;
-  margin: 6px 4px;
+#results > .category ul {
+  list-style: none;
+  padding-inline-start: 20px;
+}
+
+#results > .category ul > li {
+  margin-block-end: 10px;
 }
 
 main {
@@ -54,35 +70,34 @@ main {
   line-height: 1.2em;
 }
 
-span.tag {
-  color: lightgrey;
-  padding: 2px 20px;
-  border-radius: 10px;
-  font-size: 16px;
-}
-
 .tag {
-  padding-top: 5px;
-}
+  --tag-bg-color: #0d66d0;
+  --tag-selection-color: lightgrey;
 
-.selected span.tag {
-  background-color: #888888;
-  color: lightgrey;
-}
-
-.tag.cat-0 {
-  background-color: #0d66d0;
+  background-color: var(--tag-bg-color);
+  color: var(--tag-selection-color);
+  padding: 4px 20px;
+  border-radius: 10px;
 }
 
 .tag.cat-1 {
-  background-color: #d7373f;
+  --tag-bg-color: #d7373f;
 }
 
 .tag.cat-2 {
-  background-color: #12805c;
+  --tag-bg-color: #12805c;
 }
+
 .tag.cat-3 {
-  background-color: #d2b200;
+  --tag-bg-color: #d2b200;
+  --tag-selection-color: dimgrey;
+}
+
+.path.selected .tag {
+  color: var(--tag-bg-color);
+  background-color: var(--tag-selection-color);
+  border: 2px ridge var(--tag-bg-color);
+  font-weight: 700;
 }
 
 span.tag .highlight {
@@ -90,21 +105,31 @@ span.tag .highlight {
   color: white;
 }
 
-span.path {
+.path {
   cursor: pointer;
   border-radius: 10px;
   border: 1px dashed black;
-  padding: 4px 10px 2px 10px;
-  font-size: 12px;
+  padding: 6px 10px;
+  font-size: 18px;
+  line-height: 1.5;
+  text-wrap: nowrap;
 }
 
-span.path.filtered {
-  display: none;
+.filtered {
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+
+.hidden {
+  display: none !important;
 }
 
 span.psep {
   font-size: 20px;
   font-weight: bold;
+  margin-inline: 0.5ch;
 }
 
 #selected {
@@ -141,10 +166,11 @@ span.psep {
   display: flex;
   flex-wrap: wrap;
   height: min-content;
+  gap: 1rem;
 }
 
-.hidden {
-  display: none !important;
+.selected-tags .tag {
+  font-weight: 700;
 }
 
 .offscreen {
