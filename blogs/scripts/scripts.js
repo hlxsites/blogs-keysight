@@ -235,6 +235,7 @@ export async function getPageTag() {
   const params = url.searchParams;
   const tag = params.get('tag');
   if (tag) {
+    // convert tag title to a tag object
     const [validTags] = await validateHashTags([tag]);
     if (validTags.length > 0) {
       [pageTag] = validTags;
