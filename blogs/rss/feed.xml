@@ -167,20 +167,20 @@
         <published>2023-07-12T00:00:00.000Z</published>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Improving patient outcomes in healthcare through test automation technology]]></title>
-        <id>https://www.keysight.com/blogs/blogs/keys/kcsr/2023/07/06/improving-patient-outcomes-in-healthcare-through-test-automation-technology</id>
-        <link href="https://www.keysight.com/blogs/blogs/keys/kcsr/2023/07/06/improving-patient-outcomes-in-healthcare-through-test-automation-technology"/>
-        <updated>2023-07-11T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[In this blog post, Keysight's director of corporate social responsibility discusses the role of software testing in improving patient outcomes in healthcare management.]]></content>
-        <published>2023-07-11T00:00:00.000Z</published>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[How do temperature, age, and discharge rate affect battery run time?]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/07/11/how-do-key-factors-affect-battery-run-time</id>
         <link href="https://www.keysight.com/blogs/blogs/tech/bench/2023/07/11/how-do-key-factors-affect-battery-run-time"/>
         <updated>2023-07-11T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Learn how age, temperature, and discharge rate impact battery characteristics and how battery models can be used to predict the impact on run time.]]></content>
         <published>2023-07-11T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Improving patient outcomes in healthcare through test automation technology]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/kcsr/2023/07/06/improving-patient-outcomes-in-healthcare-through-test-automation-technology</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/kcsr/2023/07/06/improving-patient-outcomes-in-healthcare-through-test-automation-technology"/>
+        <updated>2023-07-07T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[In this blog post, Keysight's director of corporate social responsibility discusses the role of software testing in improving patient outcomes in healthcare management.]]></content>
+        <published>2023-07-07T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[Threat Simulator: June 2023 Update]]></title>
