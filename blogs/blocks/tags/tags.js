@@ -4,9 +4,10 @@ import {
   splitTags,
   getPostsFfetch,
   filterPosts,
+  getPageTag,
 } from '../../scripts/scripts.js';
+import { validateHashTags } from '../../scripts/taxonomy.js';
 import { getOrigin, readBlockConfig } from '../../scripts/lib-franklin.js';
-import { validateTagObjs } from '../../scripts/taxonomy.js';
 
 function buildSearch(block) {
   const wrapper = createElement('div', 'find-tag');
@@ -45,12 +46,11 @@ function buildSearch(block) {
 
 async function getTagsLinks(tags, limit) {
   const list = createElement('ul', 'tags-list');
-  const validatedTags = await validateTagObjs(tags);
-  validatedTags.slice(0, limit).forEach((tag) => {
+  tags.slice(0, limit).forEach((tag) => {
     const item = createElement('li');
     const link = createElement('a');
-    link.innerHTML = `<span class="tag-name">#${tag.tag}</span><span class="tag-count">${tag.count}</span>`;
-    link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag.tag)}`;
+    link.innerHTML = `<span class="tag-name">#${tag.tag.TAG_TITLE}</span><span class="tag-count">${tag.count}</span>`;
+    link.href = `/blogs/tag-matches?tag=${encodeURIComponent(tag.tag.TAG_TITLE)}`;
     item.append(link);
     list.append(item);
   });
@@ -62,7 +62,8 @@ async function loadTags(block, isAll) {
   const { filter } = conf;
 
   const applicableFilter = filter || 'auto';
-  let postsGenerator = getPostsFfetch().filter(filterPosts(applicableFilter));
+  const pageTag = await getPageTag();
+  let postsGenerator = getPostsFfetch().filter(filterPosts(applicableFilter, pageTag, []));
   let posts;
   if (isAll) {
     posts = await postsGenerator.all();
@@ -79,11 +80,12 @@ async function loadTags(block, isAll) {
   }
 
   const tags = {};
-  posts.forEach((post) => {
+  await Promise.all(posts.map(async (post) => {
     const postTags = splitTags(post.tags);
-    if (postTags.length > 0) {
-      postTags.forEach((tag) => {
-        let tagObj = tags[tag];
+    const [validTags] = await validateHashTags(postTags);
+    if (validTags.length > 0) {
+      validTags.forEach((tag) => {
+        let tagObj = tags[tag.TAG_TITLE];
         if (!tagObj) {
           tagObj = {
             count: 0,
@@ -91,17 +93,17 @@ async function loadTags(block, isAll) {
           };
         }
         tagObj.count += 1;
-        tags[tag] = tagObj;
+        tags[tag.TAG_TITLE] = tagObj;
       });
     }
-  });
-  const tagsAsArray = Object.values(tags).map((tagObj) => tagObj).filter((tagObj) => {
+  }));
+  const tagsAsArray = Object.values(tags).filter((tagObj) => {
     const url = new URL(window.location);
     const params = url.searchParams;
-    const tag = params.get('tag');
-    if (tag) {
+    const tagPath = params.get('tag');
+    if (tagPath) {
       // hide current tag when on a tag page
-      return tag !== tagObj.tag;
+      return tagPath !== tagObj.tag.TAG_TITLE;
     }
     return true;
   });

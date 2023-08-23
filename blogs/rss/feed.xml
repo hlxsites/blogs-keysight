@@ -119,6 +119,14 @@
         <published>2023-07-24T00:00:00.000Z</published>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Reimagine Your In-Vehicle Infotainment (IVI) Systems with Intelligent Testing]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2021/1/05/reimagine-in-vehicle-infotainment-intelligent-testing</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2021/1/05/reimagine-in-vehicle-infotainment-intelligent-testing"/>
+        <updated>2023-07-24T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Get to know your drivers with an AI-powered test automation platform like Eggplant Test and deliver a new standard for IVI performance.]]></content>
+        <published>2023-07-24T00:00:00.000Z</published>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[New IoT Cybersecurity Label for Electronics Manufacturers]]></title>
         <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/07/21/white-house-launches-iot-cybersecurity-labeling-program</id>
         <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/07/21/white-house-launches-iot-cybersecurity-labeling-program"/>
@@ -167,20 +175,20 @@
         <published>2023-07-12T00:00:00.000Z</published>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Improving patient outcomes in healthcare through test automation technology]]></title>
-        <id>https://www.keysight.com/blogs/blogs/keys/kcsr/2023/07/06/improving-patient-outcomes-in-healthcare-through-test-automation-technology</id>
-        <link href="https://www.keysight.com/blogs/blogs/keys/kcsr/2023/07/06/improving-patient-outcomes-in-healthcare-through-test-automation-technology"/>
-        <updated>2023-07-11T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[In this blog post, Keysight's director of corporate social responsibility discusses the role of software testing in improving patient outcomes in healthcare management.]]></content>
-        <published>2023-07-11T00:00:00.000Z</published>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[How do temperature, age, and discharge rate affect battery run time?]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/07/11/how-do-key-factors-affect-battery-run-time</id>
         <link href="https://www.keysight.com/blogs/blogs/tech/bench/2023/07/11/how-do-key-factors-affect-battery-run-time"/>
         <updated>2023-07-11T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Learn how age, temperature, and discharge rate impact battery characteristics and how battery models can be used to predict the impact on run time.]]></content>
         <published>2023-07-11T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Improving patient outcomes in healthcare through test automation technology]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/kcsr/2023/07/06/improving-patient-outcomes-in-healthcare-through-test-automation-technology</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/kcsr/2023/07/06/improving-patient-outcomes-in-healthcare-through-test-automation-technology"/>
+        <updated>2023-07-07T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[In this blog post, Keysight's director of corporate social responsibility discusses the role of software testing in improving patient outcomes in healthcare management.]]></content>
+        <published>2023-07-07T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[Threat Simulator: June 2023 Update]]></title>
@@ -251,7 +259,7 @@
         <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/06/15/solving-5g-6g-challenges-with-artificial-intelligence-ai</id>
         <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/06/15/solving-5g-6g-challenges-with-artificial-intelligence-ai"/>
         <updated>2023-06-20T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[Artificial intelligence (AI) stands ready to tackle 5G and 6 G challenges. Learn how AI is paving the way for a wireless networks revolution.]]></content>
+        <content type="html"><![CDATA[Artificial intelligence (AI) stands ready to tackle 5G and 6 G challenges. Learn how AI is paving the way for a wireless network revolution.]]></content>
         <published>2023-06-20T00:00:00.000Z</published>
     </entry>
     <entry>
@@ -311,20 +319,20 @@
         <published>2023-06-07T00:00:00.000Z</published>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Revolutionizing Education: Navigating Digital Transformation in Higher Learning]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/6/digital-transformation-in-education-blog</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/6/digital-transformation-in-education-blog"/>
+        <updated>2023-06-06T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Learn about the transformative power of digital transformation in higher education with Keysight's Eggplant.]]></content>
+        <published>2023-06-06T00:00:00.000Z</published>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Find Out What the Tech Future Means for You]]></title>
         <id>https://www.keysight.com/blogs/blogs/keys/culture/2023/06/07/future-av-5g-6g-ntn-digital-healthcare-keysight-world-innovate-2023</id>
         <link href="https://www.keysight.com/blogs/blogs/keys/culture/2023/06/07/future-av-5g-6g-ntn-digital-healthcare-keysight-world-innovate-2023"/>
         <updated>2023-06-06T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Virtual, expert-led sessions cover engineering in emerging technologies, like the 5G and 6G metaverse, software-defined vehicles, extraterrestrial communications, and digital healthcare, at Keysight World: Innovate.]]></content>
         <published>2023-06-06T00:00:00.000Z</published>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Revolutionizing Education: Navigating Digital Transformation in Higher Learning]]></title>
-        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/6/digital-transformation-in-education-blog</id>
-        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/6/6/digital-transformation-in-education-blog"/>
-        <updated>2023-06-05T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[Learn about the transformative power of digital transformation in higher education with Keysight's Eggplant.]]></content>
-        <published>2023-06-05T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[How to Create Power Supply Output Sequences with Data Logging]]></title>
@@ -603,7 +611,7 @@
         <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/04/19/google-bard-blog</id>
         <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/04/19/google-bard-blog"/>
         <updated>2023-04-19T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[This blogs explains the network traffic analysis of Google Bard webapp.]]></content>
+        <content type="html"><![CDATA[This blog explains the network traffic analysis of Google Bard webapp.]]></content>
         <published>2023-04-19T00:00:00.000Z</published>
     </entry>
     <entry>

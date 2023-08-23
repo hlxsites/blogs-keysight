@@ -78,6 +78,7 @@ async function buildMetadataTable(path) {
       author: 'Author',
       'author-title': 'Author Title',
       'article:tag': 'Tags',
+      'back-office-tags': 'Back-Office Tags',
       'publication-date': 'Publication Date',
       'read-time': 'Read Time',
     };

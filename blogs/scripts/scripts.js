@@ -18,6 +18,7 @@ import {
   decorateBlock,
   loadBlock,
 } from './lib-franklin.js';
+import { validateBackOfficeTags, validateHashTags, checkTag } from './taxonomy.js';
 
 const LCP_BLOCKS = ['hero', 'featured-posts']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
@@ -200,16 +201,13 @@ export function getPostsFfetch() {
   return posts;
 }
 
-function getApplicableFilter(filterName) {
+function getApplicableFilter(filterName, pageTag) {
   let applicableFilter = filterName ? filterName.toLowerCase() : 'none';
   const topic = getMetadata('topic');
   const subTopic = getMetadata('subtopic');
-  const url = new URL(window.location);
-  const params = url.searchParams;
-  const tag = params.get('tag');
   const template = getMetadata('template');
   if (applicableFilter === 'auto') {
-    if (tag) {
+    if (pageTag) {
       applicableFilter = 'tag';
     } else if (template === 'author') {
       applicableFilter = 'author';
@@ -228,27 +226,45 @@ function getApplicableFilter(filterName) {
 }
 
 /**
+ * Get the tag passed to the page via query parameter
+ * @returns the tag object for the tag usp
+ */
+export async function getPageTag() {
+  let pageTag;
+  const url = new URL(window.location);
+  const params = url.searchParams;
+  const tag = params.get('tag');
+  if (tag) {
+    // convert tag title to a tag object
+    const [validTags] = await validateHashTags([tag]);
+    if (validTags.length > 0) {
+      [pageTag] = validTags;
+    }
+  }
+  return pageTag;
+}
+
+/**
  * get a function to use for filtering posts. To be used in conjunction with
  * getPostsFfetch()
  * @param {string} filterName the name of the filter to apply
+ * @param {object} pageTag a tag object to use with filter,
+ * usually passed as a tag title via url param and resolved before calling this.
+ * @param {object[]} pageTags an array of tag object to use with filter for related posts
  * @returns {function} a function for filtering posts based on the filter name
  */
-export function filterPosts(filterName) {
-  const applicableFilter = getApplicableFilter(filterName);
+export function filterPosts(filterName, pageTag, pageTags) {
+  const applicableFilter = getApplicableFilter(filterName, pageTag);
   const filterFunc = (post) => {
     if (applicableFilter === 'post') {
       const isDiffPath = post.path !== window.location.pathname;
-      const tags = getMetadata('article:tag');
       const postTags = splitTags(post.tags);
-      const hasCommonTags = tags.split(', ').some((tag) => postTags.includes(tag));
+      const hasCommonTags = postTags.some((tag) => checkTag(tag, pageTags) !== undefined);
       return isDiffPath && hasCommonTags;
     }
 
     const topic = getMetadata('topic');
     const subTopic = getMetadata('subtopic');
-    const url = new URL(window.location);
-    const params = url.searchParams;
-    const tag = params.get('tag');
     let matches = true;
     if (applicableFilter === 'topic') {
       matches = topic === post.topic;
@@ -264,8 +280,8 @@ export function filterPosts(filterName) {
     if (applicableFilter === 'tag') {
       // used for the tag-matches page, where tag is passed in a query param
       const postTags = splitTags(post.tags);
-      if (tag) {
-        matches = postTags.includes(tag);
+      if (pageTag) {
+        matches = postTags.some((t) => checkTag(t, [pageTag]) !== undefined);
       }
     }
     return matches;
@@ -521,6 +537,37 @@ async function updatePlaceholders() {
     document.querySelector('head > title').textContent = withSuffix;
     ogTitle.content = withSuffix;
     twitterTitle.content = withSuffix;
+  }
+}
+
+/**
+ * Validate and add Back Office Tags to the page
+ */
+export async function addBackOfficeMetaTags() {
+  // add back office tags to head
+  const backoffice = getMetadata('back-office-tags');
+  if (backoffice) {
+    const tags = backoffice.split(',').map((t) => t.trim());
+    const [validTags] = await validateBackOfficeTags(tags, 'en');
+    validTags.forEach((tag) => {
+      const { TAG_PATH } = tag;
+      const parts = TAG_PATH.replace('/content/cq:tags/segmentation/', '').split('/');
+      const group = parts.shift();
+      const tagVal = new Set(parts);
+      const existingTag = document.querySelector(`meta[name="${group}`);
+      if (existingTag) {
+        const existingContent = existingTag.getAttribute('content').split(',');
+        tagVal.add(...existingContent);
+        const newContent = [...tagVal].join(',');
+        existingTag.setAttribute('content', newContent);
+      } else {
+        const metaTag = createElement('meta', '', {
+          name: group,
+          content: [...tagVal].join(','),
+        });
+        document.head.append(metaTag);
+      }
+    });
   }
 }
 
