@@ -15,6 +15,14 @@
         <published>2023-08-23T00:00:00.000Z</published>
     </entry>
     <entry>
+        <title type="html"><![CDATA[CVE-2023-2986: WordPress Plugin Vulnerability and the importance of PoC]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/08/23/cve-2023-2986</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/08/23/cve-2023-2986"/>
+        <updated>2023-08-23T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blog does a root cause analysis of CVE-2023-2986 and shows how proof of concepts helps in ensuring effective patching of vulnerabilities.]]></content>
+        <published>2023-08-23T00:00:00.000Z</published>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Auto Tech Talks Podcast Season 1: The EV Battery Revolution]]></title>
         <id>https://www.keysight.com/blogs/blogs/inds/2023/08/16/auto-tech-talks-season-1-the-ev-battery-revolution</id>
         <link href="https://www.keysight.com/blogs/blogs/inds/2023/08/16/auto-tech-talks-season-1-the-ev-battery-revolution"/>
