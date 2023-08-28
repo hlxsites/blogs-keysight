@@ -2,10 +2,66 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-08-16T00:00:00.000Z</updated>
+    <updated>2023-08-28T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Quality Smart Home Systems Enable a Sustainable Future Through Power Consumption Management]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/kcsr/2023/08/28/smarthomeenergyreduction</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/kcsr/2023/08/28/smarthomeenergyreduction"/>
+        <updated>2023-08-28T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[In this blog post, Keysight's director of corporate social responsibility discusses the role of product development in smart home solutions to optimize their power management capabilities and ultimately drive a more sustainable future.]]></content>
+        <published>2023-08-28T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Three Innovations Fueling Electric Vehicle (EV) Adoption]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/08/25/three-innovations-fueling-electric-vehicle-adoption</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/thought-leadership/2023/08/25/three-innovations-fueling-electric-vehicle-adoption"/>
+        <updated>2023-08-25T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Electric vehicle innovations are solving some of the industry’s most challenging issues, from test and measurement to battery capacity.]]></content>
+        <published>2023-08-25T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ATI Coverage for the CISA alert on 2022 Top Routinely Exploited Vulnerabilities]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/08/25/cisa-alert-2022-top-routinely-exploited-vulnerabilities</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/08/25/cisa-alert-2022-top-routinely-exploited-vulnerabilities"/>
+        <updated>2023-08-25T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blog talks about the Top Routinely Exploited Vulnerabilities of 2022.]]></content>
+        <published>2023-08-25T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Does your application meet its operational demands at peak loads?]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/8/24/does-your-application-meet-its-operational-demands-at-peak-loads-v3</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/8/24/does-your-application-meet-its-operational-demands-at-peak-loads-v3"/>
+        <updated>2023-08-24T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Blog that describes how Eggplant Performance as a Service ensures our customers’ websites can handle the expected user load without crashing, slowing down, or producing errors.]]></content>
+        <published>2023-08-24T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Rise of EVs – What Does it Mean for Battery Developers?]]></title>
+        <id>https://www.keysight.com/blogs/blogs/inds/2023/08/23/auto-tech-talks-season-1-ep1-the-rise-of-evs</id>
+        <link href="https://www.keysight.com/blogs/blogs/inds/2023/08/23/auto-tech-talks-season-1-ep1-the-rise-of-evs"/>
+        <updated>2023-08-23T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[In this episode of the Auto Tech Talks podcast series, we examine how the demand for more electric vehicle (EV) batteries puts pressure on battery developers to ensure profitability in a challenging and competitive landscape.]]></content>
+        <published>2023-08-23T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CVE-2023-2986: WordPress Plugin Vulnerability and the importance of PoC]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/08/23/cve-2023-2986</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/08/23/cve-2023-2986"/>
+        <updated>2023-08-23T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blog does a root cause analysis of CVE-2023-2986 and shows how proof of concepts helps in ensuring effective patching of vulnerabilities.]]></content>
+        <published>2023-08-23T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Open Testing and Tool Consolidation: A Roadmap to Vendor Independence and Future-Proofing]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/8/24/test-guild-blog-v2</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/8/24/test-guild-blog-v2"/>
+        <updated>2023-08-23T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Could open testing strategies hold the key to developing more efficient, flexible, and resilient testing processes and enhancing the test automation maturity of your organization?]]></content>
+        <published>2023-08-23T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Auto Tech Talks Podcast Season 1: The EV Battery Revolution]]></title>
         <id>https://www.keysight.com/blogs/blogs/inds/2023/08/16/auto-tech-talks-season-1-the-ev-battery-revolution</id>
@@ -919,11 +975,11 @@
         <published>2023-02-26T00:00:00.000Z</published>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Spectrum analyzers can help cancer patients receive an accurate MRI]]></title>
+        <title type="html"><![CDATA[Spectrum analyzers Can Help Get More Accurate MRI for Cancer]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/rfmw/2023/02/26/spectrum-analyzers-can-help-cancer-patients-receive-an-accurate-mri</id>
         <link href="https://www.keysight.com/blogs/blogs/tech/rfmw/2023/02/26/spectrum-analyzers-can-help-cancer-patients-receive-an-accurate-mri"/>
         <updated>2023-02-26T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[Cancer MRI Spectrum Analyzer]]></content>
+        <content type="html"><![CDATA[Spectrum analyzers can help doctors to achieve better MRI results, due to increased accuracy, efficiency, and convenient testing.]]></content>
         <published>2023-02-26T00:00:00.000Z</published>
     </entry>
     <entry>
