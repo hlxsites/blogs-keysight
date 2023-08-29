@@ -646,22 +646,21 @@ export function loadKeysightHeader(header) {
         .then((response) => response.text())
         .then((data1) => {
           const resultAfterSplit = data1.split('src="');
-          resultAfterSplit.forEach(element => {
+          resultAfterSplit.forEach((element) => {
             const src = element.split('" ')[0].split('">')[0];
             const script = document.createElement('script');
             script.type = 'text/javascript';
             script.innerHTML = '';
             script.src = src;
             document.head.appendChild(script);
+          });
         });
-        })
     });
 
   header.append(headerBlock);
   decorateBlock(headerBlock);
   return headerBlock;
 }
-
 
 /**
  * loads a block named 'footer' into footer

@@ -594,7 +594,6 @@ async function loadLazy(doc) {
   const footer = doc.querySelector('footer');
   loadKeysightHeader(header);
   loadHeader(header);
- 
   loadFooter(footer);
 
   // analytics ids
