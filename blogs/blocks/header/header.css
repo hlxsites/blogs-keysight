@@ -362,3 +362,15 @@ header .search-nav {
 header .search-nav[aria-expanded='true'] {
   display: block;
 }
+
+.nav-brand#logo {
+  display: none;
+}
+.header[data-block-status='loaded'] > nav, .header[data-block-status='loaded'],.header[data-block-status='loaded'] > nav > .nav-sections > ul{
+  background-color: black;
+  color: white;
+}
+
+.header[data-block-status='loaded'] > nav > .nav-sections > ul> li> a , #blog-home > p > a{
+  color: white !important;
+}

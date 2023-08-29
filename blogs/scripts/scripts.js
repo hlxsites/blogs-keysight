@@ -3,6 +3,7 @@ import {
   sampleRUM,
   buildBlock,
   loadHeader,
+  loadKeysightHeader,
   loadFooter,
   decorateButtons,
   decorateIcons,
@@ -591,7 +592,9 @@ async function loadLazy(doc) {
 
   const header = doc.querySelector('header');
   const footer = doc.querySelector('footer');
+  loadKeysightHeader(header);
   loadHeader(header);
+ 
   loadFooter(footer);
 
   // analytics ids

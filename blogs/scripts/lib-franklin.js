@@ -558,6 +558,62 @@ export function loadHeader(header) {
   return loadBlock(headerBlock);
 }
 
+
+/**
+ * loads a block named 'header' into header
+ */
+
+export function loadKeysightHeader(header) {
+  var headerBlock = buildBlock('header', '');
+  fetch('https://stgwww.keysight.com/etc/keysight/api/headerFooterExporter.markup.html?component=header&ctry=us&lang=en')
+    .then(response => response.text())
+    .then(data => {
+        headerBlock.innerHTML = data;
+        if(data){
+          var refreshLink = $("#locale-chooser div ul li a");
+          var i=0;            
+          var currentURL = window.location.href;
+          var originalURL=null;
+          var urlParts; 
+          var baseURL;
+
+          if (refreshLink) {
+            for(i=0; i<refreshLink.length; i++){
+              if(refreshLink[i].id != 'language-selector-more-link'){
+                refreshLink[i].href=window.location.href; 
+              }
+              else{
+                  originalURL = refreshLink[i].href;
+                  urlParts = originalURL.split('?');
+                  baseURL = urlParts[0];
+                  refreshLink[i].href=baseURL+"?prev_url="+currentURL;
+              }
+            }
+          }
+        }
+      
+        fetch('https://stgwww.keysight.com/etc/keysight/api/headerFooterExporter.style.html?component=header&ctry=us&lang=en&type=js')
+        .then(response => response.text())
+        .then(data1 => {
+          var resultAfterSplit = data1.split('src="');
+        for (var index in resultAfterSplit) {
+         const src = resultAfterSplit[index].split('" ')[0].split('">')[0];
+         var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.innerHTML = '';
+        script.src = src;
+        document.head.appendChild(script);
+       }
+     })
+    });
+
+  console.log('hiii', headerBlock)
+  header.append(headerBlock);
+  decorateBlock(headerBlock);
+  return headerBlock;
+}
+
+
 /**
  * loads a block named 'footer' into footer
  */
