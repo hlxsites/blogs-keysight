@@ -642,19 +642,19 @@ export function loadKeysightHeader(header) {
           }
         });
       }
-    fetch('https://www.keysight.com/etc/keysight/api/headerFooterExporter.style.html?component=header&ctry=us&lang=en&type=js')
-      .then((response) => response.text())
-      .then((data1) => {
-          let resultAfterSplit = data1.split('src="');
-          for (let index in resultAfterSplit) {
-              const src = resultAfterSplit[index].split('" ')[0].split('">')[0];
-              let script = document.createElement('script');
-              script.type = 'text/javascript';
-              script.innerHTML = '';
-              script.src = src;
-              document.head.appendChild(script);
-          }
-      })
+      fetch('https://www.keysight.com/etc/keysight/api/headerFooterExporter.style.html?component=header&ctry=us&lang=en&type=js')
+        .then((response) => response.text())
+        .then((data1) => {
+          const resultAfterSplit = data1.split('src="');
+          resultAfterSplit.forEach(element => {
+            const src = element.split('" ')[0].split('">')[0];
+            const script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.innerHTML = '';
+            script.src = src;
+            document.head.appendChild(script);
+        });
+        })
     });
 
   header.append(headerBlock);
