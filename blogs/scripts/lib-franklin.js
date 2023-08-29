@@ -19,7 +19,7 @@ export function sampleRUM(checkpoint, data = {}) {
   sampleRUM.defer = sampleRUM.defer || [];
   const defer = (fnname) => {
     sampleRUM[fnname] = sampleRUM[fnname]
-      || ((...args) => sampleRUM.defer.push({ fnname, args }));
+      || ((...args) => sampleRUM.defer.push({ fnname, args   }));
   };
   sampleRUM.drain = sampleRUM.drain
     || ((dfnname, fn) => {
@@ -558,27 +558,26 @@ export function loadHeader(header) {
   return loadBlock(headerBlock);
 }
 
-
 /**
  * loads a block named 'header' into header
  */
 
 export function loadKeysightHeader(header) {
   function getCookie(name) {
-    var value = "; " + document.cookie;
-    var parts = value.split("; " + name + "=");
-    if (parts.length == 2) return parts.pop().split(";").shift();
+    let value = ';' + document.cookie;
+    let parts = value.split('; '+ name + '=');
+    if (parts.length === 2) return parts.pop().split(';').shift();
   }
   const cookieAl_Local = getCookie('AG_LOCALE');
-  var cc;
-  var lc
+  let cc;
+  let lc
   
   if(cookieAl_Local) {
     cc = cookieAl_Local.substring(0,2).toLowerCase();
     lc = cookieAl_Local.substring(2,cookieAl_Local.length);
   } else {
     lc='en';
-    cc="us"
+    cc='us'
   }
 
   let url;
@@ -607,17 +606,17 @@ export function loadKeysightHeader(header) {
     default:
       url = 'https://stgwww.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=header&ctry='+cc+'&lang=en';
   }
-  var headerBlock = buildBlock('header', '');
+  let headerBlock = buildBlock('header', '');
   fetch(url)
     .then(response => response.text())
     .then(data => {
         headerBlock.innerHTML = data;
-        var refreshLink = $("#locale-chooser div ul li a");
-            var i=0;            
-            var currentURL = window.location.href;
-            var originalURL=null;
-            var urlParts; 
-            var baseURL;
+        let refreshLink = $('#locale-chooser div ul li a');
+            let i=0;            
+            let currentURL = window.location.href;
+            let originalURL=null;
+            let urlParts; 
+            let baseURL;
             if (refreshLink) {
               for(i=0; i<refreshLink.length; i++){
                 if(refreshLink[i].id != 'language-selector-more-link'){
@@ -627,17 +626,17 @@ export function loadKeysightHeader(header) {
                     originalURL = refreshLink[i].href;
                     urlParts = originalURL.split('?');
                     baseURL = urlParts[0];
-                    refreshLink[i].href=baseURL+"?prev_url="+currentURL;
+                    refreshLink[i].href=baseURL+'?prev_url='+currentURL;
                 }
               }
             }
         fetch('https://stgwww.keysight.com/etc/keysight/api/headerFooterExporter.style.html?component=header&ctry=us&lang=en&type=js')
         .then(response => response.text())
         .then(data1 => {
-          var resultAfterSplit = data1.split('src="');
-        for (var index in resultAfterSplit) {
+          let resultAfterSplit = data1.split('src="');
+        for (let index in resultAfterSplit) {
          const src = resultAfterSplit[index].split('" ')[0].split('">')[0];
-         var script = document.createElement('script');
+         let script = document.createElement('script');
         script.type = 'text/javascript';
         script.innerHTML = '';
         script.src = src;
