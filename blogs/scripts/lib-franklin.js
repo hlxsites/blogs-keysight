@@ -617,32 +617,32 @@ export function loadKeysightHeader(header) {
       break;
     }
     default:
-      url = 'https://www.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=header&ctry=' +`${cc}` + '&lang=en';
+      url = `https://www.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=header&ctry=${cc}&lang=en`;
   }
   const headerBlock = buildBlock('header', '');
   fetch(url)
     .then((response) => response.text())
-    .then(data => {
+    .then((data) => {
       headerBlock.innerHTML = data;
       const refreshLink = document.querySelectorAll('#locale-chooser div ul li a');
-      let i = 0;
       const currentURL = window.location.href;
       let originalURL = null;
       let urlParts;
+      const i = 0;
       let baseURL;
       if (refreshLink) {
         refreshLink.forEach((link) => {
-          if (link.id != 'language-selector-more-link') {
+          if (link.id !== 'language-selector-more-link') {
             link.href = window.location.href;
           } else {
             originalURL = link.href;
             urlParts = originalURL.split('?');
-            baseURL = urlParts[0];
-            link.href = baseURL + '?prev_url=' + currentURL;
+            baseURL = urlParts[i];
+            link.href = `${baseURL}?prev_url=${currentURL}`;
           }
         });
       }
-      fetch('https://www.keysight.com/etc/keysight/api/headerFooterExporter.style.html?component=header&ctry=us&lang=en&type=js')
+    fetch('https://www.keysight.com/etc/keysight/api/headerFooterExporter.style.html?component=header&ctry=us&lang=en&type=js')
       .then((response) => response.text())
       .then((data1) => {
           let resultAfterSplit = data1.split('src="');
