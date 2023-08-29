@@ -366,11 +366,27 @@ header .search-nav[aria-expanded='true'] {
 .nav-brand#logo {
   display: none;
 }
-.header[data-block-status='loaded'] > nav, .header[data-block-status='loaded'],.header[data-block-status='loaded'] > nav > .nav-sections > ul{
+
+.header[data-block-status='loaded'] > nav, .header[data-block-status='loaded'],
+.header[data-block-status='loaded'] > nav > .nav-sections > ul{
   background-color: black;
   color: white;
 }
 
 .header[data-block-status='loaded'] > nav > .nav-sections > ul> li> a , #blog-home > p > a{
   color: white !important;
+}
+
+header nav .nav-sections > ul > li[aria-expanded='true'] > a:is(:hover, :focus){
+
+  color: var(--color-red) !important;
+
+}
+
+header nav .nav-sections > ul > li[aria-expanded='false'] > a:is(:hover, :focus){
+
+  color: var(--color-red) !important;
+
+ 
+
 }
