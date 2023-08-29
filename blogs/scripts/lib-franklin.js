@@ -19,7 +19,7 @@ export function sampleRUM(checkpoint, data = {}) {
   sampleRUM.defer = sampleRUM.defer || [];
   const defer = (fnname) => {
     sampleRUM[fnname] = sampleRUM[fnname]
-      || ((...args) => sampleRUM.defer.push({ fnname, args   }));
+      || ((...args) => sampleRUM.defer.push({ fnname, args }));
   };
   sampleRUM.drain = sampleRUM.drain
     || ((dfnname, fn) => {
@@ -563,21 +563,25 @@ export function loadHeader(header) {
  */
 
 export function loadKeysightHeader(header) {
+
   function getCookie(name) {
-    let value = ';' + document.cookie;
-    let parts = value.split('; '+ name + '=');
-    if (parts.length === 2) return parts.pop().split(';').shift();
+    const value = ';' + document.cookie;
+    const parts = value.split('; '+ name + '=');
+    if (parts.length === 2){
+      return parts.pop().split(';').shift();
+    } 
   }
-  const cookieAl_Local = getCookie('AG_LOCALE');
+
+  const cookieAgLocale = getCookie('AG_LOCALE');
   let cc;
-  let lc
+  let lc;
   
-  if(cookieAl_Local) {
-    cc = cookieAl_Local.substring(0,2).toLowerCase();
-    lc = cookieAl_Local.substring(2,cookieAl_Local.length);
+  if(cookieAgLocale) {
+    cc = cookieAgLocale.substring(0,2).toLowerCase();
+    lc = cookieAgLocale.substring(2,cookieAgLocale.length);
   } else {
     lc='en';
-    cc='us'
+    cc='us';
   }
 
   let url;
@@ -644,8 +648,7 @@ export function loadKeysightHeader(header) {
        }
      })
     });
-
-  console.log('hiii', headerBlock)
+    
   header.append(headerBlock);
   decorateBlock(headerBlock);
   return headerBlock;
