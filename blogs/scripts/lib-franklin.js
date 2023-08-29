@@ -570,8 +570,17 @@ export function loadKeysightHeader(header) {
     if (parts.length == 2) return parts.pop().split(";").shift();
   }
   const cookieAl_Local = getCookie('AG_LOCALE');
-    var cc = cookieAl_Local.substring(0,2).toLowerCase();
-    var lc = cookieAl_Local.substring(2,cookieAl_Local.length);
+  var cc;
+  var lc
+  
+  if(cookieAl_Local) {
+    cc = cookieAl_Local.substring(0,2).toLowerCase();
+    lc = cookieAl_Local.substring(2,cookieAl_Local.length);
+  } else {
+    lc='en';
+    cc="us"
+  }
+
   let url;
   switch(lc) {
     case 'por':{
