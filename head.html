@@ -5,7 +5,8 @@
 <link rel="stylesheet" href="/blogs/styles/styles.css" />
 <link rel="icon" href="data:,">
 <link rel="alternate" type="application/atom+xml" title="Keysight Blogs | RSS" href="/blogs/rss/feed.xml" />
-<link href="https://www.keysight.com/etc/designs/keysight/clientlibs/fonts/fonts.css" rel="stylesheet" type="text/css"/>
+<link href="https://www.keysight.com/etc/designs/keysight/clientlibs/fonts/fonts.css" rel="stylesheet"
+    type="text/css" />
 
 <style>
     .visually-hidden {
@@ -18,7 +19,31 @@
         position: absolute;
         width: 1px;
     }
+
+    #keysight-lookahead-search .search-results-block .products-List {
+        display: flex;
+        column-gap: 2.3rem !important;
+        flex-wrap: wrap;
+        gap: 0 !important;
+    }
 </style>
-    
-    
-<link rel="stylesheet" href="https://www.keysight.com/etc/designs/keysight/clientlibs/headerfooter-dtx.min.34211c930f0cefbb0e4fedee0cfef6fc.css" type="text/css"><link rel="stylesheet" href="https://www.keysight.com/etc.clientlibs/keysight/components/content/keysight-header/clientlibs.min.7ce35ca3bc993a0094bd7568251949f9.css" type="text/css"><link rel="stylesheet" href="https://www.keysight.com/etc.clientlibs/keysight/components/content/search-lookahead/clientlibs.min.c7b0840ba3e3814343a1eccda3100734.css" type="text/css"><link rel="stylesheet" href="https://www.keysight.com/etc.clientlibs/keysight/clientlibs/clientlib-keysight-assets/clientlib-grid.min.77d8b70bf938cd3dddc3fa72f6425265.css" type="text/css">
+
+<script>
+    window.onload = function () {
+        fetch('https://www.keysight.com/etc/keysight/api/headerFooterExporter.style.html?component=header&ctry=us&lang=en&type=css')
+            .then(response => response.text())
+            .then(data2 => {
+                var resultAfterSplit = data2.split('href="');
+                for (index in resultAfterSplit) {
+                    const href = resultAfterSplit[index].split('" ')[0];
+                    var link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.type = 'text/css';
+                    link.innerHTML = '';
+                    link.href = href;
+                    document.head.appendChild(link);
+                }
+
+            })
+    }
+</script>
