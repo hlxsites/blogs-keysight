@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-08-28T00:00:00.000Z</updated>
+    <updated>2023-08-31T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[The Key to Long-Range EVs: Understanding Battery Test Parameters]]></title>
+        <id>https://www.keysight.com/blogs/blogs/inds/2023/08/31/auto-tech-talks-season-1-ep2-understanding-battery-test-parameters</id>
+        <link href="https://www.keysight.com/blogs/blogs/inds/2023/08/31/auto-tech-talks-season-1-ep2-understanding-battery-test-parameters"/>
+        <updated>2023-08-31T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[In this episode of the Auto Tech Talks podcast series, we examine the test parameters at different levels of the battery development process: from cell, to module, and pack testing.]]></content>
+        <published>2023-08-31T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Quality Smart Home Systems Enable a Sustainable Future Through Power Consumption Management]]></title>
         <id>https://www.keysight.com/blogs/blogs/keys/kcsr/2023/08/28/smarthomeenergyreduction</id>
