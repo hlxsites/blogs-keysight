@@ -367,11 +367,22 @@ header .search-nav[aria-expanded='true'] {
   display: none;
 }
 
-header .appear, header .appear > nav, header .appear > nav > .nav-sections > ul {
+.nav-drop a {
+  color: black !important;
+}
+.nav-sections > ul > li > a {
+  color: black !important;
+}
+
+.nav-blog-home > p > a {
+  color: black !important;
+}
+
+/* header .appear, header .appear > nav, header .appear > nav > .nav-sections > ul {
   background-color: black;
   color: white;
 }
 
 header .appear > nav >.nav-sections > ul > li > a , header .appear > nav > .nav-blog-home > p > a {
   color: white !important;
-}
+} */
