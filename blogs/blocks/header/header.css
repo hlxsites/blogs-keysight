@@ -404,14 +404,9 @@ font-size: 14px !important;
 padding-left: 12px !important;
 }
 
-#keysight-lookahead-search .search-results-block .search-results-block--header ~ div > div  {
+#keysight-lookahead-search .search-results-block div ~ div > div  {
 font-size: 14px !important;
 }
-
-#keysight-lookahead-search .search-results-block .search-results-block--header {
-  font-size: 14px !important;
-  }
-
 
 #keysight-lookahead-search .search-results-block ul li::before {
 top: 10px !important;
