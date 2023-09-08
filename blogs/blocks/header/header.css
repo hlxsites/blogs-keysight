@@ -381,37 +381,42 @@ header .search-nav[aria-expanded='true'] {
   width: 1px;
 }
 
-#keysight-lookahead-search .search-results-block .products-List {
+#keysight-lookahead-search .search-results-block ul {
   display: flex;
   column-gap: 2.3rem !important;
   flex-wrap: wrap;
-  gap: 0 !important;
+  /* gap: 0 !important; */
 }
 
 #keysight-lookahead-search #search-lookahead-input {
   font-size: 18px !important;
 }
+
 #keysight-lookahead-search .quickLinks a {
   font-size: 16px !important;
 }
 
 #keysight-lookahead-search .keysight-assets-content__wrapper--title > a {
 font-size: 18px!important;
-
 }
 
-#keysight-lookahead-search .search-results-block .products-List li {
+#keysight-lookahead-search .search-results-block ul li {
 font-size: 14px !important;
 padding-left: 12px !important;
 }
 
-#keysight-lookahead-search .suggestionsWrapper .suggestedTerm {
+#keysight-lookahead-search .search-results-block .search-results-block__left div {
 font-size: 14px !important;
 }
 
-#keysight-lookahead-search .search-results-block .products-List li:before {
+#keysight-lookahead-search .search-results-block .search-results-block--header {
+  font-size: 14px !important;
+  }
+
+
+#keysight-lookahead-search .search-results-block ul li::before {
 top: 10px !important;
-}
+}  
 
 .locale-chooser {
 display: none !important;
