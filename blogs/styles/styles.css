@@ -190,6 +190,3 @@ a.button.secondary:is(:hover, :focus), button.secondary:is(:hover, :focus) {
 .icon svg {
   fill: currentcolor;
 }
-
-
-/* Keysight Header CSS */
