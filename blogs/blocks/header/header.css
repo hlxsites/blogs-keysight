@@ -385,7 +385,6 @@ header .search-nav[aria-expanded='true'] {
   display: flex;
   column-gap: 2.3rem !important;
   flex-wrap: wrap;
-  /* gap: 0 !important; */
 }
 
 #keysight-lookahead-search #search-lookahead-input {
@@ -397,7 +396,7 @@ header .search-nav[aria-expanded='true'] {
 }
 
 #keysight-lookahead-search .keysight-assets-content__wrapper--title > a {
-font-size: 18px!important;
+font-size: 18px !important;
 }
 
 #keysight-lookahead-search .search-results-block ul li {
