@@ -363,30 +363,60 @@ header .search-nav[aria-expanded='true'] {
   display: block;
 }
 
-.nav-brand#logo {
-  display: none;
-}
-
-.nav-drop a {
-  color: black !important;
-}
-.nav-sections > ul > li > a {
-  color: black !important;
-}
-
-.nav-blog-home > p > a {
-  color: black !important;
-}
-
 .appear {
   display: none;
 }
 
-/* header .appear, header .appear > nav, header .appear > nav > .nav-sections > ul {
-  background-color: black;
-  color: white;
+
+/* Keysight Header CSS */
+
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }
 
-header .appear > nav >.nav-sections > ul > li > a , header .appear > nav > .nav-blog-home > p > a {
-  color: white !important;
-} */
+#keysight-lookahead-search .search-results-block .products-List {
+  display: flex;
+  column-gap: 2.3rem !important;
+  flex-wrap: wrap;
+  gap: 0 !important;
+}
+
+#keysight-lookahead-search #search-lookahead-input {
+  font-size: 18px !important;
+}
+#keysight-lookahead-search .quickLinks a {
+  font-size: 16px !important;
+}
+
+#keysight-lookahead-search .keysight-assets-content__wrapper--title > a {
+font-size: 18px!important;
+
+}
+
+#keysight-lookahead-search .search-results-block .products-List li {
+font-size: 14px !important;
+padding-left: 12px !important;
+}
+
+#keysight-lookahead-search .suggestionsWrapper .suggestedTerm {
+font-size: 14px !important;
+}
+
+#keysight-lookahead-search .search-results-block .products-List li:before {
+top: 10px !important;
+}
+
+.locale-chooser {
+display: none !important;
+}
+
+.util-login {
+display: none !important;
+}
