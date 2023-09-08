@@ -391,11 +391,11 @@ header .search-nav[aria-expanded='true'] {
   font-size: 18px !important;
 }
 
-#keysight-lookahead-search .quickLinks a {
+#keysight-lookahead-search > a {
   font-size: 16px !important;
 }
 
-#keysight-lookahead-search .keysight-assets-content__wrapper--title > a {
+#keysight-lookahead-search div > a {
 font-size: 18px !important;
 }
 
@@ -404,7 +404,7 @@ font-size: 14px !important;
 padding-left: 12px !important;
 }
 
-#keysight-lookahead-search .search-results-block .search-results-block__left div {
+#keysight-lookahead-search .search-results-block .search-results-block--header ~ div > div  {
 font-size: 14px !important;
 }
 
