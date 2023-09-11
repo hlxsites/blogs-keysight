@@ -2,16 +2,40 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-08-28T00:00:00.000Z</updated>
+    <updated>2023-09-06T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Unleashing Engineering Potential with BenchVue One]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/09/06/unleashing-engineering-potential-with-benchvue-one</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/bench/2023/09/06/unleashing-engineering-potential-with-benchvue-one"/>
+        <updated>2023-09-06T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[BenchVue One is a coud-based, multi-instrument data correlation, aggregation and visualization software that accelerates innovation.]]></content>
+        <published>2023-09-06T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Key to Long-Range EVs: Understanding Battery Test Parameters]]></title>
+        <id>https://www.keysight.com/blogs/blogs/inds/2023/08/31/auto-tech-talks-season-1-ep2-understanding-battery-test-parameters</id>
+        <link href="https://www.keysight.com/blogs/blogs/inds/2023/08/31/auto-tech-talks-season-1-ep2-understanding-battery-test-parameters"/>
+        <updated>2023-08-31T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[In this episode of the Auto Tech Talks podcast series, we examine the test parameters at different levels of the battery development process: from cell, to module, and pack testing.]]></content>
+        <published>2023-08-31T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Quality Smart Home Systems Enable a Sustainable Future Through Power Consumption Management]]></title>
         <id>https://www.keysight.com/blogs/blogs/keys/kcsr/2023/08/28/smarthomeenergyreduction</id>
         <link href="https://www.keysight.com/blogs/blogs/keys/kcsr/2023/08/28/smarthomeenergyreduction"/>
         <updated>2023-08-28T00:00:00.000Z</updated>
         <content type="html"><![CDATA[In this blog post, Keysight's director of corporate social responsibility discusses the role of product development in smart home solutions to optimize their power management capabilities and ultimately drive a more sustainable future.]]></content>
+        <published>2023-08-28T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Storm-0978 Campaign Analysis]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/09/01/storm0978-campaign</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/09/01/storm0978-campaign"/>
+        <updated>2023-08-28T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blog investigates the Storm-0978 Malware Campaign]]></content>
         <published>2023-08-28T00:00:00.000Z</published>
     </entry>
     <entry>
@@ -28,6 +52,14 @@
         <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/08/25/cisa-alert-2022-top-routinely-exploited-vulnerabilities"/>
         <updated>2023-08-25T00:00:00.000Z</updated>
         <content type="html"><![CDATA[This blog talks about the Top Routinely Exploited Vulnerabilities of 2022.]]></content>
+        <published>2023-08-25T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[HTTP/2 Transport Protocol is now available in BreakingPoint Security Component]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/08/31/http2-transport-protocol-in-bps-security-component</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/nwvs/2023/08/31/http2-transport-protocol-in-bps-security-component"/>
+        <updated>2023-08-25T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blogs describes about the new HTTP/2 transport protocol added for file transfer and malware strikes in BPS Security component.]]></content>
         <published>2023-08-25T00:00:00.000Z</published>
     </entry>
     <entry>
@@ -170,14 +202,6 @@
         <title type="html"><![CDATA[Reimagine Your In-Vehicle Infotainment (IVI) Systems with Intelligent Testing]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/7/24/reimagine-in-vehicle-infotainment-intelligent-testing</id>
         <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/7/24/reimagine-in-vehicle-infotainment-intelligent-testing"/>
-        <updated>2023-07-24T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[Get to know your drivers with an AI-powered test automation platform like Eggplant Test and deliver a new standard for IVI performance.]]></content>
-        <published>2023-07-24T00:00:00.000Z</published>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Reimagine Your In-Vehicle Infotainment (IVI) Systems with Intelligent Testing]]></title>
-        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2021/1/05/reimagine-in-vehicle-infotainment-intelligent-testing</id>
-        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2021/1/05/reimagine-in-vehicle-infotainment-intelligent-testing"/>
         <updated>2023-07-24T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Get to know your drivers with an AI-powered test automation platform like Eggplant Test and deliver a new standard for IVI performance.]]></content>
         <published>2023-07-24T00:00:00.000Z</published>
