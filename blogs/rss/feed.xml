@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-09-06T00:00:00.000Z</updated>
+    <updated>2023-09-12T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Unleashing the Cure: RPA 2.0’s Impact on Healthcare and Aerospace & Defense]]></title>
+        <id>https://www.keysight.com/blogs/blogs/tech/software-testing/2023/9/12/unleashing-the-cure-rpa-impact-on-healthcare-and-aerospace-defense</id>
+        <link href="https://www.keysight.com/blogs/blogs/tech/software-testing/2023/9/12/unleashing-the-cure-rpa-impact-on-healthcare-and-aerospace-defense"/>
+        <updated>2023-09-12T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[The transformative power of RPA 2.0 ignites unparalleled efficiency for the industries of healthcare and aerospace & defense.]]></content>
+        <published>2023-09-12T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Unleashing Engineering Potential with BenchVue One]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/bench/2023/09/06/unleashing-engineering-potential-with-benchvue-one</id>
