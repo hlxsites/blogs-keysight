@@ -1,27 +1,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <script src="/blogs/scripts/lib-franklin.js" type="module"></script>
 <script src="/blogs/scripts/scripts.js" type="module"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
 <link rel="stylesheet" href="/blogs/styles/styles.css" />
 <link rel="icon" href="data:,">
 <link rel="alternate" type="application/atom+xml" title="Keysight Blogs | RSS" href="/blogs/rss/feed.xml" />
-
-<script>
-    window.onload = function () {
-        fetch('https://www.keysight.com/etc/keysight/api/headerFooterExporter.style.html?component=header&ctry=us&lang=en&type=css')
-            .then(response => response.text())
-            .then(data2 => {
-                var resultAfterSplit = data2.split('href="');
-                for (index in resultAfterSplit) {
-                    const href = resultAfterSplit[index].split('" ')[0];
-                    var link = document.createElement('link');
-                    link.rel = 'stylesheet';
-                    link.type = 'text/css';
-                    link.innerHTML = '';
-                    link.href = href;
-                    document.head.appendChild(link);
-                }
-
-            })
-    }
-</script>

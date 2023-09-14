@@ -1,0 +1,51 @@
+/* Keysight Header CSS */
+
+.keysight-header .visually-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  
+  .keysight-header  #keysight-lookahead-search .search-results-block ul {
+    display: flex;
+    column-gap: 2.3rem !important;
+    flex-wrap: wrap;
+  }
+  
+  .keysight-header  #keysight-lookahead-search #search-lookahead-input {
+    font-size: 18px !important;
+  }
+  
+  .keysight-header  #keysight-lookahead-search > a {
+    font-size: 16px !important;
+  }
+  
+  .keysight-header  #keysight-lookahead-search div > a {
+  font-size: 18px !important;
+  }
+  
+  .keysight-header #keysight-lookahead-search .search-results-block ul li {
+  font-size: 14px !important;
+  padding-left: 12px !important;
+  }
+  
+  .keysight-header  #keysight-lookahead-search .search-results-block div ~ div > div  {
+  font-size: 14px !important;
+  }
+  
+  .keysight-header #keysight-lookahead-search .search-results-block ul li::before {
+  top: 10px !important;
+  }  
+  
+  .keysight-header  .locale-chooser {
+  display: none !important;
+  }
+  
+  .keysight-header .util-login {
+  display: none !important;
+  }
