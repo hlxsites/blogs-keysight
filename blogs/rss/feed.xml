@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-09-14T00:00:00.000Z</updated>
+    <updated>2023-09-15T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[How to Make EVs More Affordable with Efficient Battery Testing]]></title>
+        <id>https://www.keysight.com/blogs/blogs/inds/2023/09/15/auto-tech-talks-season-1-ep3-how-to-make-evs-more-affordable-with-efficient-battery-testing</id>
+        <link href="https://www.keysight.com/blogs/blogs/inds/2023/09/15/auto-tech-talks-season-1-ep3-how-to-make-evs-more-affordable-with-efficient-battery-testing"/>
+        <updated>2023-09-15T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[In this episode of the Auto Tech Talks podcast series, our expert shares how automating the modern battery test lab can help save both time and money. This frees up human resources to focus on improving battery quality at the cell, module, and pack levels.]]></content>
+        <published>2023-09-15T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Stay safe from the latest cyber threats: August 2023 Update]]></title>
         <id>https://www.keysight.com/blogs/blogs/tech/nwvs/2023/09/14/threat-simulator-august-2023-update</id>
