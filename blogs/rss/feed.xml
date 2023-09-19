@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-09-15T00:00:00.000Z</updated>
+    <updated>2023-09-19T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Thoughts on AI consciousness]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/culture/2023/09/19/thoughts-on-ai-consciousness</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/culture/2023/09/19/thoughts-on-ai-consciousness"/>
+        <updated>2023-09-19T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[The rapid advancement of artificial intelligence (AI) has sparked profound discussions regarding the possibility of AI systems achieving consciousness.]]></content>
+        <published>2023-09-19T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[How to Make EVs More Affordable with Efficient Battery Testing]]></title>
         <id>https://www.keysight.com/blogs/blogs/inds/2023/09/15/auto-tech-talks-season-1-ep3-how-to-make-evs-more-affordable-with-efficient-battery-testing</id>
