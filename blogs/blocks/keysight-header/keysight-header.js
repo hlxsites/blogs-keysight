@@ -56,8 +56,6 @@ export default async function decorate(block) {
     cssDoc.querySelectorAll('link[href]').forEach((link) => {
       loadCSS(link.href);
     });
-  
-
     const markupResponse = await fetch(url);
     if (markupResponse.ok) {
       const data = await markupResponse.text();
@@ -94,7 +92,6 @@ export default async function decorate(block) {
           document.head.appendChild(script);
         });
       }
-    
     }
   }
 }
