@@ -2,7 +2,6 @@ import ffetch from './ffetch.js';
 import {
   sampleRUM,
   buildBlock,
-  loadHeader,
   loadFooter,
   decorateButtons,
   decorateIcons,
@@ -18,7 +17,6 @@ import {
   decorateBlock,
   loadBlock,
 } from './lib-franklin.js';
-import getCookie from '../util/getCookies.js';
 import { validateBackOfficeTags, validateHashTags, checkTag } from './taxonomy.js';
 
 const LCP_BLOCKS = ['hero', 'featured-posts']; // add your LCP blocks to the list
@@ -577,113 +575,12 @@ export async function addBackOfficeMetaTags() {
  */
 
 async function loadKeysightHeader(header) {
-  loadScript('https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js', 'text/javascript', () => {
+  loadScript(`${window.hlx.codeBasePath}/scripts/vendors/jquery-3.5.min.js`, 'text/javascript', () => {
+    const headerBlock = buildBlock('keysight-header', '');
+    header.append(headerBlock);
+    decorateBlock(headerBlock);
+    return loadBlock(headerBlock);
   });
-
-  const cookieAgLocale = getCookie('AG_LOCALE');
-  let cc;
-  let lc;
-
-  if (cookieAgLocale) {
-    cc = cookieAgLocale.substring(0, 2).toLowerCase();
-    lc = cookieAgLocale.substring(2, cookieAgLocale.length);
-  } else {
-    lc = 'en';
-    cc = 'us';
-  }
-
-  let url;
-  switch (lc) {
-    case 'por': {
-      url = 'https://www.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=header&ctry=br&lang=pt_br';
-      break;
-    }
-    case 'chi': {
-      url = 'https://www.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=header&ctry=cn&lang=zh_cn';
-      break;
-    }
-    case 'cht': {
-      url = 'https://www.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=header&ctry=tw&lang=zh_tw';
-      break;
-    }
-    case 'jpn': {
-      url = 'https://www.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=header&ctry=jp&lang=ja';
-      break;
-    }
-    case 'kor': {
-      url = 'https://www.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=header&ctry=kr&lang=ko';
-      break;
-    }
-    case 'rus': {
-      url = 'https://www.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=header&ctry=ru&lang=ru';
-      break;
-    }
-    case 'ger': {
-      url = 'https://www.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=header&ctry=de&lang=de';
-      break;
-    }
-    default:
-      url = `https://www.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=header&ctry=${cc}&lang=en`;
-  }
-
-  const headerBlock = buildBlock('header', '');
-  fetch('https://www.keysight.com/etc/keysight/api/headerFooterExporter.style.html?component=header&ctry=us&lang=en&type=css')
-    .then((response) => response.text())
-    .then((data2) => {
-      const resultAfterSplit = data2.split('href="');
-      resultAfterSplit.forEach((element) => {
-        const href = element.split('" ')[0];
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.innerHTML = '';
-        link.href = href;
-        document.head.appendChild(link);
-      });
-
-      loadCSS(`${window.hlx.codeBasePath}/styles/keysight-header.css`);
-
-      fetch(url)
-        .then((response) => response.text())
-        .then((data) => {
-          headerBlock.innerHTML = data;
-          const refreshLink = document.querySelectorAll('#locale-chooser div ul li a');
-          const currentURL = window.location.href;
-          let originalURL = null;
-          let urlParts;
-          const i = 0;
-          let baseURL;
-          if (refreshLink) {
-            refreshLink.forEach((link) => {
-              if (link.id !== 'language-selector-more-link') {
-                link.href = window.location.href;
-              } else {
-                originalURL = link.href;
-                urlParts = originalURL.split('?');
-                baseURL = urlParts[i];
-                link.href = `${baseURL}?prev_url=${currentURL}`;
-              }
-            });
-          }
-          fetch('https://www.keysight.com/etc/keysight/api/headerFooterExporter.style.html?component=header&ctry=us&lang=en&type=js')
-            .then((response) => response.text())
-            .then((data1) => {
-              const resultAfterSplitJS = data1.split('src="');
-              resultAfterSplitJS.forEach((element) => {
-                const src = element.split('" ')[0].split('">')[0];
-                const script = document.createElement('script');
-                script.type = 'text/javascript';
-                script.innerHTML = '';
-                script.src = src;
-                document.head.appendChild(script);
-              });
-            });
-        });
-    });
-
-  header.append(headerBlock);
-  decorateBlock(headerBlock);
-  return headerBlock;
 }
 
 /**
@@ -707,7 +604,7 @@ async function loadLazy(doc) {
   const header = doc.querySelector('header');
   const footer = doc.querySelector('footer');
   await loadKeysightHeader(header);
-  loadHeader(header);
+  // loadHeader(header);
   loadFooter(footer);
 
   // analytics ids

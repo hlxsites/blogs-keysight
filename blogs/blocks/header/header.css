@@ -362,7 +362,3 @@ header .search-nav {
 header .search-nav[aria-expanded='true'] {
   display: block;
 }
-
-header .appear {
-  display: none;
-}
