@@ -603,7 +603,7 @@ async function loadLazy(doc) {
 
   const header = doc.querySelector('header');
   const footer = doc.querySelector('footer');
-  await loadKeysightHeader(header);
+  loadKeysightHeader(header);
   // loadHeader(header);
   loadFooter(footer);
 

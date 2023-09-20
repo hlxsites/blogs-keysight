@@ -1,4 +1,4 @@
-import { loadCSS } from '../../scripts/lib-franklin';
+import { loadCSS } from '../../scripts/lib-franklin.js';
 import getCookie from '../../util/getCookies.js';
 
 export default async function decorate(block) {
@@ -56,29 +56,13 @@ export default async function decorate(block) {
     cssDoc.querySelectorAll('link[href]').forEach((link) => {
       loadCSS(link.href);
     });
-
-    const resultAfterSplit = data2.split('href="');
-    resultAfterSplit.forEach((element) => {
-      const href = element.split('" ')[0];
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.type = 'text/css';
-      link.innerHTML = '';
-      link.href = href;
-      document.head.appendChild(link);
-    });
+  
 
     const markupResponse = await fetch(url);
     if (markupResponse.ok) {
       const data = await markupResponse.text();
-    }
-  }
 
-
-  fetch(url)
-    .then((response) => response.text())
-    .then((data) => {
-      headerBlock.innerHTML = data;
+      block.innerHTML = data;
       const refreshLink = document.querySelectorAll('#locale-chooser div ul li a');
       const currentURL = window.location.href;
       let originalURL = null;
@@ -97,19 +81,20 @@ export default async function decorate(block) {
           }
         });
       }
-      fetch('https://www.keysight.com/etc/keysight/api/headerFooterExporter.style.html?component=header&ctry=us&lang=en&type=js')
-        .then((response) => response.text())
-        .then((data1) => {
-          const resultAfterSplitJS = data1.split('src="');
-          resultAfterSplitJS.forEach((element) => {
-            const src = element.split('" ')[0].split('">')[0];
-            const script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.innerHTML = '';
-            script.src = src;
-            document.head.appendChild(script);
-          });
+      const jsResponse = await fetch('https://www.keysight.com/etc/keysight/api/headerFooterExporter.style.html?component=header&ctry=us&lang=en&type=js');
+      if (jsResponse.ok) {
+        const data1 = await jsResponse.text();
+        const resultAfterSplitJS = data1.split('src="');
+        resultAfterSplitJS.forEach((element) => {
+          const src = element.split('" ')[0].split('">')[0];
+          const script = document.createElement('script');
+          script.type = 'text/javascript';
+          script.innerHTML = '';
+          script.src = src;
+          document.head.appendChild(script);
         });
-    });
-});
+      }
+    
+    }
+  }
 }
