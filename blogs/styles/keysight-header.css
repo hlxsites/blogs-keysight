@@ -46,6 +46,10 @@
   display: none !important;
   }
   
+  .keysight-header  #util-locale {
+    display: none !important;
+  }
+
   .keysight-header .util-login {
   display: none !important;
   }

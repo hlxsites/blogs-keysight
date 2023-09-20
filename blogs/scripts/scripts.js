@@ -18,6 +18,7 @@ import {
   decorateBlock,
   loadBlock,
 } from './lib-franklin.js';
+import getCookie from '../util/getCookies.js';
 import { validateBackOfficeTags, validateHashTags, checkTag } from './taxonomy.js';
 
 const LCP_BLOCKS = ['hero', 'featured-posts']; // add your LCP blocks to the list
@@ -576,22 +577,9 @@ export async function addBackOfficeMetaTags() {
  */
 
 async function loadKeysightHeader(header) {
-  const jqueryScript = document.createElement('script');
-  jqueryScript.type = 'text/javascript';
-  jqueryScript.innerHTML = '';
-  jqueryScript.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js';
-  document.head.appendChild(jqueryScript);
-  function getCookie(name) {
-    if (typeof name !== 'string' || name === '') {
-      throw new Error('The name parameter must be a non-empty string');
-    }
-    const value = `;${document.cookie}`;
-    const parts = value.split(`;${name}=`);
-    if (parts.length === 2) {
-      return parts.pop().split(';').shift();
-    }
-    return null;
-  }
+  loadScript('/blogs/scripts/jquery-3.5.min.js', 'text/javascript', () => {
+  });
+
   const cookieAgLocale = getCookie('AG_LOCALE');
   let cc;
   let lc;

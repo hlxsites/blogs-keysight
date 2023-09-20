@@ -363,6 +363,6 @@ header .search-nav[aria-expanded='true'] {
   display: block;
 }
 
-.appear {
+header .appear {
   display: none;
 }
