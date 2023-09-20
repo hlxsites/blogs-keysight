@@ -577,7 +577,7 @@ export async function addBackOfficeMetaTags() {
  */
 
 async function loadKeysightHeader(header) {
-  loadScript('/blogs/scripts/jquery-3.5.min.js', 'text/javascript', () => {
+  loadScript('https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js', 'text/javascript', () => {
   });
 
   const cookieAgLocale = getCookie('AG_LOCALE');
