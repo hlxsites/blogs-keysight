@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-09-19T00:00:00.000Z</updated>
+    <updated>2023-09-21T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Technology Transformation: A Look Back at Keysight World]]></title>
+        <id>https://www.keysight.com/blogs/blogs/keys/exec/2023/09/technology-transformation-a-look-back-at-keysight-world</id>
+        <link href="https://www.keysight.com/blogs/blogs/keys/exec/2023/09/technology-transformation-a-look-back-at-keysight-world"/>
+        <updated>2023-09-21T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Marie Hattar, Keysight Technologies CMO, shares her key takeaways on the emerging technologies—5G, 6G, and the metaverse, non-terrestrial networks, autonomous vehicles, and digital healthcare--explored during Keysight World 2023.]]></content>
+        <published>2023-09-21T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Thoughts on AI consciousness]]></title>
         <id>https://www.keysight.com/blogs/blogs/keys/culture/2023/09/19/thoughts-on-ai-consciousness</id>
