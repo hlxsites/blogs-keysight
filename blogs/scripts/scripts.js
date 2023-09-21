@@ -575,12 +575,12 @@ export async function addBackOfficeMetaTags() {
  */
 
 async function loadKeysightHeader(header) {
-  loadScript(`${window.hlx.codeBasePath}/scripts/vendors/jquery-3.5.min.js`, 'text/javascript', () => {
-    const headerBlock = buildBlock('keysight-header', '');
-    header.append(headerBlock);
-    decorateBlock(headerBlock);
-    return loadBlock(headerBlock);
+  loadScript(`${window.hlx.codeBasePath}/scripts/vendors/jquery-3.5.min.js`, 'text/javascript', () => { 
   });
+  const headerBlock = buildBlock('keysight-header', '');
+  header.append(headerBlock);
+  decorateBlock(headerBlock);
+  return loadBlock(headerBlock);
 }
 
 /**
