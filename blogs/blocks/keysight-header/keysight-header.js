@@ -1,7 +1,10 @@
 import { loadCSS } from '../../scripts/lib-franklin.js';
 import getCookie from '../../util/getCookies.js';
+import { loadScript } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
+  loadScript(`${window.hlx.codeBasePath}/scripts/vendors/jquery-3.5.min.js`, 'text/javascript', () => {
+  });
   const cookieAgLocale = getCookie('AG_LOCALE');
   let cc;
   let lc;
