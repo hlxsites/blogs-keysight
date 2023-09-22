@@ -51,5 +51,13 @@
   }
 
   .keysight-header .util-login {
-  display: none !important;
+   display: none !important;
+  }
+  
+  .keysight-header .util-remembered {
+    display: none !important;
+  }
+
+  .keysight-header .has-cart {
+    display: none !important;
   }
