@@ -2,7 +2,6 @@ import ffetch from './ffetch.js';
 import {
   sampleRUM,
   buildBlock,
-  loadHeader,
   loadFooter,
   decorateButtons,
   decorateIcons,
@@ -572,6 +571,17 @@ export async function addBackOfficeMetaTags() {
 }
 
 /**
+ * loads a block named 'header' into header
+ */
+
+async function loadKeysightHeader(header) {
+  const headerBlock = buildBlock('keysight-header', '');
+  header.append(headerBlock);
+  decorateBlock(headerBlock);
+  return loadBlock(headerBlock);
+}
+
+/**
  * loads everything that doesn't need to be delayed.
  */
 async function loadLazy(doc) {
@@ -591,7 +601,8 @@ async function loadLazy(doc) {
 
   const header = doc.querySelector('header');
   const footer = doc.querySelector('footer');
-  loadHeader(header);
+  loadKeysightHeader(header);
+  // loadHeader(header);
   loadFooter(footer);
 
   // analytics ids
