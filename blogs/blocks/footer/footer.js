@@ -9,7 +9,6 @@ import getCookie from '../../util/getCookies.js';
 export default async function decorate(block) {
   // const cfg = readBlockConfig(block);
   // block.textContent = '';
-
   // const footerPath = cfg.footer || '/blogs/footer';
   // const resp = await fetch(`${footerPath}.plain.html`);
   // const html = await resp.text();
