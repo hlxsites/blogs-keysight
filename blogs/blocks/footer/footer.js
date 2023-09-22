@@ -1,5 +1,5 @@
-// import { readBlockConfig, decorateIcons } from '../../scripts/lib-franklin.js';
-// import { createElement } from '../../scripts/scripts.js';
+import { decorateIcons } from '../../scripts/lib-franklin.js';
+import { createElement } from '../../scripts/scripts.js';
 import getCookie from '../../util/getCookies.js';
 
 /**
@@ -66,7 +66,9 @@ export default async function decorate(block) {
   const markupResponse = await fetch(url);
   if (markupResponse.ok) {
     const data = await markupResponse.text();
-
-    block.innerHTML = data;
+    const footer = createElement('div');
+    footer.innerHTML = data;
+    await decorateIcons(footer);
+    block.append(footer);
   }
 }
