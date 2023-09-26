@@ -61,3 +61,17 @@
   .keysight-header .has-cart {
     display: none !important;
   }
+
+  .keysight-header #toputil {
+    display: flex !important; 
+    justify-content: space-between !important; 
+    align-items: center !important; 
+  }
+
+  .keysight-header  .util-contact {
+      border: 0 solid #dbd9dd !important;
+  }
+
+  .keysight-header  .util-icon {
+    border: 0 solid #dbd9dd !important;
+  }
