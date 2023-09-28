@@ -19,7 +19,8 @@
   
   .keysight-header  #keysight-lookahead-search #search-lookahead-input {
     font-size: 18px !important;
-    padding: 15px 12px !important;
+    max-height: 100% !important;
+    
   }
   
   .keysight-header  #keysight-lookahead-search > a {
@@ -32,7 +33,7 @@
   
   .keysight-header #keysight-lookahead-search .search-results-block ul li {
   font-size: 14px !important;
-  max-height: 100% !important;
+  padding: 12px !important;
   }
   
   .keysight-header  #keysight-lookahead-search .search-results-block div ~ div > div  {
