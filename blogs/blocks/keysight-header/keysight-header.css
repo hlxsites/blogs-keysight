@@ -19,6 +19,7 @@
   
   .keysight-header  #keysight-lookahead-search #search-lookahead-input {
     font-size: 18px !important;
+    padding: 15px 12px !important;
   }
   
   .keysight-header  #keysight-lookahead-search > a {
@@ -31,7 +32,7 @@
   
   .keysight-header #keysight-lookahead-search .search-results-block ul li {
   font-size: 14px !important;
-  padding-left: 12px !important;
+  max-height: 100% !important;
   }
   
   .keysight-header  #keysight-lookahead-search .search-results-block div ~ div > div  {
@@ -63,10 +64,18 @@
   }
 
   .keysight-header #toputil {
-    display: flex !important; 
-    justify-content: space-between !important; 
-    align-items: center !important; 
+    display: block ; 
+    justify-content: flex-end; 
+    align-items: center ; 
   }
+
+  @media (max-width: 479px) {
+  #toputil {
+    display: flex !important ; 
+    justify-content: space-between !important; 
+    align-items: center !important ; 
+  }
+}
 
   .keysight-header  .util-contact {
       border: 0 solid #dbd9dd !important;
