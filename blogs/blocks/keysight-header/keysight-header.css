@@ -87,7 +87,7 @@
     border: 0 solid #dbd9dd !important;
   }
 
-  .keysight-header #keysight-lookahead-search .keysight-search-lookhead__text {
+  .keysight-header #keysight-lookahead-search div h2 {
     text-align: center;
     text-transform: inherit;
     margin-bottom: 2rem;
