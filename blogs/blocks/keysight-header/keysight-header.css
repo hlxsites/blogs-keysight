@@ -19,6 +19,7 @@
   
   .keysight-header  #keysight-lookahead-search #search-lookahead-input {
     font-size: 18px !important;
+    padding: 15px 12px !important;
     max-height: 100% !important;
     
   }
