@@ -29,7 +29,7 @@
   }
   
   .keysight-header  #keysight-lookahead-search div > a {
-  font-size: 18px !important;
+  font-size: 14px !important;
   }
   
   .keysight-header #keysight-lookahead-search .search-results-block ul li {
@@ -85,4 +85,15 @@
 
   .keysight-header  .util-icon {
     border: 0 solid #dbd9dd !important;
+  }
+
+  .keysight-header #keysight-lookahead-search .keysight-search-lookhead__text {
+    text-align: center;
+    text-transform: inherit;
+    margin-bottom: 2rem;
+    font-size: 36px;
+  }
+
+  .keysight-header  #keysight-lookahead-search #search-lookahead-input:focus {
+     padding: 14px 12px !important;
   }
