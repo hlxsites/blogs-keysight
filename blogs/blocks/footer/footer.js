@@ -32,35 +32,35 @@ export default async function decorate(block) {
   let url;
   switch (lc) {
     case 'por': {
-      url = 'https://stgwww.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=footer&ctry=br&lang=pt_br';
+      url = '/etc/keysight/api/headerFooterExporter.markup.json?component=footer&ctry=br&lang=pt_br';
       break;
     }
     case 'chi': {
-      url = 'https://stgwww.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=footer&ctry=cn&lang=zh_cn';
+      url = '/etc/keysight/api/headerFooterExporter.markup.json?component=footer&ctry=cn&lang=zh_cn';
       break;
     }
     case 'cht': {
-      url = 'https://stgwww.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=footer&ctry=tw&lang=zh_tw';
+      url = '/etc/keysight/api/headerFooterExporter.markup.json?component=footer&ctry=tw&lang=zh_tw';
       break;
     }
     case 'jpn': {
-      url = 'https://stgwww.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=footer&ctry=jp&lang=ja';
+      url = '/etc/keysight/api/headerFooterExporter.markup.json?component=footer&ctry=jp&lang=ja';
       break;
     }
     case 'kor': {
-      url = 'https://stgwww.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=footer&ctry=kr&lang=ko';
+      url = '/etc/keysight/api/headerFooterExporter.markup.json?component=footer&ctry=kr&lang=ko';
       break;
     }
     case 'rus': {
-      url = 'https://stgwww.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=footer&ctry=ru&lang=ru';
+      url = '/etc/keysight/api/headerFooterExporter.markup.json?component=footer&ctry=ru&lang=ru';
       break;
     }
     case 'ger': {
-      url = 'https://stgwww.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=footer&ctry=de&lang=de';
+      url = '/etc/keysight/api/headerFooterExporter.markup.json?component=footer&ctry=de&lang=de';
       break;
     }
     default:
-      url = `https://stgwww.keysight.com/etc/keysight/api/headerFooterExporter.markup.json?component=footer&ctry=${cc}&lang=en`;
+      url = `/etc/keysight/api/headerFooterExporter.markup.json?component=footer&ctry=${cc}&lang=en`;
   }
 
   const markupResponse = await fetch(url);
