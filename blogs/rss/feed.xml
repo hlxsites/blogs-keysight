@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-09-29T00:00:00.000Z</updated>
+    <updated>2023-10-03T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Keysight i7090 with Pathwave Test Executive for Manufacturing]]></title>
+        <id>https://www.keysight.com/blogs/tech/bench/2023/10/03/keysight-i7090-with-pathwave-test-executive-for-manufacturnig</id>
+        <link href="https://www.keysight.com/blogs/tech/bench/2023/10/03/keysight-i7090-with-pathwave-test-executive-for-manufacturnig"/>
+        <updated>2023-10-03T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Pathwave Test Executive for Manufacturing has built in step sequences for i7090 Automated inline systems.]]></content>
+        <published>2023-10-03T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[How DAQ Systems Are Helping to Shape the Future of EVs]]></title>
         <id>https://www.keysight.com/blogs/inds/2023/09/29/auto-tech-talks-season-1-ep4-how-daq-systems-help-shape-the-future-of-evs</id>
