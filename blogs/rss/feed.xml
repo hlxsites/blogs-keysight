@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-10-04T00:00:00.000Z</updated>
+    <updated>2023-10-05T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Threat Simulator: September 2023 Update]]></title>
+        <id>https://www.keysight.com/blogs/tech/nwvs/2023/10/05/threat-simulator-september-2023-update</id>
+        <link href="https://www.keysight.com/blogs/tech/nwvs/2023/10/05/threat-simulator-september-2023-update"/>
+        <updated>2023-10-05T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Cyberattacks are on the rise, and so is the cost of a data breach. According to IBM and the Ponemon Institute, the cost of data breaches has reached an all-time high globally, averaging $4.35 million per incident. Therefore, it's important for you to stay one step ahead and protect what matters most.]]></content>
+        <published>2023-10-05T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Everything You Need to Know About Lidar in Automotive]]></title>
         <id>https://www.keysight.com/blogs/inds/2023/10/04/everything-you-need-to-know-about-lidar-in-automotive</id>
