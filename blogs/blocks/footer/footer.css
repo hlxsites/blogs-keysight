@@ -19,3 +19,7 @@ footer .footer ul {
   list-style: none;
   margin: 0 1rem;
 }
+
+.keysight-footer #footer {
+  border-top: 0 solid;
+}
