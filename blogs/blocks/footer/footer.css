@@ -19,6 +19,12 @@ footer .footer ul {
   list-style: none;
   /* margin: 0 1rem; *
 } */
+footer #footer {
+  border-top: 1px solid #a4a1a9;
+  background-color: #edecee;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
 
 .keysight-footer #footer {
   border-top: 0 solid;
@@ -41,12 +47,7 @@ footer .footer ul {
   list-style: none;
 }
 
-footer #footer {
-  border-top: 1px solid #a4a1a9;
-  background-color: #edecee;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
+
 
 .keysight-footer #copyright ul li {
   font-size: 14px;
