@@ -66,9 +66,10 @@
   }
 
   .keysight-header #toputil {
-    display: block ; 
+    display: block; 
     justify-content: flex-end; 
-    align-items: center ; 
+    align-items: center; 
+    margin: 0;
   }
 
   @media (max-width: 479px) {
@@ -104,8 +105,4 @@
     border: 1px solid #E90029 !important;
     border-radius: 33px;
     padding: 4px;
-  }
-
-  .keysight-header #toputil {
-    margin: 0;
   }
