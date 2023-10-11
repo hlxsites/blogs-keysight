@@ -97,3 +97,15 @@
   .keysight-header  #keysight-lookahead-search #search-lookahead-input:focus {
      padding: 14px 12px !important;
   }
+
+  .keysight-header .solutions-image-container:hover {
+    cursor: pointer;
+    filter: brightness(130%);
+    border: 1px solid #E90029 !important;
+    border-radius: 33px;
+    padding: 4px;
+  }
+
+  .keysight-header #toputil {
+    margin: 0;
+  }
