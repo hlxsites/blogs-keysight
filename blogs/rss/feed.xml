@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-10-10T00:00:00.000Z</updated>
+    <updated>2023-10-12T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Next-Gen EV Batteries: A Conversation with Prajyot Sathe]]></title>
+        <id>https://www.keysight.com/blogs/inds/2023/10/12/auto-tech-talks-season-1-ep5-next-gen-ev-batteries</id>
+        <link href="https://www.keysight.com/blogs/inds/2023/10/12/auto-tech-talks-season-1-ep5-next-gen-ev-batteries"/>
+        <updated>2023-10-12T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[From charging faster to going farther to sending power to the grid, the next generation of EV batteries will push the boundaries of power and performance. In our final episode of Season 1, we speak with industry expert Prajyot Sathe from Frost and Sullivan to discuss the latest battery technology advancements and the market outlook]]></content>
+        <published>2023-10-12T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Wireless Technology Insights: Navigating the Evolution from 5G to 6g]]></title>
         <id>https://www.keysight.com/blogs/tech/rfmw/2023/10/10/5g-6g-wireless-insights</id>
