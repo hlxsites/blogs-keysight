@@ -103,6 +103,5 @@
     cursor: pointer;
     filter: brightness(130%);
     border: 1px solid #E90029 !important;
-    border-radius: 33px;
-    padding: 4px;
+    border-radius: 23px;
   }
