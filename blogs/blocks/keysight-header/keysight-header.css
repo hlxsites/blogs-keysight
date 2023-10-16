@@ -66,9 +66,10 @@ display: none !important;
 }
 
 .keysight-header #toputil {
-  display: block ; 
+  display: block; 
   justify-content: flex-end; 
-  align-items: center ; 
+  align-items: center; 
+  margin: 0;
 }
 
 @media (max-width: 479px) {
@@ -96,4 +97,11 @@ display: none !important;
 
 .keysight-header  #keysight-lookahead-search #search-lookahead-input:focus {
    padding: 14px 12px !important;
+}
+
+.keysight-header .solutions-image-container:hover {
+  cursor: pointer;
+  filter: brightness(130%);
+  border: 1px solid #E90029 !important;
+  border-radius: 23px;
 }
