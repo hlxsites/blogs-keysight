@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-10-16T00:00:00.000Z</updated>
+    <updated>2023-10-18T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[The Cyber Security Shakeup Continues in 2024]]></title>
+        <id>https://www.keysight.com/blogs/keys/exec/2023/10/the-cyber-security-shakeup-continues-2024</id>
+        <link href="https://www.keysight.com/blogs/keys/exec/2023/10/the-cyber-security-shakeup-continues-2024"/>
+        <updated>2023-10-18T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Cyber security will continue to remain a key priority for industry leaders in 2024. Learn from Marie Hattar as she explores cybersecurity, the IoT, and how Keysight is helping to secure the world.]]></content>
+        <published>2023-10-18T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Efficiency Meets Insight: Exploring DAI 7.1's Test Case Results Dashboard]]></title>
         <id>https://www.keysight.com/blogs/tech/software-testing/2023/10/16/dai-7-1-blog</id>
