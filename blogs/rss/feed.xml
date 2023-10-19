@@ -2,10 +2,114 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-09-27T00:00:00.000Z</updated>
+    <updated>2023-10-20T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Join us at the IoT Security Foundation event on Tuesday 7th November]]></title>
+        <id>https://www.keysight.com/blogs/tech/nwvs/2023/10/19/iot-security-foundation-event-final</id>
+        <link href="https://www.keysight.com/blogs/tech/nwvs/2023/10/19/iot-security-foundation-event-final"/>
+        <updated>2023-10-20T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[With billions of IoT devices in use around the world and more on the way, security testing is more critical than ever, with new threats and evolving regulations.]]></content>
+        <published>2023-10-20T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Cyber Security Shakeup Continues in 2024]]></title>
+        <id>https://www.keysight.com/blogs/keys/exec/2023/10/the-cyber-security-shakeup-continues-2024</id>
+        <link href="https://www.keysight.com/blogs/keys/exec/2023/10/the-cyber-security-shakeup-continues-2024"/>
+        <updated>2023-10-18T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Cyber security will continue to remain a key priority for industry leaders in 2024. Learn from Marie Hattar as she explores cybersecurity, the IoT, and how Keysight is helping to secure the world.]]></content>
+        <published>2023-10-18T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Innovating with AI for Customer Success: Part 1]]></title>
+        <id>https://www.keysight.com/blogs/keys/exec/2023/10/innovating-with-ai-for-customer-success</id>
+        <link href="https://www.keysight.com/blogs/keys/exec/2023/10/innovating-with-ai-for-customer-success"/>
+        <updated>2023-10-18T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Marie Hattar, Keysight Chief Marketing Officer, explores the innovative ways that artificial intelligence is being used to augment customer success in this two-part content series.]]></content>
+        <published>2023-10-18T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What are the different SMU operation modes and when do you use each one?]]></title>
+        <id>https://www.keysight.com/blogs/tech/bench/2023/10/18/what-are-the-different-smu-operation-modes-v2</id>
+        <link href="https://www.keysight.com/blogs/tech/bench/2023/10/18/what-are-the-different-smu-operation-modes-v2"/>
+        <updated>2023-10-18T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Explore the world of Source/Monitor Units (SMUs) and their diverse operation modes. From 'normal' for conventional use to 'laser diode' for precision pulsing.]]></content>
+        <published>2023-10-18T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Efficiency Meets Insight: Exploring DAI 7.1's Test Case Results Dashboard]]></title>
+        <id>https://www.keysight.com/blogs/tech/software-testing/2023/10/16/dai-7-1-blog</id>
+        <link href="https://www.keysight.com/blogs/tech/software-testing/2023/10/16/dai-7-1-blog"/>
+        <updated>2023-10-16T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[With the release of DAI 7.1, Keysight’s Eggplant takes a giant leap forward with its new feature - the Test Case Results Dashboard.]]></content>
+        <published>2023-10-16T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Next-Gen EV Batteries: A Conversation with Prajyot Sathe]]></title>
+        <id>https://www.keysight.com/blogs/inds/2023/10/12/auto-tech-talks-season-1-ep5-next-gen-ev-batteries</id>
+        <link href="https://www.keysight.com/blogs/inds/2023/10/12/auto-tech-talks-season-1-ep5-next-gen-ev-batteries"/>
+        <updated>2023-10-12T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[From charging faster to going farther to sending power to the grid, the next generation of EV batteries will push the boundaries of power and performance. In our final episode of Season 1, we speak with industry expert Prajyot Sathe from Frost and Sullivan to discuss the latest battery technology advancements and the market outlook]]></content>
+        <published>2023-10-12T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Low-Frequency Noise Modeling: When Quantum Chips Are Getting Noiser]]></title>
+        <id>https://www.keysight.com/blogs/tech/sim-des/2023/10/12/low-frequency-noise-modeling-when-quantum-chips-are-getting-noiser</id>
+        <link href="https://www.keysight.com/blogs/tech/sim-des/2023/10/12/low-frequency-noise-modeling-when-quantum-chips-are-getting-noiser"/>
+        <updated>2023-10-11T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Explore the intricate challenges of measuring and characterizing 1/f noise in quantum computing systems. Dive into the crucial aspects and the growing importance of full wafer-level characterization for low-frequency noise in quantum computers.]]></content>
+        <published>2023-10-11T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Wireless Technology Insights: Navigating the Evolution from 5G to 6G]]></title>
+        <id>https://www.keysight.com/blogs/tech/rfmw/2023/10/10/5g-6g-wireless-insights</id>
+        <link href="https://www.keysight.com/blogs/tech/rfmw/2023/10/10/5g-6g-wireless-insights"/>
+        <updated>2023-10-10T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[As the communication industry looks ahead to 6G, engineers must keep apprised of evolving 5G technology like O-RAN and 5G RedCap. To navigate this rapidly developing market, get the latest guidance from wireless industry experts.]]></content>
+        <published>2023-10-10T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Harnessing the Power of IoT Security Assessment Tool Plugins]]></title>
+        <id>https://www.keysight.com/blogs/tech/nwvs/2023/10/17/harnessing-power-of-iot-sa</id>
+        <link href="https://www.keysight.com/blogs/tech/nwvs/2023/10/17/harnessing-power-of-iot-sa"/>
+        <updated>2023-10-10T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[The Keysight IoT Security Assessment platform can be a powerful addition to any testing environment. Learn more about how to leverage it for your particular needs by writing your own custom plugins.]]></content>
+        <published>2023-10-10T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Threat Simulator: September 2023 Update]]></title>
+        <id>https://www.keysight.com/blogs/tech/nwvs/2023/10/05/threat-simulator-september-2023-update</id>
+        <link href="https://www.keysight.com/blogs/tech/nwvs/2023/10/05/threat-simulator-september-2023-update"/>
+        <updated>2023-10-05T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Cyberattacks are on the rise, and so is the cost of a data breach. According to IBM and the Ponemon Institute, the cost of data breaches has reached an all-time high globally, averaging $4.35 million per incident. Therefore, it's important for you to stay one step ahead and protect what matters most.]]></content>
+        <published>2023-10-05T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Everything You Need to Know About Lidar in Automotive]]></title>
+        <id>https://www.keysight.com/blogs/inds/2023/10/04/everything-you-need-to-know-about-lidar-in-automotive</id>
+        <link href="https://www.keysight.com/blogs/inds/2023/10/04/everything-you-need-to-know-about-lidar-in-automotive"/>
+        <updated>2023-10-04T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Learn more about lidar technology deployment challenges in automotive and Keysight’s solution to overcome them.]]></content>
+        <published>2023-10-04T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Keysight i7090 with Pathwave Test Executive for Manufacturing]]></title>
+        <id>https://www.keysight.com/blogs/tech/bench/2023/10/03/keysight-i7090-with-pathwave-test-executive-for-manufacturnig</id>
+        <link href="https://www.keysight.com/blogs/tech/bench/2023/10/03/keysight-i7090-with-pathwave-test-executive-for-manufacturnig"/>
+        <updated>2023-10-03T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Pathwave Test Executive for Manufacturing has built in step sequences for i7090 Automated inline systems.]]></content>
+        <published>2023-10-03T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How DAQ Systems Are Helping to Shape the Future of EVs]]></title>
+        <id>https://www.keysight.com/blogs/inds/2023/09/29/auto-tech-talks-season-1-ep4-how-daq-systems-help-shape-the-future-of-evs</id>
+        <link href="https://www.keysight.com/blogs/inds/2023/09/29/auto-tech-talks-season-1-ep4-how-daq-systems-help-shape-the-future-of-evs"/>
+        <updated>2023-09-29T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[In this episode of the Auto Tech Talks podcast series, we learn how automotive engineers use their DAQ to characterize battery products, monitor internal processes, or control test processes.]]></content>
+        <published>2023-09-29T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[What is SMU digitizer mode and why is it useful?]]></title>
         <id>https://www.keysight.com/blogs/tech/bench/2023/09/26/what-is-digitizer</id>
@@ -20,6 +124,14 @@
         <link href="https://www.keysight.com/blogs/keys/exec/2023/09/technology-transformation-a-look-back-at-keysight-world"/>
         <updated>2023-09-21T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Marie Hattar, Keysight Technologies CMO, shares her key takeaways on the emerging technologies—5G, 6G, and the metaverse, non-terrestrial networks, autonomous vehicles, and digital healthcare--explored during Keysight World 2023.]]></content>
+        <published>2023-09-21T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Being a Principal QA Engineer at Keysight Romania]]></title>
+        <id>https://www.keysight.com/blogs/keys/culture/2023/10/2/being-a-principal-qa-engineer-at-keysight</id>
+        <link href="https://www.keysight.com/blogs/keys/culture/2023/10/2/being-a-principal-qa-engineer-at-keysight"/>
+        <updated>2023-09-21T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[A look at what it means to be a Principal QA Engineer at Keysight Technologies Romania.]]></content>
         <published>2023-09-21T00:00:00.000Z</published>
     </entry>
     <entry>
