@@ -1,4 +1,4 @@
-import { decorateIcons, getMetadata } from '../../scripts/lib-franklin.js';
+import { decorateIcons, getMetadata, getOrigin } from '../../scripts/lib-franklin.js';
 import { createElement, addOutsideClickListener } from '../../scripts/scripts.js';
 
 function buildNav(ul, navItems, topic) {
@@ -54,18 +54,25 @@ export default async function decorate(block) {
   nav.append(navTitle);
   const topicList = createElement('ul', 'topics-list');
 
-  const resp = await fetch('/blogs/nav.plain.html');
-  if (resp.ok) {
-    const html = await resp.text();
-    const temp = createElement('div');
-    temp.innerHTML = html;
-    const topicNav = temp.querySelector('div:nth-child(3) > ul');
-    if (topic) {
-      buildNav(topicList, topicNav, topic);
-    } else {
-      buildNav(topicList, topicNav);
+  const loadNavTopics = async () => {
+    const resp = await fetch('/blogs/nav.plain.html');
+    if (resp.ok) {
+      const html = await resp.text();
+      const temp = createElement('div');
+      temp.innerHTML = html;
+      const topicNav = temp.querySelector('div:nth-child(3) > ul');
+      if (topic) {
+        buildNav(topicList, topicNav, topic);
+      } else {
+        buildNav(topicList, topicNav);
+      }
     }
-  }
+  };
+  window.addEventListener('message', (msg) => {
+    if (msg.origin === getOrigin() && msg.data && msg.data.postCardsLoaded) {
+      loadNavTopics();
+    }
+  });
 
   nav.append(topicList);
   decorateIcons(nav);
