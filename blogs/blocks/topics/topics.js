@@ -54,26 +54,18 @@ export default async function decorate(block) {
   nav.append(navTitle);
   const topicList = createElement('ul', 'topics-list');
 
-  const intervalId = setInterval(async () => {
-    const headerLoaded = document.querySelector('header .header[data-block-status="loaded"]');
-    if (headerLoaded) {
-      clearInterval(intervalId);
-      // once the header is loaded
-      // we can safely fetch nav, knowing it will be cached
-      const resp = await fetch('/blogs/nav.plain.html');
-      if (resp.ok) {
-        const html = await resp.text();
-        const temp = createElement('div');
-        temp.innerHTML = html;
-        const topicNav = temp.querySelector('div:nth-child(3) > ul');
-        if (topic) {
-          buildNav(topicList, topicNav, topic);
-        } else {
-          buildNav(topicList, topicNav);
-        }
-      }
+  const resp = await fetch('/blogs/nav.plain.html');
+  if (resp.ok) {
+    const html = await resp.text();
+    const temp = createElement('div');
+    temp.innerHTML = html;
+    const topicNav = temp.querySelector('div:nth-child(3) > ul');
+    if (topic) {
+      buildNav(topicList, topicNav, topic);
+    } else {
+      buildNav(topicList, topicNav);
     }
-  }, 250);
+  }
 
   nav.append(topicList);
   decorateIcons(nav);
