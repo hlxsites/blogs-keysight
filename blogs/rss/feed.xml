@@ -31,6 +31,14 @@
         <published>2023-10-18T00:00:00.000Z</published>
     </entry>
     <entry>
+        <title type="html"><![CDATA[What are the different SMU operation modes and when do you use each one?]]></title>
+        <id>https://www.keysight.com/blogs/tech/bench/2023/10/18/what-are-the-different-smu-operation-modes-v2</id>
+        <link href="https://www.keysight.com/blogs/tech/bench/2023/10/18/what-are-the-different-smu-operation-modes-v2"/>
+        <updated>2023-10-18T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Explore the world of Source/Monitor Units (SMUs) and their diverse operation modes. From 'normal' for conventional use to 'laser diode' for precision pulsing.]]></content>
+        <published>2023-10-18T00:00:00.000Z</published>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Efficiency Meets Insight: Exploring DAI 7.1's Test Case Results Dashboard]]></title>
         <id>https://www.keysight.com/blogs/tech/software-testing/2023/10/16/dai-7-1-blog</id>
         <link href="https://www.keysight.com/blogs/tech/software-testing/2023/10/16/dai-7-1-blog"/>
