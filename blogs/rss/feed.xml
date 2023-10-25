@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-10-24T00:00:00.000Z</updated>
+    <updated>2023-10-25T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[What Is the US Cyber Trust Mark?]]></title>
+        <id>https://www.keysight.com/blogs/tech/nwvs/2023/10/25/what-is-us-cyber-trust-mark</id>
+        <link href="https://www.keysight.com/blogs/tech/nwvs/2023/10/25/what-is-us-cyber-trust-mark"/>
+        <updated>2023-10-25T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[The US Cyber Trust Mark is a certification program that will strengthen IoT security by generating consumer awareness and providing incentives for device manufacturers.]]></content>
+        <published>2023-10-25T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Enhancing Semiconductor Device Modeling with Recentering]]></title>
         <id>https://www.keysight.com/blogs/tech/sim-des/2023/10/24/enhancing-semiconductor-device-modeling-with-recentering</id>
