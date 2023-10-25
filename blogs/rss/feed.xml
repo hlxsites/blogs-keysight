@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-10-20T00:00:00.000Z</updated>
+    <updated>2023-10-24T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Enhancing Semiconductor Device Modeling with Recentering]]></title>
+        <id>https://www.keysight.com/blogs/tech/sim-des/2023/10/24/enhancing-semiconductor-device-modeling-with-recentering</id>
+        <link href="https://www.keysight.com/blogs/tech/sim-des/2023/10/24/enhancing-semiconductor-device-modeling-with-recentering"/>
+        <updated>2023-10-24T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[In response to the growing demand for modeling efficeincy and handling larger volumes of data, we are excited to introduce the IC-CAP Model Generator Recentering Tool. Explore key features of this new tool that can help save up to 70% model extraction time compared to traditional recentering approaches.]]></content>
+        <published>2023-10-24T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Join us at the IoT Security Foundation event on Tuesday 7th November]]></title>
         <id>https://www.keysight.com/blogs/tech/nwvs/2023/10/19/iot-security-foundation-event-final</id>
