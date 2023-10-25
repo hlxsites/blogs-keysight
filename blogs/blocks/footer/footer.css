@@ -51,4 +51,9 @@ footer #footer {
 
 .keysight-footer #copyright ul li {
   font-size: 14px;
+  color: #524f56;
 }
+
+.keysight-footer #copyright li+li::before
+
+{ color: #524f56; }
