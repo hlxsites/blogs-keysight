@@ -54,6 +54,6 @@ footer #footer {
   color: #524f56;
 }
 
-.keysight-footer #copyright li+li::before
-
-{ color: #524f56; }
+.keysight-footer #copyright li+li::before { 
+  color: #524f56; 
+}
