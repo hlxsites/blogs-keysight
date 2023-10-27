@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-10-26T00:00:00.000Z</updated>
+    <updated>2023-10-27T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Tune In: Experts from Google, Yale and August US, and Afero Discuss Cyber Trust Mark]]></title>
+        <id>https://www.keysight.com/blogs/tech/nwvs/2023/10/27/cyber-trust-mark-event</id>
+        <link href="https://www.keysight.com/blogs/tech/nwvs/2023/10/27/cyber-trust-mark-event"/>
+        <updated>2023-10-27T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[In just 40 minutes on December 6, you'll hear from experts at Google, Yale and August US, and Afero discuss the Cyber Trust Mark, securing the internet of things, and plenty more.]]></content>
+        <published>2023-10-27T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[What are the differences between auto, seamless, and fixed measurement ranging in an SMU?]]></title>
         <id>https://www.keysight.com/blogs/tech/bench/2023/10/26/what-are-the-differences-between-auto-seamless-and-fixed-measurement-ranging-in-an-smu</id>
