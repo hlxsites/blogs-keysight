@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-10-27T00:00:00.000Z</updated>
+    <updated>2023-10-28T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Is Your DDoS Mitigation Ready for 398 million Requests Per Second?]]></title>
+        <id>https://www.keysight.com/blogs/tech/nwvs/2023/10/28/is-your-ddos-mitigation-ready-for-398-million-requests-per-second</id>
+        <link href="https://www.keysight.com/blogs/tech/nwvs/2023/10/28/is-your-ddos-mitigation-ready-for-398-million-requests-per-second"/>
+        <updated>2023-10-28T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Mitigating the Rapid Reset attack and Hyperscale DDoS with Keysight BreakingPoint]]></content>
+        <published>2023-10-28T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Tune In: Experts from Google, Yale and August US, and Afero Discuss Cyber Trust Mark]]></title>
         <id>https://www.keysight.com/blogs/tech/nwvs/2023/10/27/cyber-trust-mark-event</id>
