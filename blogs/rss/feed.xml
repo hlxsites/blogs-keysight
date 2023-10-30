@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-10-28T00:00:00.000Z</updated>
+    <updated>2023-10-30T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Simplifying the Complexity of POS Testing with Automation and Robotics]]></title>
+        <id>https://www.keysight.com/blogs/tech/software-testing/2023/10/30/fuel-pump-and-pos-testing-at-nacs-2023</id>
+        <link href="https://www.keysight.com/blogs/tech/software-testing/2023/10/30/fuel-pump-and-pos-testing-at-nacs-2023"/>
+        <updated>2023-10-30T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Testing software and hardware together has always been thought of as impossible. Not anymore. With Keysight Eggplant driving robotics, retail QA leaders can sleep soundly knowing that they have overcome POS testing complexity.]]></content>
+        <published>2023-10-30T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Is Your DDoS Mitigation Ready for 398 million Requests Per Second?]]></title>
         <id>https://www.keysight.com/blogs/tech/nwvs/2023/10/28/is-your-ddos-mitigation-ready-for-398-million-requests-per-second</id>
