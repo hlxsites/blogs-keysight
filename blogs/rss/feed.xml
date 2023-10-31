@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-10-30T00:00:00.000Z</updated>
+    <updated>2023-10-31T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Five Surprising Benefits of Network Visualization]]></title>
+        <id>https://www.keysight.com/blogs/inds/2023/10/31/five-surprising-benefits-of-network-visualization</id>
+        <link href="https://www.keysight.com/blogs/inds/2023/10/31/five-surprising-benefits-of-network-visualization"/>
+        <updated>2023-10-31T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Uncover the transformative power of network visualization and how it can deliver surprising benefits like collaboration, resource optimization, security, scalability and more.]]></content>
+        <published>2023-10-31T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Simplifying the Complexity of POS Testing with Automation and Robotics]]></title>
         <id>https://www.keysight.com/blogs/tech/software-testing/2023/10/30/simplifying-the-complexity-of-pos-testing-with-automation-and-robotics</id>
