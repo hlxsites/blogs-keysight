@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-10-31T00:00:00.000Z</updated>
+    <updated>2023-11-02T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[5 Requirements Your Network Simulator Tool Must Satisfy]]></title>
+        <id>https://www.keysight.com/blogs/tech/nwvs/2023/11/five-requirements-your-network-simulator-tool-must-satisfy</id>
+        <link href="https://www.keysight.com/blogs/tech/nwvs/2023/11/five-requirements-your-network-simulator-tool-must-satisfy"/>
+        <updated>2023-11-02T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Discover the 5 must-have features for a top-notch network simulator tool —  ensuring accuracy, speed, ease of use, visualization, and live application interfacing.]]></content>
+        <published>2023-11-02T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Five Surprising Benefits of Network Visualization]]></title>
         <id>https://www.keysight.com/blogs/tech/nwvs/2023/10/31/five-surprising-benefits-of-network-visualization</id>
