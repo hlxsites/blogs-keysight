@@ -8,14 +8,6 @@
     <subtitle>Keysight Blogs</subtitle>
     <entry>
         <title type="html"><![CDATA[Five Surprising Benefits of Network Visualization]]></title>
-        <id>https://www.keysight.com/blogs/inds/2023/10/31/five-surprising-benefits-of-network-visualization</id>
-        <link href="https://www.keysight.com/blogs/inds/2023/10/31/five-surprising-benefits-of-network-visualization"/>
-        <updated>2023-10-31T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[Uncover the transformative power of network visualization and how it can deliver surprising benefits like collaboration, resource optimization, security, scalability and more.]]></content>
-        <published>2023-10-31T00:00:00.000Z</published>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Five Surprising Benefits of Network Visualization]]></title>
         <id>https://www.keysight.com/blogs/tech/nwvs/2023/10/31/five-surprising-benefits-of-network-visualization</id>
         <link href="https://www.keysight.com/blogs/tech/nwvs/2023/10/31/five-surprising-benefits-of-network-visualization"/>
         <updated>2023-10-31T00:00:00.000Z</updated>
@@ -28,6 +20,14 @@
         <link href="https://www.keysight.com/blogs/tech/bench/2023/10/31/unlocking-precision-and-versatility-with-bv9200b-benchvue-advanced-power-control-and-analysis-software"/>
         <updated>2023-10-31T00:00:00.000Z</updated>
         <content type="html"><![CDATA[The Keysight Technologies BV9200B PathWave BenchVue Advanced Power Control and Analysis software for advanced power supplies was designed to give you fast and easy access to the advanced sourcing and measurement functionality of your N6705 DC power analyzer, RP7900 Series Regenerative Power System, and/or Advanced Power System (APS) N7900 Series power supplies without any programming.]]></content>
+        <published>2023-10-31T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[A Comprehensive Guide to Installing BenchVue Basic]]></title>
+        <id>https://www.keysight.com/blogs/tech/bench/2023/10/31/a-comprehensive-guide-to-installing-benchvue-basic</id>
+        <link href="https://www.keysight.com/blogs/tech/bench/2023/10/31/a-comprehensive-guide-to-installing-benchvue-basic"/>
+        <updated>2023-10-31T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[BenchVue Basic is a free version of software from the PathWave BenchVue software family.]]></content>
         <published>2023-10-31T00:00:00.000Z</published>
     </entry>
     <entry>
