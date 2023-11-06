@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-11-02T00:00:00.000Z</updated>
+    <updated>2023-11-06T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Can Software Testing Deliver ROI?]]></title>
+        <id>https://www.keysight.com/blogs/tech/software-testing/2023/11/6/software-testing-roi</id>
+        <link href="https://www.keysight.com/blogs/tech/software-testing/2023/11/6/software-testing-roi"/>
+        <updated>2023-11-06T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[The view of software testing is changing. Instead of a financial burden, software testing is providing substantial cost savings and return on investment (ROI). However, is software testing is to contribute towards revenue, teams need to adopt modern methods and move away from manual testing.]]></content>
+        <published>2023-11-06T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[5 Requirements Your Network Simulator Tool Must Satisfy]]></title>
         <id>https://www.keysight.com/blogs/tech/nwvs/2023/11/five-requirements-your-network-simulator-tool-must-satisfy</id>
