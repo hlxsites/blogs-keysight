@@ -116,3 +116,12 @@ display: none !important;
 .keysight-header  .util-icon {
   border: 0 solid #dbd9dd !important;
 }
+
+@media (min-width: 480px) {
+  .gnav-menu div {
+    float: left;
+    width: max-content;
+    padding: 1.5em;
+    padding-bottom: 1.5em;
+}
+}
