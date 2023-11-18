@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-11-13T00:00:00.000Z</updated>
+    <updated>2023-11-17T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[6G and the future of Telecom]]></title>
+        <id>https://www.keysight.com/blogs/tech/2023/11/17/6g-and-the-future-of-telecom</id>
+        <link href="https://www.keysight.com/blogs/tech/2023/11/17/6g-and-the-future-of-telecom"/>
+        <updated>2023-11-17T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Find out how 6G will shape our future, the technologies that it will primarily rely on, and how Keysight helps make all this possible.]]></content>
+        <published>2023-11-17T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Digital Twins and Non-terrestrial Networks: Applications from NASA Spacecraft to the Ukraine Conflict]]></title>
         <id>https://www.keysight.com/blogs/inds/2023/11/13/digital-twins-and-non-terrestrial-networks-applications-from-nasa-spacecraft-to-the-ukraine-conflict</id>
