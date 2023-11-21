@@ -27,6 +27,9 @@ indices:
       tags:
         select: head > meta[property="article:tag"]
         values: attribute(el, "content")
+      backOfficeTags:
+        select: head > meta[name="back-office-tags"]
+        values: attribute(el, "content")
       image:
         select: head > meta[property="og:image"]
         value: match(attribute(el, "content"), "https:\/\/[^/]+(/.*)")
