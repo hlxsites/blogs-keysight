@@ -231,6 +231,14 @@
         <published>2023-10-03T00:00:00.000Z</published>
     </entry>
     <entry>
+        <title type="html"><![CDATA[What is SMU digitizer mode and why is it useful?]]></title>
+        <id>https://www.keysight.com/blogs/keys/thought-leadership/2023/06/15/solving-5g-6g-challenges-with-artificial-intelligence-ai</id>
+        <link href="https://www.keysight.com/blogs/keys/thought-leadership/2023/06/15/solving-5g-6g-challenges-with-artificial-intelligence-ai"/>
+        <updated>2023-06-20T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Artificial intelligence (AI) stands ready to tackle 5G and 6 G challenges. Learn how AI is paving the way for a wireless network revolution.]]></content>
+        <published>2023-06-20T00:00:00.000Z</published>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[What are the different SMU operation modes and when do you use each one?]]></title>
         <id>https://www.keysight.com/blogs/tech/bench/2023/10/18/what-are-the-different-smu-operation-modes-v2</id>
         <link href="https://www.keysight.com/blogs/tech/bench/2023/10/18/what-are-the-different-smu-operation-modes-v2"/>
@@ -1629,14 +1637,6 @@
         <updated>2020-02-21T00:00:00.000Z</updated>
         <content type="html"><![CDATA[For a limited time, purchase a new UXR-Series high-performance oscilloscope and receive 1 Gpts Memory on us.]]></content>
         <published>2020-02-21T00:00:00.000Z</published>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[0]]></title>
-        <id>https://www.keysight.com/blogs/keys/thought-leadership/2023/06/15/solving-5g-6g-challenges-with-artificial-intelligence-ai</id>
-        <link href="https://www.keysight.com/blogs/keys/thought-leadership/2023/06/15/solving-5g-6g-challenges-with-artificial-intelligence-ai"/>
-        <updated>2023-06-20T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[Artificial intelligence (AI) stands ready to tackle 5G and 6 G challenges. Learn how AI is paving the way for a wireless network revolution.]]></content>
-        <published>2023-06-20T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[Overcoming Medical Device Manufacturing Challenges]]></title>
