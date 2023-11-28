@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-11-17T00:00:00.000Z</updated>
+    <updated>2023-11-27T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Mastering IP Management: The Art of Cooking Up Efficient IP Reuse]]></title>
+        <id>https://www.keysight.com/blogs/tech/sim-des/2023/11/27/mastering-ip-management</id>
+        <link href="https://www.keysight.com/blogs/tech/sim-des/2023/11/27/mastering-ip-management"/>
+        <updated>2023-11-27T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Explore how IC design teams can draw inspirations from kitchens to optimize design data and IP management and how Keysight IP Management (HUB) help enhance efficiency, data security, and compliances.]]></content>
+        <published>2023-11-27T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Enhancing the ROI of Third-Party Semiconductor Intellectual Properties (IPs)]]></title>
         <id>https://www.keysight.com/blogs/tech/sim-des/2023/11/17/enhancing-the-roi-of-third-party-semiconductor-intellectual-properties-ips</id>
