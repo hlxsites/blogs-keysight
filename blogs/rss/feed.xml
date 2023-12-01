@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-11-29T00:00:00.000Z</updated>
+    <updated>2023-12-01T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Keysight i7090 with PTEM- System initialization]]></title>
+        <id>https://www.keysight.com/blogs/tech/bench/2023/12/01/keysight-i7090-with-ptem-system-initialization-final</id>
+        <link href="https://www.keysight.com/blogs/tech/bench/2023/12/01/keysight-i7090-with-ptem-system-initialization-final"/>
+        <updated>2023-12-01T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Pathwave Test Executive for Manufacturing has built in step sequences for i7090 Automated inline systems.]]></content>
+        <published>2023-12-01T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Innovating for Customer Success: Part 2]]></title>
         <id>https://www.keysight.com/blogs/keys/exec/2023/11/innovating-with-ai-for-customer-success-part-2</id>
