@@ -7,6 +7,14 @@
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
     <entry>
+        <title type="html"><![CDATA[Mastering IP Management: The Art of Cooking Up Efficient IP Reuse]]></title>
+        <id>https://www.keysight.com/blogs/tech/sim-des/2023/11/27/mastering-ip-management</id>
+        <link href="https://www.keysight.com/blogs/tech/sim-des/2023/11/27/mastering-ip-management"/>
+        <updated>2023-11-27T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Explore how IC design teams can draw inspirations from kitchens to optimize design data and IP management and how Keysight IP Management (HUB) help enhance efficiency, data security, and compliances.]]></content>
+        <published>2023-11-27T00:00:00.000Z</published>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[4 EV Technologies to Watch at CES 2024]]></title>
         <id>https://www.keysight.com/blogs/tech/2023/12/08/4-ev-technologies-to-watch-at-ces-2024</id>
         <link href="https://www.keysight.com/blogs/tech/2023/12/08/4-ev-technologies-to-watch-at-ces-2024"/>
@@ -85,14 +93,6 @@
         <updated>2023-11-24T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Cyberattacks are on the rise, and so is the cost of a data breach. Therefore, it's important for you to stay one step ahead and protect what matters most.]]></content>
         <published>2023-11-24T00:00:00.000Z</published>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Mastering IP Management: The Art of Cooking Up Efficient IP Reuse]]></title>
-        <id>https://www.keysight.com/blogs/tech/sim-des/2023/11/27/mastering-ip-management</id>
-        <link href="https://www.keysight.com/blogs/tech/sim-des/2023/11/27/mastering-ip-management"/>
-        <updated>2023-11-27T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[Explore how IC design teams can draw inspirations from kitchens to optimize design data and IP management and how Keysight IP Management (HUB) help enhance efficiency, data security, and compliances.]]></content>
-        <published>2023-11-27T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[Enhancing the ROI of Third-Party Semiconductor Intellectual Properties (IPs)]]></title>
