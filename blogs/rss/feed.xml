@@ -7,6 +7,14 @@
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
     <entry>
+        <title type="html"><![CDATA[Unlocking Peak Performance: Exploring the World of Eggplant Monitoring]]></title>
+        <id>https://www.keysight.com/blogs/tech/software-testing/2023/12/11/eggplantmonitoring</id>
+        <link href="https://www.keysight.com/blogs/tech/software-testing/2023/12/11/eggplantmonitoring"/>
+        <updated>2023-12-11T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[How much does unplanned website downtime affect retailers? You don’t have to look far to find some sobering numbers.]]></content>
+        <published>2023-12-11T00:00:00.000Z</published>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Utilizing HAR files in Network Testing]]></title>
         <id>https://www.keysight.com/blogs/tech/nwvs/2023/12/harsim-announce-blog</id>
         <link href="https://www.keysight.com/blogs/tech/nwvs/2023/12/harsim-announce-blog"/>
