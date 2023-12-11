@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-12-08T00:00:00.000Z</updated>
+    <updated>2023-12-11T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[What to Expect at Keysight EDA Connect World Tour]]></title>
+        <id>https://www.keysight.com/blogs/tech/sim-des/2023/12/11/what-to-expect-at-keysight-eda-connect-world-tour</id>
+        <link href="https://www.keysight.com/blogs/tech/sim-des/2023/12/11/what-to-expect-at-keysight-eda-connect-world-tour"/>
+        <updated>2023-12-11T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Unleash the power of the modern design center with the Keysight EDA Connect World Tour. Wondering how Keysight’s latest AI / ML and automation innovations can boost your design productivity in 2024? Find a seminar in your city to access 20 technical sessions, EDA experts, and many more learning opportunities.]]></content>
+        <published>2023-12-11T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Mastering IP Management: The Art of Cooking Up Efficient IP Reuse]]></title>
         <id>https://www.keysight.com/blogs/tech/sim-des/2023/11/27/mastering-ip-management</id>
