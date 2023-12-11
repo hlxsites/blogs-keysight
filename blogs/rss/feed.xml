@@ -7,6 +7,14 @@
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
     <entry>
+        <title type="html"><![CDATA[Utilizing HAR files in Network Testing]]></title>
+        <id>https://www.keysight.com/blogs/tech/nwvs/2023/12/harsim-announce-blog</id>
+        <link href="https://www.keysight.com/blogs/tech/nwvs/2023/12/harsim-announce-blog"/>
+        <updated>2023-12-07T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blogs explains the new Breakingpoint feature HAR Simulation.]]></content>
+        <published>2023-12-07T00:00:00.000Z</published>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[What to Expect at Keysight EDA Connect World Tour]]></title>
         <id>https://www.keysight.com/blogs/tech/sim-des/2023/12/11/what-to-expect-at-keysight-eda-connect-world-tour</id>
         <link href="https://www.keysight.com/blogs/tech/sim-des/2023/12/11/what-to-expect-at-keysight-eda-connect-world-tour"/>
