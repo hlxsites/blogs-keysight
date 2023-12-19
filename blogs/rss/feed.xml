@@ -15,6 +15,14 @@
         <published>2024-12-15T00:00:00.000Z</published>
     </entry>
     <entry>
+        <title type="html"><![CDATA[5 Truths About AI-Driven Software Testing]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/tech/software-testing/2022/4/6/5-truths-about-ai-driven-software-testing</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/tech/software-testing/2022/4/6/5-truths-about-ai-driven-software-testing"/>
+        <updated>2023-12-18T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[With the rapid advancements in machine learning (ML) and artificial intelligence (AI), AI-driven software test automation is proving to be a critical tool for businesses.]]></content>
+        <published>2023-12-18T00:00:00.000Z</published>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[2023 Holiday Gift Guide]]></title>
         <id>https://www.keysight.com/blogs/blogs/en/tech/2023/12/15/2023-holiday-gift-guide</id>
         <link href="https://www.keysight.com/blogs/blogs/en/tech/2023/12/15/2023-holiday-gift-guide"/>
@@ -3383,14 +3391,6 @@
         <published>2022-04-07T00:00:00.000Z</published>
     </entry>
     <entry>
-        <title type="html"><![CDATA[5 Truths About AI-Driven Software Testing]]></title>
-        <id>https://www.keysight.com/blogs/blogs/en/inds/2022/04/06/5-truths-about-ai-driven-software-testing</id>
-        <link href="https://www.keysight.com/blogs/blogs/en/inds/2022/04/06/5-truths-about-ai-driven-software-testing"/>
-        <updated>2022-04-06T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[AI-driven test automation is not a thing of the future; it’s already here. AI testing is enabling testers, developers, and all software professionals to tackle challenges that were once thought to be insurmountable.]]></content>
-        <published>2022-04-06T00:00:00.000Z</published>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[Don’t Test Today’s Zero Trust Networks with Yesterday’s Tools]]></title>
         <id>https://www.keysight.com/blogs/blogs/en/tech/traf-gen/2022/04/06/dont-test-todays-zero-trust-networks-with-yesterdays-tools</id>
         <link href="https://www.keysight.com/blogs/blogs/en/tech/traf-gen/2022/04/06/dont-test-todays-zero-trust-networks-with-yesterdays-tools"/>
@@ -3404,14 +3404,6 @@
         <link href="https://www.keysight.com/blogs/blogs/en/tech/nwvs/2022/04/06/security-testing-with-evasions-in-bps-part-2-http"/>
         <updated>2022-04-06T00:00:00.000Z</updated>
         <content type="html"><![CDATA[BPS Evasions with focus on HTTP protocol for security testing.]]></content>
-        <published>2022-04-06T00:00:00.000Z</published>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[5 Truths About AI-Driven Software Testing]]></title>
-        <id>https://www.keysight.com/blogs/blogs/en/tech/software-testing/2022/4/6/5-truths-about-ai-driven-software-testing</id>
-        <link href="https://www.keysight.com/blogs/blogs/en/tech/software-testing/2022/4/6/5-truths-about-ai-driven-software-testing"/>
-        <updated>2022-04-06T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[AI-Driven Testing: Bridging the Software Automation Gap describes the current “gap” between manual and automated software testing.]]></content>
         <published>2022-04-06T00:00:00.000Z</published>
     </entry>
     <entry>
