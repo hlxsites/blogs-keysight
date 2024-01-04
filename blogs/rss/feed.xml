@@ -2,17 +2,17 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2024-12-15T00:00:00.000Z</updated>
+    <updated>2023-12-21T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
     <entry>
-        <title type="html"><![CDATA[Shattered Silos: 2024’s Top Technology Trend]]></title>
-        <id>https://www.keysight.com/blogs/blogs/en/tech/2023/12/15/shattered-silos-top-technology-trend-2024</id>
-        <link href="https://www.keysight.com/blogs/blogs/en/tech/2023/12/15/shattered-silos-top-technology-trend-2024"/>
-        <updated>2024-12-15T00:00:00.000Z</updated>
-        <content type="html"><![CDATA[Collaboration and co-innovation will enable the development of truly world-changing technology across sectors and make the impossible a reality.]]></content>
-        <published>2024-12-15T00:00:00.000Z</published>
+        <title type="html"><![CDATA[How Domain Generation Algorithms Impact Network Security]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/tech/nwvs/2024/01/03/dga-blog</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/tech/nwvs/2024/01/03/dga-blog"/>
+        <updated>2023-12-21T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[This blogs explains the concept of Domain Generation algorithm and its implications in cyber security infrastructure.]]></content>
+        <published>2023-12-21T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[ATI – 2023 Year in Review]]></title>
@@ -36,6 +36,14 @@
         <link href="https://www.keysight.com/blogs/blogs/en/tech/2023/12/15/2023-holiday-gift-guide"/>
         <updated>2023-12-15T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Tis the season of giving, and Keysight has you covered with the ultimate holiday gift guide! Whether you're shopping for your bookish bestie, dealing with intrusive in-laws, or challenging your friendliest frenemy, our expert recommendations cater to all.]]></content>
+        <published>2023-12-15T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Shattered Silos: 2024’s Top Technology Trend]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/tech/2023/12/15/shattered-silos-top-technology-trend-2024</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/tech/2023/12/15/shattered-silos-top-technology-trend-2024"/>
+        <updated>2023-12-15T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Collaboration and co-innovation will enable the development of truly world-changing technology across sectors and make the impossible a reality.]]></content>
         <published>2023-12-15T00:00:00.000Z</published>
     </entry>
     <entry>
