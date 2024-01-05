@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2023-12-21T00:00:00.000Z</updated>
+    <updated>2024-01-04T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[10 Executive Predictions on How AI will Shape Technology in 2024]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/keys/exec/2024/Jan/04/10-executive-predictions-for-how-ai-will-shape-tech-2024</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/keys/exec/2024/Jan/04/10-executive-predictions-for-how-ai-will-shape-tech-2024"/>
+        <updated>2024-01-04T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Keysight executives share their predictions on how and where AI will be pushing the boundaries of innovation and make significant impacts in 2024.]]></content>
+        <published>2024-01-04T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[How Domain Generation Algorithms Impact Network Security]]></title>
         <id>https://www.keysight.com/blogs/blogs/en/tech/nwvs/2024/01/03/dga-blog</id>
