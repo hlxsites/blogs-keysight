@@ -2,10 +2,26 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2024-01-04T00:00:00.000Z</updated>
+    <updated>2024-01-08T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Executive Predictions 2024: Constant Vigilance in Cybersecurity]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/keys/exec/2024/Jan/08/2024-executive-predictions-cybersecurity-constant-vigilance</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/keys/exec/2024/Jan/08/2024-executive-predictions-cybersecurity-constant-vigilance"/>
+        <updated>2024-01-08T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Cybersecurity grows only more pressing a concern for an increasing number of industries. Keysight executives share their predictions for the ways that industry leaders will look to secure the world in 2024.]]></content>
+        <published>2024-01-08T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Marketing Predictions in the Era of AI]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/keys/exec/2024/Jan/08/marketing-predictions-in-the-ai-era</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/keys/exec/2024/Jan/08/marketing-predictions-in-the-ai-era"/>
+        <updated>2024-01-08T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Keysight Chief Marketing Officer, Marie Hattar, explores her predictions for the ways that artificial intelligence will impact the marketing industry in 2024 and beyond.]]></content>
+        <published>2024-01-08T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[10 Executive Predictions on How AI will Shape Technology in 2024]]></title>
         <id>https://www.keysight.com/blogs/blogs/en/keys/exec/2024/Jan/04/10-executive-predictions-for-how-ai-will-shape-tech-2024</id>
@@ -18,6 +34,14 @@
         <title type="html"><![CDATA[Revolutionizing Research with the Power of PathWave IV Curve Software (PW9251A)]]></title>
         <id>https://www.keysight.com/blogs/blogs/en/tech/bench/2023/31/revolutionizing-research-with-the-power-of-pathwave-iv-curve-software-pw9251a</id>
         <link href="https://www.keysight.com/blogs/blogs/en/tech/bench/2023/31/revolutionizing-research-with-the-power-of-pathwave-iv-curve-software-pw9251a"/>
+        <updated>2023-12-31T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[The PW9251A PathWave IV Curve Measurement software accelerate your research, development and design verification by quick and easy execution of synchronous current-voltage (IV) measurements without programming, immediately reviewing test results on graphs and tables, and generate report efficiently.]]></content>
+        <published>2023-12-31T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Revolutionizing Research with the Power of PathWave IV Curve Software (PW9251A)]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/tech/bench/2023/12/31/revolutionizing-research-with-the-power-of-pathwave-iv-curve-software-pw9251a</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/tech/bench/2023/12/31/revolutionizing-research-with-the-power-of-pathwave-iv-curve-software-pw9251a"/>
         <updated>2023-12-31T00:00:00.000Z</updated>
         <content type="html"><![CDATA[The PW9251A PathWave IV Curve Measurement software accelerate your research, development and design verification by quick and easy execution of synchronous current-voltage (IV) measurements without programming, immediately reviewing test results on graphs and tables, and generate report efficiently.]]></content>
         <published>2023-12-31T00:00:00.000Z</published>
