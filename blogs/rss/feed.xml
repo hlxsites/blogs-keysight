@@ -2,10 +2,26 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2024-01-09T00:00:00.000Z</updated>
+    <updated>2024-01-10T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Top 6 Software Test Automation Trends of 2024]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/tech/software-testing/2024/Jan/10/top-software-test-automation-trends-of-2024</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/tech/software-testing/2024/Jan/10/top-software-test-automation-trends-of-2024"/>
+        <updated>2024-01-10T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[As we welcome in the new year, here are six of the software test automation trends taking shape in 2024.]]></content>
+        <published>2024-01-10T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[2024 Executive Predictions: Overcoming the Tech Talent Gap]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/keys/exec/2024/Jan/10/2024-executive-predictions-navigating-the-tech-talent-gap</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/keys/exec/2024/Jan/10/2024-executive-predictions-navigating-the-tech-talent-gap"/>
+        <updated>2024-01-10T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Keysight executives share their predictions for how the technology world will help to address the current talent gap now and promote STEM education to ensure innovation never loses momentum in the future.]]></content>
+        <published>2024-01-10T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Rethinking POS Testing: 72% of US Retailers Urgently Need Automation]]></title>
         <id>https://www.keysight.com/blogs/blogs/en/tech/2024/01/09/rethinking-pos-testing-72-of-us-retailers-urgently-need-automation</id>
