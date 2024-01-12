@@ -2,10 +2,26 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2024-01-10T00:00:00.000Z</updated>
+    <updated>2024-01-11T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Unveiling the Latest Innovations in Keysight EDA Software]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/tech/sim-des/2024/1/11/unveiling-the-latest-innovations-in-keysight-eda-software</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/tech/sim-des/2024/1/11/unveiling-the-latest-innovations-in-keysight-eda-software"/>
+        <updated>2024-01-11T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[In the ever-evolving world of electronic design, shift-left represents a promising opportunity to accelerate time-to-market. The latest innovations in Keysight EDA empower engineering teams to unlock greater design productivity and shift left with higher confidence.]]></content>
+        <published>2024-01-11T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How Automotive Radars Are Advancing Safety Features]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/tech/educ/2023/automotive-radar</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/tech/educ/2023/automotive-radar"/>
+        <updated>2024-01-11T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[The world of autonomous and advanced driving features wouldn’t be possible without automotive radars. Discover how they work and get answers to FAQs.]]></content>
+        <published>2024-01-11T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Top 6 Software Test Automation Trends of 2024]]></title>
         <id>https://www.keysight.com/blogs/blogs/en/tech/software-testing/2024/Jan/10/top-software-test-automation-trends-of-2024</id>
