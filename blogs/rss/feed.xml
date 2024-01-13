@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2024-01-11T00:00:00.000Z</updated>
+    <updated>2024-01-12T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[What is ASA?]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/inds/2024/01/what-is-asa-motion-link-for-in-vehicle-networks</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/inds/2024/01/what-is-asa-motion-link-for-in-vehicle-networks"/>
+        <updated>2024-01-12T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[High-speed SerDes is a common connection for automotive high-resolution, in-vehicle displays such as infotainment or backup cameras. It is a point-to-point architecture with high bandwidth, low baud rates, and high modulation orders. Read more in Keysight's recent blog to learn about VSI and Keysight’s partnership with ASA technology.]]></content>
+        <published>2024-01-12T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Unveiling the Latest Innovations in Keysight EDA Software]]></title>
         <id>https://www.keysight.com/blogs/blogs/en/tech/sim-des/2024/1/11/unveiling-the-latest-innovations-in-keysight-eda-software</id>
