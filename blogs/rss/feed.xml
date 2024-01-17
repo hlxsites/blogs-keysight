@@ -2,10 +2,26 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2024-01-12T00:00:00.000Z</updated>
+    <updated>2024-01-16T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Executive Predictions 2024: ESG Comes into Focus]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/keys/exec/2024/Jan/16/executive-predictions-2024-esg-comes-into-focus</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/keys/exec/2024/Jan/16/executive-predictions-2024-esg-comes-into-focus"/>
+        <updated>2024-01-16T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Keysight executives share their predictions for how technology and environmental, social, and governance (ESG) will intertwine in 2024. From improving equity and diversity in tech spaces to leveraging technology to solve global environmental issues, technology for good is a movement that will underpin 2024.]]></content>
+        <published>2024-01-16T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Signal Generators: The Different Types and How They Work]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/tech/educ/2023/signal-generator</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/tech/educ/2023/signal-generator"/>
+        <updated>2024-01-16T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Any electronics that use signals need to be tested. Read on for an in-depth overview of signal generators, the workhorses of electronics testing.]]></content>
+        <published>2024-01-16T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[What is ASA?]]></title>
         <id>https://www.keysight.com/blogs/blogs/en/inds/2024/01/what-is-asa-motion-link-for-in-vehicle-networks</id>
