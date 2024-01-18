@@ -23,6 +23,22 @@
         <published>2024-01-16T00:00:00.000Z</published>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Capacitance Meter: A Useful Instrument on a Test Engineer's Desk]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/tech/educ/2023/capacitance-meter</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/tech/educ/2023/capacitance-meter"/>
+        <updated>2024-01-16T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[A capacitance meter is a handy device for any engineer tasked with verifying or diagnosing electronic and electrical circuits. Find out how.]]></content>
+        <published>2024-01-16T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Optimizing IP Management for Chiplet-Based Designs]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/tech/sim-des/2024/1/16/optimizing-ip-management-for-chiplet-based-designs</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/tech/sim-des/2024/1/16/optimizing-ip-management-for-chiplet-based-designs"/>
+        <updated>2024-01-16T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[In the rapidly evolving IC design industry, effective management of Intellectual Properties (IPs) for chiplet-based designs is crucial. This entails navigating complexities in tracking, integrating and validating IPs across various process technologies, especially in specialized sectors like automotive and 5G. This blog explores key challenges in IP management in the chiplet era and key considerations for streamlining this process, ensuring security and compliances, and maximizing IP reuses.]]></content>
+        <published>2024-01-16T00:00:00.000Z</published>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[What is ASA?]]></title>
         <id>https://www.keysight.com/blogs/blogs/en/inds/2024/01/what-is-asa-motion-link-for-in-vehicle-networks</id>
         <link href="https://www.keysight.com/blogs/blogs/en/inds/2024/01/what-is-asa-motion-link-for-in-vehicle-networks"/>
