@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2024-01-18T00:00:00.000Z</updated>
+    <updated>2024-01-22T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Analysis of the top Cyber Threats in 2023 – A Threat Campaigns Retrospective]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/tech/nwvs/2024/01/22/threatsin2023-jan-2024</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/tech/nwvs/2024/01/22/threatsin2023-jan-2024"/>
+        <updated>2024-01-22T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Replicate real-world threats and proactively test your controls to ensure that your security posture is prepared, armed with IOC’s.]]></content>
+        <published>2024-01-22T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Executive Predictions 2024: What’s next for automotive?]]></title>
         <id>https://www.keysight.com/blogs/blogs/en/keys/exec/2024/Jan/18/executive-predictions-2024-whats-next-for-automotive</id>
