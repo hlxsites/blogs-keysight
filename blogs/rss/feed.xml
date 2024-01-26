@@ -2,10 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2024-01-24T00:00:00.000Z</updated>
+    <updated>2024-01-25T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[AI-Augmented Testing: The Future of Software Testing]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/tech/software-testing/2024/Jan/25/ai-augmented-testing-blog</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/tech/software-testing/2024/Jan/25/ai-augmented-testing-blog"/>
+        <updated>2024-01-25T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Take a journey back to the 1990s, where manual testing was a labor-intensive process. The blog recounts the author's early experiences and the realization that automation could revolutionize testing. Fast forward to today, where Generative AI has emerged but with limitations. The blog introduces Keysight's Eggplant Generative AI (GAI), a groundbreaking tool for AI-Augmented Testing.]]></content>
+        <published>2024-01-25T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Visualizing 2023 Web Traffic Trends Through ATI's Lens]]></title>
         <id>https://www.keysight.com/blogs/blogs/en/tech/nwvs/2024/01/24/ati-2023-traffic-analysis</id>
@@ -15,7 +23,7 @@
         <published>2024-01-24T00:00:00.000Z</published>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Analysis of the top Cyber Threats in 2023 – A Threat Campaigns Retrospective]]></title>
+        <title type="html"><![CDATA[Analysis of the top Cyber Threats in 2023]]></title>
         <id>https://www.keysight.com/blogs/blogs/en/tech/nwvs/2024/01/22/threatsin2023-jan-2024</id>
         <link href="https://www.keysight.com/blogs/blogs/en/tech/nwvs/2024/01/22/threatsin2023-jan-2024"/>
         <updated>2024-01-22T00:00:00.000Z</updated>
@@ -4005,6 +4013,14 @@
         <updated>2022-01-31T00:00:00.000Z</updated>
         <content type="html"><![CDATA[To make what comes after 5G a reality, business leaders, policy makers, and innovators must concentrate on making these 5 key breakthroughs.]]></content>
         <published>2022-01-31T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Overcome the 5 Challenges Threatening NTN Success]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/tech/rfmw/2024/25/how-to-overcome-5-challenges-threatening-ntn-success</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/tech/rfmw/2024/25/how-to-overcome-5-challenges-threatening-ntn-success"/>
+        <updated>2022-01-25T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Understand how model-based engineering can help you overcome the 5 key challenges that threaten NTN success.]]></content>
+        <published>2022-01-25T00:00:00.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[Harden the Robustness of Your Autonomous Driving Algorithms]]></title>
