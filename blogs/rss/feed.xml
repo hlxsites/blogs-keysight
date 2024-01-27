@@ -2,16 +2,32 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.keysight.com/blogs</id>
     <title>Keysight Blogs</title>
-    <updated>2024-01-25T00:00:00.000Z</updated>
+    <updated>2024-01-26T00:00:00.000Z</updated>
     <generator>News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.keysight.com/blogs"/>
     <subtitle>Keysight Blogs</subtitle>
+    <entry>
+        <title type="html"><![CDATA[Scale Up Your Measurements With DAQ Systems]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/tech/educ/2023/daq-systems</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/tech/educ/2023/daq-systems"/>
+        <updated>2024-01-26T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[DAQs are a key strategy in scaling up your measurement and quality assurance process. Explore how DAQ works in this overview, and find out the most common uses.]]></content>
+        <published>2024-01-26T00:00:00.000Z</published>
+    </entry>
     <entry>
         <title type="html"><![CDATA[AI-Augmented Testing: The Future of Software Testing]]></title>
         <id>https://www.keysight.com/blogs/blogs/en/tech/software-testing/2024/Jan/25/ai-augmented-testing-blog</id>
         <link href="https://www.keysight.com/blogs/blogs/en/tech/software-testing/2024/Jan/25/ai-augmented-testing-blog"/>
         <updated>2024-01-25T00:00:00.000Z</updated>
         <content type="html"><![CDATA[Take a journey back to the 1990s, where manual testing was a labor-intensive process. The blog recounts the author's early experiences and the realization that automation could revolutionize testing. Fast forward to today, where Generative AI has emerged but with limitations. The blog introduces Keysight's Eggplant Generative AI (GAI), a groundbreaking tool for AI-Augmented Testing.]]></content>
+        <published>2024-01-25T00:00:00.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How Tunable Lasers Are Enabling High-Speed Communications]]></title>
+        <id>https://www.keysight.com/blogs/blogs/en/tech/educ/2023/tunable-laser</id>
+        <link href="https://www.keysight.com/blogs/blogs/en/tech/educ/2023/tunable-laser"/>
+        <updated>2024-01-25T00:00:00.000Z</updated>
+        <content type="html"><![CDATA[Learn about tunable laser sources and the breakthroughs they allow in high-speed communication networks, high-power photonics, and scientific applications.]]></content>
         <published>2024-01-25T00:00:00.000Z</published>
     </entry>
     <entry>
